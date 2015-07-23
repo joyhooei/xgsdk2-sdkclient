@@ -24,7 +24,7 @@ public class PayInfo {
     private String balance;
     private String gameOrderId;
 
-    private HashMap<String, String> extraData = new HashMap<String, String>();
+    private HashMap<String, String> additionalParams = new HashMap<String, String>();// 扩展参数
 
     public String getGameOrderId() {
         return gameOrderId;
@@ -50,8 +50,12 @@ public class PayInfo {
         return ext;
     }
 
-    public String[] getExtraKeys() {
-        return CommonUtils.getKeysArrayFromMap(extraData, String.class);
+    public String[] getAdditionalParamsNames() {
+        return CommonUtils.getKeysArrayFromMap(additionalParams, String.class);
+    }
+
+    public void setAdditionalParams(String name, String value) {
+        additionalParams.put(name, value);
     }
 
     public String getNotifyURL() {
@@ -168,7 +172,7 @@ public class PayInfo {
 
     @Override
     public String toString() {
-        return "PayParam [uid=" + uid + ", productId=" + productId
+        return "PayInfo [uid=" + uid + ", productId=" + productId
                 + ", productName=" + productName + ", productDesc="
                 + productDesc + ", productTotalPrice=" + productTotalPrice
                 + ", productUnitPrice=" + productUnitPrice + ", productCount="
@@ -177,7 +181,8 @@ public class PayInfo {
                 + ", notifyURL=" + notifyURL + ", roleId=" + roleId
                 + ", roleName=" + roleName + ", serverId=" + serverId
                 + ", serverName=" + serverName + ", balance=" + balance
-                + ", extraData=" + extraData + "]";
+                + ", gameOrderId=" + gameOrderId + ", additionalParams="
+                + additionalParams + "]";
     }
 
 }
