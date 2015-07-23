@@ -28,18 +28,18 @@ public class GameServerInfo {
         this.zoneName = zoneName;
     }
 
-    private HashMap<String, String> extraData = new HashMap<String, String>();
+    private HashMap<String, String> additionalParams = new HashMap<String, String>();// 扩展参数
 
-    public void setExtraData(String key, String value) {
-        extraData.put(key, value);
+    public String[] getAdditionalParamNames() {
+        return CommonUtils.getKeysArrayFromMap(additionalParams, String.class);
     }
 
-    public String getExtraData(String key) {
-        return extraData.get(key);
+    public String getAdditionalParam(String name) {
+        return additionalParams.get(name);
     }
 
-    public String[] getExtraKeys() {
-        return CommonUtils.getKeysArrayFromMap(extraData, String.class);
+    public void setAdditionalParam(String name, String value) {
+        additionalParams.put(name, value);
     }
 
     public String getServerId() {
@@ -62,7 +62,7 @@ public class GameServerInfo {
     public String toString() {
         return "GameServerInfo [serverId=" + serverId + ", serverName="
                 + serverName + ", zoneId=" + zoneId + ", zoneName=" + zoneName
-                + ", extraData=" + extraData + "]";
+                + ", additionalParams=" + additionalParams + "]";
     }
 
 }

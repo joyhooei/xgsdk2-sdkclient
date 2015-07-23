@@ -26,6 +26,18 @@ public class PayInfo {
 
     private HashMap<String, String> additionalParams = new HashMap<String, String>();// 扩展参数
 
+    public String[] getAdditionalParamNames() {
+        return CommonUtils.getKeysArrayFromMap(additionalParams, String.class);
+    }
+
+    public String getAdditionalParam(String name) {
+        return additionalParams.get(name);
+    }
+
+    public void setAdditionalParam(String name, String value) {
+        additionalParams.put(name, value);
+    }
+
     public String getGameOrderId() {
         return gameOrderId;
     }
@@ -48,14 +60,6 @@ public class PayInfo {
 
     public String getExt() {
         return ext;
-    }
-
-    public String[] getAdditionalParamsNames() {
-        return CommonUtils.getKeysArrayFromMap(additionalParams, String.class);
-    }
-
-    public void setAdditionalParams(String name, String value) {
-        additionalParams.put(name, value);
     }
 
     public String getNotifyURL() {
