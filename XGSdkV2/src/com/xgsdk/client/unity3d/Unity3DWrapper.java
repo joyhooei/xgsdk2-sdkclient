@@ -15,52 +15,27 @@ import com.xgsdk.client.entity.XGUser;
 /**
  * @author XGSDK包装类，通过提供给Unity3D调用
  */
-public class Unity3DAgent {
+public class Unity3DWrapper {
     private static final String LOG_TAG = "Unity3DAgent";
-    private static Unity3DAgent sInstance;
+    private static Unity3DWrapper sInstance;
     private XGSDK mSdk;
-    private String mGameObject = "GameController";
+    private String mGameControllerObject = "GameController";
 
-    public Unity3DAgent() {
+    public Unity3DWrapper() {
         mSdk = XGSDK.getInstance();
-        // ProductConfig.setGameEngine(GAME_ENGINE.UNITY3D);
     }
 
-    public static Unity3DAgent getInstance() {
+    public static Unity3DWrapper getInstance() {
         XGLogger.i(LOG_TAG, "getInstance");
         if (null == sInstance) {
-            synchronized (Unity3DAgent.class) {
+            synchronized (Unity3DWrapper.class) {
                 if (null == sInstance) {
-                    sInstance = new Unity3DAgent();
+                    sInstance = new Unity3DWrapper();
                 }
             }
         }
         return sInstance;
     }
-
-    // public String toJson(Result result) {
-    // try {
-    // if (result != null) {
-    // JSONObject jo = new JSONObject();
-    // jo.put("code", result.getCode());
-    // jo.put("msg", result.getMsg());
-    // String[] keys = result.getExtraKeys();
-    // if (keys != null) {
-    // JSONObject extras = new JSONObject();
-    // for (int i = 0; i < keys.length; i++) {
-    // extras.put(keys[i], result.getExtraValue(keys[i]));
-    // }
-    // jo.put("extras", extras);
-    // return jo.toString();
-    // }
-    // }
-    //
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    //
-    // return "";
-    // }
 
     /**
      * 初始化实例，在cocos2d-x activity中调用，传入游戏所在activity
@@ -82,31 +57,31 @@ public class Unity3DAgent {
 
             @Override
             public void onLogoutSuccess(String msg) {
-                UnityPlayer.UnitySendMessage(mGameObject, "onLogoutSuccess",
+                UnityPlayer.UnitySendMessage(mGameControllerObject, "onLogoutSuccess",
                         msg);
             }
 
             @Override
             public void onLogoutFail(String msg) {
-                UnityPlayer.UnitySendMessage(mGameObject, "onLogoutFail", msg);
+                UnityPlayer.UnitySendMessage(mGameControllerObject, "onLogoutFail", msg);
 
             }
 
             @Override
             public void onLoginSuccess(String authInfo) {
-                UnityPlayer.UnitySendMessage(mGameObject, "onLoginSuccess",
+                UnityPlayer.UnitySendMessage(mGameControllerObject, "onLoginSuccess",
                         authInfo);
 
             }
 
             @Override
             public void onLoginFail(String msg) {
-                UnityPlayer.UnitySendMessage(mGameObject, "onLoginFail", msg);
+                UnityPlayer.UnitySendMessage(mGameControllerObject, "onLoginFail", msg);
             }
 
             @Override
             public void onInitFail(String msg) {
-                UnityPlayer.UnitySendMessage(mGameObject, "onInitFail", msg);
+                UnityPlayer.UnitySendMessage(mGameControllerObject, "onInitFail", msg);
             }
         });
     }
@@ -177,14 +152,14 @@ public class Unity3DAgent {
 
                             @Override
                             public void onSuccess(String msg) {
-                                UnityPlayer.UnitySendMessage(mGameObject,
+                                UnityPlayer.UnitySendMessage(mGameControllerObject,
                                         "onPaySuccess", msg);
                             }
 
                             @Override
                             public void onFail(String msg) {
 
-                                UnityPlayer.UnitySendMessage(mGameObject,
+                                UnityPlayer.UnitySendMessage(mGameControllerObject,
                                         "onPayFail", msg);
 
                             }
@@ -192,7 +167,7 @@ public class Unity3DAgent {
                             @Override
                             public void onCancel(String msg) {
 
-                                UnityPlayer.UnitySendMessage(mGameObject,
+                                UnityPlayer.UnitySendMessage(mGameControllerObject,
                                         "onPayCancel", msg);
 
                             }
@@ -217,28 +192,6 @@ public class Unity3DAgent {
         });
     }
 
-    // /**
-    // * 获取渠道用户信息 注意：结果在XSJCallBack的匿名子类中异步返回
-    // */
-    // public void getChannelUserInfo() {
-    // XGLogger.i(LOG_TAG, "getChannelUserInfo");
-    // mSdk.getChannelUserInfo(mActivity, new XSJCallBack() {
-    //
-    // @Override
-    // public void onSuccess(final Result result) {
-    // UnityPlayer.UnitySendMessage(mGameObject, "onGetInfoBack",
-    // toJson(result));
-    // }
-    //
-    // @Override
-    // public void onFail(final Result result) {
-    // UnityPlayer.UnitySendMessage(mGameObject, "onGetInfoBack",
-    // toJson(result));
-    // }
-    //
-    // });
-    // }
-
     /**
      * 获取渠道tag
      * 
@@ -247,17 +200,6 @@ public class Unity3DAgent {
     public String getChannel() {
         return mSdk.getChannelId();
     }
-
-    // /**
-    // * 获取配置参数
-    // *
-    // * @param key
-    // * @param defaultValue
-    // * @return
-    // */
-    // public String getGameProperty(String key, String defaultValue) {
-    // return mSdk.getGameProperty(mActivity, key, defaultValue);
-    // }
 
     /**
      * 当前渠道是否提供该接口
@@ -268,14 +210,6 @@ public class Unity3DAgent {
     public boolean isMethodSupport(String methodName) {
         return mSdk.isMethodSupport(methodName);
     }
-
-    // /**
-    // * 游戏退出前调用，用来保存数据
-    // */
-    // public void onExitOrKillProcess() {
-    // mSdk.onExitOrKillProgress(mActivity);
-    // releaseResource();
-    // }
 
     /**
      * 进入游戏后向渠道传递用户信息
@@ -386,45 +320,35 @@ public class Unity3DAgent {
      */
     public void exit() {
         XGLogger.i(LOG_TAG, "exit");
-        mSdk.exit(UnityPlayer.currentActivity, new ExitCallBack() {
+        UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 
             @Override
-            public void onExit() {
-                // 调用渠道退出窗口后的回调
-                UnityPlayer.UnitySendMessage(mGameObject, "onExit", "");
+            public void run() {
+                mSdk.exit(UnityPlayer.currentActivity, new ExitCallBack() {
+
+                    @Override
+                    public void onExit() {
+                        // 调用渠道退出窗口后的回调
+                        UnityPlayer.UnitySendMessage(mGameControllerObject, "onExit", "");
+                    }
+
+                    @Override
+                    public void onNoChannelExiter() {
+                        // 需要游戏自身弹出退出窗口
+                        UnityPlayer.UnitySendMessage(mGameControllerObject,
+                                "onNoChannelExiter", "");
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                        UnityPlayer.UnitySendMessage(mGameControllerObject,
+                                "onExitCancel", "");
+                    }
+
+                }, "");
             }
-
-            @Override
-            public void onNoChannelExiter() {
-                // 需要游戏自身弹出退出窗口
-                UnityPlayer.UnitySendMessage(mGameObject, "onNoChannelExiter",
-                        "");
-            }
-
-            @Override
-            public void onCancel() {
-
-                UnityPlayer.UnitySendMessage(mGameObject, "onExitCancel", "");
-            }
-
-        }, "");
-    }
-
-    /**
-     * Unity引擎的Android游戏退出游戏是通过Android的kill process完成的，不会调用Activity的销毁生命周期。
-     * 很多资源的回收都是在渠道SDK的onPause、onStop、onDestroy方法中进行的，为了保证游戏退出的时候
-     * 这些资源尤其是一些非本地资源（例如断开服务器连接，通知服务器关闭资源）得到释放，游戏退出前务必调用此接口。
-     */
-    public void releaseResource() {
-        XGLogger.i(LOG_TAG, "releaseResource");
-        mSdk.onPause(UnityPlayer.currentActivity);
-        mSdk.onStop(UnityPlayer.currentActivity);
-        mSdk.onDestory(UnityPlayer.currentActivity);
-        try {
-            Thread.sleep(1000L);// 1秒的时间释放资源，1秒钟后kill process!
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
 }
