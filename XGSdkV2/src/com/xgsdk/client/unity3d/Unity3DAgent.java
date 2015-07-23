@@ -23,7 +23,7 @@ public class Unity3DAgent {
 
     public Unity3DAgent() {
         mSdk = XGSDK.getInstance();
-//        ProductConfig.setGameEngine(GAME_ENGINE.UNITY3D);
+        // ProductConfig.setGameEngine(GAME_ENGINE.UNITY3D);
     }
 
     public static Unity3DAgent getInstance() {
@@ -149,7 +149,7 @@ public class Unity3DAgent {
             final String productDesc, final String currencyName,
             final String serverId, final String serverName,
             final String roleId, final String roleName, final String balance,
-            final String gameOrderId, final String ext) {
+            final String gameOrderId, final String ext, final String notifyURL) {
         XGLogger.i(LOG_TAG, "pay");
         UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 
@@ -171,6 +171,7 @@ public class Unity3DAgent {
                 payment.setBalance(balance);
                 payment.setGameOrderId(gameOrderId);
                 payment.setServerName(serverName);
+                payment.setNotifyURL(notifyURL);
                 mSdk.pay(UnityPlayer.currentActivity, payment,
                         new PayCallBack() {
 
