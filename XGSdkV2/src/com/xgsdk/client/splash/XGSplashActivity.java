@@ -49,6 +49,12 @@ public class XGSplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!isTaskRoot()) {// 解决小米手机，手动安装后第一次启动，按home切入后台，点桌面图标，再进游戏导致黑屏问题。（OPENGL实例在同一个TaskStack中只能存在一个）
+            finish();
+            return;
+        }
+
         Util.setActivity(this);
         Util.setContext(this);
         XGSDKLog.logI("xg version:" + ProductConfig.getXgVersion());
