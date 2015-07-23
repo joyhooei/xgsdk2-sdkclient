@@ -9,40 +9,40 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/xg_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login" />
+            android:text="@string/xg_login" />
 
         <Button
-            android:id="@+id/pay"
+            android:id="@+id/xg_pay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pay" />
+            android:text="@string/xg_pay" />
 
         <Button
-            android:id="@+id/show_orders"
+            android:id="@+id/xg_switch_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/show_orders" />
+            android:text="@string/xg_switch_account" />
 
         <Button
-            android:id="@+id/switch_account"
+            android:id="@+id/xg_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/switch_account" />
+            android:text="@string/xg_logout" />
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/xg_exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/logout" />
+            android:text="@string/xg_exit" />
 
         <Button
-            android:id="@+id/exit"
+            android:id="@+id/xg_show_orders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/exit" />
+            android:text="@string/xg_show_orders" />
     </LinearLayout>
 
 </ScrollView>

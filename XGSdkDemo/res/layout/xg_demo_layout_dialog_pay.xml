@@ -16,10 +16,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/money" />
+                android:text="@string/xg_money" />
 
             <EditText
-                android:id="@+id/et_money"
+                android:id="@+id/xg_et_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
@@ -34,10 +34,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/count" />
+                android:text="@string/xg_count" />
 
             <EditText
-                android:id="@+id/et_count"
+                android:id="@+id/xg_et_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"

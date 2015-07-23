@@ -1,12 +1,12 @@
 
 package com.xgsdk.client.demo;
 
-import com.seasun.powerking.sdkclient.ProductConfig;
 import com.xgsdk.client.XGSDK;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.callback.UserCallBack;
 import com.xgsdk.client.core.util.ToastUtil;
+import com.xgsdk.client.demo.orders.OrdersActivity;
 import com.xgsdk.client.entity.PayInfo;
 
 import android.app.Activity;
@@ -21,8 +21,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-//import org.season.demo.shuyou.R;
-
 public class MainActivity extends Activity implements OnClickListener {
 
     private static final String TAG = "XGSDK_DEMO";
@@ -31,15 +29,14 @@ public class MainActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.xg_demo_activity_main);
 
-        findViewById(R.id.login).setOnClickListener(this);
-        findViewById(R.id.pay).setOnClickListener(this);
-        findViewById(R.id.switch_account).setOnClickListener(this);
-        findViewById(R.id.logout).setOnClickListener(this);
-        findViewById(R.id.exit).setOnClickListener(this);
-
-        ToastUtil.showToast(this, ProductConfig.getAuthUrl());
+        findViewById(R.id.xg_login).setOnClickListener(this);
+        findViewById(R.id.xg_pay).setOnClickListener(this);
+        findViewById(R.id.xg_switch_account).setOnClickListener(this);
+        findViewById(R.id.xg_logout).setOnClickListener(this);
+        findViewById(R.id.xg_exit).setOnClickListener(this);
+        findViewById(R.id.xg_show_orders).setOnClickListener(this);
 
         XGSDK.getInstance().onCreate(this);
         XGSDK.getInstance().init(this);
@@ -77,6 +74,13 @@ public class MainActivity extends Activity implements OnClickListener {
                         .showToast(getApplicationContext(), "init fail." + msg);
 
             }
+
+            @Override
+            public void onLoginCancel(String msg) {
+                ToastUtil.showToast(getApplicationContext(), "login cancel."
+                        + msg);
+
+            }
         });
 
     }
@@ -84,19 +88,19 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.login:
+            case R.id.xg_login:
                 XGSDK.getInstance().login(this, null);
                 break;
-            case R.id.pay:
+            case R.id.xg_pay:
                 showDialog();
                 break;
-            case R.id.switch_account:
+            case R.id.xg_switch_account:
                 XGSDK.getInstance().switchAccount(this, null);
                 break;
-            case R.id.logout:
+            case R.id.xg_logout:
                 XGSDK.getInstance().logout(this, null);
                 break;
-            case R.id.exit:
+            case R.id.xg_exit:
                 XGSDK.getInstance().exit(this, new ExitCallBack() {
 
                     @Override
@@ -140,12 +144,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
                     @Override
                     public void onCancel() {
-                        // TODO Auto-generated method stub
+                        ToastUtil.showToast(getApplicationContext(), "回到游戏");
 
                     }
                 }, null);
                 break;
-            case R.id.show_orders:
+            case R.id.xg_show_orders:
                 Intent intent = new Intent(this, OrdersActivity.class);
                 startActivity(intent);
                 break;
@@ -208,18 +212,18 @@ public class MainActivity extends Activity implements OnClickListener {
         LayoutInflater inflater = LayoutInflater.from(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final AlertDialog payDialog = builder.create();
-        final View dialogView = inflater.inflate(R.layout.layout_dialog_pay,
-                null);
+        final View dialogView = inflater.inflate(
+                R.layout.xg_demo_layout_dialog_pay, null);
         final EditText etMoney = (EditText) dialogView
-                .findViewById(R.id.et_money);
+                .findViewById(R.id.xg_et_money);
         etMoney.setSelection(TextUtils.isEmpty(etMoney.getText().toString()) ? 0
                 : etMoney.getText().toString().length());
         final EditText etCount = (EditText) dialogView
-                .findViewById(R.id.et_count);
+                .findViewById(R.id.xg_et_count);
         etCount.setSelection(TextUtils.isEmpty(etCount.getText().toString()) ? 0
                 : etCount.getText().toString().length());
         builder.setView(dialogView);
-        builder.setPositiveButton(R.string.ok, new Dialog.OnClickListener() {
+        builder.setPositiveButton(R.string.xg_ok, new Dialog.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -272,7 +276,7 @@ public class MainActivity extends Activity implements OnClickListener {
             }
         });
 
-        builder.setNegativeButton(R.string.cancel,
+        builder.setNegativeButton(R.string.xg_cancel,
                 new Dialog.OnClickListener() {
 
                     @Override
