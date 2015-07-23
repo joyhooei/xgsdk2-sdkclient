@@ -17,6 +17,20 @@ import com.xgsdk.client.entity.XGUser;
  */
 public class XGSDKUnity3DWrapper {
     private static final String LOG_TAG = "Unity3DWrapper";
+
+    private static final String METHOD_ON_LOGIN_SUCCESS = "onLoginSuccess";
+    private static final String METHOD_ON_LOGIN_FAIL = "onLoginFail";
+    private static final String METHOD_ON_LOGIN_CANCEL = "onLoginCancel";
+    private static final String METHOD_ON_LOGOUT_SUCCESS = "onLogoutSuccess";
+    private static final String METHOD_ON_LOGOUT_FAIL = "onLogoutFail";
+    private static final String METHOD_ON_INIT_FAIL = "onInitFail";
+    private static final String METHOD_ON_PAY_SUCCESS = "onPaySuccess";
+    private static final String METHOD_ON_PAY_FAIL = "onPayFail";
+    private static final String METHOD_ON_PAY_CANCEL = "onPayCancel";
+    private static final String METHOD_ON_EXIT = "onExit";
+    private static final String METHOD_ON_NO_CHANNEL_EXITER = "onNoChannelExiter";
+    private static final String METHOD_ON_EXIT_CANCEL = "oneExitCancel";
+
     private static XGSDKUnity3DWrapper sInstance;
     private XGSDK mSdk;
     private String mGameControllerObject = "GameController";
@@ -37,12 +51,6 @@ public class XGSDKUnity3DWrapper {
         return sInstance;
     }
 
-    /**
-     * 初始化实例，在cocos2d-x activity中调用，传入游戏所在activity
-     * 
-     * @param activity
-     * @param runner
-     */
     public void init() {
         XGLogger.i(LOG_TAG, "init");
         UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
@@ -58,33 +66,39 @@ public class XGSDKUnity3DWrapper {
             @Override
             public void onLogoutSuccess(String msg) {
                 UnityPlayer.UnitySendMessage(mGameControllerObject,
-                        "onLogoutSuccess", msg);
+                        METHOD_ON_LOGOUT_SUCCESS, msg);
             }
 
             @Override
             public void onLogoutFail(String msg) {
                 UnityPlayer.UnitySendMessage(mGameControllerObject,
-                        "onLogoutFail", msg);
+                        METHOD_ON_LOGOUT_FAIL, msg);
 
             }
 
             @Override
             public void onLoginSuccess(String authInfo) {
                 UnityPlayer.UnitySendMessage(mGameControllerObject,
-                        "onLoginSuccess", authInfo);
+                        METHOD_ON_LOGIN_SUCCESS, authInfo);
 
+            }
+
+            @Override
+            public void onLoginCancel(String msg) {
+                UnityPlayer.UnitySendMessage(mGameControllerObject,
+                        METHOD_ON_LOGIN_CANCEL, msg);
             }
 
             @Override
             public void onLoginFail(String msg) {
                 UnityPlayer.UnitySendMessage(mGameControllerObject,
-                        "onLoginFail", msg);
+                        METHOD_ON_LOGIN_FAIL, msg);
             }
 
             @Override
             public void onInitFail(String msg) {
                 UnityPlayer.UnitySendMessage(mGameControllerObject,
-                        "onInitFail", msg);
+                        METHOD_ON_INIT_FAIL, msg);
             }
         });
     }
@@ -156,17 +170,16 @@ public class XGSDKUnity3DWrapper {
                             @Override
                             public void onSuccess(String msg) {
                                 UnityPlayer.UnitySendMessage(
-                                        mGameControllerObject, "onPaySuccess",
-                                        msg);
+                                        mGameControllerObject,
+                                        METHOD_ON_PAY_SUCCESS, msg);
                             }
 
                             @Override
                             public void onFail(String msg) {
 
-                                UnityPlayer
-                                        .UnitySendMessage(
-                                                mGameControllerObject,
-                                                "onPayFail", msg);
+                                UnityPlayer.UnitySendMessage(
+                                        mGameControllerObject,
+                                        METHOD_ON_PAY_FAIL, msg);
 
                             }
 
@@ -174,8 +187,8 @@ public class XGSDKUnity3DWrapper {
                             public void onCancel(String msg) {
 
                                 UnityPlayer.UnitySendMessage(
-                                        mGameControllerObject, "onPayCancel",
-                                        msg);
+                                        mGameControllerObject,
+                                        METHOD_ON_PAY_CANCEL, msg);
 
                             }
 
@@ -321,21 +334,21 @@ public class XGSDKUnity3DWrapper {
                     public void onExit() {
                         // 调用渠道退出窗口后的回调
                         UnityPlayer.UnitySendMessage(mGameControllerObject,
-                                "onExit", "");
+                                METHOD_ON_EXIT, "");
                     }
 
                     @Override
                     public void onNoChannelExiter() {
                         // 需要游戏自身弹出退出窗口
                         UnityPlayer.UnitySendMessage(mGameControllerObject,
-                                "onNoChannelExiter", "");
+                                METHOD_ON_NO_CHANNEL_EXITER, "");
                     }
 
                     @Override
                     public void onCancel() {
 
                         UnityPlayer.UnitySendMessage(mGameControllerObject,
-                                "onExitCancel", "");
+                                METHOD_ON_EXIT_CANCEL, "");
                     }
 
                 }, "");

@@ -6,6 +6,8 @@ public interface UserCallBack {
     public void onLoginSuccess(String authInfo);
 
     public void onLoginFail(String msg);
+    
+    public void onLoginCancel(String msg);
 
     public void onLogoutSuccess(String msg);
 
