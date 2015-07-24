@@ -1,10 +1,20 @@
 
 package com.xgsdk.client.service;
 
+import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.core.http.HttpUtils;
 import com.xgsdk.client.core.util.MD5Util;
 import com.xgsdk.client.core.util.XGLogger;
-import com.xgsdk.client.util.ProductConfig;
+//import com.xgsdk.client.util.ProductConfig;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,17 +23,18 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.json.JSONObject;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.text.TextUtils;
-
 public class PayService {
+
+    // 创建订单URI
+    public static String PAY_NEW_ORDER_URI = "/xgsdk/apiXgsdkPay/createOrder";
+    // 更新订单URI
+    public static String PAY_UPDATE_ORDER_URI = "/xgsdk/apiXgsdkPay/updateOrder";
+    // 取消订单URI
+    public static String PAY_CANCEL_ORDER_URI = "/xgsdk/apiXgsdkPay/cancelOrder";
+    // 刷新余额接口
+    public static String PAY_REFRESHBALANCE_URI = "/xgsdk/apiXgsdkPay/refreshBalance";
+
+    public static String PAY_VERIFY_ORDER_URI = "/xgsdk/apiXgsdkPay/verifyOrder";
 
     private static final int THREAD_JOIN_TIME_OUT = 30000;
 
@@ -252,9 +263,9 @@ public class PayService {
         XGLogger.i("after sign:" + sign);
         // 生成请求
         StringBuilder getUrl = new StringBuilder();
-        getUrl.append(ProductConfig.getRechargeUrl(activity))
-                .append(ProductConfig.PAY_NEW_ORDER_URI).append("/")
-                .append(channelId).append("/").append(appId).append("?");
+        getUrl.append(ProductInfo.getXGRechargeUrl(activity))
+                .append(PAY_NEW_ORDER_URI).append("/").append(channelId)
+                .append("/").append(appId).append("?");
         getUrl.append(requestContent);
         getUrl.append("&sign=").append(sign);
         // 发送请求
@@ -359,9 +370,9 @@ public class PayService {
         XGLogger.d("after sign:" + sign);
         // 生成请求
         StringBuilder getUrl = new StringBuilder();
-        getUrl.append(ProductConfig.getRechargeUrl(activity))
-                .append(ProductConfig.PAY_UPDATE_ORDER_URI).append("/")
-                .append(channelId).append("/").append(appId).append("?");
+        getUrl.append(ProductInfo.getXGRechargeUrl(activity))
+                .append(PAY_UPDATE_ORDER_URI).append("/").append(channelId)
+                .append("/").append(appId).append("?");
         getUrl.append(requestContent);
         getUrl.append("&sign=").append(sign);
         // 发送请求
@@ -395,9 +406,9 @@ public class PayService {
         XGLogger.d("after sign:" + sign);
         // 生成请求
         StringBuilder getUrl = new StringBuilder();
-        getUrl.append(ProductConfig.getRechargeUrl(activity))
-                .append(ProductConfig.PAY_CANCEL_ORDER_URI).append("/")
-                .append(ProductConfig.getChannelId(activity)).append("/")
+        getUrl.append(ProductInfo.getXGRechargeUrl(activity))
+                .append(PAY_CANCEL_ORDER_URI).append("/")
+                .append(ProductInfo.getChannelId(activity)).append("/")
                 .append(appId).append("?");
         getUrl.append(strSign);
         getUrl.append("&sign=").append(sign);
@@ -482,9 +493,9 @@ public class PayService {
         XGLogger.d("after sign:" + sign);
         // 生成请求
         StringBuilder getUrl = new StringBuilder();
-        getUrl.append(ProductConfig.getRechargeUrl(activity))
-                .append(ProductConfig.PAY_REFRESHBALANCE_URI).append("/")
-                .append(channelId).append("/").append(appId).append("?");
+        getUrl.append(ProductInfo.getXGRechargeUrl(activity))
+                .append(PAY_REFRESHBALANCE_URI).append("/").append(channelId)
+                .append("/").append(appId).append("?");
         getUrl.append(requestContent);
         getUrl.append("&sign=").append(sign);
         // 发送请求
@@ -508,10 +519,10 @@ public class PayService {
         }
         StringBuilder getUrl = new StringBuilder();
         // http://onsite.recharge.xgsdk.com:8180/xgsdk/apiXgsdkPay/verifyOrder/{channelId}/{sdkAppid}
-        getUrl.append(ProductConfig.getRechargeUrl(activity))
-                .append("/xgsdk/apiXgsdkPay/verifyOrder").append("/")
-                .append(ProductConfig.getChannelId(activity)).append("/")
-                .append(ProductConfig.getXgAppId(activity)).append("?orderId=")
+        getUrl.append(ProductInfo.getXGRechargeUrl(activity))
+                .append(PAY_VERIFY_ORDER_URI).append("/")
+                .append(ProductInfo.getChannelId(activity)).append("/")
+                .append(ProductInfo.getXGAppId(activity)).append("?orderId=")
                 .append(orderId).append("&sign=");
         String ret = "";
         try {

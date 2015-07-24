@@ -1,12 +1,12 @@
 
 package com.xgsdk.client.simulator.view;
 
-import com.seasun.powerking.sdkclient.AuthService;
-import com.seasun.powerking.sdkclient.ProductConfig;
+import com.xgsdk.client.ProductInfo;
+import com.xgsdk.client.SystemInfo;
 import com.xgsdk.client.callback.UserCallBack;
-import com.xgsdk.client.core.util.ConstInfo;
 import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.core.util.XGLogger;
+import com.xgsdk.client.service.AuthService;
 import com.xgsdk.client.simulator.util.CommonStr;
 import com.xgsdk.client.simulator.view.GameFloatView.GameFloatListener;
 
@@ -87,7 +87,7 @@ public class LoginDialog {
                             return;
                         }
 
-                        String uid = ConstInfo.getDeviceUUID(activity, true)
+                        String uid = SystemInfo.getDeviceUUID(activity, true)
                                 + "_" + mUsername;
                         // String token =
                         // String.valueOf(System.currentTimeMillis());
@@ -95,10 +95,10 @@ public class LoginDialog {
                         String session = mUsername + " " + mPassword;
                         try {
                             String authInfo = AuthService.genAuthInfo(
-                                    ProductConfig.getXgAppId(),
-                                    ProductConfig.getXgAppKey(),
-                                    ProductConfig.getChannelId(), session,
-                                    String.valueOf(uid), mUsername);
+                                    ProductInfo.getXGAppId(activity),
+                                    ProductInfo.getXGAppKey(activity),
+                                    ProductInfo.getChannelId(activity),
+                                    session, String.valueOf(uid), mUsername);
                             XGLogger.d("generate authinfo:" + authInfo);
                             mUserCallBack.onLoginSuccess(authInfo);
                         } catch (Exception e) {

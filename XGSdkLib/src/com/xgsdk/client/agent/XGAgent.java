@@ -4,12 +4,12 @@ package com.xgsdk.client.agent;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.callback.UserCallBack;
+import com.xgsdk.client.core.util.CommonUtils;
 import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.entity.GameServerInfo;
 import com.xgsdk.client.entity.PayInfo;
 import com.xgsdk.client.entity.RoleInfo;
 import com.xgsdk.client.entity.XGUser;
-import com.xgsdk.client.util.CommonUtils;
 
 import android.app.Activity;
 import android.content.Context;

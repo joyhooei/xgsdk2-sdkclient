@@ -1,12 +1,13 @@
 
 package com.xgsdk.client.simulator;
 
-import com.seasun.powerking.sdkclient.PayService;
-import com.seasun.powerking.sdkclient.ProductConfig;
+//import com.seasun.powerking.sdkclient.PayService;
+import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.agent.XGAgent;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.entity.PayInfo;
+import com.xgsdk.client.service.PayService;
 import com.xgsdk.client.simulator.util.CommonStr;
 import com.xgsdk.client.simulator.view.GameFloatView;
 import com.xgsdk.client.simulator.view.GameFloatView.GameFloatListener;
@@ -106,7 +107,7 @@ public class SimulateAgent extends XGAgent {
         showPayDialog(activity, payment, payCallBack);
     }
 
-    private void showPayDialog(Activity activity, final PayInfo payment,
+    private void showPayDialog(final Activity activity, final PayInfo payment,
             PayCallBack payCallBack) {
         AlertDialog.Builder builder = new Builder(activity);
         TextView title = new TextView(activity);
@@ -122,15 +123,15 @@ public class SimulateAgent extends XGAgent {
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
                 mPayCallBack.onSuccess("pay success!");
-                String xgsdkAppId = ProductConfig.getXgAppId();
-                String xgsdkAppKey = ProductConfig.getXgAppKey();
-                String channelId = ProductConfig.getChannelId();
+                String xgsdkAppId = ProductInfo.getXGAppId(activity);
+                String xgsdkAppKey = ProductInfo.getXGAppKey(activity);
+                String channelId = ProductInfo.getChannelId(activity);
                 // accountId priceTitle is null
                 try {
-                    String orderId = PayService.createOrderInThread(xgsdkAppId,
-                            xgsdkAppKey, channelId, payment.getUid(),
-                            payment.getProductId(), payment.getProductName(),
-                            payment.getProductDesc(),
+                    String orderId = PayService.createOrderInThread(activity,
+                            xgsdkAppId, xgsdkAppKey, channelId,
+                            payment.getUid(), payment.getProductId(),
+                            payment.getProductName(), payment.getProductDesc(),
                             String.valueOf(payment.getProductCount()),
                             String.valueOf(payment.getProductTotalPrice()),
                             payment.getServerId(),

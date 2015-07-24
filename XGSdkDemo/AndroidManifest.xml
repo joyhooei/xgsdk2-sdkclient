@@ -27,7 +27,7 @@
         android:name="com.xgsdk.client.XGApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/xg_app_name" >
         <activity
             android:name="com.xgsdk.client.splash.XGSplashActivity"
             android:launchMode="singleTop"

@@ -1,6 +1,8 @@
 
 package com.xgsdk.client.cocos2dx;
 
+import com.xgsdk.client.ProductInfo;
+import com.xgsdk.client.ProductInfo.GAME_ENGINE;
 import com.xgsdk.client.XGSDK;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
@@ -22,13 +24,14 @@ public class XGSDKCocos2dxWrapper {
     private static XGSDKCocos2dxWrapper sInstance;
 
     private Activity mActivity;
-    
-    public void init(Activity activity){
+
+    public void init(Activity activity) {
         mActivity = activity;
         mSdk.init(activity);
     }
 
     private XGSDKCocos2dxWrapper() {
+        ProductInfo.setGameEngine(GAME_ENGINE.COCOS2DX);
         mSdk = XGSDK.getInstance();
         mSdk.setUserCallBack(new UserCallBack() {
 

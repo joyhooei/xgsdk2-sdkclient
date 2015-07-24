@@ -1,5 +1,7 @@
 
-package com.xgsdk.client.core.util;
+package com.xgsdk.client;
+
+import com.xgsdk.client.core.util.MD5Util;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -31,14 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class ConstInfo {
-    private static final String XG_APPKEY = "XG_APPKEY";
-
-    private static final String XG_ADID = "XG_ADID";
-
-    private static final String XG_CHANNELID = "XG_CHANNELID";
-
-    private static final String XG_APPID = "XG_APPID";
+public class SystemInfo {
 
     private static final String LOG_TAG = "ConstInfo";
 
@@ -50,10 +45,8 @@ public class ConstInfo {
         OPERATORS_MAP.put("46003", "中国电信");
     }
 
-    private static final HashMap<ConstKey, String> sValueMap = new HashMap<ConstKey, String>();
-
-    public enum ConstKey {
-        SDK_VERSION, APP_VERSION_NAME, APP_VERSION_CODE, APP_NAME, PACKAGE_NAME, RESOLUTION, DEVICE_MODEL, DEVICE_UUID, DEVICE_UUID_HASH, OPERATORS, CHANNEL_ID, PROCESS_NAME, PHONE_NUMBER, PHONE_IMEI, PHONE_IMSI, MAC, APP_KEY, ADID, APP_ID, CPU, MEMORY, LOCAL_IP
+    private enum ConstKey {
+        SDK_VERSION, APP_VERSION_NAME, APP_VERSION_CODE, APP_NAME, PACKAGE_NAME, RESOLUTION, DEVICE_MODEL, DEVICE_UUID, DEVICE_UUID_HASH, OPERATORS, PROCESS_NAME, PHONE_NUMBER, PHONE_IMEI, PHONE_IMSI, MAC, CPU, MEMORY, LOCAL_IP
     }
 
     public static String getSdkVersion(Context context) {
@@ -97,10 +90,6 @@ public class ConstInfo {
         return getValue(context, ConstKey.OPERATORS);
     }
 
-    public static String getChannelId(Context context) {
-        return getValue(context, ConstKey.CHANNEL_ID);
-    }
-
     public static String getProcessName(Context context) {
         return getValue(context, ConstKey.PROCESS_NAME);
     }
@@ -121,18 +110,6 @@ public class ConstInfo {
         return getValue(context, ConstKey.MAC);
     }
 
-    public static String getAppKey(Context context) {
-        return getValue(context, ConstKey.APP_KEY);
-    }
-
-    public static String getAdid(Context context) {
-        return getValue(context, ConstKey.ADID);
-    }
-
-    public static String getAppId(Context context) {
-        return getValue(context, ConstKey.APP_ID);
-    }
-
     public static String getCpu(Context context) {
         return getValue(context, ConstKey.CPU);
     }
@@ -144,6 +121,8 @@ public class ConstInfo {
     public static String getLocalIP(Context context) {
         return loadValue(context, ConstKey.LOCAL_IP);
     }
+
+    private static final HashMap<ConstKey, String> sValueMap = new HashMap<ConstKey, String>();
 
     private static synchronized String getValue(Context context, ConstKey key) {
         if (key == null) {
@@ -193,9 +172,6 @@ public class ConstInfo {
             case OPERATORS:
                 result = _getOperators(context);
                 break;
-            case CHANNEL_ID:
-                result = _getChannel(context);
-                break;
             case PROCESS_NAME:
                 result = _getProcessName(context);
                 break;
@@ -210,15 +186,6 @@ public class ConstInfo {
                 break;
             case MAC:
                 result = _getMacAddress(context);
-                break;
-            case APP_KEY:
-                result = _getAppkey(context);
-                break;
-            case ADID:
-                result = _getAdid(context);
-                break;
-            case APP_ID:
-                result = _getAppId(context);
                 break;
             case CPU:
                 result = _getCpu();
@@ -251,45 +218,9 @@ public class ConstInfo {
             if (bundle == null) {
                 return;
             }
-            if (TextUtils.isEmpty(sValueMap.get(ConstKey.CHANNEL_ID))) {
-                String channel = bundle.get(XG_CHANNELID) == null ? "" : String
-                        .valueOf(bundle.get(XG_CHANNELID));
-                sValueMap.put(ConstKey.CHANNEL_ID, channel);
-            }
-            if (TextUtils.isEmpty(sValueMap.get(ConstKey.ADID))) {
-                String adid = bundle.get(XG_ADID) == null ? "" : String
-                        .valueOf(bundle.get(XG_ADID));
-                sValueMap.put(ConstKey.ADID, adid);
-            }
-            if (TextUtils.isEmpty(sValueMap.get(ConstKey.APP_KEY))) {
-                String appkey = bundle.get(XG_APPKEY) == null ? "" : String
-                        .valueOf(bundle.get(XG_APPKEY));
-                sValueMap.put(ConstKey.APP_KEY, appkey);
-            }
-            if (TextUtils.isEmpty(sValueMap.get(ConstKey.APP_ID))) {
-                String appId = bundle.get(XG_APPID) == null ? "" : String
-                        .valueOf(bundle.get(XG_APPID));
-                sValueMap.put(ConstKey.APP_ID, appId);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static synchronized void setAppKey(String appkey) {
-        sValueMap.put(ConstKey.APP_KEY, appkey);
-    }
-
-    public static synchronized void setAdId(String adid) {
-        sValueMap.put(ConstKey.ADID, adid);
-    }
-
-    public static synchronized void setAppId(String appId) {
-        sValueMap.put(ConstKey.APP_ID, appId);
-    }
-
-    public static synchronized void setChannelId(String channelId) {
-        sValueMap.put(ConstKey.CHANNEL_ID, channelId);
     }
 
     private static String _getSdkVersion(Context context) {
@@ -309,26 +240,6 @@ public class ConstInfo {
     private static String _getAppName(Context context) {
         loadAppInfo(context);
         return sValueMap.get(ConstKey.APP_NAME);
-    }
-
-    private static String _getAppkey(Context context) {
-        loadAppInfo(context);
-        return sValueMap.get(ConstKey.APP_KEY);
-    }
-
-    private static String _getChannel(Context context) {
-        loadAppInfo(context);
-        return sValueMap.get(ConstKey.CHANNEL_ID);
-    }
-
-    private static String _getAdid(Context context) {
-        loadAppInfo(context);
-        return sValueMap.get(ConstKey.ADID);
-    }
-
-    private static String _getAppId(Context context) {
-        loadAppInfo(context);
-        return sValueMap.get(ConstKey.APP_ID);
     }
 
     private static String _getAppPackage(Context context) {

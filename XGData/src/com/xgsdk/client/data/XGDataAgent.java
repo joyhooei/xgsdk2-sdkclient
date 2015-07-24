@@ -1,7 +1,6 @@
 
 package com.xgsdk.client.data;
 
-import com.xgsdk.client.core.util.ConstInfo;
 import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.data.DataInfo.AccountType;
 import com.xgsdk.client.data.DataInfo.Gender;
@@ -25,21 +24,21 @@ public class XGDataAgent {
 
     public static final String TAG = "XSJData";
 
-    public static void setAppId(String appId) {
-        ConstInfo.setAppId(appId);
-    }
-
-    public static void setAppKey(String appKey) {
-        ConstInfo.setAppKey(appKey);
-    }
-
-    public static void setAdId(String adId) {
-        ConstInfo.setAdId(adId);
-    }
-
-    public static void setChannelId(String channelId) {
-        ConstInfo.setChannelId(channelId);
-    }
+//    public static void setAppId(String appId) {
+//        ConstInfo.setAppId(appId);
+//    }
+//
+//    public static void setAppKey(String appKey) {
+//        ConstInfo.setAppKey(appKey);
+//    }
+//
+//    public static void setAdId(String adId) {
+//        ConstInfo.setAdId(adId);
+//    }
+//
+//    public static void setChannelId(String channelId) {
+//        ConstInfo.setChannelId(channelId);
+//    }
 
     /**
      * each level log will be print with debug = true , otherwise print e/w

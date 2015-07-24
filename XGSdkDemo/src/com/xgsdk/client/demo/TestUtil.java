@@ -1,7 +1,7 @@
 
 package com.xgsdk.client.demo;
 
-import com.seasun.powerking.sdkclient.ProductConfig;
+import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.core.util.XGLogger;
 
@@ -18,7 +18,7 @@ public class TestUtil {
 
     public static void auth(Activity activity, String version, String authInfo) {
 
-        sendRequestWithHttpClient(activity, ProductConfig.getAuthUrl()
+        sendRequestWithHttpClient(activity, ProductInfo.getXGAuthUrl(activity)
                 + "/xgsdk/apiXgsdkAccount/verifySession?version=" + version
                 + "&authInfo=" + authInfo);
     }

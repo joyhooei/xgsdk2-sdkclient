@@ -2,10 +2,10 @@
 package com.xgsdk.client.service;
 
 import com.unity3d.player.UnityPlayer;
+import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.core.http.HttpUtils;
 import com.xgsdk.client.core.util.MD5Util;
 import com.xgsdk.client.core.util.XGLogger;
-import com.xgsdk.client.util.ProductConfig;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -24,6 +24,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
 public class AuthService {
+
+    // 会话鉴权
+    public static String ACCOUNT_VERIFY_SESSION_URI = "/xgsdk/apiXgsdkAccount/verifySession";
 
     private static final int THREAD_JOIN_TIME_OUT = 30000;
 
@@ -97,9 +100,8 @@ public class AuthService {
 
     public static String sessionAuth(Activity activity, final String authInfo)
             throws Exception {
-        return HttpUtils.doGetInThread(ProductConfig.getAuthUrl(activity)
-                + ProductConfig.ACCOUNT_VERIFY_SESSION_URI + "?authInfo="
-                + authInfo);
+        return HttpUtils.doGetInThread(ProductInfo.getXGAuthUrl(activity)
+                + ACCOUNT_VERIFY_SESSION_URI + "?authInfo=" + authInfo);
     }
 
     public static void showDialog(final Activity activity, final String title,

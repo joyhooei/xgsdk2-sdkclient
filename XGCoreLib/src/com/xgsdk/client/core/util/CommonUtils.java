@@ -1,5 +1,5 @@
 
-package com.xgsdk.client.util;
+package com.xgsdk.client.core.util;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;

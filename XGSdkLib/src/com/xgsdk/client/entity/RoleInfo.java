@@ -1,7 +1,7 @@
 
 package com.xgsdk.client.entity;
 
-import com.xgsdk.client.util.CommonUtils;
+import com.xgsdk.client.core.util.CommonUtils;
 
 import java.util.HashMap;
 

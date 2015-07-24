@@ -1,7 +1,8 @@
 
 package com.xgsdk.client.data.process;
 
-import com.xgsdk.client.core.util.ConstInfo;
+import com.xgsdk.client.ProductInfo;
+import com.xgsdk.client.SystemInfo;
 import com.xgsdk.client.core.util.NetworkUtil;
 import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.data.Constants;
@@ -92,7 +93,7 @@ public class Common {
         // post should terminate activities Json-info to cached file
         DataPackager.prepareTerminateJson(context, getSessionId(context));
         long ctime = System.currentTimeMillis();
-        String strAppkey = ConstInfo.getAppKey(context);
+        String strAppkey = ProductInfo.getXGAppKey(context);
         String newSessionId = strAppkey + String.valueOf(ctime);
         XGLogger.i("session_id is " + newSessionId);
         // open to edit
@@ -456,25 +457,25 @@ public class Common {
     public static JSONObject getInfo(Context context) {
         JSONObject json = new JSONObject();
         try {
-            json.put(Constants.KEY_APPKEY, ConstInfo.getAppKey(context));
-            json.put(Constants.KEY_APPID, ConstInfo.getAppId(context));
-            json.put(Constants.KEY_CHANNEL_ID,
-                    ConstInfo.getChannelId(context));
+//            json.put(Constants.KEY_APPKEY, SystemInfo.getAppKey(context));
+//            json.put(Constants.KEY_APPID, SystemInfo.getAppId(context));
+//            json.put(Constants.KEY_CHANNEL_ID,
+//                    SystemInfo.getChannelId(context));
             json.put(Constants.KEY_IMEI,
-                    ConstInfo.getDeviceUUID(context, true));
+                    SystemInfo.getDeviceUUID(context, true));
             json.put(Constants.KEY_UUID,
-                    ConstInfo.getDeviceUUID(context, true));
-            json.put(Constants.KEY_ADID, ConstInfo.getAdid(context));
+                    SystemInfo.getDeviceUUID(context, true));
+//            json.put(Constants.KEY_ADID, SystemInfo.getAdid(context));
             json.put(Constants.KEY_XSJ_VERSION, Constants.XSJDATA_VERSION);
             json.put(Constants.KEY_OS_ID, Constants.OS_ID);
             json.put(Constants.KEY_APPV,
-                    ConstInfo.getAppVersionCode(context));
+                    SystemInfo.getAppVersionCode(context));
             json.put(Constants.KEY_PACKAGE_NAME,
-                    ConstInfo.getPackageName(context));
+                    SystemInfo.getPackageName(context));
             json.put(Constants.KEY_APP_VERSION_CODE,
-                    ConstInfo.getAppVersionCode(context));
+                    SystemInfo.getAppVersionCode(context));
             json.put(Constants.KEY_APP_VERSION_NAME,
-                    ConstInfo.getAppVersionName(context));
+                    SystemInfo.getAppVersionName(context));
             String serverId = DataInfo.getInstance().getServerId();
             if (TextUtils.isEmpty(serverId)) {
                 XGLogger.e("serverId is null");
@@ -492,34 +493,34 @@ public class Common {
     public static JSONObject getDeviceData(Context context) {
         JSONObject json = new JSONObject();
         try {
-            json.put(Constants.KEY_IMEI, ConstInfo.getIMEI(context));
+            json.put(Constants.KEY_IMEI, SystemInfo.getIMEI(context));
             json.put(Constants.KEY_OS, Constants.OS);
             json.put(Constants.KEY_OS_VERSION, Build.VERSION.SDK);
             json.put(Constants.KEY_BUILD_PRODUCT, Build.PRODUCT);
             json.put(Constants.KEY_PRODUCT,
-                    Build.BRAND + " " + ConstInfo.getDeviceModel(context));
+                    Build.BRAND + " " + SystemInfo.getDeviceModel(context));
             json.put(Constants.KEY_BRAND, Build.BRAND);
             json.put(Constants.KEY_DEVICE_MODEL,
-                    ConstInfo.getDeviceModel(context));
-            json.put(Constants.KEY_CPU, ConstInfo.getCpu(context));
+                    SystemInfo.getDeviceModel(context));
+            json.put(Constants.KEY_CPU, SystemInfo.getCpu(context));
             json.put(Constants.KEY_RESOLUTION,
-                    ConstInfo.getResolution(context));
-            json.put(Constants.KEY_MEMORY, ConstInfo.getMemoryTotal(context));
-            json.put(Constants.KEY_IMSI, ConstInfo.getIMSI(context));
-            json.put(Constants.KEY_CARRIER, ConstInfo.getOperators(context));
+                    SystemInfo.getResolution(context));
+            json.put(Constants.KEY_MEMORY, SystemInfo.getMemoryTotal(context));
+            json.put(Constants.KEY_IMSI, SystemInfo.getIMSI(context));
+            json.put(Constants.KEY_CARRIER, SystemInfo.getOperators(context));
             json.put(Constants.KEY_NETWORK, getConnectedNetInfo(context)[0]);
             json.put(Constants.KEY_PACKAGE_NAME,
-                    ConstInfo.getPackageName(context));
+                    SystemInfo.getPackageName(context));
             json.put(Constants.KEY_COUNTRY, Locale.getDefault().getCountry());
             json.put(Constants.KEY_LANGUAGE, Locale.getDefault().getLanguage());
-            json.put(Constants.KEY_MAC, ConstInfo.getMacAddress(context));
+            json.put(Constants.KEY_MAC, SystemInfo.getMacAddress(context));
             json.put(Constants.KEY_XSJ_VERSION, Constants.XSJDATA_VERSION);
             TimeZone tz = TimeZone.getDefault();
             json.put(Constants.KEY_TIMEZONE, tz.getRawOffset() / 3600000);
             json.put(Constants.KEY_APP_VERSION_CODE,
-                    ConstInfo.getAppVersionCode(context));
+                    SystemInfo.getAppVersionCode(context));
             json.put(Constants.KEY_APP_VERSION_NAME,
-                    com.xgsdk.client.core.util.ConstInfo.getAppVersionName(context));
+                    SystemInfo.getAppVersionName(context));
         } catch (JSONException e) {
             XGLogger.e("getDeviceData error", e);
         }

@@ -2,7 +2,9 @@
 package com.xgsdk.client.unity3d;
 
 import com.unity3d.player.UnityPlayer;
+import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.XGSDK;
+import com.xgsdk.client.ProductInfo.GAME_ENGINE;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.callback.UserCallBack;
@@ -37,6 +39,7 @@ public class XGSDKUnity3DWrapper {
     private String mGameControllerObject = "GameController";
 
     public XGSDKUnity3DWrapper() {
+        ProductInfo.setGameEngine(GAME_ENGINE.UNITY3D);
         mSdk = XGSDK.getInstance();
         mSdk.setUserCallBack(new UserCallBack() {
 

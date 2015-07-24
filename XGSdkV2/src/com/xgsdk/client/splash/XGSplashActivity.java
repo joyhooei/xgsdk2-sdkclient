@@ -1,9 +1,8 @@
 
 package com.xgsdk.client.splash;
 
-import com.seasun.powerking.sdkclient.ProductConfig;
-import com.seasun.powerking.sdkclient.Util;
-import com.seasun.powerking.sdkclient.XGSDKLog;
+import com.xgsdk.client.ProductInfo;
+import com.xgsdk.client.core.util.XGLogger;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -55,10 +54,8 @@ public class XGSplashActivity extends Activity {
             return;
         }
 
-        Util.setActivity(this);
-        Util.setContext(this);
-        XGSDKLog.logI("xg version:" + ProductConfig.getXgVersion());
-        XGSDKLog.logI("XGSplashActivity onCreate start");
+        XGLogger.i("xg version:" + ProductInfo.getXGVersion(this));
+        XGLogger.i("XGSplashActivity onCreate start");
         mRes = getResources();
 
         int o = mRes.getConfiguration().orientation;
@@ -75,10 +72,9 @@ public class XGSplashActivity extends Activity {
                 break;
             }
             mIds.add(id);
-            XGSDKLog.logI("XGSplashActivity -" + mCurrentPrefix + i + ",id="
-                    + id);
+            XGLogger.i("XGSplashActivity -" + mCurrentPrefix + i + ",id=" + id);
         }
-        XGSDKLog.logI("XGSplashActivity onCreate start");
+        XGLogger.i("XGSplashActivity onCreate start");
     }
 
     @Override
@@ -87,14 +83,14 @@ public class XGSplashActivity extends Activity {
     }
 
     private void startGame() {
-        XGSDKLog.logI("splash after start game=====");
+        XGLogger.i("splash after start game=====");
         Intent intent = new Intent();
         intent.setAction(GAME_MAIN_ACTION);
         intent.setPackage(getPackageName());
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in,
                 android.R.anim.fade_out);
-        XGSDKLog.logI("splash after start game end=====");
+        XGLogger.i("splash after start game end=====");
     }
 
     protected boolean onSplashEnd() {
@@ -127,7 +123,7 @@ public class XGSplashActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        XGSDKLog.logI("XGSplashActivity onStart start");
+        XGLogger.i("XGSplashActivity onStart start");
         mLLSplash = new LinearLayout(getApplicationContext());
         mLLSplash.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
@@ -191,12 +187,12 @@ public class XGSplashActivity extends Activity {
                         mIVSplashPic.startAnimation(mAnimation1);
                     }
                 } catch (Exception e) {
-                    XGSDKLog.logE("onAnimationEnd error " + mCurrentPrefix
+                    XGLogger.e("onAnimationEnd error " + mCurrentPrefix
                             + (mIndex), e);
                 }
             }
         });
-        XGSDKLog.logI("XGSplashActivity onStart end");
+        XGLogger.i("XGSplashActivity onStart end");
     }
 
 }
