@@ -37,30 +37,6 @@ public class XGSDKUnity3DWrapper {
 
     public XGSDKUnity3DWrapper() {
         mSdk = XGSDK.getInstance();
-    }
-
-    public static XGSDKUnity3DWrapper getInstance() {
-        XGLogger.i(LOG_TAG, "getInstance");
-        if (null == sInstance) {
-            synchronized (XGSDKUnity3DWrapper.class) {
-                if (null == sInstance) {
-                    sInstance = new XGSDKUnity3DWrapper();
-                }
-            }
-        }
-        return sInstance;
-    }
-
-    public void init() {
-        XGLogger.i(LOG_TAG, "init");
-        UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSdk.init(UnityPlayer.currentActivity);
-            }
-
-        });
         mSdk.setUserCallBack(new UserCallBack() {
 
             @Override
@@ -101,6 +77,18 @@ public class XGSDKUnity3DWrapper {
                         METHOD_ON_INIT_FAIL, msg);
             }
         });
+    }
+
+    public static XGSDKUnity3DWrapper getInstance() {
+        XGLogger.i(LOG_TAG, "getInstance");
+        if (null == sInstance) {
+            synchronized (XGSDKUnity3DWrapper.class) {
+                if (null == sInstance) {
+                    sInstance = new XGSDKUnity3DWrapper();
+                }
+            }
+        }
+        return sInstance;
     }
 
     /**
