@@ -2,7 +2,7 @@
 package com.xgsdk.client.cocos2dx;
 
 
-public class JNIPayCallBack {
+public class Cocos2dxPayCallBack {
 
     public native static void onSuccess(String msg);
 

@@ -1,7 +1,7 @@
 
 package com.xgsdk.client.cocos2dx;
 
-public class JNIUserCallBack {
+public class Cocos2dxUserCallBack {
 
     public native static void onLogoutSuccess(String msg);
 

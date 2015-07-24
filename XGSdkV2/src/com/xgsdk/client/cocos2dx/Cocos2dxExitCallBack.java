@@ -1,6 +1,6 @@
 package com.xgsdk.client.cocos2dx;
 
-public class JNIExitCallBack {
+public class Cocos2dxExitCallBack {
 
     public native static void onExit();
     
