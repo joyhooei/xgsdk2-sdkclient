@@ -29,7 +29,7 @@ public class XGSDKUnity3DWrapper {
     private static final String METHOD_ON_PAY_CANCEL = "onPayCancel";
     private static final String METHOD_ON_EXIT = "onExit";
     private static final String METHOD_ON_NO_CHANNEL_EXITER = "onNoChannelExiter";
-    private static final String METHOD_ON_EXIT_CANCEL = "oneExitCancel";
+    private static final String METHOD_ON_EXIT_CANCEL = "onExitCancel";
 
     private static XGSDKUnity3DWrapper sInstance;
     private XGSDK mSdk;
