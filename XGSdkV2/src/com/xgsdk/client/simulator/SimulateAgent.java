@@ -26,12 +26,12 @@ import android.widget.TextView;
 
 public class SimulateAgent extends XGAgent {
 
-    private static final String CHANNEL_TAG = "test";
+    private static final String CHANNEL_ID = "XG_TEST";
     private GameFloatView mFVInstance;
 
     @Override
-    public String channelTag() {
-        return CHANNEL_TAG;
+    public String getChannelId() {
+        return CHANNEL_ID;
     }
 
     @Override

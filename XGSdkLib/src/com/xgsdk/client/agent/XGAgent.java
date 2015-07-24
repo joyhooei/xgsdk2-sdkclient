@@ -26,7 +26,7 @@ public abstract class XGAgent {
     protected ExitCallBack mExitCallBack;
     protected PayCallBack mPayCallBack;
 
-    public abstract String channelTag();
+    public abstract String getChannelId();
 
     public abstract void init(final Activity activity); // 初始化
 

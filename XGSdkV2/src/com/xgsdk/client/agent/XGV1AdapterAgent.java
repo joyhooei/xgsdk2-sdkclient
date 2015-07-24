@@ -32,7 +32,7 @@ class XGV1AdapterAgent extends XGAgent {
     }
 
     @Override
-    public String channelTag() {
+    public String getChannelId() {
         return XGSDKAndroidImpl.getChannelID();
     }
 

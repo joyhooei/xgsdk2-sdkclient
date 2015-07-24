@@ -19,11 +19,43 @@ public class XGSDKCocos2dxWrapper {
     private XGSDK mSdk;
 
     private static XGSDKCocos2dxWrapper sInstance;
-    
+
     private Activity mActivity;
 
     private XGSDKCocos2dxWrapper() {
         mSdk = XGSDK.getInstance();
+        mSdk.setUserCallBack(new UserCallBack() {
+
+            @Override
+            public void onLogoutSuccess(String msg) {
+                Cocos2dxUserCallBack.onLogoutSuccess(msg);
+            }
+
+            @Override
+            public void onLogoutFail(String msg) {
+                Cocos2dxUserCallBack.onLogoutFail(msg);
+            }
+
+            @Override
+            public void onLoginSuccess(String authInfo) {
+                Cocos2dxUserCallBack.onLoginSuccess(authInfo);
+            }
+
+            @Override
+            public void onLoginFail(String msg) {
+                Cocos2dxUserCallBack.onLoginFail(msg);
+            }
+
+            @Override
+            public void onInitFail(String msg) {
+                Cocos2dxUserCallBack.onInitFail(msg);
+            }
+
+            @Override
+            public void onLoginCancel(String msg) {
+                Cocos2dxUserCallBack.onLoginCancel(msg);
+            }
+        });
     }
 
     public static XGSDKCocos2dxWrapper getInstance() {
@@ -36,49 +68,6 @@ public class XGSDKCocos2dxWrapper {
         }
 
         return sInstance;
-    }
-
-    public void init(Activity activity) {
-        XGLogger.i(LOG_TAG, "init");
-        mActivity = activity;
-        mActivity.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSdk.init(mActivity);
-            }
-
-        });
-        mSdk.setUserCallBack(new UserCallBack() {
-
-            @Override
-            public void onLogoutSuccess(String msg) {
-            }
-
-            @Override
-            public void onLogoutFail(String msg) {
-
-            }
-
-            @Override
-            public void onLoginSuccess(String authInfo) {
-
-            }
-
-            @Override
-            public void onLoginFail(String msg) {
-            }
-
-            @Override
-            public void onInitFail(String msg) {
-            }
-
-            @Override
-            public void onLoginCancel(String msg) {
-                // TODO Auto-generated method stub
-                
-            }
-        });
     }
 
     /**
@@ -140,24 +129,24 @@ public class XGSDKCocos2dxWrapper {
                 payment.setGameOrderId(gameOrderId);
                 payment.setServerName(serverName);
                 payment.setNotifyURL(notifyURL);
-                mSdk.pay(mActivity, payment,
-                        new PayCallBack() {
+                mSdk.pay(mActivity, payment, new PayCallBack() {
 
-                            @Override
-                            public void onSuccess(String msg) {
-                            }
+                    @Override
+                    public void onSuccess(String msg) {
+                        Cocos2dxPayCallBack.onSuccess(msg);
+                    }
 
-                            @Override
-                            public void onFail(String msg) {
+                    @Override
+                    public void onFail(String msg) {
+                        Cocos2dxPayCallBack.onFail(msg);
+                    }
 
-                            }
+                    @Override
+                    public void onCancel(String msg) {
+                        Cocos2dxPayCallBack.onCancel(msg);
+                    }
 
-                            @Override
-                            public void onCancel(String msg) {
-
-                            }
-
-                        });
+                });
             }
 
         });
@@ -182,7 +171,7 @@ public class XGSDKCocos2dxWrapper {
      * 
      * @return
      */
-    public String getChannel() {
+    public String getChannelId() {
         return mSdk.getChannelId();
     }
 
@@ -217,8 +206,7 @@ public class XGSDKCocos2dxWrapper {
         GameServerInfo gameInfo = new GameServerInfo();
         gameInfo.setServerId(serverId);
         gameInfo.setServerName(serverName);
-        mSdk.onEnterGame(mActivity, userInfo, roleInfo,
-                gameInfo);
+        mSdk.onEnterGame(mActivity, userInfo, roleInfo, gameInfo);
     }
 
     /**
