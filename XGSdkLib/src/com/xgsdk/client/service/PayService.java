@@ -23,7 +23,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.text.TextUtils;
 
-@SuppressLint("NewApi")
 public class PayService {
 
     private static final int THREAD_JOIN_TIME_OUT = 30000;
@@ -195,39 +194,39 @@ public class PayService {
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
         requestParams.add(new BasicNameValuePair("sdkAppid", appId));
         requestParams.add(new BasicNameValuePair("channelId", channelId));
-        if (null != uId && !uId.isEmpty()) {
+        if (!TextUtils.isEmpty(uId)) {
             requestParams.add(new BasicNameValuePair("sdkUid", uId));
         }
         requestParams.add(new BasicNameValuePair("totalPrice", totalPrice));
         requestParams.add(new BasicNameValuePair("originalPrice", totalPrice));
-        if (null != amount && !amount.isEmpty()) {
+        if (!TextUtils.isEmpty(amount)) {
             requestParams.add(new BasicNameValuePair("appGoodsAmount", amount));
         }
-        if (null != productId && !productId.isEmpty()) {
+        if (!TextUtils.isEmpty(productId)) {
             requestParams.add(new BasicNameValuePair("appGoodsId", productId));
         }
-        if (null != productName && !productName.isEmpty()) {
+        if (!TextUtils.isEmpty(productName)) {
             requestParams.add(new BasicNameValuePair("appGoodsName",
                     productName));
         }
-        if (null != productDec && !productDec.isEmpty()) {
+        if (!TextUtils.isEmpty(productDec)) {
             requestParams
                     .add(new BasicNameValuePair("appGoodsDesc", productDec));
         }
-        if (null != serverId && !serverId.isEmpty()) {
+        if (!TextUtils.isEmpty(serverId)) {
             requestParams.add(new BasicNameValuePair("serverId", serverId));
         }
-        if (null != roleId && !roleId.isEmpty()) {
+        if (!TextUtils.isEmpty(roleId)) {
             requestParams.add(new BasicNameValuePair("roleId", roleId));
         }
-        if (null != roleName && !roleName.isEmpty()) {
+        if (!TextUtils.isEmpty(roleName)) {
             requestParams.add(new BasicNameValuePair("roleName", roleName));
         }
-        if (null != currencyName && !currencyName.isEmpty()) {
+        if (!TextUtils.isEmpty(currencyName)) {
             requestParams.add(new BasicNameValuePair("currencyName",
                     currencyName));
         }
-        if (null != payExt && !payExt.isEmpty()) {
+        if (!TextUtils.isEmpty(payExt)) {
             requestParams.add(new BasicNameValuePair("custom", payExt));
         }
         Collections.sort(requestParams, new Comparator<NameValuePair>() {
@@ -261,7 +260,7 @@ public class PayService {
         // 发送请求
         String result = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
-        if (null == result || result.isEmpty()) {
+        if (TextUtils.isEmpty(result)) {
             // 生成订单失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
@@ -299,42 +298,42 @@ public class PayService {
         requestParams.add(new BasicNameValuePair("orderId", orderId));
         requestParams.add(new BasicNameValuePair("sdkAppid", appId));
         requestParams.add(new BasicNameValuePair("channelId", channelId));
-        if (null != uId && !uId.isEmpty()) {
+        if (!TextUtils.isEmpty(uId)) {
             requestParams.add(new BasicNameValuePair("sdkUid", uId));
         }
-        if (null != totalPrice && !totalPrice.isEmpty()) {
+        if (!TextUtils.isEmpty(totalPrice)) {
             requestParams.add(new BasicNameValuePair("totalPrice", totalPrice));
             requestParams.add(new BasicNameValuePair("originalPrice",
                     totalPrice));
         }
-        if (null != amount && !amount.isEmpty()) {
+        if (!TextUtils.isEmpty(amount)) {
             requestParams.add(new BasicNameValuePair("appGoodsAmount", amount));
         }
-        if (null != productId && !productId.isEmpty()) {
+        if (!TextUtils.isEmpty(productId)) {
             requestParams.add(new BasicNameValuePair("appGoodsId", productId));
         }
-        if (null != productName && !productName.isEmpty()) {
+        if (!TextUtils.isEmpty(productName)) {
             requestParams.add(new BasicNameValuePair("appGoodsName",
                     productName));
         }
-        if (null != productDec && !productDec.isEmpty()) {
+        if (!TextUtils.isEmpty(productDec)) {
             requestParams
                     .add(new BasicNameValuePair("appGoodsDesc", productDec));
         }
-        if (null != serverId && !serverId.isEmpty()) {
+        if (!TextUtils.isEmpty(serverId)) {
             requestParams.add(new BasicNameValuePair("serverId", serverId));
         }
-        if (null != roleId && !roleId.isEmpty()) {
+        if (!TextUtils.isEmpty(roleId)) {
             requestParams.add(new BasicNameValuePair("roleId", roleId));
         }
-        if (null != roleName && !roleName.isEmpty()) {
+        if (!TextUtils.isEmpty(roleName)) {
             requestParams.add(new BasicNameValuePair("roleName", roleName));
         }
-        if (null != currencyName && !currencyName.isEmpty()) {
+        if (!TextUtils.isEmpty(currencyName)) {
             requestParams.add(new BasicNameValuePair("currencyName",
                     currencyName));
         }
-        if (null != payExt && !payExt.isEmpty()) {
+        if (!TextUtils.isEmpty(payExt)) {
             requestParams.add(new BasicNameValuePair("custom", payExt));
         }
         Collections.sort(requestParams, new Comparator<NameValuePair>() {
@@ -368,7 +367,7 @@ public class PayService {
         // 发送请求
         String result = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
-        if (null == result || result.isEmpty()) {
+        if (TextUtils.isEmpty(result)) {
             // 生成订单失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
@@ -405,7 +404,7 @@ public class PayService {
         // 发送请求
         String result = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
-        if (null == result || result.isEmpty()) {
+        if (TextUtils.isEmpty(result)) {
             // 生成订单失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
@@ -449,13 +448,13 @@ public class PayService {
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
         requestParams.add(new BasicNameValuePair("openid", openid));
         requestParams.add(new BasicNameValuePair("openkey", openkey));
-        if (pay_token != null && !pay_token.isEmpty()) {
+        if (!TextUtils.isEmpty(pay_token)) {
             requestParams.add(new BasicNameValuePair("pay_token", pay_token));
         }
         requestParams.add(new BasicNameValuePair("appid", appid));
         requestParams.add(new BasicNameValuePair("pf", pf));
         requestParams.add(new BasicNameValuePair("pfkey", pfkey));
-        if (serverId != null && !serverId.isEmpty()) {
+        if (!TextUtils.isEmpty(serverId)) {
             requestParams.add(new BasicNameValuePair("zoneid", serverId));
         }
         requestParams.add(new BasicNameValuePair("sdkAppid", sdkAppid));
@@ -491,7 +490,7 @@ public class PayService {
         // 发送请求
         String result = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
-        if (null == result || result.isEmpty()) {
+        if (TextUtils.isEmpty(result)) {
             // 失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
@@ -544,7 +543,7 @@ public class PayService {
         // 发送请求
         String result = HttpUtils.executeHttpGet(url);
         // 返回结果为空
-        if (null == result || result.isEmpty()) {
+        if (TextUtils.isEmpty(result)) {
             // 生成订单失败
             throw new Exception("request:" + url + ",response is null.");
         }

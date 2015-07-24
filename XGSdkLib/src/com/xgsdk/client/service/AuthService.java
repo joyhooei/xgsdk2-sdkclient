@@ -1,6 +1,21 @@
 
 package com.xgsdk.client.service;
 
+import com.unity3d.player.UnityPlayer;
+import com.xgsdk.client.core.http.HttpUtils;
+import com.xgsdk.client.core.util.MD5Util;
+import com.xgsdk.client.core.util.XGLogger;
+import com.xgsdk.client.util.ProductConfig;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.text.TextUtils;
+import android.util.Base64;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,22 +23,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
-
-import com.unity3d.player.UnityPlayer;
-import com.xgsdk.client.core.http.HttpUtils;
-import com.xgsdk.client.core.util.MD5Util;
-import com.xgsdk.client.core.util.XGLogger;
-import com.xgsdk.client.util.ProductConfig;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.util.Base64;
-
-@SuppressLint("NewApi")
 public class AuthService {
 
     private static final int THREAD_JOIN_TIME_OUT = 30000;
@@ -46,13 +45,13 @@ public class AuthService {
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
         requestParams.add(new BasicNameValuePair("appId", appId));
         requestParams.add(new BasicNameValuePair("channelId", channleId));
-        if (null != token && !token.isEmpty()) {
+        if (!TextUtils.isEmpty(token)) {
             requestParams.add(new BasicNameValuePair("authToken", token));
         }
-        if (null != uId && !uId.isEmpty()) {
+        if (!TextUtils.isEmpty(uId)) {
             requestParams.add(new BasicNameValuePair("uId", uId));
         }
-        if (null != name && !name.isEmpty()) {
+        if (!TextUtils.isEmpty(name)) {
             requestParams.add(new BasicNameValuePair("name", name));
         }
         Collections.sort(requestParams, new Comparator<NameValuePair>() {
