@@ -54,7 +54,6 @@ public class XgsdkDemo : MonoBehaviour
         style.fontSize = 40;       
         GUIStyle labelStyle=GUI.skin.label;
         labelStyle.fontSize = 40;   
-		GUI.Label(new Rect(50,1000,600,80),GameController.callBackMessage);
 
 
 		//游戏方退出的弹出框
@@ -92,7 +91,7 @@ public class XgsdkDemo : MonoBehaviour
             }else
             {
                 Debug.Log("please login first...");
-				GameController.callBackMessage = "请先登录";
+				XGSDK2.instance.showAndroidToast("请先登录");
             }
         }
         GUILayout.EndHorizontal();

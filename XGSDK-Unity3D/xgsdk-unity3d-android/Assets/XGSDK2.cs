@@ -85,12 +85,12 @@ namespace XGSDK2
         
 
 		//获取渠道tag时调用
-		public static string getChannel()
+		public static string getChannelId()
 		{
-			Debug.Log ("call sgsdk getChannel...");
+			Debug.Log ("call sgsdk getChannelId...");
 			string channel = "";
 			#if UNITY_ANDROID
-			channel = callRetSdkApi("getChannel");
+			channel = callRetSdkApi("getChannelId");
 			#endif
 			Debug.Log ("The channel tag is: " + channel);
 			return channel;
@@ -171,6 +171,14 @@ namespace XGSDK2
             #endif
 
         }
+
+		public static void showAndroidToast(string msg)
+		{
+			Debug.Log("call xgsdk showAndroidToast...");
+			#if UNITY_ANDROID 
+			callSdkApi("showAndroidToast", msg);
+			#endif
+		}
         
 
 
