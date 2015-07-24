@@ -205,7 +205,7 @@ public class XGSDKUnity3DWrapper {
      * 
      * @return
      */
-    public String getChannel() {
+    public String getChannelId() {
         return mSdk.getChannelId();
     }
 

@@ -30,7 +30,7 @@ public class XGSDK {
     }
 
     public String getChannelId() {
-        return mAgent == null ? null : mAgent.channelTag();
+        return mAgent == null ? null : mAgent.getChannelId();
     }
 
     public static XGSDK getInstance() {
