@@ -14,7 +14,7 @@ public class XGCocos2dxActivity extends Cocos2dxActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         XGSDK.getInstance().onCreate(this);
-        XGSDK.getInstance().init(this);
+        XGSDKCocos2dxWrapper.getInstance().init(this);// 必须使用XGSDKCocos2dxWrapper的init，将Activity赋值入接口
     }
 
     @Override

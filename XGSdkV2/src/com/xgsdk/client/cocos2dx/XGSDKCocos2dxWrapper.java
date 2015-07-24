@@ -22,6 +22,11 @@ public class XGSDKCocos2dxWrapper {
     private static XGSDKCocos2dxWrapper sInstance;
 
     private Activity mActivity;
+    
+    public void init(Activity activity){
+        mActivity = activity;
+        mSdk.init(activity);
+    }
 
     private XGSDKCocos2dxWrapper() {
         mSdk = XGSDK.getInstance();
