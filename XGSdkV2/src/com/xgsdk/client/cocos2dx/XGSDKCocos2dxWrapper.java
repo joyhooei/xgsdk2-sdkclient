@@ -5,6 +5,7 @@ import com.xgsdk.client.XGSDK;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.callback.UserCallBack;
+import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.entity.GameServerInfo;
 import com.xgsdk.client.entity.PayInfo;
@@ -21,6 +22,11 @@ public class XGSDKCocos2dxWrapper {
     private static XGSDKCocos2dxWrapper sInstance;
 
     private Activity mActivity;
+    
+    public void init(Activity activity){
+        mActivity = activity;
+        mSdk.init(activity);
+    }
 
     private XGSDKCocos2dxWrapper() {
         mSdk = XGSDK.getInstance();
@@ -299,6 +305,16 @@ public class XGSDKCocos2dxWrapper {
                     }
 
                 }, "");
+            }
+        });
+    }
+
+    public void showAndroidToast(final String msg) {
+        mActivity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                ToastUtil.showToast(mActivity, msg);
             }
         });
     }
