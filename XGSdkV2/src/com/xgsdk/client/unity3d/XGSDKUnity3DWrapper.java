@@ -6,6 +6,7 @@ import com.xgsdk.client.XGSDK;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.callback.UserCallBack;
+import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.entity.GameServerInfo;
 import com.xgsdk.client.entity.PayInfo;
@@ -340,6 +341,16 @@ public class XGSDKUnity3DWrapper {
                     }
 
                 }, "");
+            }
+        });
+    }
+
+    public void showAndroidToast(final String msg) {
+        UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                ToastUtil.showToast(UnityPlayer.currentActivity, msg);
             }
         });
     }
