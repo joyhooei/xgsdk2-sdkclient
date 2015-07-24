@@ -292,16 +292,18 @@ public class XGSDKCocos2dxWrapper {
                     @Override
                     public void onExit() {
                         // 调用渠道退出窗口后的回调
+                        Cocos2dxExitCallBack.onExit();
                     }
 
                     @Override
                     public void onNoChannelExiter() {
                         // 需要游戏自身弹出退出窗口
+                        Cocos2dxExitCallBack.onNoChannelExiter();
                     }
 
                     @Override
                     public void onCancel() {
-
+                        Cocos2dxExitCallBack.onCancel();
                     }
 
                 }, "");
