@@ -20,9 +20,13 @@ public class ProductInfo {
     private static final String CONFIG_KEY_XG_RECHARGE_URL = "XgRechargeUrl";
     private static final String CONFIG_KEY_XG_DATA_URL = "XgDataUrl";
     private static final String CONFIG_KEY_XG_UPDATE_URL = "XgUpdateUrl";
+    private static final String CONFIG_KEY_XG_BUILD_CODE = "BuildCode";
+    private static final String CONFIG_KEY_XG_PLAN_ID = "PlanId";
 
     private static final String DEFAULT_AUTH_URL = "http://onsite.auth.xgsdk.com:8180";
     private static final String DEFAULT_RECHARGE_URL = "http://onsite.recharge.xgsdk.com:8180";
+    private static final String DEFAULT_BUILD_CODE = "-1";
+    private static final String DEFAULT_PLAN_ID = "-1";
 
     private static Properties sConfigProperties;
 
@@ -43,7 +47,7 @@ public class ProductInfo {
     }
 
     private enum ConstKey {
-        XG_APP_ID, XG_APP_KEY, XG_CHANNEL_ID, XG_RECHARGE_URL, XG_AUTH_URL, XG_DATA_URL, XG_UPDATE_URL, XG_VERSION
+        XG_APP_ID, XG_APP_KEY, XG_CHANNEL_ID, XG_RECHARGE_URL, XG_AUTH_URL, XG_DATA_URL, XG_UPDATE_URL, XG_VERSION, XG_BUILD_CODE, XG_PLAN_ID
     }
 
     public static String getXGAppId(Context context) {
@@ -76,6 +80,14 @@ public class ProductInfo {
 
     public static String getXGVersion(Context context) {
         return getValue(context, ConstKey.XG_VERSION);
+    }
+
+    public static String getXGPlanId(Context context) {
+        return getValue(context, ConstKey.XG_PLAN_ID);
+    }
+
+    public static String getXGBuildCode(Context context) {
+        return getValue(context, ConstKey.XG_BUILD_CODE);
     }
 
     private static final HashMap<ConstKey, String> sValueMap = new HashMap<ConstKey, String>();
@@ -129,6 +141,14 @@ public class ProductInfo {
             case XG_VERSION:
                 result = _getValueFromXGConfig(context, CONFIG_KEY_XG_VERSION,
                         null);
+            case XG_BUILD_CODE:
+                result = _getValueFromXGConfig(context,
+                        CONFIG_KEY_XG_BUILD_CODE, DEFAULT_BUILD_CODE);
+                break;
+            case XG_PLAN_ID:
+                result = _getValueFromXGConfig(context, CONFIG_KEY_XG_PLAN_ID,
+                        DEFAULT_PLAN_ID);
+                break;
         }
         return result;
     }
