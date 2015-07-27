@@ -96,9 +96,18 @@ public class XGSDKUnity3DWrapper {
     }
 
     /**
+     * 获取渠道tag
+     * 
+     * @return
+     */
+    public String getChannelId() {
+        return mSdk.getChannelId();
+    }
+
+    /**
      * 登录
      */
-    public void login() {
+    public void login(final String customParams) {
         XGLogger.i(LOG_TAG, "login");
         UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 
@@ -106,27 +115,34 @@ public class XGSDKUnity3DWrapper {
             public void run() {
                 XGLogger.i(LOG_TAG, "activity name = "
                         + UnityPlayer.currentActivity.getLocalClassName());
-                mSdk.login(UnityPlayer.currentActivity, "");
+                mSdk.login(UnityPlayer.currentActivity, customParams);
             }
 
         });
     }
 
     /**
-     * 登出
+     * 支付
+     * 
+     * @param uid
+     * @param productTotalPirce
+     * @param productCount
+     * @param productUnitPrice
+     * @param productId
+     * @param productName
+     * @param productDesc
+     * @param currencyName
+     * @param serverId
+     * @param serverName
+     * @param zoneId
+     * @param zoneName
+     * @param roleId
+     * @param roleName
+     * @param balance
+     * @param gameOrderId
+     * @param ext
+     * @param notifyURL
      */
-    public void logout() {
-        XGLogger.i(LOG_TAG, "logout");
-        UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSdk.logout(UnityPlayer.currentActivity, "");
-            }
-
-        });
-    }
-
     public void pay(final String uid, final int productTotalPirce,
             final int productCount, final int productUnitPrice,
             final String productId, final String productName,
@@ -194,36 +210,70 @@ public class XGSDKUnity3DWrapper {
     }
 
     /**
-     * 访问用户中心
+     * 游戏退出时调用,渠道释放资源
      */
-    public void openUserCenter() {
-        XGLogger.i(LOG_TAG, "openUserCenter");
+    public void exit(final String customParams) {
+        XGLogger.i(LOG_TAG, "exit");
         UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
-                mSdk.openUserCenter(UnityPlayer.currentActivity, "");
+                mSdk.exit(UnityPlayer.currentActivity, new ExitCallBack() {
+
+                    @Override
+                    public void onExit() {
+                        // 调用渠道退出窗口后的回调
+                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
+                                METHOD_ON_EXIT, "");
+                    }
+
+                    @Override
+                    public void onNoChannelExiter() {
+                        // 需要游戏自身弹出退出窗口
+                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
+                                METHOD_ON_NO_CHANNEL_EXITER, "");
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
+                                METHOD_ON_EXIT_CANCEL, "");
+                    }
+
+                }, customParams);
             }
         });
     }
 
     /**
-     * 获取渠道tag
-     * 
-     * @return
+     * 登出
      */
-    public String getChannelId() {
-        return mSdk.getChannelId();
+    public void logout(final String customParams) {
+        XGLogger.i(LOG_TAG, "logout");
+        UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                mSdk.logout(UnityPlayer.currentActivity, customParams);
+            }
+
+        });
     }
 
     /**
-     * 当前渠道是否提供该接口
-     * 
-     * @param methodName
-     * @return
+     * 切换用户
      */
-    public boolean isMethodSupport(String methodName) {
-        return mSdk.isMethodSupport(methodName);
+    public void switchAccount() {
+        XGLogger.i(LOG_TAG, "switchAccount");
+        UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                mSdk.switchAccount(UnityPlayer.currentActivity, "");
+            }
+
+        });
     }
 
     /**
@@ -269,21 +319,6 @@ public class XGSDKUnity3DWrapper {
     }
 
     /**
-     * 切换用户
-     */
-    public void switchAccount() {
-        XGLogger.i(LOG_TAG, "switchAccount");
-        UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSdk.switchAccount(UnityPlayer.currentActivity, "");
-            }
-
-        });
-    }
-
-    /**
      * 角色升级后向渠道传递升级信息
      * 
      * @param roleId
@@ -315,40 +350,27 @@ public class XGSDKUnity3DWrapper {
     }
 
     /**
-     * 游戏退出时调用,渠道释放资源
+     * 访问用户中心
      */
-    public void exit() {
-        XGLogger.i(LOG_TAG, "exit");
+    public void openUserCenter() {
+        XGLogger.i(LOG_TAG, "openUserCenter");
         UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
-                mSdk.exit(UnityPlayer.currentActivity, new ExitCallBack() {
-
-                    @Override
-                    public void onExit() {
-                        // 调用渠道退出窗口后的回调
-                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
-                                METHOD_ON_EXIT, "");
-                    }
-
-                    @Override
-                    public void onNoChannelExiter() {
-                        // 需要游戏自身弹出退出窗口
-                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
-                                METHOD_ON_NO_CHANNEL_EXITER, "");
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
-                                METHOD_ON_EXIT_CANCEL, "");
-                    }
-
-                }, "");
+                mSdk.openUserCenter(UnityPlayer.currentActivity, "");
             }
         });
+    }
+
+    /**
+     * 当前渠道是否提供该接口
+     * 
+     * @param methodName
+     * @return
+     */
+    public boolean isMethodSupport(String methodName) {
+        return mSdk.isMethodSupport(methodName);
     }
 
     public void showAndroidToast(final String msg) {
