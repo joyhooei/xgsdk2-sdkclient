@@ -36,7 +36,7 @@ public class XGSDKUnity3DWrapper {
 
     private static XGSDKUnity3DWrapper sInstance;
     private XGSDK mSdk;
-    private String mGameControllerObject = "GameController";
+    private String mUnity3dCallbackObject = "XGSDKCallback";
 
     public XGSDKUnity3DWrapper() {
         ProductInfo.setGameEngine(GAME_ENGINE.UNITY3D);
@@ -45,39 +45,39 @@ public class XGSDKUnity3DWrapper {
 
             @Override
             public void onLogoutSuccess(String msg) {
-                UnityPlayer.UnitySendMessage(mGameControllerObject,
+                UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                         METHOD_ON_LOGOUT_SUCCESS, msg);
             }
 
             @Override
             public void onLogoutFail(String msg) {
-                UnityPlayer.UnitySendMessage(mGameControllerObject,
+                UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                         METHOD_ON_LOGOUT_FAIL, msg);
 
             }
 
             @Override
             public void onLoginSuccess(String authInfo) {
-                UnityPlayer.UnitySendMessage(mGameControllerObject,
+                UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                         METHOD_ON_LOGIN_SUCCESS, authInfo);
 
             }
 
             @Override
             public void onLoginCancel(String msg) {
-                UnityPlayer.UnitySendMessage(mGameControllerObject,
+                UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                         METHOD_ON_LOGIN_CANCEL, msg);
             }
 
             @Override
             public void onLoginFail(String msg) {
-                UnityPlayer.UnitySendMessage(mGameControllerObject,
+                UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                         METHOD_ON_LOGIN_FAIL, msg);
             }
 
             @Override
             public void onInitFail(String msg) {
-                UnityPlayer.UnitySendMessage(mGameControllerObject,
+                UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                         METHOD_ON_INIT_FAIL, msg);
             }
         });
@@ -165,7 +165,7 @@ public class XGSDKUnity3DWrapper {
                             @Override
                             public void onSuccess(String msg) {
                                 UnityPlayer.UnitySendMessage(
-                                        mGameControllerObject,
+                                        mUnity3dCallbackObject,
                                         METHOD_ON_PAY_SUCCESS, msg);
                             }
 
@@ -173,7 +173,7 @@ public class XGSDKUnity3DWrapper {
                             public void onFail(String msg) {
 
                                 UnityPlayer.UnitySendMessage(
-                                        mGameControllerObject,
+                                        mUnity3dCallbackObject,
                                         METHOD_ON_PAY_FAIL, msg);
 
                             }
@@ -182,7 +182,7 @@ public class XGSDKUnity3DWrapper {
                             public void onCancel(String msg) {
 
                                 UnityPlayer.UnitySendMessage(
-                                        mGameControllerObject,
+                                        mUnity3dCallbackObject,
                                         METHOD_ON_PAY_CANCEL, msg);
 
                             }
@@ -328,21 +328,21 @@ public class XGSDKUnity3DWrapper {
                     @Override
                     public void onExit() {
                         // 调用渠道退出窗口后的回调
-                        UnityPlayer.UnitySendMessage(mGameControllerObject,
+                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                                 METHOD_ON_EXIT, "");
                     }
 
                     @Override
                     public void onNoChannelExiter() {
                         // 需要游戏自身弹出退出窗口
-                        UnityPlayer.UnitySendMessage(mGameControllerObject,
+                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                                 METHOD_ON_NO_CHANNEL_EXITER, "");
                     }
 
                     @Override
                     public void onCancel() {
 
-                        UnityPlayer.UnitySendMessage(mGameControllerObject,
+                        UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
                                 METHOD_ON_EXIT_CANCEL, "");
                     }
 
