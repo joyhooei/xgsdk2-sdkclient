@@ -13,7 +13,6 @@ public class PayInfo {
     private int productTotalPrice;
     private int productUnitPrice;
     private int productCount;
-    private String exchangeRate;
     private String currencyName;
     private String ext;
     private String notifyURL;
@@ -23,6 +22,8 @@ public class PayInfo {
     private String serverName;
     private String balance;
     private String gameOrderId;
+    private String zoneId;
+    private String zoneName;
 
     private HashMap<String, String> additionalParams = new HashMap<String, String>();// 扩展参数
 
@@ -36,6 +37,22 @@ public class PayInfo {
 
     public void setAdditionalParam(String name, String value) {
         additionalParams.put(name, value);
+    }
+
+    public String getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(String zoneId) {
+        this.zoneId = zoneId;
+    }
+
+    public String getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(String zoneName) {
+        this.zoneName = zoneName;
     }
 
     public String getGameOrderId() {
@@ -52,10 +69,6 @@ public class PayInfo {
 
     public String getCurrencyName() {
         return currencyName;
-    }
-
-    public String getExchangeRate() {
-        return exchangeRate;
     }
 
     public String getExt() {
@@ -118,10 +131,6 @@ public class PayInfo {
         this.currencyName = currencyName;
     }
 
-    public void setExchangeRate(String exchangeRate) {
-        this.exchangeRate = exchangeRate;
-    }
-
     public void setExt(String ext) {
         this.ext = ext;
     }
@@ -180,12 +189,12 @@ public class PayInfo {
                 + ", productName=" + productName + ", productDesc="
                 + productDesc + ", productTotalPrice=" + productTotalPrice
                 + ", productUnitPrice=" + productUnitPrice + ", productCount="
-                + productCount + ", exchangeRate=" + exchangeRate
-                + ", currencyName=" + currencyName + ", ext=" + ext
-                + ", notifyURL=" + notifyURL + ", roleId=" + roleId
+                + productCount + ", currencyName=" + currencyName + ", ext="
+                + ext + ", notifyURL=" + notifyURL + ", roleId=" + roleId
                 + ", roleName=" + roleName + ", serverId=" + serverId
                 + ", serverName=" + serverName + ", balance=" + balance
-                + ", gameOrderId=" + gameOrderId + ", additionalParams="
+                + ", gameOrderId=" + gameOrderId + ", zoneId=" + zoneId
+                + ", zoneName=" + zoneName + ", additionalParams="
                 + additionalParams + "]";
     }
 

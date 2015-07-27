@@ -114,7 +114,8 @@ public class XGSDKCocos2dxWrapper {
             final String productId, final String productName,
             final String productDesc, final String currencyName,
             final String serverId, final String serverName,
-            final String roleId, final String roleName, final String balance,
+            final String zoneId, final String zoneName, final String roleId,
+            final String roleName, final String balance,
             final String gameOrderId, final String ext, final String notifyURL) {
         XGLogger.i(LOG_TAG, "pay");
         mActivity.runOnUiThread(new Runnable() {
@@ -133,6 +134,8 @@ public class XGSDKCocos2dxWrapper {
                 payment.setProductTotalPrice(productTotalPirce);
                 payment.setProductUnitPrice(productUnitPrice);
                 payment.setRoleId(roleId);
+                payment.setZoneId(zoneId);
+                payment.setZoneName(zoneName);
                 payment.setRoleName(roleName);
                 payment.setBalance(balance);
                 payment.setGameOrderId(gameOrderId);

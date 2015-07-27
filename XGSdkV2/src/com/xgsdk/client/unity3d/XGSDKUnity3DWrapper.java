@@ -132,7 +132,8 @@ public class XGSDKUnity3DWrapper {
             final String productId, final String productName,
             final String productDesc, final String currencyName,
             final String serverId, final String serverName,
-            final String roleId, final String roleName, final String balance,
+            final String zoneId, final String zoneName, final String roleId,
+            final String roleName, final String balance,
             final String gameOrderId, final String ext, final String notifyURL) {
         XGLogger.i(LOG_TAG, "pay");
         UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
@@ -150,6 +151,8 @@ public class XGSDKUnity3DWrapper {
                 payment.setCurrencyName(currencyName);
                 payment.setProductTotalPrice(productTotalPirce);
                 payment.setProductUnitPrice(productUnitPrice);
+                payment.setZoneId(zoneId);
+                payment.setZoneName(zoneName);
                 payment.setRoleId(roleId);
                 payment.setRoleName(roleName);
                 payment.setBalance(balance);
