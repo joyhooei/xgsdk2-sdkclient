@@ -44,6 +44,10 @@ public class HttpUtils {
             connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(DEFAULT_HTTP_CONNECT_TIMEOUT);
             connection.setReadTimeout(DEFAULT_HTTP_CONNECT_TIMEOUT);
+            connection.setRequestProperty("Connection", "close");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "text/plain");
+            connection.setRequestProperty("Content-Encoding", "gzip");
             in = new InputStreamReader(connection.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(in);
             StringBuffer strBuffer = new StringBuffer();
