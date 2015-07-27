@@ -10,36 +10,43 @@
 
 USING_NS_CC;
 USING_NS_CC_EXT;
-
-class XGSDKTestListener : public XGSDKListener{
-public:
-    void onLogoutSuccess(const char *msg){
-        CCMessageBox(msg, "INFO");
-    }
-    void onLogoutFail(const char *msg){
-        CCMessageBox(msg, "INFO");
-    }
-    void onInitFail(const char* msg){
-        CCMessageBox(msg, "INFO");
-    }
-    void onLoginSuccess(const char* msg){
-        CCMessageBox(msg, "INFO");
-    }
-    void onLoginFail(const char* msg){
-        CCMessageBox(msg, "INFO");
-    }
-    void onPaySuccess(const char* msg){
-        CCMessageBox(msg, "INFO");
-    }
-    void onPayFail(const char *msg){
-        CCMessageBox(msg, "INFO");
-    }
-    void onPayCancel(const char * msg){
-        CCMessageBox(msg, "INFO");
-    }
-    ~XGSDKTestListener(){
-    }
-};
+void XGSDKTestListener::onLogoutSuccess(const char *msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onLogoutFail(const char *msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onInitFail(const char* msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onLoginSuccess(const char* msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onLoginFail(const char* msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onLoginCancel(const char* msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onPaySuccess(const char* msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onPayFail(const char *msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onPayCancel(const char * msg){
+    cocos2d::CCMessageBox(msg, "INFO");
+}
+void XGSDKTestListener::onExit(){
+    cocos2d::CCMessageBox("Exit Success", "INFO");
+	CCDirector::sharedDirector()->end();
+}
+void XGSDKTestListener::onNoChannelExiter(){
+    cocos2d::CCMessageBox("Exit OnNoChannel", "INFO");
+}
+void XGSDKTestListener::onCancel(){
+    cocos2d::CCMessageBox("Exit onCancel", "INFO");
+}
 
 
 CCScene* HelloWorld::scene()
@@ -71,10 +78,10 @@ bool HelloWorld::init()
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
     mXgSdk = new ProtocolXGSDK();
-    mXgSdk->init();
-    XGSDKTestListener *mTestListener = new XGSDKTestListener();
+    mXgSdk->prepare();
+    mTestListener = new XGSDKTestListener();
     mXgSdk->setListener(mTestListener);
-
+	
     int x = origin.x+150;
     int y = origin.y+visibleSize.height-50;     
 	createMenu("登陆",x,y,menu_selector(HelloWorld::login));
@@ -105,22 +112,10 @@ void HelloWorld::login(CCObject* pSender)
     mXgSdk->login();
 }
 
-void HelloWorld::loginQQ(CCObject* pSender)
-{
-    CCLOG("xgsdk call loginQQ...");
-	CCMessageBox("LOGINQQ", "INFO");
-}
-
-void HelloWorld::loginWeixin(CCObject* pSender)
-{
-    CCLOG("xgsdk call loginWeixin...");
-	CCMessageBox("LOGINWEIXIN", "INFO");
-}
-
 void HelloWorld::logout(CCObject* pSender)
 {
     CCLOG("xgsdk call logout...");
-	CCMessageBox("LOGINOUT","INFO");
+	mXgSdk->logout();
 }
 
 void HelloWorld::pay(CCObject* pSender)
@@ -131,19 +126,19 @@ void HelloWorld::pay(CCObject* pSender)
 void HelloWorld::switchUser(CCObject* pSender)
 {
     CCLOG("xgsdk demo call switch account...");
-	CCMessageBox("SWITCHUSER", "INFO");
+	mXgSdk->switchAccount();
 }
 
 void HelloWorld::userCenter(CCObject* pSender)
 {
     CCLOG("call user center...");
-	CCMessageBox("USERCENTER","INFO");
+	mXgSdk->openUserCenter();
 }
 
 void HelloWorld::exitGame(CCObject* pSender)
 {
     CCLOG("xgsdk demo call exist game...");
-	CCMessageBox("EXITGAME", "INFO");
+	mXgSdk->exit();
 }
 
 void HelloWorld::createMenu(char const* name, int x, int y, SEL_MenuHandler handler)
@@ -154,5 +149,11 @@ void HelloWorld::createMenu(char const* name, int x, int y, SEL_MenuHandler hand
     CCMenu* pMenu = CCMenu::create(pMenuItem,NULL);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
+}
+
+void HelloWorld::cleanup(){
+    CCLayer::cleanup();
+    delete mXgSdk;
+    delete mTestListener;
 }
 

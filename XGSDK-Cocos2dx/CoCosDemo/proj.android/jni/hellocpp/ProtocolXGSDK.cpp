@@ -54,17 +54,16 @@ XGSDKListener *globalListener;
 void ProtocolXGSDK::setListener(XGSDKListener *lis){
 	globalListener = lis;
 }
-void ProtocolXGSDK::init(){
+void ProtocolXGSDK::prepare(){
 	LOGI("INIT BEGIN");
 	JniMethodInfo t;
 	if(JniHelper::getStaticMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "getInstance", "()Lcom/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper;")){
 		LOGI("INIT Find getInstance");
 		mXGEngine = t.env->CallStaticObjectMethod(t.classID, t.methodID);
 	}
-	CCMessageBox("Dont touch me!!","INFO");
+	CCMessageBox("PREPARE SUCCESS","INFO");
 	LOGI("INIT END");
 }
-
 
 void ProtocolXGSDK::login(){
 	LOGI("LOGIN BEGIN");
@@ -73,11 +72,24 @@ void ProtocolXGSDK::login(){
 		LOGI("LOGIN ENTER METHOD");
 		if(mXGEngine == NULL){
 			LOGI("XGENGINE IS NULL");
-			return;
 		}
 		t.env->CallVoidMethod(mXGEngine, t.methodID);
 	}
 	LOGI("EXIT LOGIN");
+}
+
+void ProtocolXGSDK::logout(){
+	LOGI("LOGOUT BEGIN");
+	JniMethodInfo t;
+	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "logout", "()V")){
+		LOGI("LOGOUT ENTER METHOD");
+		if(mXGEngine == NULL){
+			LOGI("XGENGINE IS NULL");
+			return;
+		}
+		t.env->CallVoidMethod(mXGEngine, t.methodID);
+	}
+	LOGI("EXIT LOGOUT");
 }
 
 void ProtocolXGSDK::pay(const char *uid, int productTotalPirce, int productCount, int productUnitPrice,
@@ -113,6 +125,46 @@ void ProtocolXGSDK::pay(const char *uid, int productTotalPirce, int productCount
 	LOGI("EXIT PAY");
 }
 
+void ProtocolXGSDK::openUserCenter(){
+	LOGI("OPENUSERCENTER BEGIN");
+	JniMethodInfo t;
+	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "openUserCenter", "()V")){
+		LOGI("ENTER OPENUSERCENTER METHOD");
+		t.env->CallVoidMethod(mXGEngine, t.methodID);
+	}
+	LOGI("EXIT OPENCENTER");
+}
+
+void ProtocolXGSDK::switchAccount(){
+	LOGI("SWITCHACCOUNT BEGIN");
+	JniMethodInfo t;
+	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "switchAccount", "()V")){
+		LOGI("ENTER SWITCHACCOUNT METHOD");
+		t.env->CallVoidMethod(mXGEngine, t.methodID);
+	}
+	LOGI("EXIT SWITCHACCOUNT");
+}
+
+void ProtocolXGSDK::exit(){
+	LOGI("EXIT BEGIN");
+	JniMethodInfo t;
+	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "exit", "()V")){
+		LOGI("ENTER EXIT METHOD");
+		t.env->CallVoidMethod(mXGEngine, t.methodID);
+	}
+	LOGI("EXIT EXIT");
+}
+
+void ProtocolXGSDK::showCocosNoChannelDialog(){
+	LOGI("SHOW_COCOS_NO_CHANNEL_DIALOG BEGIN");
+	JniMethodInfo t;
+	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "showCocosNoChannelDialog","()V")){
+		LOGI("ENTER SHOW_COCOS_NO_CHANNEL_DIALOG METHOD");
+		t.env->CallVoidMethod(mXGEngine, t.methodID);
+	}
+	LOGI("EXIT SHOW_COCOS_NO_CHANNEL_DIALOG");
+}
+
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginSuccess
   (JNIEnv *env, jclass obj, jstring msg){
 	char *tmp = jstringTostr(env,msg);
@@ -124,6 +176,13 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLog
   (JNIEnv *env, jclass obj, jstring msg){
 	char *tmp = jstringTostr(env,msg);
 	globalListener->onLoginFail(tmp);
+	free(tmp);
+}
+
+JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginCancel
+  (JNIEnv *env, jclass obj, jstring msg){
+	char *tmp = jstringTostr(env,msg);
+	globalListener->onLoginCancel(tmp);
 	free(tmp);
 }
 
@@ -167,6 +226,21 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onCanc
 	char *tmp = jstringTostr(env,msg);
 	globalListener->onPayCancel(tmp);
 	free(tmp);
+}
+
+JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onExit
+  (JNIEnv *, jclass){
+	globalListener->onExit();
+}
+
+JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onNoChannelExiter
+  (JNIEnv *, jclass){
+	globalListener->onNoChannelExiter();
+}
+
+JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onCancel
+  (JNIEnv *, jclass){
+	globalListener->onCancel();
 }
 
 #endif

@@ -9,6 +9,26 @@
 
 #endif
 
+class XGSDKTestListener : public XGSDKListener{
+public:
+
+	void onLogoutSuccess(const char *msg);
+	void onLogoutFail(const char *msg);
+	void onInitFail(const char* msg);
+	void onLoginSuccess(const char* msg);
+	void onLoginFail(const char* msg);
+	void onLoginCancel(const char* msg);
+	void onPaySuccess(const char* msg);
+	void onPayFail(const char *msg);
+	void onPayCancel(const char * msg);
+	void onExit();
+	void onNoChannelExiter();
+	void onCancel();
+
+    ~XGSDKTestListener(){
+    }
+};
+
 class HelloWorld : public cocos2d::CCLayer
 {
 public:
@@ -22,9 +42,12 @@ public:
     void menuCloseCallback(CCObject* pSender);
     
     ProtocolXGSDK *mXgSdk;
+    XGSDKTestListener *mTestListener;
 
     // implement the "static node()" method manually
     CREATE_FUNC(HelloWorld);
+
+    void cleanup();
 private:
 	void login(CCObject* pSender);
     void loginQQ(CCObject* pSender);
