@@ -52,6 +52,7 @@ public class GameController : MonoBehaviour
 	//登出成功回调
 	public void onLogoutSuccess(string msg){
 		Debug.Log ("LogoutSuccess, message:" + msg);
+		authinfo = "";
 		XGSDK2.instance.showAndroidToast("登出成功");
 
 	}
