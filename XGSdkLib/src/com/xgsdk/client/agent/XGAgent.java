@@ -160,29 +160,26 @@ public abstract class XGAgent {
 
     public static final HashMap<String, Class<?>[]> METHODS_MAP = new HashMap<String, Class<?>[]>();
     static {
-        METHODS_MAP.put("doLogin", new Class[] {
-            Activity.class
+        METHODS_MAP.put("login", new Class[] {
+                Activity.class, String.class
         });
-        METHODS_MAP.put("doLogout", new Class[] {
-            Activity.class
+        METHODS_MAP.put("logout", new Class[] {
+                Activity.class, String.class
         });
-        METHODS_MAP.put("doExit", new Class[] {
-                Activity.class, ExitCallBack.class
-        });
-        METHODS_MAP.put("doPay", new Class[] {
+        METHODS_MAP.put("pay", new Class[] {
                 Activity.class, PayInfo.class, PayCallBack.class
         });
         // METHODS_MAP.put("showFloatWindow", new Class[] {
         // Activity.class, Boolean.class
         // });
-        METHODS_MAP.put("doChangeUser", new Class[] {
-            Activity.class
+        METHODS_MAP.put("switchAccount", new Class[] {
+                Activity.class, String.class
         });
         METHODS_MAP.put("openUserCenter", new Class[] {
-            Activity.class
+                Activity.class, String.class
         });
-        METHODS_MAP.put("getChannelUserInfo", new Class[] {
-            Activity.class
+        METHODS_MAP.put("exit", new Class[] {
+                Activity.class, ExitCallBack.class, String.class
         });
     }
 }

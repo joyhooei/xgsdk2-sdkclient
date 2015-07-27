@@ -1,12 +1,12 @@
 
 package com.xgsdk.client.simulator;
 
-//import com.seasun.powerking.sdkclient.PayService;
 import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.agent.XGAgent;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.entity.PayInfo;
+import com.xgsdk.client.entity.XGErrorCode;
 import com.xgsdk.client.service.PayService;
 import com.xgsdk.client.simulator.util.CommonStr;
 import com.xgsdk.client.simulator.view.GameFloatView;
@@ -34,24 +34,22 @@ public class SimulateAgent extends XGAgent {
 
     @Override
     public void init(final Activity activity) {
-        mFVInstance = GameFloatView.getInstance(activity,gfListener);
-        
+        mFVInstance = GameFloatView.getInstance(activity, gfListener);
+
     }
-    
-    
+
     private GameFloatListener gfListener = new GameFloatListener() {
-        
+
         @Override
         public void onSwitchAccountClick(Activity activity) {
             // TODO Auto-generated method stub
-            new LoginDialog(activity, mUserCallBack)
-            .showLoginDialog();
+            new LoginDialog(activity, mUserCallBack).showLoginDialog();
         }
-        
+
         @Override
         public void onOpenUserCenterClick() {
             // TODO Auto-generated method stub
-            
+
         }
     };
 
@@ -159,7 +157,8 @@ public class SimulateAgent extends XGAgent {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
-                mPayCallBack.onFail("sorry,pay failed!");
+                mPayCallBack.onFail(XGErrorCode.OTHER_ERROR,
+                        "sorry,pay failed!");
             }
         });
         builder.show();
@@ -242,12 +241,12 @@ public class SimulateAgent extends XGAgent {
         // TODO Auto-generated method stub
         return CHANNEL_ID;
     }
-    
+
     @Override
     public void openUserCenter(Activity activity, String customParams) {
         // TODO Auto-generated method stub
         super.openUserCenter(activity, customParams);
-        if(userCenter == null)
+        if (userCenter == null)
             userCenter = UserCenter.getInstance();
         userCenter.showDialog(activity, customParams);
     }

@@ -50,12 +50,12 @@ public class XGSDKCocos2dxWrapper {
             }
 
             @Override
-            public void onLogoutFail(final String msg) {
+            public void onLogoutFail(final int code, final String msg) {
                 PluginWrapper.runOnGLThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        Cocos2dxUserCallBack.onLogoutFail(msg);
+                        Cocos2dxUserCallBack.onLogoutFail(code, msg);
                     }
 
                 });
@@ -74,24 +74,24 @@ public class XGSDKCocos2dxWrapper {
             }
 
             @Override
-            public void onLoginFail(final String msg) {
+            public void onLoginFail(final int code, final String msg) {
                 PluginWrapper.runOnGLThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        Cocos2dxUserCallBack.onLoginFail(msg);
+                        Cocos2dxUserCallBack.onLoginFail(code, msg);
                     }
 
                 });
             }
 
             @Override
-            public void onInitFail(final String msg) {
+            public void onInitFail(final int code, final String msg) {
                 PluginWrapper.runOnGLThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        Cocos2dxUserCallBack.onInitFail(msg);
+                        Cocos2dxUserCallBack.onInitFail(code, msg);
                     }
 
                 });
@@ -194,12 +194,12 @@ public class XGSDKCocos2dxWrapper {
                     }
 
                     @Override
-                    public void onFail(final String msg) {
+                    public void onFail(final int code, final String msg) {
                         PluginWrapper.runOnGLThread(new Runnable() {
 
                             @Override
                             public void run() {
-                                Cocos2dxPayCallBack.onFail(msg);
+                                Cocos2dxPayCallBack.onFail(code, msg);
                             }
 
                         });
@@ -215,6 +215,19 @@ public class XGSDKCocos2dxWrapper {
                             }
 
                         });
+                    }
+
+                    @Override
+                    public void onOthers(final int code, final String msg) {
+                        PluginWrapper.runOnGLThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Cocos2dxPayCallBack.onOthers(code, msg);
+                            }
+
+                        });
+
                     }
 
                 });

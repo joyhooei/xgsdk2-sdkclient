@@ -15,6 +15,9 @@ import com.xgsdk.client.entity.PayInfo;
 import com.xgsdk.client.entity.RoleInfo;
 import com.xgsdk.client.entity.XGUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * @author XGSDK包装类，通过提供给Unity3D调用
  */
@@ -38,6 +41,18 @@ public class XGSDKUnity3DWrapper {
     private XGSDK mSdk;
     private String mUnity3dCallbackObject = "XGSDKCallback";
 
+    private String toResultJson(int code, String msg) {
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("code", code);
+            jo.put("msg", msg);
+        } catch (JSONException e) {
+            XGLogger.e("toResultJson error.", e);
+        }
+        return jo.toString();
+
+    }
+
     public XGSDKUnity3DWrapper() {
         ProductInfo.setGameEngine(GAME_ENGINE.UNITY3D);
         mSdk = XGSDK.getInstance();
@@ -50,9 +65,9 @@ public class XGSDKUnity3DWrapper {
             }
 
             @Override
-            public void onLogoutFail(String msg) {
+            public void onLogoutFail(int code, String msg) {
                 UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
-                        METHOD_ON_LOGOUT_FAIL, msg);
+                        METHOD_ON_LOGOUT_FAIL, toResultJson(code, msg));
 
             }
 
@@ -70,15 +85,15 @@ public class XGSDKUnity3DWrapper {
             }
 
             @Override
-            public void onLoginFail(String msg) {
+            public void onLoginFail(int code, String msg) {
                 UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
-                        METHOD_ON_LOGIN_FAIL, msg);
+                        METHOD_ON_LOGIN_FAIL, toResultJson(code, msg));
             }
 
             @Override
-            public void onInitFail(String msg) {
+            public void onInitFail(int code, String msg) {
                 UnityPlayer.UnitySendMessage(mUnity3dCallbackObject,
-                        METHOD_ON_INIT_FAIL, msg);
+                        METHOD_ON_INIT_FAIL, toResultJson(code, msg));
             }
         });
     }
@@ -186,11 +201,12 @@ public class XGSDKUnity3DWrapper {
                             }
 
                             @Override
-                            public void onFail(String msg) {
+                            public void onFail(int code, String msg) {
 
                                 UnityPlayer.UnitySendMessage(
                                         mUnity3dCallbackObject,
-                                        METHOD_ON_PAY_FAIL, msg);
+                                        METHOD_ON_PAY_FAIL,
+                                        toResultJson(code, msg));
 
                             }
 

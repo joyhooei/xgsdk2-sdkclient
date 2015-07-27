@@ -3,6 +3,7 @@ package com.xgsdk.client.simulator.view;
 
 import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.SystemInfo;
+import com.xgsdk.client.entity.XGErrorCode;
 import com.xgsdk.client.callback.UserCallBack;
 import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.core.util.XGLogger;
@@ -41,7 +42,7 @@ public class LoginDialog {
 
     public void showLoginDialog() {
         AlertDialog.Builder builder = new Builder(activity);
-       
+
         // builder.setTitle(CommonStr.XG_TEST_LOGIN);
         TextView title = new TextView(activity);
         title.setText(CommonStr.XG_TEST_LOGIN);
@@ -148,7 +149,8 @@ public class LoginDialog {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mUserCallBack.onLogoutFail("login failed");
+                mUserCallBack.onLogoutFail(XGErrorCode.OTHER_ERROR,
+                        "login failed");
             }
         });
         builder.show();

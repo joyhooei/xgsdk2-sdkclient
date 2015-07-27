@@ -1,12 +1,15 @@
 
 package com.xgsdk.client.callback;
 
-public interface PayCallBack {
+public abstract class PayCallBack {
 
-    public void onSuccess(String msg);
+    public abstract void onSuccess(String msg);
 
-    public void onFail(String msg);
+    public abstract void onFail(int code, String msg);
 
-    public void onCancel(String msg);
+    public abstract void onCancel(String msg);
+
+    public void onOthers(int code, String msg) {
+    }
 
 }

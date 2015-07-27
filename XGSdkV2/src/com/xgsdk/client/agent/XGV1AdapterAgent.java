@@ -12,6 +12,7 @@ import com.xgsdk.client.entity.PayInfo;
 import com.xgsdk.client.entity.RoleInfo;
 import com.xgsdk.client.entity.XGUser;
 import com.xgsdk.plugin.listenses.Listener;
+import com.xgsdk.client.entity.XGErrorCode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,7 +96,7 @@ class XGV1AdapterAgent extends XGAgent {
                             }
                         } else if (TextUtils.equals(IConstant.F_NO, flag)) {
                             if (mUserCallBack != null) {
-                                mUserCallBack.onLoginFail("login fail");
+                                mUserCallBack.onLoginFail(XGErrorCode.OTHER_ERROR, "login fail");
                             }
                         }
                     } else if (TextUtils.equals(
@@ -116,7 +117,7 @@ class XGV1AdapterAgent extends XGAgent {
                             IConstant.XGSDK_CALLBACK_INIT_FUNC, callbackType)) {
                         if (TextUtils.equals(IConstant.F_NO, flag)
                                 && mUserCallBack != null) {
-                            mUserCallBack.onInitFail("init fail");
+                            mUserCallBack.onInitFail(XGErrorCode.OTHER_ERROR, "init fail");
                         }
 
                     } else if (TextUtils.equals(
@@ -130,7 +131,7 @@ class XGV1AdapterAgent extends XGAgent {
                                 mUserCallBack
                                         .onLogoutSuccess("logout success.");
                             } else {
-                                mUserCallBack.onLogoutFail("logout fail.");
+                                mUserCallBack.onLogoutFail(XGErrorCode.OTHER_ERROR, "logout fail.");
                             }
                         }
 
@@ -141,7 +142,7 @@ class XGV1AdapterAgent extends XGAgent {
                             if (TextUtils.equals(IConstant.F_YES, flag)) {
                                 mPayCallBack.onSuccess("pay success.");
                             } else {
-                                mPayCallBack.onFail("pay fail");
+                                mPayCallBack.onFail(XGErrorCode.OTHER_ERROR,"pay fail");
                             }
                         }
                     }
