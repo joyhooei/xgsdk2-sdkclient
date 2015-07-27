@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 using System;
 using System.IO;
 
-public class GameController : MonoBehaviour
+public class XGSDKCallback : MonoBehaviour
 {
     
-    public static GameController Instance;
+	public static XGSDKCallback Instance;
     
     void Awake()
     {
@@ -30,8 +30,8 @@ public class GameController : MonoBehaviour
     public static void CreateSDKManager()
     {
         Debug.Log("CreateSDKManager start");
-		GameObject obj = new GameObject("GameController");
-		obj.AddComponent<GameController>();
+		GameObject obj = new GameObject("XGSDKCallback");
+		obj.AddComponent<XGSDKCallback>();
         UnityEngine.Object.DontDestroyOnLoad(obj);
         Debug.Log("CreateSDKManager end");
     }
