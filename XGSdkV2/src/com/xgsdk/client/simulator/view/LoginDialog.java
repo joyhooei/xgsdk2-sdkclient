@@ -41,6 +41,7 @@ public class LoginDialog {
 
     public void showLoginDialog() {
         AlertDialog.Builder builder = new Builder(activity);
+       
         // builder.setTitle(CommonStr.XG_TEST_LOGIN);
         TextView title = new TextView(activity);
         title.setText(CommonStr.XG_TEST_LOGIN);
@@ -161,7 +162,7 @@ public class LoginDialog {
         ScrollView sv = new ScrollView(context);
         LinearLayout operatorSLay = new LinearLayout(context);
         operatorSLay.setOrientation(LinearLayout.VERTICAL);
-        LayoutParams params = new LayoutParams(650, 150);
+        LayoutParams params = new LayoutParams(550, 150);
         sv.setPadding(15, 10, 15, 0);
         sv.setLayoutParams(params);
 

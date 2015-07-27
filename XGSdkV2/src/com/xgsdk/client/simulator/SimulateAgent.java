@@ -13,6 +13,7 @@ import com.xgsdk.client.simulator.view.GameFloatView;
 import com.xgsdk.client.simulator.view.GameFloatView.GameFloatListener;
 import com.xgsdk.client.simulator.view.LoginDialog;
 import com.xgsdk.client.simulator.view.OrderDetailLayout;
+import com.xgsdk.client.simulator.view.UserCenter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,31 +30,30 @@ public class SimulateAgent extends XGAgent {
 
     private static final String CHANNEL_ID = "XG_TEST";
     private GameFloatView mFVInstance;
-
-    @Override
-    public String getChannelId() {
-        return CHANNEL_ID;
-    }
+    private UserCenter userCenter;
 
     @Override
     public void init(final Activity activity) {
-        mFVInstance = GameFloatView.getInstance(activity,
-                new GameFloatListener() {
-
-                    @Override
-                    public void onSwitchAccountClick(Activity activity) {
-                        new LoginDialog(activity, mUserCallBack)
-                                .showLoginDialog();
-
-                    }
-
-                    @Override
-                    public void onOpenUserCenterClick() {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
+        mFVInstance = GameFloatView.getInstance(activity,gfListener);
+        
     }
+    
+    
+    private GameFloatListener gfListener = new GameFloatListener() {
+        
+        @Override
+        public void onSwitchAccountClick(Activity activity) {
+            // TODO Auto-generated method stub
+            new LoginDialog(activity, mUserCallBack)
+            .showLoginDialog();
+        }
+        
+        @Override
+        public void onOpenUserCenterClick() {
+            // TODO Auto-generated method stub
+            
+        }
+    };
 
     @Override
     public void login(final Activity activity, String customParams) {
@@ -228,6 +228,28 @@ public class SimulateAgent extends XGAgent {
         sv.addView(ll);
 
         return sv;
+    }
+
+    @Override
+    public void logout(Activity activity, String customParams) {
+        // TODO Auto-generated method stub
+        super.logout(activity, customParams);
+        mUserCallBack.onLogoutSuccess("login out success");
+    }
+
+    @Override
+    public String getChannelId() {
+        // TODO Auto-generated method stub
+        return CHANNEL_ID;
+    }
+    
+    @Override
+    public void openUserCenter(Activity activity, String customParams) {
+        // TODO Auto-generated method stub
+        super.openUserCenter(activity, customParams);
+        if(userCenter == null)
+            userCenter = UserCenter.getInstance();
+        userCenter.showDialog(activity, customParams);
     }
 
 }

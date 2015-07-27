@@ -44,7 +44,7 @@ public class GameFloatView {
     private Activity activity;
     private String mUserSession;
     private static GameFloatView sGameFloatView;
-
+    private UserCenter userCenter;
     private GameFloatView() {
     }
 
@@ -143,10 +143,10 @@ public class GameFloatView {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-            Activity acti = getActivity();
+            /*Activity acti = getActivity();
             String[] userInfo = getmUserSession().split(" ");
             AlertDialog.Builder builder = new Builder(acti);
-            builder.setTitle("个人中心");
+            builder.setTitle(CommonStr.USER_CENTER);
             final LinearLayout userLayout = new LinearLayout(acti);
             LinearLayout.LayoutParams layoutP = new LinearLayout.LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -167,7 +167,10 @@ public class GameFloatView {
                     userInfoDialog.dismiss();
                 }
             });
-            builder.show();
+            builder.show();*/
+            if(userCenter == null)
+                userCenter.getInstance().showDialog(activity, getmUserSession());
+            
         }
     };
 

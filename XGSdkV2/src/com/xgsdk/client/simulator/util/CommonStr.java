@@ -5,7 +5,7 @@ import android.graphics.Color;
 
 public class CommonStr {
 
-    public static final String USER_CENTER = "用户中心";
+    public static final String USER_CENTER = "个人中心";
     public static final String SWITCH_ACCOUNT = "切换账号";
     public static final String MENU = "菜单";
     public static final String XG_TEST_LOGIN = "XG 测试渠道登录";
@@ -20,6 +20,7 @@ public class CommonStr {
     public static final String EXIT_IMMEDIATE = "直接退出";
     public static final String EXIT_CANCEL = "取消退出";
     public static final String EXIT_USEGAMER = "使用游戏方退出";
+    
 
     public static final int BLUE = Color.parseColor("#436EEE");
     public static final int GREEN = Color.parseColor("#20B2AA");

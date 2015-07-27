@@ -26,10 +26,10 @@ public class LoginLayout extends LinearLayout {
     public LinearLayout fillBodyLayout(Context context) {
         bodyLayout = new LinearLayout(context);
         bodyLayout.setOrientation(LinearLayout.VERTICAL);
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
+        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);
         bodyLayout.setLayoutParams(params);
-        bodyLayout.setPadding(15, 10, 15, 0);
+        bodyLayout.setPadding(25, 15, 25, 0);
         bodyLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
         TextView smallNote = new TextView(context);
@@ -45,7 +45,7 @@ public class LoginLayout extends LinearLayout {
                 LayoutParams.WRAP_CONTENT);
         TextView textUsername = new TextView(context);
         textUsername.setText("用户名:");
-        textUsername.setWidth(160);
+        textUsername.setWidth(100);
         textUsername.setGravity(Gravity.RIGHT);
         mETUsername = new EditText(context);
         mETUsername.setLayoutParams(editParams);

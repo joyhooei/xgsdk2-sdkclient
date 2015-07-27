@@ -28,8 +28,9 @@ public class OrderDetailLayout extends LinearLayout {
         HashMap<String, String> keyValues = toMap(payInfo);
         ScrollView orderLayout = new ScrollView(context);
         // this.removeAllViews();
-        LayoutParams params = new LayoutParams(650, 200);
-        orderLayout.setPadding(15, 10, 15, 10);
+        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, 200);
+        //orderLayout.setPadding(45, 10, 45, 10);
+        params.setMargins(45, 0, 45, 0);
         orderLayout.setLayoutParams(params);
         LinearLayout ll = new LinearLayout(context);
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -124,7 +125,7 @@ public class OrderDetailLayout extends LinearLayout {
         Field[] fields = model.getClass().getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             String attrName = fields[i].getName();
-            if (attrName.equalsIgnoreCase("extraData"))
+            if (attrName.equalsIgnoreCase("additionalParams"))
                 continue;
             String nameGetter = attrName.substring(0, 1).toUpperCase()
                     + attrName.substring(1);
