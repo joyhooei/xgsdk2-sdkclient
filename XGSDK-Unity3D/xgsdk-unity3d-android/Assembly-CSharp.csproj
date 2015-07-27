@@ -46,12 +46,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameController.cs" />
      <Compile Include="Assets\JsonDeserializer.cs" />
      <Compile Include="Assets\MiniJSON.cs" />
      <Compile Include="Assets\MiniJsonData.cs" />
      <Compile Include="Assets\SafetyValue.cs" />
      <Compile Include="Assets\XGSDK2.cs" />
+     <Compile Include="Assets\XGSDKCallback.cs" />
      <Compile Include="Assets\XgsdkDemo.cs" />
      <None Include="Assets\Plugins\Android\res\layout\push_test.xml" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />

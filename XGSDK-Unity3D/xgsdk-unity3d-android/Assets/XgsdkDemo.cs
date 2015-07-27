@@ -6,97 +6,93 @@ using System.Text;
 
 public class XgsdkDemo : MonoBehaviour
 {
-    private int controlWidth = 150;
-    private int controlHeight = 100;
+	private int controlWidth = 150;
+	private int controlHeight = 100;
 	private Rect windowRect = new Rect ((Screen.width - 200)/2, (Screen.height - 300)/2, 500, 600);
 	public static bool show = false;
-	//标记游戏退出，1代表确认退出
-	public static int flag = 0;
-    void Awake()
-    {    
-		GameController.CreateSDKManager ();
-    }
-    void Start()
-    { 
-    }
-    
-    void Update()
-    { 
-    }
-    
-    void OnGUI()
-    {           
+	void Awake()
+	{    
+		XGSDKCallback.CreateSDKManager ();
+	}
+	void Start()
+	{ 
+	}
+	
+	void Update()
+	{ 
+	}
+	
+	void OnGUI()
+	{           
+		XGSDK2.PayParameter payParameter = new XGSDK2.PayParameter ();
 		//初始化调用接口需要的参数
-		string userID = "";
-		string userName = "XgTest";
-		int productTotalprice = 10;
-		int productCount = 2;
-		int productUnitPrice = 5;
-		string productId = "1";
-		string productName = "gift";
-		string productDesc = "Description";
-		string currencyName = "RMB";
-		string serverId = "001";
-		string serverName = "GD1";
-		string roleId = "12345";
-		string roleName = "RoleName";
-		string balance = "50";
-		string gameOrderId = "1001";
-		string ext = "ext";
-		string notifyURL = "Xgsdk";
-		string gender = "Male";
-		string level = "1";
-		string vipLevel = "1";
-		string partyName = "One";
+		payParameter.UserID = "";
+		payParameter.ProductTotalprice = 10;
+		payParameter.ProductCount = 2;
+		payParameter.ProductUnitPrice = 5;
+		payParameter.ProductId = "1";
+		payParameter.ProductName = "gift";
+		payParameter.ProductDesc = "Description";
+		payParameter.CurrencyName = "RMB";
+		payParameter.ServerId = "001";
+		payParameter.ServerName = "GD1";
+		payParameter.ZoneId = "1025";
+		payParameter.ZoneName = "ZoneName";
+		payParameter.RoleId = "12345";
+		payParameter.RoleName = "RoleName";
+		payParameter.Balance = "50";
+		payParameter.GameOrderId = "1001";
+		payParameter.Ext = "ext";
+		payParameter.NotifyURL = "Xgsdk";
 
+		
 		//设置GUI格式
-        GUIStyle style=GUI.skin.button;
-        style.fontSize = 40;       
-        GUIStyle labelStyle=GUI.skin.label;
-        labelStyle.fontSize = 40;   
-
-
+		GUIStyle style=GUI.skin.button;
+		style.fontSize = 40;       
+		GUIStyle labelStyle=GUI.skin.label;
+		labelStyle.fontSize = 40;   
+		
+		
 		//游戏方退出的弹出框
 		if (show) 
 		{
 			windowRect = GUI.Window (0, windowRect, DialogWindow, "");
 		}
-
+		
 		//创建demo所需按钮
 		GUILayout.BeginHorizontal();
-        GUILayout.Label("登录验证:", labelStyle, GUILayout.Width(200), GUILayout.Height(controlHeight));
-        if (GUILayout.Button("登录",style, GUILayout.Width(controlWidth), GUILayout.Height(controlHeight)))
+		GUILayout.Label("登录验证:", labelStyle, GUILayout.Width(200), GUILayout.Height(controlHeight));
+		if (GUILayout.Button("登录",style, GUILayout.Width(controlWidth), GUILayout.Height(controlHeight)))
 		{
-            Debug.Log("call xgsdk login...");
+			Debug.Log("call xgsdk login...");
 			XGSDK2.instance.login();
-        }
-        GUILayout.EndHorizontal();
-
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("支付验证:",labelStyle, GUILayout.Width(200), GUILayout.Height(controlHeight));
-        if (GUILayout.Button("支付",style,  GUILayout.Width(controlWidth), GUILayout.Height(controlHeight)))
-        {
-            Debug.Log("call xgsdk recharge...");
-            if (GameController.authinfo != "")
-            {                           
-                byte[] outputb = GetDecoded(GameController.authinfo);
-                string info = Encoding.Default.GetString(outputb);
-                Dictionary<string, object> data = MiniJSON.Json.Deserialize(info) as Dictionary<string, object>;
-                userID = data ["uId"].ToString();
-				Debug.Log("authinfo :" + GameController.authinfo);
-
-                
-				XGSDK2.instance.pay(userID,productTotalprice,productCount,productUnitPrice,productId,productName,productDesc,currencyName,
-				                    serverId,serverName,roleId,roleName,balance,gameOrderId,ext,notifyURL);
-            }else
-            {
-                Debug.Log("please login first...");
+		}
+		GUILayout.EndHorizontal();
+		
+		GUILayout.BeginHorizontal();
+		GUILayout.Label("支付验证:",labelStyle, GUILayout.Width(200), GUILayout.Height(controlHeight));
+		if (GUILayout.Button("支付",style,  GUILayout.Width(controlWidth), GUILayout.Height(controlHeight)))
+		{
+			Debug.Log("call xgsdk recharge...");
+			if (XGSDKCallback.authinfo != "")
+			{                           
+				byte[] outputb = GetDecoded(XGSDKCallback.authinfo);
+				string info = Encoding.Default.GetString(outputb);
+				Dictionary<string, object> data = MiniJSON.Json.Deserialize(info) as Dictionary<string, object>;
+				payParameter.UserID = data ["uId"].ToString();
+				Debug.Log("authinfo :" + XGSDKCallback.authinfo);
+				
+				
+				XGSDK2.instance.pay(payParameter);
+			}else
+			{
+				Debug.Log("please login first...");
 				XGSDK2.instance.showAndroidToast("请先登录");
-            }
-        }
-        GUILayout.EndHorizontal();
-
-
+			}
+		}
+		GUILayout.EndHorizontal();
+		
+		
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ("登出验证: ", labelStyle, GUILayout.Width (200), GUILayout.Height(controlHeight));
 		if(GUILayout.Button("登出",style,GUILayout.Width(250), GUILayout.Height(controlHeight)))
@@ -106,61 +102,30 @@ public class XgsdkDemo : MonoBehaviour
 		}
 		GUILayout.EndHorizontal();
 
-
-		GUILayout.BeginHorizontal ();	
-		GUILayout.Label ("创建角色验证: ", labelStyle, GUILayout.Width (200), GUILayout.Height (controlHeight));
-		if (GUILayout.Button ("创建角色", style, GUILayout.Width (250), GUILayout.Height (controlHeight)))
-		{
-			Debug.Log("call xgsdk onCreateRole");
-
-			XGSDK2.instance.onCreateRole(roleId, roleName, gender, level, vipLevel, balance, partyName);
-		}
-		GUILayout.EndHorizontal ();
-
-
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("进入游戏验证: ", labelStyle, GUILayout.Width (200), GUILayout.Height (controlHeight));
-		if (GUILayout.Button ("进入游戏", style, GUILayout.Width (250), GUILayout.Height (controlHeight)))
-		{
-			Debug.Log("call xgsdk onEnterGame");
-			
-			XGSDK2.instance.onEnterGame(userID, userName, roleId, roleName, gender, level, vipLevel, balance, partyName, serverId, serverName); 
-		}
-		GUILayout.EndHorizontal ();
-
-
+		
+		
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ("用户中心： ", labelStyle, GUILayout.Width (200), GUILayout.Height (controlHeight));
 		if (GUILayout.Button ("打开用户中心", style, GUILayout.Width (250), GUILayout.Height (controlHeight)))
 		{
 			Debug.Log("call xgsdk OpenUserCenter");
-		
+			
 			XGSDK2.instance.openUserCenter();
 		}
 		GUILayout.EndHorizontal ();
-
-
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("切换账号", labelStyle, GUILayout.Width (200), GUILayout.Height (controlHeight));
-		if (GUILayout.Button ("切换账号", style, GUILayout.Width (250), GUILayout.Height (controlHeight)))
-		{
-			Debug.Log("call xgsdk switchAccount");
-			XGSDK2.instance.switchAccount();
-		}
-		GUILayout.EndHorizontal ();
-
-
+		
+		
 		GUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("退出", style, GUILayout.Width (250), GUILayout.Height (controlHeight)))
 		{
 			Debug.Log("call xgsdk exitGame");
 			XGSDK2.instance.exit();
-
+			
 		}
 		GUILayout.EndHorizontal ();    
-
-    }
-
+		
+	}
+	
 	// 设置游戏方退出时弹出的窗口
 	void DialogWindow (int windowID)
 	{
@@ -184,104 +149,104 @@ public class XgsdkDemo : MonoBehaviour
 	{
 		show = true;
 	}
-
+	
 	//解析authinfo所需的参数及方法
-    char[] source;
-    int length, length2, length3;
-    int blockCount;
-    int paddingCount;
-    
-    private void init(char[] input)
-    {
-        int temp = 0;
-        source = input;
-        length = input.Length;
-        
-        for (int x = 0; x < 2; x++)
-        {
-            if (input [length - x - 1] == '=')
-                temp++;
-        }
-        paddingCount = temp;
-        
-        blockCount = length / 4;
-        length2 = blockCount * 3;
-    }
-    
-    public byte[] GetDecoded(string strInput)
-    {
-        //初始化
-        init(strInput.ToCharArray());
-        
-        byte[] buffer = new byte[length];
-        byte[] buffer2 = new byte[length2];
-        
-        for (int x = 0; x < length; x++)
-        {
-            buffer [x] = char2sixbit(source [x]);
-        }
-        
-        byte b, b1, b2, b3;
-        byte temp1, temp2, temp3, temp4;
-        
-        for (int x = 0; x < blockCount; x++)
-        {
-            temp1 = buffer [x * 4];
-            temp2 = buffer [x * 4 + 1];
-            temp3 = buffer [x * 4 + 2];
-            temp4 = buffer [x * 4 + 3];
-            
-            b = (byte)(temp1 << 2);
-            b1 = (byte)((temp2 & 48) >> 4);
-            b1 += b;
-            
-            b = (byte)((temp2 & 15) << 4);
-            b2 = (byte)((temp3 & 60) >> 2);
-            b2 += b;
-            
-            b = (byte)((temp3 & 3) << 6);
-            b3 = temp4;
-            b3 += b;
-            
-            buffer2 [x * 3] = b1;
-            buffer2 [x * 3 + 1] = b2;
-            buffer2 [x * 3 + 2] = b3;
-        }
-        
-        length3 = length2 - paddingCount;
-        byte[] result = new byte[length3];
-        
-        for (int x = 0; x < length3; x++)
-        {
-            result [x] = buffer2 [x];
-        }
-        
-        return result;
-    }
-    
-    private byte char2sixbit(char c)
-    {
-        char[] lookupTable = new char[64]{  
-            'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
-            'O','P','Q','R','S','T','U','V','W','X','Y', 'Z',
-            'a','b','c','d','e','f','g','h','i','j','k','l','m','n',
-            'o','p','q','r','s','t','u','v','w','x','y','z',
-            '0','1','2','3','4','5','6','7','8','9','+','/'};
-        if (c == '=')
-            return 0;
-        else
-        {
-            for (int x = 0; x < 64; x++)
-            {
-                if (lookupTable [x] == c)
-                    return (byte)x;
-            }
-            
-            return 0;
-        }
-        
-    }
-
- 
-    
+	char[] source;
+	int length, length2, length3;
+	int blockCount;
+	int paddingCount;
+	
+	private void init(char[] input)
+	{
+		int temp = 0;
+		source = input;
+		length = input.Length;
+		
+		for (int x = 0; x < 2; x++)
+		{
+			if (input [length - x - 1] == '=')
+				temp++;
+		}
+		paddingCount = temp;
+		
+		blockCount = length / 4;
+		length2 = blockCount * 3;
+	}
+	
+	public byte[] GetDecoded(string strInput)
+	{
+		//初始化
+		init(strInput.ToCharArray());
+		
+		byte[] buffer = new byte[length];
+		byte[] buffer2 = new byte[length2];
+		
+		for (int x = 0; x < length; x++)
+		{
+			buffer [x] = char2sixbit(source [x]);
+		}
+		
+		byte b, b1, b2, b3;
+		byte temp1, temp2, temp3, temp4;
+		
+		for (int x = 0; x < blockCount; x++)
+		{
+			temp1 = buffer [x * 4];
+			temp2 = buffer [x * 4 + 1];
+			temp3 = buffer [x * 4 + 2];
+			temp4 = buffer [x * 4 + 3];
+			
+			b = (byte)(temp1 << 2);
+			b1 = (byte)((temp2 & 48) >> 4);
+			b1 += b;
+			
+			b = (byte)((temp2 & 15) << 4);
+			b2 = (byte)((temp3 & 60) >> 2);
+			b2 += b;
+			
+			b = (byte)((temp3 & 3) << 6);
+			b3 = temp4;
+			b3 += b;
+			
+			buffer2 [x * 3] = b1;
+			buffer2 [x * 3 + 1] = b2;
+			buffer2 [x * 3 + 2] = b3;
+		}
+		
+		length3 = length2 - paddingCount;
+		byte[] result = new byte[length3];
+		
+		for (int x = 0; x < length3; x++)
+		{
+			result [x] = buffer2 [x];
+		}
+		
+		return result;
+	}
+	
+	private byte char2sixbit(char c)
+	{
+		char[] lookupTable = new char[64]{  
+			'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
+			'O','P','Q','R','S','T','U','V','W','X','Y', 'Z',
+			'a','b','c','d','e','f','g','h','i','j','k','l','m','n',
+			'o','p','q','r','s','t','u','v','w','x','y','z',
+			'0','1','2','3','4','5','6','7','8','9','+','/'};
+		if (c == '=')
+			return 0;
+		else
+		{
+			for (int x = 0; x < 64; x++)
+			{
+				if (lookupTable [x] == c)
+					return (byte)x;
+			}
+			
+			return 0;
+		}
+		
+	}
+	
+	
+	
 }

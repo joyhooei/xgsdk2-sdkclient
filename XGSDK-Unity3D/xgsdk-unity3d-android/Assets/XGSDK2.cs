@@ -8,6 +8,25 @@ namespace XGSDK2
 {
     public class instance : MonoBehaviour
     {
+//		public struct payStruct
+//		{
+//			string userID = "";
+//			int productTotalprice = 10;
+//			int productCount = 2;
+//			int productUnitPrice = 5;
+//			string productId = "1";
+//			string productName = "gift";
+//			string productDesc = "Description";
+//			string currencyName = "RMB";
+//			string serverId = "001";
+//			string serverName = "GD1";
+//			string roleId = "12345";
+//			string roleName = "RoleName";
+//			string balance = "50";
+//			string gameOrderId = "1001";
+//			string ext = "ext";
+//			string notifyURL = "Xgsdk";
+//		}
         void Awake()
         {
 
@@ -72,8 +91,25 @@ namespace XGSDK2
 			           roleId,roleName,balance,gameOrderId,ext,notifyURL);
             #endif
         }
-        
 
+		public static void pay(PayParameter pay)
+		{
+			Debug.Log("call xgsdk pay...");
+			#if UNITY_ANDROID
+			Debug.Log("call xgsdk set messageObj..." + pay.UserID + pay.ProductTotalprice + pay.ProductCount + 
+			          pay.ProductUnitPrice + pay.ProductId + 
+			          pay.ProductName + pay.ProductDesc + 
+			          pay.CurrencyName + pay.ServerId + pay.ServerName + pay.ZoneId + pay.ZoneName +
+			          pay.RoleId + pay.RoleName + pay.Balance + pay.GameOrderId + pay.Ext + pay.NotifyURL);
+			callSdkApi("pay",pay.UserID, pay.ProductTotalprice, pay.ProductCount, 
+			           pay.ProductUnitPrice, pay.ProductId, 
+			           pay.ProductName, pay.ProductDesc, 
+			           pay.CurrencyName, pay.ServerId, pay.ServerName,pay.ZoneId, pay.ZoneName,
+			           pay.RoleId, pay.RoleName, pay.Balance, pay.GameOrderId, pay.Ext, pay.NotifyURL);
+			#endif
+		}
+		
+		
 		//登出时调用 必接接口
         public static void logout()
         {
@@ -82,6 +118,31 @@ namespace XGSDK2
             callSdkApi("logout");
             #endif
         }
+
+
+		//进入游戏时调用 必接接口
+		public static void onEnterGame(string userId, string username, string roleId,
+		                               string roleName, string gender, string level, string vipLevel,
+		                               string balance, string partyName, string serverId, string serverName)
+		{   
+			Debug.Log("call xgsdk enterGame...");           
+			#if UNITY_ANDROID
+			callSdkApi("onEnterGame",userId, username, roleId,
+			           roleName, gender, level, vipLevel,
+			           balance, partyName, serverId, serverName);
+			#endif
+		}
+
+
+		//退出时调用 必接接口
+		public static void exit()
+		{
+			Debug.Log("call xgsdk exit...");
+			#if UNITY_ANDROID 
+			callSdkApi("exit");
+			#endif
+			
+		}
         
 
 		//获取渠道tag时调用
@@ -129,7 +190,7 @@ namespace XGSDK2
         }
 
 
-		//创建角色时调用
+		//创建角色时调用  统计用接口
 		public static void onCreateRole(string roleId, string roleName, string gender,
 		                                string level, string vipLevel, string balance, string partyName)
         {
@@ -141,20 +202,9 @@ namespace XGSDK2
         }
 
 
-		//进入游戏时调用 必接接口
-		public static void onEnterGame(string userId, string username, string roleId,
-		                                string roleName, string gender, string level, string vipLevel,
-		                                string balance, string partyName, string serverId, string serverName)
-        {   
-            Debug.Log("call xgsdk enterGame...");           
-            #if UNITY_ANDROID
-			callSdkApi("onEnterGame",userId, username, roleId,
-			           roleName, gender, level, vipLevel,
-			           balance, partyName, serverId, serverName);
-            #endif
-        }
-        
-        public static void onEvent(string eventID)
+
+		//统计用接口
+		public static void onEvent(string eventID)
         {
             Debug.Log("call xgsdk onEvent...");
             #if UNITY_ANDROID
@@ -162,16 +212,8 @@ namespace XGSDK2
             #endif
         }
         
-		//退出时调用 必接接口
-        public static void exit()
-        {
-            Debug.Log("call xgsdk exit...");
-            #if UNITY_ANDROID 
-            callSdkApi("exit");
-            #endif
 
-        }
-
+		//功能接口 用于提示弹出toast
 		public static void showAndroidToast(string msg)
 		{
 			Debug.Log("call xgsdk showAndroidToast...");
@@ -181,8 +223,117 @@ namespace XGSDK2
 		}
         
 
-
-
-
     }
+
+
+	public class PayParameter
+	{
+		string userID;
+		int productTotalprice;
+		int productCount;
+		int productUnitPrice;
+		string productId;
+		string productName;
+		string productDesc;
+		string currencyName;
+		string serverId;
+		string serverName;
+		string zoneId;
+		string zoneName;
+		string roleId;
+		string roleName;
+		string balance;
+		string gameOrderId;
+		string ext;
+		string notifyURL;
+		public string UserID {
+			set{ userID = value;}
+			get{ return userID;}
+		}
+
+		public int ProductTotalprice {
+			set{ productTotalprice = value;}
+			get{ return productTotalprice;}
+		}
+
+		public int ProductCount {
+			set{ productCount = value;}
+			get{ return productCount;}
+		}
+
+		public int ProductUnitPrice {
+			set{ productUnitPrice = value;}
+			get{ return productUnitPrice;}
+		}
+
+		public string ProductId {
+			set{ productId = value;}
+			get{ return productId;}
+		}
+
+		public string ProductName {
+			set{ productName = value;}
+			get{ return productName;}
+		}
+
+		public string ProductDesc {
+			set{ productDesc = value;}
+			get{ return productDesc;}
+		}
+
+		public string CurrencyName {
+			set{ currencyName = value;}
+			get{ return currencyName;}
+		}
+
+		public string ServerId {
+			set{ serverId = value;}
+			get{ return serverId;}
+		}
+
+		public string ServerName {
+			set{ serverName = value;}
+			get{ return serverName;}
+		}
+
+		public string ZoneId {
+			set{ zoneId = value;}
+			get{ return zoneId;}
+		}
+
+		public string ZoneName{
+			set{ zoneName = value;}
+			get{ return zoneName;}
+		}
+
+		public string RoleId {
+			set{ roleId = value;}
+			get{ return roleId;}
+		}
+
+		public string RoleName {
+			set{ roleName = value;}
+			get{ return roleName;}
+		}
+
+		public string Balance {
+			set{ balance = value;}
+			get{ return balance;}
+		}
+
+		public string GameOrderId {
+			set{ gameOrderId = value;}
+			get{ return gameOrderId;}
+		}
+
+		public string Ext {
+			set{ ext = value;}
+			get{ return ext;}
+		}
+
+		public string NotifyURL {
+			set{ notifyURL = value;}
+			get{ return notifyURL;}
+		}
+	}
 }
