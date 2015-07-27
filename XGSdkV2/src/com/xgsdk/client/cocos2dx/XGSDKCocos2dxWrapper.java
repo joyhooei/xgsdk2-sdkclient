@@ -14,6 +14,8 @@ import com.xgsdk.client.entity.PayInfo;
 import com.xgsdk.client.entity.RoleInfo;
 import com.xgsdk.client.entity.XGUser;
 
+import org.cocos2dx.plugin.PluginWrapper;
+
 import android.app.Activity;
 
 public class XGSDKCocos2dxWrapper {
@@ -25,7 +27,7 @@ public class XGSDKCocos2dxWrapper {
 
     private Activity mActivity;
 
-    public void init(Activity activity) {
+    void init(Activity activity) {
         mActivity = activity;
         mSdk.init(activity);
     }
@@ -36,33 +38,75 @@ public class XGSDKCocos2dxWrapper {
         mSdk.setUserCallBack(new UserCallBack() {
 
             @Override
-            public void onLogoutSuccess(String msg) {
-                Cocos2dxUserCallBack.onLogoutSuccess(msg);
+            public void onLogoutSuccess(final String msg) {
+                PluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLogoutSuccess(msg);
+                    }
+
+                });
             }
 
             @Override
-            public void onLogoutFail(String msg) {
-                Cocos2dxUserCallBack.onLogoutFail(msg);
+            public void onLogoutFail(final String msg) {
+                PluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLogoutFail(msg);
+                    }
+
+                });
             }
 
             @Override
-            public void onLoginSuccess(String authInfo) {
-                Cocos2dxUserCallBack.onLoginSuccess(authInfo);
+            public void onLoginSuccess(final String authInfo) {
+                PluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLoginSuccess(authInfo);
+                    }
+
+                });
             }
 
             @Override
-            public void onLoginFail(String msg) {
-                Cocos2dxUserCallBack.onLoginFail(msg);
+            public void onLoginFail(final String msg) {
+                PluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLoginFail(msg);
+                    }
+
+                });
             }
 
             @Override
-            public void onInitFail(String msg) {
-                Cocos2dxUserCallBack.onInitFail(msg);
+            public void onInitFail(final String msg) {
+                PluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onInitFail(msg);
+                    }
+
+                });
             }
 
             @Override
-            public void onLoginCancel(String msg) {
-                Cocos2dxUserCallBack.onLoginCancel(msg);
+            public void onLoginCancel(final String msg) {
+                PluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLoginCancel(msg);
+                    }
+
+                });
             }
         });
     }
@@ -80,30 +124,24 @@ public class XGSDKCocos2dxWrapper {
     }
 
     /**
-     * 登录
+     * 获取渠道ID
+     * 
+     * @return
      */
-    public void login() {
-        XGLogger.i(LOG_TAG, "login");
-        mActivity.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSdk.login(mActivity, "");
-            }
-
-        });
+    public String getChannelId() {
+        return mSdk.getChannelId();
     }
 
     /**
-     * 登出
+     * 登录
      */
-    public void logout() {
-        XGLogger.i(LOG_TAG, "logout");
-        mActivity.runOnUiThread(new Runnable() {
+    public void login(final String customParams) {
+        XGLogger.i(LOG_TAG, "login");
+        PluginWrapper.runOnMainThread(new Runnable() {
 
             @Override
             public void run() {
-                mSdk.logout(mActivity, "");
+                mSdk.login(mActivity, customParams);
             }
 
         });
@@ -118,7 +156,7 @@ public class XGSDKCocos2dxWrapper {
             final String roleName, final String balance,
             final String gameOrderId, final String ext, final String notifyURL) {
         XGLogger.i(LOG_TAG, "pay");
-        mActivity.runOnUiThread(new Runnable() {
+        PluginWrapper.runOnMainThread(new Runnable() {
 
             @Override
             public void run() {
@@ -144,18 +182,39 @@ public class XGSDKCocos2dxWrapper {
                 mSdk.pay(mActivity, payment, new PayCallBack() {
 
                     @Override
-                    public void onSuccess(String msg) {
-                        Cocos2dxPayCallBack.onSuccess(msg);
+                    public void onSuccess(final String msg) {
+                        PluginWrapper.runOnGLThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Cocos2dxPayCallBack.onSuccess(msg);
+                            }
+
+                        });
                     }
 
                     @Override
-                    public void onFail(String msg) {
-                        Cocos2dxPayCallBack.onFail(msg);
+                    public void onFail(final String msg) {
+                        PluginWrapper.runOnGLThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Cocos2dxPayCallBack.onFail(msg);
+                            }
+
+                        });
                     }
 
                     @Override
-                    public void onCancel(String msg) {
-                        Cocos2dxPayCallBack.onCancel(msg);
+                    public void onCancel(final String msg) {
+                        PluginWrapper.runOnGLThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Cocos2dxPayCallBack.onCancel(msg);
+                            }
+
+                        });
                     }
 
                 });
@@ -165,36 +224,86 @@ public class XGSDKCocos2dxWrapper {
     }
 
     /**
-     * 访问用户中心
+     * 游戏退出时调用,渠道释放资源
      */
-    public void openUserCenter() {
-        XGLogger.i(LOG_TAG, "openUserCenter");
-        mActivity.runOnUiThread(new Runnable() {
+    public void exit(final String customParams) {
+        XGLogger.i(LOG_TAG, "exit");
+        PluginWrapper.runOnMainThread(new Runnable() {
 
             @Override
             public void run() {
-                mSdk.openUserCenter(mActivity, "");
+                mSdk.exit(mActivity, new ExitCallBack() {
+
+                    @Override
+                    public void onExit() {
+                        PluginWrapper.runOnGLThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // 调用渠道退出窗口后的回调
+                                Cocos2dxExitCallBack.onExit();
+                            }
+
+                        });
+
+                    }
+
+                    @Override
+                    public void onNoChannelExiter() {
+                        PluginWrapper.runOnGLThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // 需要游戏自身弹出退出窗口
+                                Cocos2dxExitCallBack.onNoChannelExiter();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        PluginWrapper.runOnGLThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Cocos2dxExitCallBack.onCancel();
+                            }
+                        });
+                    }
+
+                }, customParams);
             }
         });
     }
 
     /**
-     * 获取渠道tag
-     * 
-     * @return
+     * 登出
      */
-    public String getChannelId() {
-        return mSdk.getChannelId();
+    public void logout(final String customParams) {
+        XGLogger.i(LOG_TAG, "logout");
+        PluginWrapper.runOnMainThread(new Runnable() {
+
+            @Override
+            public void run() {
+                mSdk.logout(mActivity, customParams);
+            }
+
+        });
     }
 
     /**
-     * 当前渠道是否提供该接口
-     * 
-     * @param methodName
-     * @return
+     * 切换用户
      */
-    public boolean isMethodSupport(String methodName) {
-        return mSdk.isMethodSupport(methodName);
+    public void switchAccount(final String customParams) {
+        XGLogger.i(LOG_TAG, "switchAccount");
+        PluginWrapper.runOnMainThread(new Runnable() {
+
+            @Override
+            public void run() {
+                mSdk.switchAccount(mActivity, customParams);
+            }
+
+        });
     }
 
     /**
@@ -239,21 +348,6 @@ public class XGSDKCocos2dxWrapper {
     }
 
     /**
-     * 切换用户
-     */
-    public void switchAccount() {
-        XGLogger.i(LOG_TAG, "switchAccount");
-        mActivity.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                mSdk.switchAccount(mActivity, "");
-            }
-
-        });
-    }
-
-    /**
      * 角色升级后向渠道传递升级信息
      * 
      * @param roleId
@@ -285,40 +379,31 @@ public class XGSDKCocos2dxWrapper {
     }
 
     /**
-     * 游戏退出时调用,渠道释放资源
+     * 访问用户中心
      */
-    public void exit() {
-        XGLogger.i(LOG_TAG, "exit");
-        mActivity.runOnUiThread(new Runnable() {
+    public void openUserCenter() {
+        XGLogger.i(LOG_TAG, "openUserCenter");
+        PluginWrapper.runOnMainThread(new Runnable() {
 
             @Override
             public void run() {
-                mSdk.exit(mActivity, new ExitCallBack() {
-
-                    @Override
-                    public void onExit() {
-                        // 调用渠道退出窗口后的回调
-                        Cocos2dxExitCallBack.onExit();
-                    }
-
-                    @Override
-                    public void onNoChannelExiter() {
-                        // 需要游戏自身弹出退出窗口
-                        Cocos2dxExitCallBack.onNoChannelExiter();
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Cocos2dxExitCallBack.onCancel();
-                    }
-
-                }, "");
+                mSdk.openUserCenter(mActivity, "");
             }
         });
     }
 
+    /**
+     * 当前渠道是否提供该接口
+     * 
+     * @param methodName
+     * @return
+     */
+    public boolean isMethodSupport(String methodName) {
+        return mSdk.isMethodSupport(methodName);
+    }
+
     public void showAndroidToast(final String msg) {
-        mActivity.runOnUiThread(new Runnable() {
+        PluginWrapper.runOnMainThread(new Runnable() {
 
             @Override
             public void run() {
