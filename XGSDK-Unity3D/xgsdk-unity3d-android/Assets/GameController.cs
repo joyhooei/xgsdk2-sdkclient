@@ -109,15 +109,15 @@ public class GameController : MonoBehaviour
 	//使用游戏方退出回调
 	public void onNoChannelExiter(string msg){
 		Debug.Log ("No ChannelExiter: ");
-		XGSDK2.instance.showAndroidToast("登录成功");
-//		XgsdkDemo.Open();
+		XGSDK2.instance.showAndroidToast("使用游戏渠道退出");
+		XgsdkDemo.Open();
 
 	}
 
 	//取消退出回调
 	public void onExitCancel(string msg){
 		Debug.Log("Cancel Exit");
-		XGSDK2.instance.showAndroidToast("登录成功");
+		XGSDK2.instance.showAndroidToast("取消退出");
 	}
 	
 
