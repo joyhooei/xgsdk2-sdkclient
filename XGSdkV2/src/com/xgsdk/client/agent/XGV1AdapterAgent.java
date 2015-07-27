@@ -262,4 +262,9 @@ class XGV1AdapterAgent extends XGAgent {
         return json.toString();
     }
 
+    public String channelTag() {
+        // TODO Auto-generated method stub
+        return XGSDKAndroidImpl.getChannelID();
+    }
+
 }
