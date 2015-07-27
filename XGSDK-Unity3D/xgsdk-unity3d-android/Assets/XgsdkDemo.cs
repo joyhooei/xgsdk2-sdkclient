@@ -62,6 +62,7 @@ public class XgsdkDemo : MonoBehaviour
 			windowRect = GUI.Window (0, windowRect, DialogWindow, "");
 		}
 
+		//创建demo所需按钮
 		GUILayout.BeginHorizontal();
         GUILayout.Label("登录验证:", labelStyle, GUILayout.Width(200), GUILayout.Height(controlHeight));
         if (GUILayout.Button("登录",style, GUILayout.Width(controlWidth), GUILayout.Height(controlHeight)))
@@ -71,7 +72,6 @@ public class XgsdkDemo : MonoBehaviour
         }
         GUILayout.EndHorizontal();
 
-		//创建demo所需按钮
         GUILayout.BeginHorizontal();
         GUILayout.Label("支付验证:",labelStyle, GUILayout.Width(200), GUILayout.Height(controlHeight));
         if (GUILayout.Button("支付",style,  GUILayout.Width(controlWidth), GUILayout.Height(controlHeight)))
