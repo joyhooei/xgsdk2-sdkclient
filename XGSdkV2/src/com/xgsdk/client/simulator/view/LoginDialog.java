@@ -149,7 +149,7 @@ public class LoginDialog {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mUserCallBack.onLogoutFail(XGErrorCode.OTHER_ERROR,
+                mUserCallBack.onLoginFail(XGErrorCode.OTHER_ERROR,
                         "login failed");
             }
         });
