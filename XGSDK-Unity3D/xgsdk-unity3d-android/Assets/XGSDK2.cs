@@ -69,7 +69,7 @@ namespace XGSDK2
 		public static void pay(string userid, int productTotalPirce, int productCount,
 		                       int productUnitPrice,string productId,
 		                       string productName,string productDesc,
-		                       string currencyName,string serverId,string serverName,
+		                       string currencyName,string serverId,string serverName,string zoneId, string zoneName,
 		                       string roleId,string roleName,string balance,string gameOrderId, string ext, string notifyURL)
         {
             Debug.Log("call xgsdk pay...");
@@ -77,12 +77,12 @@ namespace XGSDK2
 			Debug.Log("call xgsdk set messageObj..." + userid + productTotalPirce + productCount + 
 			          productUnitPrice + productId + 
 			          productName + productDesc + 
-			          currencyName + serverId + serverName + 
+			          currencyName + serverId + serverName + zoneId + zoneName +
 			          roleId + roleName + balance + gameOrderId + ext + notifyURL);
 			callSdkApi("pay",userid,productTotalPirce,productCount,
 			           productUnitPrice,productId,
 			           productName,productDesc,
-			           currencyName,serverId,serverName,
+			           currencyName,serverId,serverName,zoneId,zoneName,
 			           roleId,roleName,balance,gameOrderId,ext,notifyURL);
             #endif
         }
