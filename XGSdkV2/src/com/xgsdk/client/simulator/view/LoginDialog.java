@@ -96,10 +96,7 @@ public class LoginDialog {
 
                         String session = mUsername + " " + mPassword;
                         try {
-                            String authInfo = AuthService.genAuthInfo(
-                                    ProductInfo.getXGAppId(activity),
-                                    ProductInfo.getXGAppKey(activity),
-                                    ProductInfo.getChannelId(activity),
+                            String authInfo = AuthService.genAuthInfo(activity,
                                     session, String.valueOf(uid), mUsername);
                             XGLogger.d("generate authinfo:" + authInfo);
                             mUserCallBack.onLoginSuccess(authInfo);

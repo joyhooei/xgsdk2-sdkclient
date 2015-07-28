@@ -408,7 +408,7 @@ public class PayService {
         StringBuilder getUrl = new StringBuilder();
         getUrl.append(ProductInfo.getXGRechargeUrl(activity))
                 .append(PAY_CANCEL_ORDER_URI).append("/")
-                .append(ProductInfo.getChannelId(activity)).append("/")
+                .append(ProductInfo.getChannelId()).append("/")
                 .append(appId).append("?");
         getUrl.append(strSign);
         getUrl.append("&sign=").append(sign);
@@ -521,7 +521,7 @@ public class PayService {
         // http://onsite.recharge.xgsdk.com:8180/xgsdk/apiXgsdkPay/verifyOrder/{channelId}/{sdkAppid}
         getUrl.append(ProductInfo.getXGRechargeUrl(activity))
                 .append(PAY_VERIFY_ORDER_URI).append("/")
-                .append(ProductInfo.getChannelId(activity)).append("/")
+                .append(ProductInfo.getChannelId()).append("/")
                 .append(ProductInfo.getXGAppId(activity)).append("?orderId=")
                 .append(orderId).append("&sign=");
         String ret = "";

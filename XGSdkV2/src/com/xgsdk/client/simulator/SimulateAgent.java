@@ -123,7 +123,7 @@ public class SimulateAgent extends XGAgent {
                 mPayCallBack.onSuccess("pay success!");
                 String xgsdkAppId = ProductInfo.getXGAppId(activity);
                 String xgsdkAppKey = ProductInfo.getXGAppKey(activity);
-                String channelId = ProductInfo.getChannelId(activity);
+                String channelId = ProductInfo.getChannelId();
                 // accountId priceTitle is null
                 try {
                     String orderId = PayService.createOrderInThread(activity,

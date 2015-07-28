@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -82,6 +83,13 @@ public class AuthService {
         jsonAuth.put("sign", sign);
         return new String(Base64.encode(jsonAuth.toString().getBytes(),
                 Base64.NO_WRAP));
+    }
+
+    public static String genAuthInfo(Context context, String token, String uId,
+            String name) throws Exception {
+        return genAuthInfo(ProductInfo.getXGAppId(context),
+                ProductInfo.getXGAppKey(context), ProductInfo.getChannelId(),
+                token, uId, name);
     }
 
     public static String sessionAuthInThread(final Activity activity,

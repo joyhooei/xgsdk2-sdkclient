@@ -60,8 +60,8 @@ public class ProductInfo {
         return getValue(context, ConstKey.XG_APP_KEY);
     }
 
-    public static String getChannelId(Context context) {
-        return getValue(context, ConstKey.XG_CHANNEL_ID);
+    public static String getChannelId() {
+        return getValue(null, ConstKey.XG_CHANNEL_ID);
     }
 
     public static String getXGRechargeUrl(Context context) {
