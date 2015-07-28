@@ -38,86 +38,79 @@ public class XGSDKCocos2dxWrapper {
     private XGSDKCocos2dxWrapper() {
         ProductInfo.setGameEngine(GAME_ENGINE.COCOS2DX);
         mSdk = XGSDK.getInstance();
-        Cocos2dxPluginWrapper.runOnMainThread(new Runnable() {
+        mSdk.setUserCallBack(new UserCallBack() {
 
             @Override
-            public void run() {
-                mSdk.setUserCallBack(new UserCallBack() {
+            public void onLogoutSuccess(final String msg) {
+                Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
 
                     @Override
-                    public void onLogoutSuccess(final String msg) {
-                        Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxUserCallBack.onLogoutSuccess(msg);
-                            }
-
-                        });
+                    public void run() {
+                        Cocos2dxUserCallBack.onLogoutSuccess(msg);
                     }
 
-                    @Override
-                    public void onLogoutFail(final int code, final String msg) {
-                        Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxUserCallBack.onLogoutFail(code, msg);
-                            }
-
-                        });
-                    }
-
-                    @Override
-                    public void onLoginSuccess(final String authInfo) {
-                        Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxUserCallBack.onLoginSuccess(authInfo);
-                            }
-
-                        });
-                    }
-
-                    @Override
-                    public void onLoginFail(final int code, final String msg) {
-                        Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxUserCallBack.onLoginFail(code, msg);
-                            }
-
-                        });
-                    }
-
-                    @Override
-                    public void onInitFail(final int code, final String msg) {
-                        Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxUserCallBack.onInitFail(code, msg);
-                            }
-
-                        });
-                    }
-
-                    @Override
-                    public void onLoginCancel(final String msg) {
-                        Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxUserCallBack.onLoginCancel(msg);
-                            }
-
-                        });
-                    }
                 });
             }
 
+            @Override
+            public void onLogoutFail(final int code, final String msg) {
+                Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLogoutFail(code, msg);
+                    }
+
+                });
+            }
+
+            @Override
+            public void onLoginSuccess(final String authInfo) {
+                Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLoginSuccess(authInfo);
+                    }
+
+                });
+            }
+
+            @Override
+            public void onLoginFail(final int code, final String msg) {
+                Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLoginFail(code, msg);
+                    }
+
+                });
+            }
+
+            @Override
+            public void onInitFail(final int code, final String msg) {
+                Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onInitFail(code, msg);
+                    }
+
+                });
+            }
+
+            @Override
+            public void onLoginCancel(final String msg) {
+                Cocos2dxPluginWrapper.runOnGLThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Cocos2dxUserCallBack.onLoginCancel(msg);
+                    }
+
+                });
+            }
         });
     }
 
