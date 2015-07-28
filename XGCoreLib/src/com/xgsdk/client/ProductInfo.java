@@ -22,6 +22,9 @@ public class ProductInfo {
     private static final String CONFIG_KEY_XG_UPDATE_URL = "XgUpdateUrl";
     private static final String CONFIG_KEY_XG_BUILD_CODE = "BuildCode";
     private static final String CONFIG_KEY_XG_PLAN_ID = "PlanId";
+    private static final String CONFIG_KEY_XG_ORIENTATITION = "orientation";
+    private static final String ORIENTATITION_LANDSCAPE = "1";
+    private static final String ORIENTATITION_PORTRAIT = "0";
 
     private static final String DEFAULT_AUTH_URL = "http://onsite.auth.xgsdk.com:8180";
     private static final String DEFAULT_RECHARGE_URL = "http://onsite.recharge.xgsdk.com:8180";
@@ -88,6 +91,17 @@ public class ProductInfo {
 
     public static String getXGBuildCode(Context context) {
         return getValue(context, ConstKey.XG_BUILD_CODE);
+    }
+
+    public static boolean isLandspcape(Context context) {
+        return TextUtils.equals(
+                _getValueFromXGConfig(context, CONFIG_KEY_XG_ORIENTATITION,
+                        ORIENTATITION_LANDSCAPE), ORIENTATITION_LANDSCAPE);
+    }
+
+    public static String getXGConfig(Context context, String key,
+            String defaultValue) {
+        return _getValueFromXGConfig(context, key, defaultValue);
     }
 
     private static final HashMap<ConstKey, String> sValueMap = new HashMap<ConstKey, String>();
