@@ -360,9 +360,9 @@ public class XGSDKUnity3DWrapper {
      * 
      * @param eventId
      */
-    public void onEvent(String eventId) {
+    public void onEvent(String eventId, String content) {
         XGLogger.i(LOG_TAG, "onEvent");
-        // mSdk.onEvent(mActivity, eventId);
+        mSdk.onEvent(eventId, content);
     }
 
     /**
