@@ -57,6 +57,7 @@ class Statistics {
     private static final String PARAM_NAME_GAMESERVERINFO = "GameServerInfo";
     private static final String PARAM_NAME_LEVEL = "Level";
     private static final String PARAM_NAME_VIPLEVEL = "VipLevel";
+    private static final String PARAM_NAME_CUSTOM_PARAMS = "CustomParams";
 
     private static void statistics(String name, HashMap<String, Object> params) {
         XGLogger.i(name + " " + params);
@@ -149,15 +150,17 @@ class Statistics {
         statistics(METHOD_INIT, paramsMap);
     }
 
-    static void login(Activity activity) {
+    static void login(Activity activity, String customParams) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put(PARAM_NAME_ACTIVITY, activity);
+        paramsMap.put(PARAM_NAME_CUSTOM_PARAMS, customParams);
         statistics(METHOD_LOGIN, paramsMap);
     }
 
-    static void logout(Activity activity) {
+    static void logout(Activity activity, String customParams) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put(PARAM_NAME_ACTIVITY, activity);
+        paramsMap.put(PARAM_NAME_CUSTOM_PARAMS, customParams);
         statistics(METHOD_LOGOUT, paramsMap);
     }
 
@@ -169,9 +172,10 @@ class Statistics {
         statistics(METHOD_PAY, paramsMap);
     }
 
-    static void switchAccount(Activity activity) {
+    static void switchAccount(Activity activity, String customParams) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put(PARAM_NAME_ACTIVITY, activity);
+        paramsMap.put(PARAM_NAME_CUSTOM_PARAMS, customParams);
         statistics(METHOD_SWITCH_ACCOUNT, paramsMap);
     }
 
@@ -181,9 +185,11 @@ class Statistics {
         statistics(METHOD_SET_USERCALLBACK, paramsMap);
     }
 
-    static void exit(Activity activity, ExitCallBack exitCallBack) {
+    static void exit(Activity activity, ExitCallBack exitCallBack,
+            String customParams) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put(PARAM_NAME_USERCALLBACK, exitCallBack);
+        paramsMap.put(PARAM_NAME_CUSTOM_PARAMS, customParams);
         statistics(METHOD_EXIT, paramsMap);
     }
 

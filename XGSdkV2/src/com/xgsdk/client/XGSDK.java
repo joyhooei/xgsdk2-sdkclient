@@ -165,7 +165,7 @@ public class XGSDK {
     public void login(Activity activity, String customParams) {
         try {
             mAgent.login(activity, customParams);
-            Statistics.login(activity);
+            Statistics.login(activity, customParams);
         } catch (Exception e) {
             XGLogger.e(LOG_TAG, getChannelId() + " login " + " error ", e);
         }
@@ -174,7 +174,7 @@ public class XGSDK {
     public void logout(Activity activity, String customParams) {
         try {
             mAgent.logout(activity, customParams);
-            Statistics.logout(activity);
+            Statistics.logout(activity, customParams);
         } catch (Exception e) {
             XGLogger.e(LOG_TAG, getChannelId() + " logout " + " error ", e);
         }
@@ -198,7 +198,7 @@ public class XGSDK {
         try {
             mAgent.setExitCallBack(exitCallBack);
             mAgent.exit(activity, exitCallBack, customParams);
-            Statistics.exit(activity, exitCallBack);
+            Statistics.exit(activity, exitCallBack, customParams);
         } catch (Exception e) {
             XGLogger.e(LOG_TAG, getChannelId() + " exit " + " error ", e);
         }
@@ -217,7 +217,7 @@ public class XGSDK {
     public void switchAccount(Activity activity, String customParams) {
         try {
             mAgent.switchAccount(activity, customParams);
-            Statistics.switchAccount(activity);
+            Statistics.switchAccount(activity, customParams);
         } catch (Exception e) {
             XGLogger.e(LOG_TAG, getChannelId() + " switchAccount " + " error ",
                     e);

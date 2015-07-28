@@ -35,79 +35,44 @@ public class XGSDKCocos2dxWrapper {
     private XGSDKCocos2dxWrapper() {
         ProductInfo.setGameEngine(GAME_ENGINE.COCOS2DX);
         mSdk = XGSDK.getInstance();
-        mSdk.setUserCallBack(new UserCallBack() {
+        PluginWrapper.runOnGLThread(new Runnable() {
 
             @Override
-            public void onLogoutSuccess(final String msg) {
-                PluginWrapper.runOnGLThread(new Runnable() {
+            public void run() {
+                mSdk.setUserCallBack(new UserCallBack() {
 
                     @Override
-                    public void run() {
+                    public void onLogoutSuccess(final String msg) {
                         Cocos2dxUserCallBack.onLogoutSuccess(msg);
                     }
 
-                });
-            }
-
-            @Override
-            public void onLogoutFail(final int code, final String msg) {
-                PluginWrapper.runOnGLThread(new Runnable() {
-
                     @Override
-                    public void run() {
+                    public void onLogoutFail(final int code, final String msg) {
                         Cocos2dxUserCallBack.onLogoutFail(code, msg);
                     }
 
-                });
-            }
-
-            @Override
-            public void onLoginSuccess(final String authInfo) {
-                PluginWrapper.runOnGLThread(new Runnable() {
-
                     @Override
-                    public void run() {
+                    public void onLoginSuccess(final String authInfo) {
                         Cocos2dxUserCallBack.onLoginSuccess(authInfo);
                     }
 
-                });
-            }
-
-            @Override
-            public void onLoginFail(final int code, final String msg) {
-                PluginWrapper.runOnGLThread(new Runnable() {
-
                     @Override
-                    public void run() {
+                    public void onLoginFail(final int code, final String msg) {
                         Cocos2dxUserCallBack.onLoginFail(code, msg);
                     }
 
-                });
-            }
-
-            @Override
-            public void onInitFail(final int code, final String msg) {
-                PluginWrapper.runOnGLThread(new Runnable() {
-
                     @Override
-                    public void run() {
+                    public void onInitFail(final int code, final String msg) {
                         Cocos2dxUserCallBack.onInitFail(code, msg);
                     }
 
-                });
-            }
-
-            @Override
-            public void onLoginCancel(final String msg) {
-                PluginWrapper.runOnGLThread(new Runnable() {
-
                     @Override
-                    public void run() {
+                    public void onLoginCancel(final String msg) {
                         Cocos2dxUserCallBack.onLoginCancel(msg);
                     }
-
                 });
             }
+
         });
     }
 
@@ -137,7 +102,7 @@ public class XGSDKCocos2dxWrapper {
      */
     public void login(final String customParams) {
         XGLogger.i(LOG_TAG, "login");
-        PluginWrapper.runOnMainThread(new Runnable() {
+        PluginWrapper.runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -156,7 +121,7 @@ public class XGSDKCocos2dxWrapper {
             final String roleName, final String balance,
             final String gameOrderId, final String ext, final String notifyURL) {
         XGLogger.i(LOG_TAG, "pay");
-        PluginWrapper.runOnMainThread(new Runnable() {
+        PluginWrapper.runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -183,50 +148,22 @@ public class XGSDKCocos2dxWrapper {
 
                     @Override
                     public void onSuccess(final String msg) {
-                        PluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxPayCallBack.onSuccess(msg);
-                            }
-
-                        });
+                        Cocos2dxPayCallBack.onSuccess(msg);
                     }
 
                     @Override
                     public void onFail(final int code, final String msg) {
-                        PluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxPayCallBack.onFail(code, msg);
-                            }
-
-                        });
+                        Cocos2dxPayCallBack.onFail(code, msg);
                     }
 
                     @Override
                     public void onCancel(final String msg) {
-                        PluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxPayCallBack.onCancel(msg);
-                            }
-
-                        });
+                        Cocos2dxPayCallBack.onCancel(msg);
                     }
 
                     @Override
                     public void onOthers(final int code, final String msg) {
-                        PluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxPayCallBack.onOthers(code, msg);
-                            }
-
-                        });
+                        Cocos2dxPayCallBack.onOthers(code, msg);
 
                     }
 
@@ -241,7 +178,7 @@ public class XGSDKCocos2dxWrapper {
      */
     public void exit(final String customParams) {
         XGLogger.i(LOG_TAG, "exit");
-        PluginWrapper.runOnMainThread(new Runnable() {
+        PluginWrapper.runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -249,39 +186,20 @@ public class XGSDKCocos2dxWrapper {
 
                     @Override
                     public void onExit() {
-                        PluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                // 调用渠道退出窗口后的回调
-                                Cocos2dxExitCallBack.onExit();
-                            }
-
-                        });
+                        // 调用渠道退出窗口后的回调
+                        Cocos2dxExitCallBack.onExit();
 
                     }
 
                     @Override
                     public void onNoChannelExiter() {
-                        PluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                // 需要游戏自身弹出退出窗口
-                                Cocos2dxExitCallBack.onNoChannelExiter();
-                            }
-                        });
+                        // 需要游戏自身弹出退出窗口
+                        Cocos2dxExitCallBack.onNoChannelExiter();
                     }
 
                     @Override
                     public void onCancel() {
-                        PluginWrapper.runOnGLThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Cocos2dxExitCallBack.onCancel();
-                            }
-                        });
+                        Cocos2dxExitCallBack.onCancel();
                     }
 
                 }, customParams);
@@ -294,7 +212,7 @@ public class XGSDKCocos2dxWrapper {
      */
     public void logout(final String customParams) {
         XGLogger.i(LOG_TAG, "logout");
-        PluginWrapper.runOnMainThread(new Runnable() {
+        PluginWrapper.runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -309,7 +227,7 @@ public class XGSDKCocos2dxWrapper {
      */
     public void switchAccount(final String customParams) {
         XGLogger.i(LOG_TAG, "switchAccount");
-        PluginWrapper.runOnMainThread(new Runnable() {
+        PluginWrapper.runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -396,7 +314,7 @@ public class XGSDKCocos2dxWrapper {
      */
     public void openUserCenter() {
         XGLogger.i(LOG_TAG, "openUserCenter");
-        PluginWrapper.runOnMainThread(new Runnable() {
+        PluginWrapper.runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -416,7 +334,7 @@ public class XGSDKCocos2dxWrapper {
     }
 
     public void showAndroidToast(final String msg) {
-        PluginWrapper.runOnMainThread(new Runnable() {
+        PluginWrapper.runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
