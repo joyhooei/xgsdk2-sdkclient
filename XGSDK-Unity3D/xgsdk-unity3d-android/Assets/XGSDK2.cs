@@ -8,29 +8,10 @@ namespace XGSDK2
 {
     public class instance : MonoBehaviour
     {
-//		public struct payStruct
-//		{
-//			string userID = "";
-//			int productTotalprice = 10;
-//			int productCount = 2;
-//			int productUnitPrice = 5;
-//			string productId = "1";
-//			string productName = "gift";
-//			string productDesc = "Description";
-//			string currencyName = "RMB";
-//			string serverId = "001";
-//			string serverName = "GD1";
-//			string roleId = "12345";
-//			string roleName = "RoleName";
-//			string balance = "50";
-//			string gameOrderId = "1001";
-//			string ext = "ext";
-//			string notifyURL = "Xgsdk";
-//		}
+
         void Awake()
         {
-
-        }
+		}
 		//配置SDK路径 
 		private const string SDK_JAVA_CLASS = "com.xgsdk.client.unity3d.XGSDKUnity3DWrapper";
          
@@ -59,18 +40,32 @@ namespace XGSDK2
             #endif   
             return retString;
         }
+
+
+
+		//获取渠道tag时调用
+		public static string getChannelId()
+		{
+			Debug.Log ("call sgsdk getChannelId...");
+			string channel = "";
+			#if UNITY_ANDROID
+			channel = callRetSdkApi("getChannelId");
+			#endif
+			Debug.Log ("The channel tag is: " + channel);
+			return channel;
+		}
     
         
 		//登录时调用 必接接口
-        public static void login()
+        public static void login(string customParams)
         {
             Debug.Log("call xgsdk login...");
             #if UNITY_ANDROID
-            callSdkApi("login");
+            callSdkApi("login", customParams);
             #endif
         }       
         
-		//支付时调用 必接接口
+		//支付时调用 必接接口（两种传参方式选其一即可）
 		public static void pay(string userid, int productTotalPirce, int productCount,
 		                       int productUnitPrice,string productId,
 		                       string productName,string productDesc,
@@ -92,6 +87,7 @@ namespace XGSDK2
             #endif
         }
 
+		//支付时调用，使用封装类传输数据
 		public static void pay(PayParameter pay)
 		{
 			Debug.Log("call xgsdk pay...");
@@ -108,19 +104,41 @@ namespace XGSDK2
 			           pay.RoleId, pay.RoleName, pay.Balance, pay.GameOrderId, pay.Ext, pay.NotifyURL);
 			#endif
 		}
+
+
+		
+		//退出时调用 必接接口
+		public static void exit(string customParams)
+		{
+			Debug.Log("call xgsdk exit...");
+			#if UNITY_ANDROID 
+			callSdkApi("exit", customParams);
+			#endif
+			
+		}
 		
 		
 		//登出时调用 必接接口
-        public static void logout()
+        public static void logout(string customParams)
         {
             Debug.Log("call xgsdk logout..."); 
             #if UNITY_ANDROID
-            callSdkApi("logout");
+            callSdkApi("logout", customParams);
             #endif
         }
 
 
-		//进入游戏时调用 必接接口
+		//切换账号时调用
+		public static void switchAccount()
+		{
+			Debug.Log("call xgsdk switchAccount...");    
+			#if UNITY_ANDROID               
+			callSdkApi("switchAccount");
+			#endif
+		}
+
+
+		//进入游戏后向渠道传递用户信息 必接接口
 		public static void onEnterGame(string userId, string username, string roleId,
 		                               string roleName, string gender, string level, string vipLevel,
 		                               string balance, string partyName, string serverId, string serverName)
@@ -134,30 +152,60 @@ namespace XGSDK2
 		}
 
 
-		//退出时调用 必接接口
-		public static void exit()
+
+		
+		//创建角色成功后向渠道传递角色信息
+		public static void onCreateRole(string roleId, string roleName, string gender,
+		                                string level, string vipLevel, string balance, string partyName)
 		{
-			Debug.Log("call xgsdk exit...");
-			#if UNITY_ANDROID 
-			callSdkApi("exit");
+			Debug.Log("call xgsdk createRole...");          
+			#if UNITY_ANDROID
+			callSdkApi("onCreateRole", roleId, roleName, gender,
+			           level, vipLevel, balance, partyName);
 			#endif
-			
+		}
+
+
+		//角色升级后向渠道传递升级信息
+		public static void onRoleLevelup(string level)
+		{
+			Debug.Log("call xgsdk onRoleLevelup");
+			#if UNITY_ANDROID
+			callSdkApi("onRoleLevelup", level);
+			#endif
+		}
+        
+		//vip升级后传递vip升级信息
+		public static void onVipLevelup(string vipLevel)
+		{
+			Debug.Log("call xgsdk onVipLevelup");
+			#if UNITY_ANDROID
+			callSdkApi("onVipLevelup", vipLevel);
+			#endif
 		}
         
 
-		//获取渠道tag时调用
-		public static string getChannelId()
+		
+		//传递事件
+		public static void onEvent(string eventID)
 		{
-			Debug.Log ("call sgsdk getChannelId...");
-			string channel = "";
+			Debug.Log("call xgsdk onEvent...");
 			#if UNITY_ANDROID
-			channel = callRetSdkApi("getChannelId");
+			callSdkApi("onEvent",eventID); 
 			#endif
-			Debug.Log ("The channel tag is: " + channel);
-			return channel;
 		}
-        
-		//判断当前渠道是否支持该方法
+		
+		//访问用户中心
+		public static void openUserCenter()
+		{
+			Debug.Log("call xgsdk openUserCenter...");      
+			#if UNITY_ANDROID
+			callSdkApi("openUserCenter");
+			#endif
+		}
+
+
+		//判断当前渠道是否提供该接口
 		public static bool isMethodSupport(string methodName)
 		{
 			Debug.Log("call xgsdk isMethodSupport...");    
@@ -170,48 +218,7 @@ namespace XGSDK2
 			#endif
 			return retMsg;
 		}
-        
-		//打开用户中心时调用
-        public static void openUserCenter()
-        {
-            Debug.Log("call xgsdk openUserCenter...");      
-            #if UNITY_ANDROID
-            callSdkApi("openUserCenter");
-            #endif
-        }
-        
-		//切换账号时调用
-        public static void switchAccount()
-        {
-            Debug.Log("call xgsdk switchAccount...");    
-            #if UNITY_ANDROID               
-            callSdkApi("switchAccount");
-            #endif
-        }
 
-
-		//创建角色时调用  统计用接口
-		public static void onCreateRole(string roleId, string roleName, string gender,
-		                                string level, string vipLevel, string balance, string partyName)
-        {
-            Debug.Log("call xgsdk createRole...");          
-            #if UNITY_ANDROID
-			callSdkApi("onCreateRole", roleId, roleName, gender,
-			           level, vipLevel, balance, partyName);
-            #endif
-        }
-
-
-
-		//统计用接口
-		public static void onEvent(string eventID)
-        {
-            Debug.Log("call xgsdk onEvent...");
-            #if UNITY_ANDROID
-            callSdkApi("onEvent",eventID); 
-            #endif
-        }
-        
 
 		//功能接口 用于提示弹出toast
 		public static void showAndroidToast(string msg)

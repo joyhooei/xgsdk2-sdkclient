@@ -44,8 +44,11 @@ public class XGSDKCallback : MonoBehaviour
 	}
 
 	//登录失败回调
-	public void onLoginFail(string msg){
-		Debug.Log ("LoginFail, message:" + msg);
+	public void onLoginFail(string json){
+		Dictionary<string, object> retTable = MiniJSON.Json.Deserialize(json) as Dictionary<string, object>;
+		int code = Convert.ToInt32(retTable ["code"]);
+		string msg = retTable ["msg"] as String;
+		Debug.Log ("LoginFail,code: " + code + " message:" + msg);
 		XGSDK2.instance.showAndroidToast("登录失败");
 	}
 
@@ -65,15 +68,21 @@ public class XGSDKCallback : MonoBehaviour
 	}
 
 	//登出失败回调
-	public void onLogoutFail(string msg){
-		Debug.Log ("LogoutFail, message:" + msg);
+	public void onLogoutFail(string json){
+		Dictionary<string, object> retTable = MiniJSON.Json.Deserialize(json) as Dictionary<string, object>;
+		int code = Convert.ToInt32(retTable ["code"]);
+		string msg = retTable ["msg"] as String;
+		Debug.Log ("LogoutFail,code: " + code + " message:" + msg);
 		XGSDK2.instance.showAndroidToast("登出失败");
 
 	}
 
 	//初始化失败回调
-	public void onInitFail(string msg){
-		Debug.Log ("InitFail, message:" + msg);
+	public void onInitFail(string json){
+		Dictionary<string, object> retTable = MiniJSON.Json.Deserialize(json) as Dictionary<string, object>;
+		int code = Convert.ToInt32(retTable ["code"]);
+		string msg = retTable ["msg"] as String;
+		Debug.Log ("InitFail,code: " + code + " message:" + msg);
 		XGSDK2.instance.showAndroidToast("初始化失败");
 
 	}
@@ -86,8 +95,11 @@ public class XGSDKCallback : MonoBehaviour
 	}
 
 	//支付失败回调
-	public void onPayFail(string msg){
-		Debug.Log ("PayFail, message:" + msg);
+	public void onPayFail(string json){
+		Dictionary<string, object> retTable = MiniJSON.Json.Deserialize(json) as Dictionary<string, object>;
+		int code = Convert.ToInt32(retTable ["code"]);
+		string msg = retTable ["msg"] as String;
+		Debug.Log ("PayFail,code: " + code + " message:" + msg);
 		XGSDK2.instance.showAndroidToast("支付失败");
 
 	}
@@ -117,7 +129,7 @@ public class XGSDKCallback : MonoBehaviour
 
 	//取消退出回调
 	public void onExitCancel(string msg){
-		Debug.Log("Cancel Exit");
+		Debug.Log("ExitCancel");
 		XGSDK2.instance.showAndroidToast("取消退出");
 	}
 	

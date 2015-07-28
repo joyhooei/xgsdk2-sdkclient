@@ -65,7 +65,7 @@ public class XgsdkDemo : MonoBehaviour
 		if (GUILayout.Button("登录",style, GUILayout.Width(controlWidth), GUILayout.Height(controlHeight)))
 		{
 			Debug.Log("call xgsdk login...");
-			XGSDK2.instance.login();
+			XGSDK2.instance.login("");
 		}
 		GUILayout.EndHorizontal();
 		
@@ -98,7 +98,7 @@ public class XgsdkDemo : MonoBehaviour
 		if(GUILayout.Button("登出",style,GUILayout.Width(250), GUILayout.Height(controlHeight)))
 		{
 			Debug.Log("call xgsdk logout...");
-			XGSDK2.instance.logout();
+			XGSDK2.instance.logout("");
 		}
 		GUILayout.EndHorizontal();
 
@@ -119,7 +119,7 @@ public class XgsdkDemo : MonoBehaviour
 		if (GUILayout.Button ("退出", style, GUILayout.Width (250), GUILayout.Height (controlHeight)))
 		{
 			Debug.Log("call xgsdk exitGame");
-			XGSDK2.instance.exit();
+			XGSDK2.instance.exit("");
 			
 		}
 		GUILayout.EndHorizontal ();    
