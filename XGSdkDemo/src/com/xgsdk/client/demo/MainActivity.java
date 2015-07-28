@@ -50,9 +50,9 @@ public class MainActivity extends Activity implements OnClickListener {
             }
 
             @Override
-            public void onLogoutFail(String msg) {
+            public void onLogoutFail(int code, String msg) {
                 ToastUtil.showToast(getApplicationContext(), "logout fail."
-                        + msg);
+                        + code + " " + msg);
 
             }
 
@@ -62,16 +62,16 @@ public class MainActivity extends Activity implements OnClickListener {
             }
 
             @Override
-            public void onLoginFail(String msg) {
+            public void onLoginFail(int code, String msg) {
                 ToastUtil.showToast(getApplicationContext(), "login fail."
-                        + msg);
+                        + code + " " + msg);
 
             }
 
             @Override
-            public void onInitFail(String msg) {
-                ToastUtil
-                        .showToast(getApplicationContext(), "init fail." + msg);
+            public void onInitFail(int code, String msg) {
+                ToastUtil.showToast(getApplicationContext(), "init fail."
+                        + code + " " + msg);
 
             }
 
@@ -260,9 +260,9 @@ public class MainActivity extends Activity implements OnClickListener {
                             }
 
                             @Override
-                            public void onFail(String msg) {
+                            public void onFail(int code, String msg) {
                                 ToastUtil.showToast(getApplicationContext(),
-                                        "pay fail." + msg);
+                                        "pay fail." + code + " " + msg);
                             }
 
                             @Override
