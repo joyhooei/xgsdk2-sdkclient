@@ -47,11 +47,11 @@ public class XGSDK {
 
     private void initAgent() {
         try {
-
             mAgent = SDKFactory.getSDK();
             if (mAgent == null) {
                 throw new RuntimeException("Create xgsdk agent error.");
             }
+            ProductInfo.init(getChannelId());
             XGLogger.i(LOG_TAG, getChannelId() + " instance " + mAgent);
         } catch (Exception e) {
             XGLogger.e(LOG_TAG,

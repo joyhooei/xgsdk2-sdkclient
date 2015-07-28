@@ -14,7 +14,6 @@ public class ProductInfo {
     private static final String SDK_CONFIG_FILE = "sdk_config.properties";
     private static final String CONFIG_KEY_XG_APP_ID = "XgAppID";
     private static final String CONFIG_KEY_XG_APP_KEY = "XgAppKey";
-    private static final String CONFIG_KEY_XG_CHANNEL_ID = "XgChannelID";
     private static final String CONFIG_KEY_XG_VERSION = "xgVersion";
     private static final String CONFIG_KEY_XG_AUTH_URL = "XgAuthUrl";
     private static final String CONFIG_KEY_XG_RECHARGE_URL = "XgRechargeUrl";
@@ -132,10 +131,6 @@ public class ProductInfo {
                 result = _getValueFromXGConfig(context, CONFIG_KEY_XG_APP_KEY,
                         null);
                 break;
-            case XG_CHANNEL_ID:
-                result = _getValueFromXGConfig(context,
-                        CONFIG_KEY_XG_CHANNEL_ID, null);
-                break;
             case XG_AUTH_URL:
                 result = _getValueFromXGConfig(context, CONFIG_KEY_XG_AUTH_URL,
                         DEFAULT_AUTH_URL);
@@ -179,6 +174,10 @@ public class ProductInfo {
             value = defaultValue;
         }
         return value;
+    }
+
+    static void init(String channelId) {
+        sValueMap.put(ConstKey.XG_CHANNEL_ID, channelId);
     }
 
 }
