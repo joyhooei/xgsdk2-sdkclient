@@ -4,7 +4,7 @@ package com.xgsdk.client.core.util;
 import android.util.Log;
 
 public class XGLogger {
-    private static final String SDK_LOG = "XG_LOG";
+    private static final String SDK_LOG = "XGLOG";
     public static boolean LOG_ENABLE = false;
 
     public static boolean ENV_DEBUG = ConfigUtil.isEnvDebug();
