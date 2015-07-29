@@ -39,7 +39,7 @@ public class PayService {
     private static final int THREAD_JOIN_TIME_OUT = 30000;
 
     // 单独线程运行方式
-    public static String createOrderInThread(final Activity activity,
+    private static String createOrderInThread(final Activity activity,
             final String appId, final String appKey, final String channelId,
             final String uId, final String productId, final String productName,
             final String productDec, final String amount,
@@ -62,8 +62,20 @@ public class PayService {
         return future.get();
     }
 
+    public static String createOrderInThread(final Activity activity,
+            final String uId, final String productId, final String productName,
+            final String productDec, final String amount,
+            final String totalPrice, final String serverId,
+            final String roleId, final String roleName,
+            final String currencyName, final String payExt) throws Exception {
+        return createOrderInThread(activity, ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), ProductInfo.getChannelId(),
+                uId, productId, productName, productDec, amount, totalPrice,
+                serverId, roleId, roleName, currencyName, payExt);
+    }
+
     // 单独线程运行方式
-    public static String createOrderInThreadForOriginal(
+    private static String createOrderInThreadForOriginal(
             final Activity activity, final String appId, final String appKey,
             final String channelId, final String uId, final String productId,
             final String productName, final String productDec,
@@ -86,10 +98,23 @@ public class PayService {
         return orderId;
     }
 
+    public static String createOrderInThreadForOriginal(
+            final Activity activity, final String uId, final String productId,
+            final String productName, final String productDec,
+            final String amount, final String totalPrice,
+            final String serverId, final String roleId, final String roleName,
+            final String currencyName, final String payExt) throws Exception {
+        return createOrderInThreadForOriginal(activity,
+                ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), ProductInfo.getChannelId(),
+                uId, productId, productName, productDec, amount, totalPrice,
+                serverId, roleId, roleName, currencyName, payExt);
+    }
+
     public static String orderId = "";
 
     // 单独线程运行方式
-    public static void updateOrderInThread(final Activity activity,
+    private static void updateOrderInThread(final Activity activity,
             final String appId, final String appKey, final String channelId,
             final String orderId, final String uId, final String productId,
             final String productName, final String productDec,
@@ -114,8 +139,20 @@ public class PayService {
         thread.join(THREAD_JOIN_TIME_OUT);
     }
 
+    public static void updateOrderInThread(final Activity activity,
+            final String orderId, final String uId, final String productId,
+            final String productName, final String productDec,
+            final String amount, final String totalPrice,
+            final String serverId, final String roleId, final String roleName,
+            final String currencyName, final String payExt) throws Exception {
+        updateOrderInThread(activity, ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), ProductInfo.getChannelId(),
+                orderId, uId, productId, productName, productDec, amount,
+                totalPrice, serverId, roleId, roleName, currencyName, payExt);
+    }
+
     // 单独线程运行方式
-    public static void cancelOrderInThread(final Activity activity,
+    private static void cancelOrderInThread(final Activity activity,
             final String appId, final String appKey, final String orderId)
             throws Exception {
         Thread thread = new Thread(new Runnable() {
@@ -131,6 +168,12 @@ public class PayService {
         });
         thread.start();
         thread.join(THREAD_JOIN_TIME_OUT);
+    }
+
+    public static void cancelOrderInThread(final Activity activity)
+            throws Exception {
+        cancelOrderInThread(activity, ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), ProductInfo.getChannelId());
     }
 
     /**
@@ -151,7 +194,7 @@ public class PayService {
      * @return 订单号
      * @throws Exception
      */
-    public static String createOrder(final Activity activity,
+    private static String createOrder(final Activity activity,
             final String appId, final String appKey, final String channelId,
             final String uId, final String productId, final String productName,
             final String productDec, final String amount,
@@ -176,6 +219,18 @@ public class PayService {
         return jsonData.getString("orderId");
     }
 
+    public static String createOrder(final Activity activity, final String uId,
+            final String productId, final String productName,
+            final String productDec, final String amount,
+            final String totalPrice, final String serverId,
+            final String roleId, final String roleName,
+            final String currencyName, final String payExt) throws Exception {
+        return createOrder(activity, ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), ProductInfo.getChannelId(),
+                uId, productId, productName, productDec, amount, totalPrice,
+                serverId, roleId, roleName, currencyName, payExt);
+    }
+
     /**
      * 通知服务端生成订单
      * 
@@ -194,7 +249,7 @@ public class PayService {
      * @return 订单号
      * @throws Exception
      */
-    public static String createOrderForOriginal(final Activity activity,
+    private static String createOrderForOriginal(final Activity activity,
             final String appId, final String appKey, final String channelId,
             final String uId, final String productId, final String productName,
             final String productDec, final String amount,
@@ -279,6 +334,19 @@ public class PayService {
         return result;
     }
 
+    public static String createOrderForOriginal(final Activity activity,
+            final String uId, final String productId, final String productName,
+            final String productDec, final String amount,
+            final String totalPrice, final String serverId,
+            final String roleId, final String roleName,
+            final String currencyName, final String payExt) throws Exception {
+        return createOrderForOriginal(activity,
+                ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), ProductInfo.getChannelId(),
+                uId, productId, productName, productDec, amount, totalPrice,
+                serverId, roleId, roleName, currencyName, payExt);
+    }
+
     /**
      * 通知服务端更新订单
      * 
@@ -297,12 +365,12 @@ public class PayService {
      * @return
      * @throws Exception
      */
-    public static void updateOrder(final Activity activity, final String appId,
-            final String appKey, final String channelId, final String orderId,
-            final String uId, final String productId, final String productName,
-            final String productDec, final String amount,
-            final String totalPrice, final String serverId,
-            final String roleId, final String roleName,
+    private static void updateOrder(final Activity activity,
+            final String appId, final String appKey, final String channelId,
+            final String orderId, final String uId, final String productId,
+            final String productName, final String productDec,
+            final String amount, final String totalPrice,
+            final String serverId, final String roleId, final String roleName,
             final String currencyName, final String payExt) throws Exception {
         PayService.orderId = orderId;
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
@@ -392,13 +460,25 @@ public class PayService {
         }
     }
 
+    public static void updateOrder(final Activity activity,
+            final String orderId, final String uId, final String productId,
+            final String productName, final String productDec,
+            final String amount, final String totalPrice,
+            final String serverId, final String roleId, final String roleName,
+            final String currencyName, final String payExt) throws Exception {
+        updateOrder(activity, ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), ProductInfo.getChannelId(),
+                orderId, uId, productId, productName, productDec, amount,
+                totalPrice, serverId, roleId, roleName, currencyName, payExt);
+    }
+
     /**
      * 通知服务端取消订单
      * 
      * @param orderId
      * @return
      */
-    public static void cancelOrder(Activity activity, final String appId,
+    private static void cancelOrder(Activity activity, final String appId,
             final String appKey, final String orderId) throws Exception {
         String strSign = "orderId=" + orderId;
         String sign = MD5Util.md5(strSign + appId + appKey);
@@ -408,8 +488,8 @@ public class PayService {
         StringBuilder getUrl = new StringBuilder();
         getUrl.append(ProductInfo.getXGRechargeUrl(activity))
                 .append(PAY_CANCEL_ORDER_URI).append("/")
-                .append(ProductInfo.getChannelId()).append("/")
-                .append(appId).append("?");
+                .append(ProductInfo.getChannelId()).append("/").append(appId)
+                .append("?");
         getUrl.append(strSign);
         getUrl.append("&sign=").append(sign);
         // 发送请求
@@ -426,6 +506,12 @@ public class PayService {
         } else {
             throw new Exception(jsonResult.getString("msg"));
         }
+    }
+
+    public static void cancelOrder(Activity activity, final String orderId)
+            throws Exception {
+        cancelOrder(activity, ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), orderId);
     }
 
     public static void refreshBalanceInThread(final Activity activity,
@@ -450,7 +536,7 @@ public class PayService {
         thread.join(THREAD_JOIN_TIME_OUT);
     }
 
-    public static void refreshBalance(final Activity activity,
+    private static void refreshBalance(final Activity activity,
             final String appId, final String appKey, String openid,
             String openkey, String pay_token, String appid, String pf,
             String pfkey, String serverId, String sdkAppid, String channelId)
@@ -510,6 +596,15 @@ public class PayService {
             throw new Exception("refresh balance failed,request:"
                     + getUrl.toString());
         }
+    }
+
+    public static void refreshBalance(final Activity activity, String openid,
+            String openkey, String pay_token, String appid, String pf,
+            String pfkey, String serverId, String sdkAppid, String channelId)
+            throws Exception {
+        refreshBalance(activity, ProductInfo.getXGAppId(activity),
+                ProductInfo.getXGAppKey(activity), openid, openkey, pay_token,
+                appid, pf, pfkey, serverId, sdkAppid, channelId);
     }
 
     public static String verifyPay(Activity activity, String orderId) {
