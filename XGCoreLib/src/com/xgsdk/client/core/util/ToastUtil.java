@@ -3,6 +3,7 @@ package com.xgsdk.client.core.util;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Looper;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,11 +11,13 @@ public class ToastUtil {
     private static Toast sToastInstance;
 
     public static void showToast(Context context, String message) {
-        makeText(context, message, Toast.LENGTH_SHORT).show();
+        showToast(context, message, Toast.LENGTH_SHORT);
     }
 
     public static void showToast(Context context, String message, int duration) {
+        Looper.prepare();
         makeText(context, message, duration).show();
+        Looper.loop();
     }
 
     public static void showToast(Context context, int resId, int duration) {
@@ -59,11 +62,13 @@ public class ToastUtil {
 
     public static void showNormalToast(Context context, String message,
             int duration) {
+        Looper.prepare();
         Toast t = Toast.makeText(context, message, duration);
         TextView tv = getTextView(context);
         tv.setText(message);
         t.setView(tv);
         t.show();
+        Looper.loop();
     }
 
 }
