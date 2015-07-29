@@ -5,6 +5,7 @@ import com.xgsdk.client.XGSDK;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.callback.UserCallBack;
+import com.xgsdk.client.core.util.RUtil;
 import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.demo.orders.OrdersActivity;
 import com.xgsdk.client.entity.PayInfo;
@@ -21,7 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity {
 
     private static final String TAG = "XGSDK_DEMO";
 
@@ -29,14 +30,111 @@ public class MainActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.xg_demo_activity_main);
+        setContentView(RUtil.getLayout(getApplicationContext(),
+                "xg_demo_activity_main"));
 
-        findViewById(R.id.xg_login).setOnClickListener(this);
-        findViewById(R.id.xg_pay).setOnClickListener(this);
-        findViewById(R.id.xg_switch_account).setOnClickListener(this);
-        findViewById(R.id.xg_logout).setOnClickListener(this);
-        findViewById(R.id.xg_exit).setOnClickListener(this);
-        findViewById(R.id.xg_show_orders).setOnClickListener(this);
+        findViewById(RUtil.getId(getApplicationContext(), "xg_login"))
+                .setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        XGSDK.getInstance().login(MainActivity.this, null);
+
+                    }
+                });
+        findViewById(RUtil.getId(getApplicationContext(), "xg_pay"))
+                .setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        showDialog();
+                    }
+                });
+        findViewById(RUtil.getId(getApplicationContext(), "xg_switch_account"))
+                .setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        XGSDK.getInstance().switchAccount(MainActivity.this,
+                                null);
+                    }
+                });
+        findViewById(RUtil.getId(getApplicationContext(), "xg_logout"))
+                .setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        XGSDK.getInstance().logout(MainActivity.this, null);
+                    }
+                });
+        findViewById(RUtil.getId(getApplicationContext(), "xg_exit"))
+                .setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        XGSDK.getInstance().exit(MainActivity.this,
+                                new ExitCallBack() {
+
+                                    @Override
+                                    public void onNoChannelExiter() {
+                                        Dialog dialog = new AlertDialog.Builder(
+                                                MainActivity.this)
+                                                .setTitle("退出游戏")
+                                                .setCancelable(false)
+                                                .setMessage("您确定要退出游戏吗？")
+                                                .setPositiveButton(
+                                                        "确定",
+                                                        new DialogInterface.OnClickListener() {
+
+                                                            @Override
+                                                            public void onClick(
+                                                                    DialogInterface dialog,
+                                                                    int which) {
+                                                                dialog.dismiss();
+                                                                finish();
+                                                            }
+
+                                                        })
+                                                .setNegativeButton(
+                                                        "取消",
+                                                        new DialogInterface.OnClickListener() {
+
+                                                            @Override
+                                                            public void onClick(
+                                                                    DialogInterface dialog,
+                                                                    int which) {
+                                                                dialog.dismiss();
+                                                            }
+                                                        }).create();
+                                        dialog.show();
+
+                                    }
+
+                                    @Override
+                                    public void onExit() {
+                                        finish();
+
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+                                        ToastUtil.showToast(MainActivity.this,
+                                                "回到游戏");
+
+                                    }
+                                }, null);
+                    }
+                });
+        findViewById(RUtil.getId(getApplicationContext(), "xg_show_orders"))
+                .setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this,
+                                OrdersActivity.class);
+                        startActivity(intent);
+                    }
+                });
 
         XGSDK.getInstance().onCreate(this);
         XGSDK.getInstance().init(this);
@@ -80,80 +178,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
             }
         });
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.xg_login:
-                XGSDK.getInstance().login(this, null);
-                break;
-            case R.id.xg_pay:
-                showDialog();
-                break;
-            case R.id.xg_switch_account:
-                XGSDK.getInstance().switchAccount(this, null);
-                break;
-            case R.id.xg_logout:
-                XGSDK.getInstance().logout(this, null);
-                break;
-            case R.id.xg_exit:
-                XGSDK.getInstance().exit(this, new ExitCallBack() {
-
-                    @Override
-                    public void onNoChannelExiter() {
-                        Dialog dialog = new AlertDialog.Builder(
-                                MainActivity.this)
-                                .setTitle("退出游戏")
-                                .setCancelable(false)
-                                .setMessage("您确定要退出游戏吗？")
-                                .setPositiveButton("确定",
-                                        new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-
-                                        })
-                                .setNegativeButton("取消",
-                                        new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                dialog.dismiss();
-                                            }
-                                        }).create();
-                        dialog.show();
-
-                    }
-
-                    @Override
-                    public void onExit() {
-                        finish();
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        ToastUtil.showToast(MainActivity.this, "回到游戏");
-
-                    }
-                }, null);
-                break;
-            case R.id.xg_show_orders:
-                Intent intent = new Intent(this, OrdersActivity.class);
-                startActivity(intent);
-                break;
-            default:
-
-        }
 
     }
 
@@ -210,71 +234,75 @@ public class MainActivity extends Activity implements OnClickListener {
         LayoutInflater inflater = LayoutInflater.from(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final AlertDialog payDialog = builder.create();
-        final View dialogView = inflater.inflate(
-                R.layout.xg_demo_layout_dialog_pay, null);
-        final EditText etMoney = (EditText) dialogView
-                .findViewById(R.id.xg_et_money);
+        final View dialogView = inflater.inflate(RUtil.getLayout(
+                getApplicationContext(), "xg_demo_layout_dialog_pay"), null);
+        final EditText etMoney = (EditText) dialogView.findViewById(RUtil
+                .getId(getApplicationContext(), "xg_et_money"));
         etMoney.setSelection(TextUtils.isEmpty(etMoney.getText().toString()) ? 0
                 : etMoney.getText().toString().length());
-        final EditText etCount = (EditText) dialogView
-                .findViewById(R.id.xg_et_count);
+        final EditText etCount = (EditText) dialogView.findViewById(RUtil
+                .getId(getApplicationContext(), "xg_et_count"));
         etCount.setSelection(TextUtils.isEmpty(etCount.getText().toString()) ? 0
                 : etCount.getText().toString().length());
         builder.setView(dialogView);
-        builder.setPositiveButton(R.string.xg_ok, new Dialog.OnClickListener() {
+        builder.setPositiveButton(
+                RUtil.getString(getApplicationContext(), "xg_ok"),
+                new Dialog.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                // String payInfo = getPayInfo("abac", "112", "大宝剑", "宝剑锋从磨砺出",
-                // "1", "1", "元宝", "1", "桃园结义", "su27", "侧卫", "10",
-                // "1234567890" + System.currentTimeMillis());
-                // xgsdk.pay(MainActivity1.this, payInfo);
-                PayInfo payment = new PayInfo();
-                payment.setUid("4fd0144f02840ae77b6f42346c90d8bd");
-                payment.setProductDesc("倚天不出谁与争锋");
-                payment.setServerId("11");
-                payment.setProductId("payment017");
-                payment.setProductName("大宝剑");
-                String extraInfo = XGSDK.getInstance().getChannelId()
-                        + " extraInfo ";
-                payment.setExt(extraInfo);
-                int totalPrice = TextUtils.isEmpty(etMoney.getText()) ? 0
-                        : Integer.valueOf(etMoney.getText().toString());
-                int count = TextUtils.isEmpty(etCount.getText()) ? 1 : Integer
-                        .valueOf(etCount.getText().toString());
-                payment.setProductCount(count);
-                payment.setCurrencyName("元宝");
-                payment.setProductTotalPrice(totalPrice);
-                payment.setProductUnitPrice(1);
-                XGSDK.getInstance().pay(MainActivity.this, payment,
-                        new PayCallBack() {
+                        // String payInfo = getPayInfo("abac", "112", "大宝剑",
+                        // "宝剑锋从磨砺出",
+                        // "1", "1", "元宝", "1", "桃园结义", "su27", "侧卫", "10",
+                        // "1234567890" + System.currentTimeMillis());
+                        // xgsdk.pay(MainActivity1.this, payInfo);
+                        PayInfo payment = new PayInfo();
+                        payment.setUid("4fd0144f02840ae77b6f42346c90d8bd");
+                        payment.setProductDesc("倚天不出谁与争锋");
+                        payment.setServerId("11");
+                        payment.setProductId("payment017");
+                        payment.setProductName("大宝剑");
+                        String extraInfo = XGSDK.getInstance().getChannelId()
+                                + " extraInfo ";
+                        payment.setExt(extraInfo);
+                        int totalPrice = TextUtils.isEmpty(etMoney.getText()) ? 0
+                                : Integer.valueOf(etMoney.getText().toString());
+                        int count = TextUtils.isEmpty(etCount.getText()) ? 1
+                                : Integer.valueOf(etCount.getText().toString());
+                        payment.setProductCount(count);
+                        payment.setCurrencyName("元宝");
+                        payment.setProductTotalPrice(totalPrice);
+                        payment.setProductUnitPrice(1);
+                        XGSDK.getInstance().pay(MainActivity.this, payment,
+                                new PayCallBack() {
 
-                            @Override
-                            public void onSuccess(String msg) {
-                                ToastUtil.showToast(MainActivity.this,
-                                        "pay success." + msg);
+                                    @Override
+                                    public void onSuccess(String msg) {
+                                        ToastUtil.showToast(MainActivity.this,
+                                                "pay success." + msg);
 
-                            }
+                                    }
 
-                            @Override
-                            public void onFail(int code, String msg) {
-                                ToastUtil.showToast(MainActivity.this,
-                                        "pay fail." + code + " " + msg);
-                            }
+                                    @Override
+                                    public void onFail(int code, String msg) {
+                                        ToastUtil.showToast(MainActivity.this,
+                                                "pay fail." + code + " " + msg);
+                                    }
 
-                            @Override
-                            public void onCancel(String msg) {
-                                ToastUtil.showToast(MainActivity.this,
-                                        "pay cancel." + msg);
+                                    @Override
+                                    public void onCancel(String msg) {
+                                        ToastUtil.showToast(MainActivity.this,
+                                                "pay cancel." + msg);
 
-                            }
-                        });
-                payDialog.dismiss();
-            }
-        });
+                                    }
+                                });
+                        payDialog.dismiss();
+                    }
+                });
 
-        builder.setNegativeButton(R.string.xg_cancel,
+        builder.setNegativeButton(
+                RUtil.getString(getApplicationContext(), "xg_cancel"),
                 new Dialog.OnClickListener() {
 
                     @Override
