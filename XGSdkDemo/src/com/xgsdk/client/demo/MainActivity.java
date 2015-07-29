@@ -8,7 +8,6 @@ import com.xgsdk.client.callback.UserCallBack;
 import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.demo.orders.OrdersActivity;
 import com.xgsdk.client.entity.PayInfo;
-import com.xishanju.xiyou.mi.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
