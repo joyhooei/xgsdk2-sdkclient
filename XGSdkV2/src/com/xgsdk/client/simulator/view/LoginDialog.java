@@ -138,6 +138,7 @@ public class LoginDialog {
             public void onClick(DialogInterface dialog, int which) {
                 // mUserCallBack.onLogin(new Result(Result.CODE_CANCEL,
                 // channelTag() + " login cancel."));
+                mUserCallBack.onLoginCancel("login cancel");
                 loginDialog.dismiss();
             }
         });
