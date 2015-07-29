@@ -187,11 +187,11 @@ namespace XGSDK2
 
 		
 		//传递事件
-		public static void onEvent(string eventID)
+		public static void onEvent(string eventID, string content)
 		{
 			Debug.Log("call xgsdk onEvent...");
 			#if UNITY_ANDROID
-			callSdkApi("onEvent",eventID); 
+			callSdkApi("onEvent",eventID, content); 
 			#endif
 		}
 		
