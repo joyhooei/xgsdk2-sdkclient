@@ -2,10 +2,12 @@
 package com.xgsdk.client;
 
 import com.xgsdk.client.core.util.MD5Util;
+import com.xgsdk.client.core.util.XGLogger;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -46,7 +48,7 @@ public class SystemInfo {
     }
 
     private enum ConstKey {
-        SDK_VERSION, APP_VERSION_NAME, APP_VERSION_CODE, APP_NAME, PACKAGE_NAME, RESOLUTION, DEVICE_MODEL, DEVICE_UUID, DEVICE_UUID_HASH, OPERATORS, PROCESS_NAME, PHONE_NUMBER, PHONE_IMEI, PHONE_IMSI, MAC, CPU, MEMORY, LOCAL_IP
+        DEVICE_ID, SDK_VERSION, APP_VERSION_NAME, APP_VERSION_CODE, APP_NAME, PACKAGE_NAME, RESOLUTION, DEVICE_MODEL, DEVICE_UUID, DEVICE_UUID_HASH, OPERATORS, PROCESS_NAME, PHONE_NUMBER, PHONE_IMEI, PHONE_IMSI, MAC, CPU, MEMORY, LOCAL_IP
     }
 
     public static String getSdkVersion(Context context) {
@@ -119,7 +121,11 @@ public class SystemInfo {
     }
 
     public static String getLocalIP(Context context) {
-        return loadValue(context, ConstKey.LOCAL_IP);
+        return getValue(context, ConstKey.LOCAL_IP);
+    }
+
+    public static String getXGDeviceId(Context context) {
+        return loadValue(context, ConstKey.DEVICE_ID);
     }
 
     private static final HashMap<ConstKey, String> sValueMap = new HashMap<ConstKey, String>();
@@ -196,6 +202,9 @@ public class SystemInfo {
             case LOCAL_IP:
                 result = _getLocalIP();
                 break;
+            case DEVICE_ID:
+                result = _getDeviceId(context);
+                break;
             default:
                 result = null;
         }
@@ -220,6 +229,47 @@ public class SystemInfo {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static String _getDeviceId(Context context) {
+        {
+            try {
+                TelephonyManager mTelephonyMgr = (TelephonyManager) context
+                        .getSystemService(Context.TELEPHONY_SERVICE);
+                if (mTelephonyMgr != null) {
+                    String imei = mTelephonyMgr.getDeviceId();
+                    if (imei != null) {
+                        return "imei_" + imei;
+                    }
+                }
+            } catch (SecurityException e) {
+                XGLogger.e(e.getMessage());
+            }
+
+            try {
+                WifiManager wifi = (WifiManager) context
+                        .getSystemService(Context.WIFI_SERVICE);
+                if (wifi != null) {
+                    WifiInfo info = wifi.getConnectionInfo();
+                    if (info != null && info.getMacAddress() != null) {
+                        return "mac_" + info.getMacAddress();
+                    }
+                }
+            } catch (SecurityException e) {
+                XGLogger.e(e.getMessage());
+            }
+
+            SharedPreferences preference = context.getSharedPreferences(
+                    "xgsdk", Context.MODE_PRIVATE);
+            String uuid = preference.getString("UUID", null);
+            if (uuid == null) {
+                uuid = UUID.randomUUID().toString();
+                SharedPreferences.Editor editor = preference.edit();
+                editor.putString("UUID", uuid);
+                editor.commit();
+            }
+            return uuid;
         }
     }
 
