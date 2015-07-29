@@ -5,7 +5,6 @@ import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.callback.UserCallBack;
 import com.xgsdk.client.core.util.CommonUtils;
-import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.entity.GameServerInfo;
 import com.xgsdk.client.entity.PayInfo;
 import com.xgsdk.client.entity.RoleInfo;
@@ -42,14 +41,12 @@ public abstract class XGAgent {
         mPayCallBack = payCallBack;
     }
 
-    public void login(final Activity activity, final String customParams) {
-    }// 登录
+    public abstract void login(final Activity activity,
+            final String customParams);
 
     public void logout(final Activity activity, final String customParams) {
         if (mUserCallBack != null) {
-            // mUserCallBack.onLogout(new Result(Result.CODE_SUCCESS,
-            // " empty logout success."));
-            XGLogger.d(" empty logout success.");
+            mUserCallBack.onLogoutSuccess("");
         }
     }// 登出
 
@@ -57,29 +54,29 @@ public abstract class XGAgent {
             final String customParams) {
         if (exitCallBack != null) {
             exitCallBack.onNoChannelExiter();
-            XGLogger.d(" empty exit success.");
         }
     }// 退出游戏
 
-    public void pay(final Activity activity, final PayInfo payment,
-            final PayCallBack payCallBack) {
-    }// 充值
+    public abstract void pay(final Activity activity, final PayInfo payment,
+            final PayCallBack payCallBack);
 
     public void switchAccount(final Activity activity, final String customParams) {
         if (mUserCallBack != null) {
-            // mUserCallBack.onChangeUser(new Result(Result.CODE_SUCCESS,
-            // " empty changeUser success."));
-            XGLogger.d(" empty changeUser success.");
+            mUserCallBack.onLogoutSuccess("");
         }
     }
 
-    public abstract void onCreate(final Activity activity);// 游戏主Actitivy在onCreate()调用
+    public void onCreate(final Activity activity) {
+    }// 游戏主Actitivy在onCreate()调用
 
-    public abstract void onDestory(final Activity activity);// 游戏主Actitivy在onDestory()调用
+    public void onDestory(final Activity activity) {
+    }// 游戏主Actitivy在onDestory()调用
 
-    public abstract void onPause(final Activity activity);// 游戏主Actitivy在onPause()调用
+    public void onPause(final Activity activity) {
+    }// 游戏主Actitivy在onPause()调用
 
-    public abstract void onResume(final Activity activity);// 游戏主Actitivy在onResume()调用
+    public void onResume(final Activity activity) {
+    }// 游戏主Actitivy在onResume()调用
 
     public void onNewIntent(final Activity activity, final Intent intent) {
     }
