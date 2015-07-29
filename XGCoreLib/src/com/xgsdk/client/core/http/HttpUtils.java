@@ -4,6 +4,7 @@ package com.xgsdk.client.core.http;
 import com.xgsdk.client.core.util.XGLogger;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -17,6 +18,63 @@ public class HttpUtils {
      */
     public final static int DEFAULT_HTTP_CONNECT_TIMEOUT = 3000;
     public final static int DEFAULT_THREAD_WAIT_TIMEOUT = 30000;
+
+    public static String executeHttpPost(String url, String content) {
+        String result = null;
+        URL postUrl = null;
+        InputStreamReader in = null;
+        HttpURLConnection connection = null;
+        DataOutputStream out = null;
+        try {
+            postUrl = new URL(url);
+            connection = (HttpURLConnection) postUrl.openConnection();
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setUseCaches(false);
+            connection.setInstanceFollowRedirects(true);
+            connection.setConnectTimeout(DEFAULT_HTTP_CONNECT_TIMEOUT);
+            connection.setReadTimeout(DEFAULT_HTTP_CONNECT_TIMEOUT);
+            connection.setRequestProperty("Connection", "close");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "text/plain");
+            connection.setRequestProperty("Content-Encoding", "gzip");
+            connection.connect();
+            out = new DataOutputStream(connection.getOutputStream());
+            out.writeBytes(content);
+            out.flush();
+            in = new InputStreamReader(connection.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(in);
+            StringBuffer strBuffer = new StringBuffer();
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                strBuffer.append(line);
+            }
+            result = strBuffer.toString();
+        } catch (Exception e) {
+            XGLogger.e("execute http post error", e);
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    XGLogger.e("close input stream error.", e);
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    XGLogger.e("close output stream error.", e);
+                }
+            }
+        }
+
+        return result;
+    }
 
     /**
      * http get请求实现
@@ -58,7 +116,7 @@ public class HttpUtils {
             result = strBuffer.toString();
             XGLogger.d("url=" + urlsrc, "result=" + result);
         } catch (Exception e) {
-            XGLogger.e("execute http error", e);
+            XGLogger.e("execute http get error", e);
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -78,6 +136,20 @@ public class HttpUtils {
         Callable<String> callable = new Callable<String>() {
             public String call() throws Exception {
                 return executeHttpGet(urlSrc);
+            }
+        };
+        FutureTask<String> future = new FutureTask<String>(callable);
+        Thread thread = new Thread(future);
+        thread.start();
+        thread.join(30000);
+        return future.get();
+    }
+
+    public static String doPostInThread(final String urlSrc,
+            final String content) throws Exception {
+        Callable<String> callable = new Callable<String>() {
+            public String call() throws Exception {
+                return executeHttpPost(urlSrc, content);
             }
         };
         FutureTask<String> future = new FutureTask<String>(callable);
