@@ -21,7 +21,7 @@ import android.content.Intent;
 public class XGSDK implements XGErrorCode {
     public static final String LOG_TAG = "XGSDK";
 
-    public static final String V = "2.0";
+    public static final String VERSION = "2.0";
 
     private static XGSDK sInstance = null;
 
@@ -148,7 +148,6 @@ public class XGSDK implements XGErrorCode {
     public void setUserCallBack(UserCallBack userCallBack) {
         try {
             mAgent.setUserCallBack(userCallBack);
-            Statistics.setUserCallBack(userCallBack);
         } catch (Exception e) {
             XGLogger.e(LOG_TAG, getChannelId() + " setUserCallBack "
                     + " error ", e);
@@ -285,19 +284,20 @@ public class XGSDK implements XGErrorCode {
         }
     }
 
-    public void onEvent(String eventId, String content) {
+    public void onEvent(Activity activity, String eventId, String content) {
         try {
-            Statistics.onEvent(eventId, content);
+            Statistics.onEvent(activity, eventId, content);
         } catch (Exception e) {
             XGLogger.e(LOG_TAG, getChannelId() + " onEvent error ", e);
         }
     }
 
-    public void onRoleConsume(String accountId, String accountName,
-            String roleId, String roleName, String roleType, String roleLevel,
-            String activity, String itemCatalog, String itemId,
-            String itemName, String consumeGold, String consumeBindingGold) {
-        Statistics.onRoleConsume(accountId, accountName, roleId, roleName,
+    public void onRoleConsume(Activity act, String accountId,
+            String accountName, String roleId, String roleName,
+            String roleType, String roleLevel, String activity,
+            String itemCatalog, String itemId, String itemName,
+            String consumeGold, String consumeBindingGold) {
+        Statistics.onRoleConsume(act, accountId, accountName, roleId, roleName,
                 roleType, roleLevel, activity, itemCatalog, itemId, itemName,
                 consumeGold, consumeBindingGold);
     }

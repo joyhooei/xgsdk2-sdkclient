@@ -362,7 +362,7 @@ public class XGSDKUnity3DWrapper {
      */
     public void onEvent(String eventId, String content) {
         XGLogger.i(LOG_TAG, "onEvent");
-        mSdk.onEvent(eventId, content);
+        mSdk.onEvent(UnityPlayer.currentActivity, eventId, content);
     }
 
     /**
