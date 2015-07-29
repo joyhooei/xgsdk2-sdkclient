@@ -29,7 +29,7 @@ public class OrderDetailLayout extends LinearLayout {
         ScrollView orderLayout = new ScrollView(context);
         // this.removeAllViews();
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, 200);
-        //orderLayout.setPadding(45, 10, 45, 10);
+        // orderLayout.setPadding(45, 10, 45, 10);
         params.setMargins(45, 0, 45, 0);
         orderLayout.setLayoutParams(params);
         LinearLayout ll = new LinearLayout(context);

@@ -1,12 +1,11 @@
 
 package com.xgsdk.client.demo.orders;
 
-import com.xgsdk.client.demo.R;
+import com.xgsdk.client.core.util.RUtil;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -32,8 +31,10 @@ public class OrdersActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.xg_demo_activity_orders);
-        mLVOrders = (ListView) findViewById(R.id.xg_lv_orders);
+        setContentView(RUtil.getLayout(getApplicationContext(),
+                "xg_demo_activity_orders"));
+        mLVOrders = (ListView) findViewById(RUtil.getId(
+                getApplicationContext(), "xg_lv_orders"));
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -61,20 +62,23 @@ public class OrdersActivity extends Activity {
         }
 
         SimpleAdapter adapter = new SimpleAdapter(this, mOrderList,
-                R.layout.xg_demo_item_order,
+                RUtil.getLayout(getApplicationContext(), "xg_demo_item_order"),
 
                 new String[] {
                         KEY_ORDER_ID, KEY_ORDER_TIME, KEY_ORDER_STATUS
                 },
 
                 new int[] {
-                        R.id.xg_order_id, R.id.xg_order_time,
-                        R.id.xg_order_status
+                        RUtil.getId(getApplicationContext(), "xg_order_id"),
+                        RUtil.getId(getApplicationContext(), "xg_order_time"),
+                        RUtil.getId(getApplicationContext(), "xg_order_status")
                 });
 
         mLVOrders.setAdapter(adapter);
-        View header = getLayoutInflater().inflate(
-                R.layout.xg_demo_orders_title, null);
+        View header = getLayoutInflater()
+                .inflate(
+                        RUtil.getLayout(getApplicationContext(),
+                                "xg_demo_orders_title"), null);
         mLVOrders.addHeaderView(header);
     }
 }

@@ -4,10 +4,6 @@ package com.xgsdk.client.simulator.view;
 import com.xgsdk.client.simulator.util.CommonStr;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.PixelFormat;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
@@ -45,6 +41,7 @@ public class GameFloatView {
     private String mUserSession;
     private static GameFloatView sGameFloatView;
     private UserCenter userCenter;
+
     private GameFloatView() {
     }
 
@@ -143,34 +140,30 @@ public class GameFloatView {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-            /*Activity acti = getActivity();
-            String[] userInfo = getmUserSession().split(" ");
-            AlertDialog.Builder builder = new Builder(acti);
-            builder.setTitle(CommonStr.USER_CENTER);
-            final LinearLayout userLayout = new LinearLayout(acti);
-            LinearLayout.LayoutParams layoutP = new LinearLayout.LayoutParams(
-                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-            userLayout.setOrientation(LinearLayout.VERTICAL);
-            userLayout.setPadding(15, 10, 15, 0);
-            TextView userName = new TextView(acti);
-            userName.setText(userInfo[0]);
-            TextView balance = new TextView(acti);
-            balance.setText("10元宝");
-            userLayout.addView(userName);
-            userLayout.addView(balance);
-            builder.setView(userLayout);
-            final AlertDialog userInfoDialog = builder.create();
-            builder.setNeutralButton("OK", new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
-                    userInfoDialog.dismiss();
-                }
-            });
-            builder.show();*/
-            if(userCenter == null)
-                userCenter.getInstance().showDialog(activity, getmUserSession());
-            
+            /*
+             * Activity acti = getActivity(); String[] userInfo =
+             * getmUserSession().split(" "); AlertDialog.Builder builder = new
+             * Builder(acti); builder.setTitle(CommonStr.USER_CENTER); final
+             * LinearLayout userLayout = new LinearLayout(acti);
+             * LinearLayout.LayoutParams layoutP = new
+             * LinearLayout.LayoutParams( LayoutParams.MATCH_PARENT,
+             * LayoutParams.MATCH_PARENT);
+             * userLayout.setOrientation(LinearLayout.VERTICAL);
+             * userLayout.setPadding(15, 10, 15, 0); TextView userName = new
+             * TextView(acti); userName.setText(userInfo[0]); TextView balance =
+             * new TextView(acti); balance.setText("10元宝");
+             * userLayout.addView(userName); userLayout.addView(balance);
+             * builder.setView(userLayout); final AlertDialog userInfoDialog =
+             * builder.create(); builder.setNeutralButton("OK", new
+             * OnClickListener() {
+             * @Override public void onClick(DialogInterface dialog, int which)
+             * { // TODO Auto-generated method stub userInfoDialog.dismiss(); }
+             * }); builder.show();
+             */
+            if (userCenter == null)
+                userCenter.getInstance()
+                        .showDialog(activity, getmUserSession());
+
         }
     };
 

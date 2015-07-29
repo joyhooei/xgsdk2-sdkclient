@@ -1,12 +1,11 @@
 
 package com.xgsdk.client.simulator.view;
 
-import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.SystemInfo;
-import com.xgsdk.client.entity.XGErrorCode;
 import com.xgsdk.client.callback.UserCallBack;
 import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.core.util.XGLogger;
+import com.xgsdk.client.entity.XGErrorCode;
 import com.xgsdk.client.service.AuthService;
 import com.xgsdk.client.simulator.util.CommonStr;
 import com.xgsdk.client.simulator.view.GameFloatView.GameFloatListener;
