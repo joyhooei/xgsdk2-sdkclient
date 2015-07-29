@@ -22,6 +22,8 @@ public class ProductInfo {
     private static final String CONFIG_KEY_XG_BUILD_CODE = "BuildCode";
     private static final String CONFIG_KEY_XG_PLAN_ID = "PlanId";
     private static final String CONFIG_KEY_XG_ORIENTATITION = "orientation";
+    private static final String CONFIG_KEY_APP_ID = "AppID";
+    private static final String CONFIG_KEY_APP_KEY = "AppKey";
     private static final String ORIENTATITION_LANDSCAPE = "1";
     private static final String ORIENTATITION_PORTRAIT = "0";
 
@@ -49,7 +51,7 @@ public class ProductInfo {
     }
 
     private enum ConstKey {
-        XG_APP_ID, XG_APP_KEY, XG_CHANNEL_ID, XG_RECHARGE_URL, XG_AUTH_URL, XG_DATA_URL, XG_UPDATE_URL, XG_VERSION, XG_BUILD_CODE, XG_PLAN_ID
+        CHANNEL_APP_ID, CHANNEL_APP_KEY, XG_APP_ID, XG_APP_KEY, XG_CHANNEL_ID, XG_RECHARGE_URL, XG_AUTH_URL, XG_DATA_URL, XG_UPDATE_URL, XG_VERSION, XG_BUILD_CODE, XG_PLAN_ID
     }
 
     public static String getXGAppId(Context context) {
@@ -101,6 +103,14 @@ public class ProductInfo {
     public static String getXGConfig(Context context, String key,
             String defaultValue) {
         return _getValueFromXGConfig(context, key, defaultValue);
+    }
+
+    public static String getChannelAppId(Context context) {
+        return getValue(context, ConstKey.CHANNEL_APP_ID);
+    }
+
+    public static String getChannelAppKey(Context context) {
+        return getValue(context, ConstKey.CHANNEL_APP_KEY);
     }
 
     private static final HashMap<ConstKey, String> sValueMap = new HashMap<ConstKey, String>();
@@ -157,6 +167,13 @@ public class ProductInfo {
             case XG_PLAN_ID:
                 result = _getValueFromXGConfig(context, CONFIG_KEY_XG_PLAN_ID,
                         DEFAULT_PLAN_ID);
+                break;
+            case CHANNEL_APP_KEY:
+                result = _getValueFromXGConfig(context, CONFIG_KEY_APP_KEY,
+                        null);
+                break;
+            case CHANNEL_APP_ID:
+                result = _getValueFromXGConfig(context, CONFIG_KEY_APP_ID, null);
                 break;
         }
         return result;
