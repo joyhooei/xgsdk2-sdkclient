@@ -170,10 +170,10 @@ public class PayService {
         thread.join(THREAD_JOIN_TIME_OUT);
     }
 
-    public static void cancelOrderInThread(final Activity activity)
-            throws Exception {
+    public static void cancelOrderInThread(final Activity activity,
+            String orderId) throws Exception {
         cancelOrderInThread(activity, ProductInfo.getXGAppId(activity),
-                ProductInfo.getXGAppKey(activity), ProductInfo.getChannelId());
+                ProductInfo.getXGAppKey(activity), orderId);
     }
 
     /**
