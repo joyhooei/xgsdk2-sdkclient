@@ -99,9 +99,6 @@ public class SimulateAgent extends XGAgent {
 
     @Override
     public void pay(Activity activity, PayInfo payment, PayCallBack payCallBack) {
-        // TODO Auto-generated method stub
-        super.pay(activity, payment, payCallBack);
-
         showPayDialog(activity, payment, payCallBack);
     }
 
@@ -127,7 +124,6 @@ public class SimulateAgent extends XGAgent {
                 // accountId priceTitle is null
                 try {
                     String orderId = PayService.createOrderInThread(activity,
-                            xgsdkAppId, xgsdkAppKey, channelId,
                             payment.getUid(), payment.getProductId(),
                             payment.getProductName(), payment.getProductDesc(),
                             String.valueOf(payment.getProductCount()),
