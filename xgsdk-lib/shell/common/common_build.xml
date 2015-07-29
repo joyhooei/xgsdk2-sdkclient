@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--common_is_new 标示新打包叫  -->
+<project name="common" default="zipalign" basedir="../..">
+	<property environment="env" />
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml" />
+	<condition property="exe" value=".exe" else="">
+		<os family="windows" />
+	</condition>
+	<condition property="bat" value=".bat" else="">
+		<os family="windows" />
+	</condition>
+	<property name="andriod_tools" value="${env.ANDROID_SDK_HOME}/build-tools/21.1.1" />
+	<property name="apktools" value="${basedir}/tools/apktools/apktool${bat}" />
+	<condition property="jarsigner" value="${env.JAVA_HOME}/bin/jarsigner" else="jarsigner">
+		<os family="windows" />
+	</condition>
+	<property name="zipalign" value="${andriod_tools}/zipalign${exe}" />
+	<!-- 使用到的命令(当前系统为windows,如果系统为linux,可将.bat文件替换成相对应的命令) -->
+
+	<property name="aapt" value="${andriod_tools}/aapt${exe}" />
+	<property name="dx" value="${andriod_tools}/dx${bat}" />
+	<!-- 设置相关的工作目录./PkgTool/tools -->
+	<property name="tools.dir" value="${basedir}/tools" />
+	<property name="sdk-folder" value="${tools.dir}/android_build_tools" />
+	<!-- 编译需要的jar; 如果项目使用到地图服务则需要maps.jar -->
+	<property name="android-jar" value="${sdk-folder}/android-14/android.jar" />
+
+	<property name="works.dir" value="${basedir}/works/${date}" />
+	<property name="works.tmp" value="${basedir}/works/${date}/tmp" />
+	<property name="channels.dir" value="${basedir}/channels" />
+	<property name="channelName" value="${channelId}_${channelVersion}" />
+	<property name="amxtool.dir" value="${channels.dir}/${channelName}/tools/amxtool.jar" />
+
+	<!-- 清单文件 -->
+	<property name="manifest-xml" value="AndroidManifest.xml" />
+	<!-- 源文件目录 -->
+	<property name="resource-dir" value="res" />
+	<property name="asset-dir" value="assets" />
+	<!-- java源文件目录 -->
+	<property name="srcdir" value="src" />
+
+	<property name="logFilePath" value="${tools.dir}/logs" />
+
+	<property name="logFile" value="${logFilePath}/log.log" />
+	<property name="outputPath" value="${works.dir}/output" />
+
+	<!-- 初始化工作 -->
+	<target name="init">
+		<echo>Initializing all output directories...</echo>
+		<delete dir="${works.tmp}" failonerror="false" />
+		<mkdir dir="${works.tmp}" />
+		<mkdir dir="${works.dir}/output" />
+	</target>
+
+	<!--解压母包 -->
+	<target name="decompressApk" depends="init">
+		<for param="apkFile">
+			<path>
+				<fileset dir="${works.tmp}/../orig/" includes="*.apk" />
+			</path>
+			<sequential>
+				<echo>解压缩母包 @{apkFile} -- ${works.tmp}</echo>
+				<exec executable="${apktools}" failonerror="true">
+					<arg value="d" />
+					<arg value="-f" />
+					<arg value="-s" />
+					<arg value="@{apkFile}" />
+					<arg value="-o" />
+					<arg value="${works.tmp}" />
+				</exec>
+			</sequential>
+		</for>
+	</target>
+
+	<target name="deletePublicXml" depends="decompressApk">
+		<echo>delete public.xml...</echo>
+		<delete file="${works.tmp}/res/values/public.xml">
+		</delete>
+	</target>
+
+	<!-- 增加jar到classes。dex中 -->
+	<target name="addOtherJar" depends="deletePublicXml" description="增加jar到dex中">
+		<if>
+			<equals arg1="${channelId}" arg2="yingyongbao" />
+			<then>
+				<echo>应用宝做特殊处理</echo>
+				<antcall target="yingyongbaoRecompileActivity" />
+			</then>
+		</if>
+
+		<echo>Add sdk library and resource</echo>
+		<for param="sdkFolder">
+			<path>
+				<dirset dir="${channels.dir}">
+					<depth min="0" max="0">
+					</depth>
+					<include name="${channelName}" />
+				</dirset>
+			</path>
+			<sequential>
+				<echo>@{sdkFolder}</echo>
+				<copy todir="${works.tmp}" overwrite="false">
+					<fileset dir="@{sdkFolder}">
+						<include name="assets/**" />
+						<include name="res/**" />
+						<exclude name="assets/sdk_config.properties" />
+					</fileset>
+				</copy>
+
+				<copy todir="${works.tmp}/lib" overwrite="false" includeemptydirs="false">
+					<fileset dir="@{sdkFolder}/libs">
+						<depth max="0" />
+						<include name="*" />
+						<exclude name="*.jar" />
+					</fileset>
+				</copy>
+
+				<!-- 拷贝lib目录上的cpu目录文件 -->
+				<java fork="true" failonerror="true" classname="com.seasung.powerking.android.tool.CopyResourceFolder" maxmemory="128m">
+					<classpath path="${amxtool.dir}" />
+					<arg value="${works.tmp}/lib" />
+					<arg value="@{sdkFolder}/libs" />
+					<arg value="${works.tmp}/lib" />
+				</java>
+
+				<for param="sdkFile">
+					<path>
+						<fileset dir="@{sdkFolder}/libs">
+							<include name="*.jar" />
+							<exclude name="xgsdk-common-lib*.jar" />
+							<exclude name="android-support-v4.jar" />
+							<exclude name="fastjson-1.2.0.jar" />
+							<exclude name="xgsdk-plugin*.jar" />
+							<exclude name="libcocos2dx-interface*.jar" />
+							<exclude name="mid-sdk-*.jar" />
+						</fileset>
+					</path>
+					<sequential>
+						<echo>@{sdkFile}</echo>
+						<exec executable="${dx}" failonerror="true" dir="${works.tmp}/">
+							<arg value="--dex" />
+							<!-- 输出文件 -->
+							<arg value="--output=classes.dex" />
+							<!-- 要生成.dex文件的源classes和libraries -->
+							<arg value="@{sdkFile}" />
+							<arg value="classes.dex" />
+						</exec>
+					</sequential>
+				</for>
+			</sequential>
+		</for>
+
+		<antcall target="dexCommonLib" />
+		<!-- 再处理服务资源 -->
+		<antcall target="addService" />
+	</target>
+	<target name="addService" description="增加服务">
+		<for param="folder">
+			<path>
+				<dirset dir="${works.dir}/services">
+					<depth min="0" max="0">
+					</depth>
+				</dirset>
+			</path>
+
+			<sequential>
+				<echo>服务名称:@{folder}</echo>
+				<copy todir="${works.tmp}" overwrite="false">
+					<fileset dir="@{folder}">
+						<include name="assets/**" />
+						<include name="res/**" />
+						<exclude name="assets/sdk_config.properties" />
+					</fileset>
+				</copy>
+
+				<!-- 拷贝lib目录上的cpu目录文件 -->
+				<java fork="true" failonerror="true" classname="com.seasung.powerking.android.tool.CopyResourceFolder" maxmemory="128m">
+					<classpath path="${amxtool.dir}" />
+					<arg value="${works.tmp}/lib" />
+					<arg value="@{folder}/lib" />
+					<arg value="${works.tmp}/lib" />
+				</java>
+
+				<!-- 如果服务中也需要修改manifest文件,则通过该步骤修改,如果不需要该操作,则该步骤不做任何事情,直接返回 -->
+				<java fork="true" failonerror="true" classname="com.seasung.powerking.android.service.ServiceManiTool" maxmemory="128m">
+					<classpath path="${amxtool.dir}" />
+					<!-- 服务名称 -->
+					<arg value="@{folder}" />
+					<arg value="${works.tmp}/${manifest-xml}" />
+					<arg value="${packageName}" />
+				</java>
+
+				<for param="file">
+					<path>
+						<fileset dir="@{folder}" includes="*.jar" />
+					</path>
+					<sequential>
+						<echo>jar名称:@{file}</echo>
+						<exec executable="${dx}" failonerror="false" dir="${works.tmp}/">
+							<arg value="--dex" />
+							<!-- 输出文件 -->
+							<arg value="--output=classes.dex" />
+							<!-- 要生成.dex文件的源classes和libraries -->
+							<arg value="@{file}" />
+							<arg value="classes.dex" />
+						</exec>
+					</sequential>
+				</for>
+			</sequential>
+		</for>
+	</target>
+
+	<!-- 如果是原生接口,则需要增加commonlib的jar -->
+	<target name="dexCommonLib">
+		<for param="commonLib">
+			<path>
+				<fileset dir="${channels.dir}/${channelName}/libs">
+					<include name="xgsdk-common-lib*.jar" />
+					<include name="android-support-v4.jar" />
+					<include name="fastjson-1.2.0.jar" />
+					<include name="xgsdk-plugin*.jar" />
+					<include name="libcocos2dx-interface*.jar" />
+					<include name="mid-sdk-*.jar" />
+				</fileset>
+			</path>
+			<sequential>
+				<echo>@{commonLib}</echo>
+				<exec executable="${dx}" failonerror="false" dir="${works.tmp}/">
+					<arg value="--dex" />
+					<!-- 输出文件 -->
+					<arg value="--output=classes.dex" />
+					<!-- 要生成.dex文件的源classes和libraries -->
+					<arg value="@{commonLib}" />
+					<arg value="classes.dex" />
+				</exec>
+			</sequential>
+		</for>
+	</target>
+
+	<!-- 处理works/${date}/res目录下的资源文件 -->
+	<target name="copyRes" depends="addOtherJar">
+		<echo>Copy ${works.dir}/res/${channelName} to works/${date}/tmp</echo>
+		<delete file="${works.tmp}/assets/sdk_config.properties" />
+		<copy todir="${works.tmp}" overwrite="true">
+			<fileset dir="${works.dir}/res/${channelName}">
+				<exclude name="*.zip" />
+				<exclude name="keystore.properties" />
+			</fileset>
+		</copy>
+		<available file="${works.tmp}/assets/sdk_config.properties" property="sdk_configExits" />
+		<if>
+			<equals arg1="${sdk_configExits}" arg2="false" />
+			<then>
+				<fail message="sdk_config 文件不存在,打包失败" />
+			</then>
+		</if>
+	</target>
+
+	<!-- 修改游戏母包中的 AndroidManifest.xml -->
+	<target name="modifyAndroidManifest.xml" depends="copyRes">
+		<echo>Compiling java source code...</echo>
+		<echo>packageName=${packageName}</echo>
+		<java fork="true" failonerror="true" classname="com.seasung.powerking.android.Main" maxmemory="128m">
+			<classpath path="${amxtool.dir}" />
+			<!-- 服务名称 -->
+			<arg value="${channelId}" />
+			<arg value="${works.tmp}/${manifest-xml}" />
+			<arg value="${packageName}" />
+		</java>
+	</target>
+
+	<!-- 根据工程中的资源文件生成R.java文件 -->
+	<target name="gen-R" depends="modifyAndroidManifest.xml">
+		<echo>Generating R.java from the resources...</echo>
+		<mkdir dir="${works.tmp}/assets" />
+		<mkdir dir="${works.tmp}/gen" />
+		<mkdir dir="${works.tmp}/gen/src" />
+		<mkdir dir="${works.tmp}/gen/bin" />
+		<exec executable="${aapt}" failonerror="true" dir="${works.tmp}/gen">
+			<arg value="package" />
+			<arg value="-m" />
+
+			<arg value="-J" />
+			<arg value="${works.tmp}/gen/src" />
+
+			<arg value="-S" />
+			<arg value="${works.tmp}/${resource-dir}" />
+
+			<arg value="-A" />
+			<arg value="${works.tmp}/${asset-dir}" />
+
+			<arg value="-I" />
+			<arg value="${android-jar}" />
+
+			<arg value="-M" />
+			<arg value="${works.tmp}/${manifest-xml}" />
+		</exec>
+	</target>
+
+	<!-- 将工程中的java源文件编译成class文件 -->
+	<target name="compile" depends="gen-R">
+		<echo>Compiling java source code...</echo>
+
+		<javac encoding="utf-8" source="1.6" target="1.6" srcdir="${works.tmp}/gen/src" destdir="${works.tmp}/gen/bin" includeantruntime="on">
+			<compilerarg value="-Xlint" />
+		</javac>
+		<!--<jar destfile="${works.tmp}/gen/${apk_name}.jar" basedir="${works.tmp}/gen/bin" excludes="**/*.class" /-->
+		<exec executable="${dx}" failonerror="true" dir="${works.tmp}/">
+			<arg value="--dex" />
+			<!-- 输出文件 -->
+			<arg value="--output=classes.dex" />
+			<!-- 要生成.dex文件的源classes和libraries -->
+			<arg value="${works.tmp}/gen/bin" />
+			<arg value="classes.dex" />
+		</exec>
+	</target>
+
+	<!-- 将.class文件转化成.dex文件 -->
+	<target name="dex" depends="compile">
+		<echo>Converting compiled files and external libraries into a .dex
+			file...
+		</echo>
+	</target>
+
+	<!-- 打包成未签证的apk -->
+	<target name="package" depends="dex">
+		<echo>Packaging unsigned apk for release...</echo>
+		<exec executable="${apktools}" failonerror="true">
+			<arg value="b" />
+			<arg value="${works.tmp}" />
+			<arg value="-o" />
+			<arg value="${works.tmp}/dist/${apk_name}.apk" />
+		</exec>
+		<antcall target="4399addFile" />
+		<echo>It1 will need to be signed with jarsigner before being
+			published.
+		</echo>
+	</target>
+
+	<property name="signOutputApk" value="${works.tmp}/dist/${apk_name}_${channelId}.apk" />
+	<property name="signInputApk" value="${works.tmp}/dist/${apk_name}.apk" />
+	<!-- 如果游戏使用老的方式签名,则必须上传 platform.x509.pem和platform.pk8到资源包中-->
+	<!-- 对apk进行签证 -->
+	<target name="sign" depends="package">
+		<echo>签名文件:${works.dir}/sensitive/${channelId}_${keystoneFileName}</echo>
+		<property file="${works.dir}/sensitive/${channelId}_${keystoneFileName}" />
+		<echo>keystone 路径:${keyPath},签名类型:${signType-desc}--${signType}</echo>
+		<echo>Packaging signed apk for release...</echo>
+		<if>
+			<equals arg1="${signType}" arg2="0" />
+			<then>
+				<available file="${works.tmp}/platform.x509.pem" property="oldsignfile.exist" />
+				<if>
+					<equals arg1="${oldsignfile.exist}" arg2="true" />
+					<then>
+						<antcall target="x509Signapk" />
+					</then>
+					<else>
+						<antcall target="defaultSigner" />
+					</else>
+				</if>
+			</then>
+			<else>
+				<antcall target="defaultSigner" />
+			</else>
+		</if>
+	</target>
+
+	<target name="x509Signapk">
+		<echo>签名类型:${signType-desc}--${signType}</echo>
+		<java jar="${tools.dir}/signapk.jar" fork="true" failonerror="true" maxmemory="128m">
+			<arg value="${tools.dir}/platform.x509.pem" />
+			<arg value="${tools.dir}/platform.pk8" />
+			<arg value="${signInputApk}" />
+			<arg value="${signOutputApk}" />
+		</java>
+		<echo>输出包路径:${outputPath}</echo>
+	</target>
+
+	<!-- 对apk进行签证 -->
+	<target name="defaultSigner">
+		<echo>签名类型:${signType-desc}--${signType}</echo>
+		<exec executable="${jarsigner}" failonerror="true">
+			<arg value="-keystore" />
+			<arg value="${keyPathRoot}" />
+
+			<arg value="-storepass" />
+			<arg value="${storepass}" />
+
+			<arg value="-keypass" />
+			<arg value="${keypass}" />
+
+			<arg value="-signedjar" />
+			<arg value="${signOutputApk}" />
+
+			<arg value="-digestalg" />
+			<arg value="${digestalg}" />
+
+			<arg value="-sigalg" />
+			<arg value="${sigalg}" />
+
+			<arg value="${signInputApk}" />
+			<!-- 不要忘了证书的别名 -->
+			<arg value="${alias}" />
+		</exec>
+	</target>
+
+	<!-- 对apk进行对齐优化 -->
+	<target name="zipalign" depends="sign">
+		<echo>starting zipalign ${outputPath}/${apk_name}_${channelId}.apk...</echo>
+		<exec executable="${zipalign}" failonerror="true">
+			<arg value="-v" />
+			<arg value="-f" />
+			<arg value="4" />
+			<arg value="${works.tmp}/dist/${apk_name}_${channelId}.apk" />
+			<arg value="${outputPath}/${apk_name}_${channelId}.apk" />
+		</exec>
+
+		<!-- 删除临时的apk文件 -->
+		<delete file="${works.tmp}/dist/${apk_name}.apk" />
+		<delete file="${works.tmp}/dist/${apk_name}_${channelId}.apk" />
+
+		<if>
+			<equals arg1="${channelId}" arg2="tudou" />
+			<then>
+				<echo message="修改土豆名字为优酷" />
+				<rename src="${outputPath}/${apk_name}_${channelId}.apk" dest="${outputPath}/${apk_name}_youku.apk" />
+			</then>
+		</if>
+	</target>
+
+	<target name="yingyongbaoRecompileActivity">
+		<echo>recompileActivity...</echo>
+		<delete file="${works.tmp}/activityTmp" />
+		<mkdir dir="${works.tmp}/activityTmp/src" />
+		<propertyregex property="newPackage" input="${packageName}" regexp='\.' replace="/" />
+		<property file="${works.tmp}/../sensitive/${channelId}_sensitive_config.properties" />
+		<property file="${works.tmp}/../res/${channelId}_${channelVersion}/assets/sdk_config.properties" />
+
+		<echo message="修改msdkconfig.ini payEnv=${payEnv}" />
+		<delete file="${works.tmp}/assets/msdkconfig.ini" />
+		<copyfile src="${channels.dir}/${channelName}/code/${payEnv}_msdkconfig.ini" dest="${works.tmp}/assets/msdkconfig.ini" />
+		<mkdir dir="${works.tmp}/activityTmp/src/${newPackage}" />
+		<echo append="false" file="${works.tmp}/activityTmp/src/${newPackage}/WXEntryActivity.java" message="package ${packageName}.wxapi;${line.separator}public class WXEntryActivity extends com.tencent.msdk.weixin.BaseWXEntryActivity { }" encoding="UTF-8" />
+
+		<delete file="${works.tmp}/code" />
+		<mkdir dir="${works.tmp}/activityTmp/bin" />
+
+		<echo>编译:${works.tmp}/activityTmp/src/${newPackage}/WXEntryActivity.java</echo>
+		<javac source="1.6" target="1.6" srcdir="${works.tmp}/activityTmp/src" destdir="${works.tmp}/activityTmp/bin" includeantruntime="on">
+			<compilerarg value="-Xlint" />
+			<classpath>
+				<fileset dir="${works.tmp}/activityTmp" includes="*.jar" />
+				<fileset dir="${sdk-folder}/android-14/" includes="*.jar" />
+				<fileset dir="${channels.dir}/${channelName}/">
+					<include name="*.jar" />
+					<include name="libs/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+
+		<jar destfile="${works.tmp}/activityTmp/xgsdk_yingyongbao.jar">
+			<fileset dir="${works.tmp}/activityTmp/bin" />
+		</jar>
+		<exec executable="${dx}" failonerror="true" dir="${works.tmp}/">
+			<arg value="--dex" />
+			<!-- 输出文件 -->
+			<arg value="--output=classes.dex" />
+			<!-- 要生成.dex文件的源classes和libraries -->
+			<arg value="${works.tmp}/activityTmp/xgsdk_yingyongbao.jar" />
+			<arg value="classes.dex" />
+		</exec>
+	</target>
+
+	<target name="4399addFile">
+		<if>
+			<equals arg1="${channelId}" arg2="4399" />
+			<then>
+				<echo>修改4399渠道:iap_corp.xml文件</echo>
+				<copyfile src="${channels.dir}/${channelName}/ext/iap_corp.xml" dest="${works.tmp}/dist/iap_corp.xml" />
+				<exec executable="${aapt}" dir="${works.tmp}/dist/" failonerror="true">
+					<arg value="a" />
+					<arg value="${apk_name}.apk" />
+					<arg value="iap_corp.xml" />
+				</exec>
+			</then>
+		</if>
+	</target>
+</project>
