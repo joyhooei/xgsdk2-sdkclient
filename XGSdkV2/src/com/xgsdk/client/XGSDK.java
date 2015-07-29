@@ -264,6 +264,23 @@ public class XGSDK {
         }
     }
 
+    public void onEvent(String eventId, String content) {
+        try {
+            Statistics.onEvent(eventId, content);
+        } catch (Exception e) {
+            XGLogger.e(LOG_TAG, getChannelId() + " onEvent error ", e);
+        }
+    }
+
+    public void onRoleConsume(String accountId, String accountName,
+            String roleId, String roleName, String roleType, String roleLevel,
+            String activity, String itemCatalog, String itemId,
+            String itemName, String consumeGold, String consumeBindingGold) {
+        Statistics.onRoleConsume(accountId, accountName, roleId, roleName,
+                roleType, roleLevel, activity, itemCatalog, itemId, itemName,
+                consumeGold, consumeBindingGold);
+    }
+
     void onApplicationCreate(final Context context) {
         try {
             mAgent.onApplicationCreate(context);
