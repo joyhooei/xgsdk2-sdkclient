@@ -1,7 +1,6 @@
 
 package com.xgsdk.client;
 
-//import com.seasun.xgsdk.data.XGSDKDataAgentUtils;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.check.CheckData;
@@ -38,7 +37,6 @@ class Statistics {
     private static final String METHOD_LOGOUT = "logout";
     private static final String METHOD_EXIT = "exit";
     private static final String METHOD_SWITCH_ACCOUNT = "switchAccount";
-    private static final String METHOD_SET_USERCALLBACK = "setUserCallBack";
     private static final String METHOD_OPEN_USERCENTER = "openUserCenter";
     private static final String METHOD_ON_CREATE_ROLE = "onCreateRole";
     private static final String METHOD_ON_ENTER_GAME = "onEnterGame";
@@ -78,17 +76,28 @@ class Statistics {
     private static final String PARAM_NAME_CONSUME_GOLD = "ConsumeGold";
     private static final String PARAM_NAME_CONSUME_BINDING_GOLD = "ConsumeBindingGold";
 
+    private static boolean sCheckEnable = false;
+
+    static void init(boolean checkEnable) {
+        sCheckEnable = checkEnable;
+        XGLogger.i("set CheckEnable " + checkEnable);
+    }
+
     private static void check(Context context, String name,
             HashMap<String, Object> params) {
+        if (!sCheckEnable) {
+            return;
+        }
+
         JSONObject json = CheckData.getCheckTotalJson(context, name, params);
         XGLogger.w(json.toString());
         try {
-            String ret = HttpUtils.doPostInThread("http://10.20.72.72:8090/package/interfaceTest",
+            String ret = HttpUtils.doPostInThread(
+                    "http://10.20.72.72:8090/package/interfaceTest",
                     json.toString());
             XGLogger.w(ret);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            XGLogger.e("post check data error.", e);
         }
     }
 

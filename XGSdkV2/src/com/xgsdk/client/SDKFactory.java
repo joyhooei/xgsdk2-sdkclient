@@ -1,17 +1,18 @@
 
-package com.xgsdk.client.agent;
+package com.xgsdk.client;
 
+import com.xgsdk.client.agent.XGAgent;
 import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.simulator.SimulateAgent;
 
-public class SDKFactory {
+class SDKFactory {
 
     private static final String IMPL_SDK_CLASS = "com.xgsdk.client.XGAgentImpl";
     private static final String IMPL_SDK_V1_CLASS = "com.seasun.xgsdk.XGSDKImpl";
 
     private static XGAgent sSDK = null;
 
-    public static XGAgent getSDK() {
+    static XGAgent getSDK() {
         if (sSDK == null) {
             synchronized (SDKFactory.class) {
                 try {
@@ -21,10 +22,8 @@ public class SDKFactory {
                         XGLogger.w("Create a v2 xgsdk instance. "
                                 + IMPL_SDK_CLASS);
                     }
-
                 } catch (Exception e) {
-                    XGLogger.d("create " + IMPL_SDK_CLASS + " instance error",
-                            e);
+                    XGLogger.i(IMPL_SDK_CLASS + " not exist.");
                 }
 
                 try {
@@ -35,8 +34,7 @@ public class SDKFactory {
                                 + IMPL_SDK_CLASS);
                     }
                 } catch (Exception e) {
-                    XGLogger.d("create " + IMPL_SDK_V1_CLASS
-                            + " instance error", e);
+                    XGLogger.i(IMPL_SDK_V1_CLASS + " not exist.");
                 }
 
                 try {
@@ -44,9 +42,8 @@ public class SDKFactory {
                         sSDK = new SimulateAgent();
                         XGLogger.w("Create a simulate xgsdk instance. ");
                     }
-
                 } catch (Exception e) {
-                    XGLogger.d("create simulate sdk instance error", e);
+                    XGLogger.i("create simulate sdk instance error.", e);
                 }
             }
         }

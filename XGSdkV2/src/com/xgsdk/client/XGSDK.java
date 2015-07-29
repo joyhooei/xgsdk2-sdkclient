@@ -1,7 +1,6 @@
 
 package com.xgsdk.client;
 
-import com.xgsdk.client.agent.SDKFactory;
 import com.xgsdk.client.agent.XGAgent;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;

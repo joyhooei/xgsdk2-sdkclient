@@ -1,9 +1,10 @@
 
-package com.xgsdk.client.agent;
+package com.xgsdk.client;
 
 import com.seasun.powerking.sdkclient.Util;
 import com.seasun.powerking.sdkclient.callback.IConstant;
 import com.seasun.xgsdk.XGSDKAndroidImpl;
+import com.xgsdk.client.agent.XGAgent;
 import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
