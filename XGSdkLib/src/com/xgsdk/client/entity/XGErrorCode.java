@@ -3,6 +3,9 @@ package com.xgsdk.client.entity;
 
 public interface XGErrorCode {
     public static final int SDK_CLIENT_INIT_FAILED = 1000;// 客户端初始化失败
+    public static final int SDK_PAY_CREATE_ORDER_FAILED = 1001;// 创建订单失败
+    public static final int PAY_FAILED = 1002;// 客户端支付失败
+    public static final int PAY_FAILED_CHANNEL_ERROR = 1003;// 客户端支付失败，渠道错误
 
     // 调用 SDK server参数不正确
     public static final int SDK_SERVER_PARAM_INVALID = 2000;// 参数异常

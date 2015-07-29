@@ -9,6 +9,9 @@ public abstract class PayCallBack {
 
     public abstract void onCancel(String msg);
 
+    public void onProgress(String msg) {
+    };
+
     public void onOthers(int code, String msg) {
     }
 

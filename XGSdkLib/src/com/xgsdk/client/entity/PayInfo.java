@@ -6,6 +6,8 @@ import com.xgsdk.client.core.util.CommonUtils;
 import java.util.HashMap;
 
 public class PayInfo {
+    public static final String KEY_XG_ORDER_ID = "XG_ORDER_ID";
+
     private String uid;
     private String productId;
     private String productName;
@@ -37,6 +39,10 @@ public class PayInfo {
 
     public void setAdditionalParam(String name, String value) {
         additionalParams.put(name, value);
+    }
+
+    public String getXgOrderId() {
+        return additionalParams.get(KEY_XG_ORDER_ID);
     }
 
     public String getZoneId() {

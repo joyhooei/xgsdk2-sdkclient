@@ -10,14 +10,16 @@ import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.entity.GameServerInfo;
 import com.xgsdk.client.entity.PayInfo;
 import com.xgsdk.client.entity.RoleInfo;
+import com.xgsdk.client.entity.XGErrorCode;
 import com.xgsdk.client.entity.XGUser;
+import com.xgsdk.client.service.PayService;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-public class XGSDK {
-    public static final String LOG_TAG = "XG_SDK";
+public class XGSDK implements XGErrorCode {
+    public static final String LOG_TAG = "XGSDK";
 
     public static final String V = "2.0";
 
@@ -185,6 +187,25 @@ public class XGSDK {
 
         try {
             mAgent.setPayCallBack(payCallBack);
+
+            String orderId = PayService.createOrderInThread(activity,
+                    payInfo.getUid(), payInfo.getProductId(),
+                    payInfo.getProductName(), payInfo.getProductDesc(),
+                    String.valueOf(payInfo.getProductCount()),
+                    String.valueOf(payInfo.getProductTotalPrice()),
+                    payInfo.getServerId(), payInfo.getRoleId(),
+                    payInfo.getRoleName(), payInfo.getCurrencyName(),
+                    payInfo.getExt());
+            if (null == orderId || "".equals(orderId)) {
+                XGLogger.e("create order fail in xg service ,uid:"
+                        + payInfo.getUid() + ",price:"
+                        + payInfo.getProductTotalPrice() + ",ext:"
+                        + payInfo.getExt());
+                payCallBack.onFail(SDK_PAY_CREATE_ORDER_FAILED,
+                        "create order fail in xg service .");
+                return;
+            }
+            payInfo.setAdditionalParam(PayInfo.KEY_XG_ORDER_ID, orderId);
             mAgent.pay(activity, payInfo, payCallBack);
             Statistics.pay(activity, payInfo, payCallBack);
         } catch (Exception e) {
