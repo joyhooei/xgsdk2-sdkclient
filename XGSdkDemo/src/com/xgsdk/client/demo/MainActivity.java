@@ -8,6 +8,7 @@ import com.xgsdk.client.callback.UserCallBack;
 import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.demo.orders.OrdersActivity;
 import com.xgsdk.client.entity.PayInfo;
+import com.xishanju.xiyou.mi.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -44,15 +45,14 @@ public class MainActivity extends Activity implements OnClickListener {
 
             @Override
             public void onLogoutSuccess(String msg) {
-                ToastUtil.showToast(getApplicationContext(), "logout success."
-                        + msg);
+                ToastUtil.showToast(MainActivity.this, "logout success." + msg);
 
             }
 
             @Override
             public void onLogoutFail(int code, String msg) {
-                ToastUtil.showToast(getApplicationContext(), "logout fail."
-                        + code + " " + msg);
+                ToastUtil.showToast(MainActivity.this, "logout fail." + code
+                        + " " + msg);
 
             }
 
@@ -63,22 +63,21 @@ public class MainActivity extends Activity implements OnClickListener {
 
             @Override
             public void onLoginFail(int code, String msg) {
-                ToastUtil.showToast(getApplicationContext(), "login fail."
-                        + code + " " + msg);
+                ToastUtil.showToast(MainActivity.this, "login fail." + code
+                        + " " + msg);
 
             }
 
             @Override
             public void onInitFail(int code, String msg) {
-                ToastUtil.showToast(getApplicationContext(), "init fail."
-                        + code + " " + msg);
+                ToastUtil.showToast(MainActivity.this, "init fail." + code
+                        + " " + msg);
 
             }
 
             @Override
             public void onLoginCancel(String msg) {
-                ToastUtil.showToast(getApplicationContext(), "login cancel."
-                        + msg);
+                ToastUtil.showToast(MainActivity.this, "login cancel." + msg);
 
             }
         });
@@ -144,7 +143,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
                     @Override
                     public void onCancel() {
-                        ToastUtil.showToast(getApplicationContext(), "回到游戏");
+                        ToastUtil.showToast(MainActivity.this, "回到游戏");
 
                     }
                 }, null);
@@ -254,20 +253,20 @@ public class MainActivity extends Activity implements OnClickListener {
 
                             @Override
                             public void onSuccess(String msg) {
-                                ToastUtil.showToast(getApplicationContext(),
+                                ToastUtil.showToast(MainActivity.this,
                                         "pay success." + msg);
 
                             }
 
                             @Override
                             public void onFail(int code, String msg) {
-                                ToastUtil.showToast(getApplicationContext(),
+                                ToastUtil.showToast(MainActivity.this,
                                         "pay fail." + code + " " + msg);
                             }
 
                             @Override
                             public void onCancel(String msg) {
-                                ToastUtil.showToast(getApplicationContext(),
+                                ToastUtil.showToast(MainActivity.this,
                                         "pay cancel." + msg);
 
                             }

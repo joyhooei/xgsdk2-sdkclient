@@ -1,37 +1,42 @@
 
 package com.xgsdk.client.core.util;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Color;
-import android.os.Looper;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ToastUtil {
     private static Toast sToastInstance;
 
-    public static void showToast(Context context, String message) {
-        showToast(context, message, Toast.LENGTH_SHORT);
+    public static void showToast(Activity activity, String message) {
+        showToast(activity, message, Toast.LENGTH_SHORT);
     }
 
-    public static void showToast(Context context, String message, int duration) {
-        Looper.prepare();
-        makeText(context, message, duration).show();
-        Looper.loop();
+    public static void showToast(final Activity activity, final String message,
+            final int duration) {
+        activity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                makeText(activity, message, duration).show();
+            }
+        });
     }
 
-    public static void showToast(Context context, int resId, int duration) {
-        showToast(context, context.getString(resId), duration);
+    public static void showToast(Activity activity, int resId, int duration) {
+        showToast(activity, activity.getString(resId), duration);
     }
 
-    public static void showToast(Context context, int resId) {
-        showToast(context, context.getString(resId));
+    public static void showToast(Activity activity, int resId) {
+        showToast(activity, activity.getString(resId));
     }
 
-    private static Toast makeText(Context context, String message, int duration) {
+    private static Toast makeText(Activity activity, String message,
+            int duration) {
         if (sToastInstance == null) {
-            sToastInstance = new Toast(context);
-            TextView tv = getTextView(context);
+            sToastInstance = new Toast(activity);
+            TextView tv = getTextView(activity);
             sToastInstance.setView(tv);
         }
         ((TextView) sToastInstance.getView()).setText(message);
@@ -40,35 +45,41 @@ public class ToastUtil {
         return sToastInstance;
     }
 
-    private static TextView getTextView(Context context) {
-        TextView tv = new TextView(context);
+    private static TextView getTextView(Activity activity) {
+        TextView tv = new TextView(activity);
         tv.setTextColor(Color.WHITE);
         tv.setBackgroundColor(Color.BLACK);
         tv.setPadding(32, 24, 32, 24);
         return tv;
     }
 
-    public static void showNormalToast(Context context, int resId) {
-        showNormalToast(context, context.getString(resId), Toast.LENGTH_SHORT);
+    public static void showNormalToast(Activity activity, int resId) {
+        showNormalToast(activity, activity.getString(resId), Toast.LENGTH_SHORT);
     }
 
-    public static void showNormalToast(Context context, int resId, int duration) {
-        showNormalToast(context, context.getString(resId), duration);
-    }
-
-    public static void showNormalToast(Context context, String message) {
-        showNormalToast(context, message, Toast.LENGTH_SHORT);
-    }
-
-    public static void showNormalToast(Context context, String message,
+    public static void showNormalToast(Activity activity, int resId,
             int duration) {
-        Looper.prepare();
-        Toast t = Toast.makeText(context, message, duration);
-        TextView tv = getTextView(context);
-        tv.setText(message);
-        t.setView(tv);
-        t.show();
-        Looper.loop();
+        showNormalToast(activity, activity.getString(resId), duration);
+    }
+
+    public static void showNormalToast(Activity activity, String message) {
+        showNormalToast(activity, message, Toast.LENGTH_SHORT);
+    }
+
+    public static void showNormalToast(final Activity activity,
+            final String message, final int duration) {
+        activity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast t = Toast.makeText(activity, message, duration);
+                TextView tv = getTextView(activity);
+                tv.setText(message);
+                t.setView(tv);
+                t.show();
+            }
+        });
+
     }
 
 }
