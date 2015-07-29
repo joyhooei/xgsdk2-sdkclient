@@ -1,6 +1,7 @@
 
 package com.xgsdk.client;
 
+//import com.seasun.xgsdk.data.XGSDKDataAgentUtils;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.callback.UserCallBack;
@@ -42,6 +43,8 @@ class Statistics {
     private static final String METHOD_ON_VIP_LEVELUP = "onVipLevelup";
     private static final String METHOD_ON_APPLICATION_CREATE = "onApplicationCreate";
     private static final String METHOD_ON_APPLICATION_ATTACHBASECONTEXT = "onApplicationAttachBaseContext";
+    private static final String METHOD_ON_EVENT = "onEvent";
+    private static final String METHOD_ON_ROLE_CONSUME = "onRoleConsume";
 
     private static final String PARAM_NAME_ACTIVITY = "Activity";
     private static final String PARAM_NAME_CONTEXT = "Context";
@@ -58,6 +61,19 @@ class Statistics {
     private static final String PARAM_NAME_LEVEL = "Level";
     private static final String PARAM_NAME_VIPLEVEL = "VipLevel";
     private static final String PARAM_NAME_CUSTOM_PARAMS = "CustomParams";
+    private static final String PARAM_NAME_EVENT_ID = "EventId";
+    private static final String PARAM_NAME_CONTENT = "Content";
+    private static final String PARAM_NAME_ACCOUNT_ID = "AccountId";
+    private static final String PARAM_NAME_ACCOUNT_NAME = "AccountName";
+    private static final String PARAM_NAME_ROLE_ID = "RoleId";
+    private static final String PARAM_NAME_ROLE_NAME = "RoleName";
+    private static final String PARAM_NAME_ROLE_TYPE = "RoleType";
+    private static final String PARAM_NAME_ROLE_LEVEL = "RoleLevel";
+    private static final String PARAM_NAME_ITEM_CATALOG = "ItemCatalog";
+    private static final String PARAM_NAME_ITEM_ID = "ItemId";
+    private static final String PARAM_NAME_ITEM_NAME = "ItemName";
+    private static final String PARAM_NAME_CONSUME_GOLD = "ConsumeGold";
+    private static final String PARAM_NAME_CONSUME_BINDING_GOLD = "ConsumeBindingGold";
 
     private static void statistics(String name, HashMap<String, Object> params) {
         XGLogger.i(name + " " + params);
@@ -107,6 +123,7 @@ class Statistics {
 
     static void onResume(Activity activity) {
         lifecycle(METHOD_ON_RESUME, activity);
+//        XGSDKDataAgentUtils.onResume();
     }
 
     static void onStart(Activity activity) {
@@ -119,6 +136,7 @@ class Statistics {
 
     static void onPause(Activity activity) {
         lifecycle(METHOD_ON_PAUSE, activity);
+//        XGSDKDataAgentUtils.onPause();
     }
 
     static void onStop(Activity activity) {
@@ -170,6 +188,7 @@ class Statistics {
         paramsMap.put(PARAM_NAME_PAYINFO, getVariablesFromObj(payInfo));
         paramsMap.put(PARAM_NAME_PAYCALLBACK, payCallBack);
         statistics(METHOD_PAY, paramsMap);
+//        XGSDKDataAgentUtils.roleRecharge(payInfo.getUid(), payInfo.get, payInfo.getRoleId(), payInfo.getRoleName(), roleType, pay, rechargeChannel, currency, gold, bindingGold, curGold, curBindingGold, totalBindingGold);
     }
 
     static void switchAccount(Activity activity, String customParams) {
@@ -237,6 +256,37 @@ class Statistics {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put(PARAM_NAME_CONTEXT, context);
         statistics(METHOD_ON_APPLICATION_ATTACHBASECONTEXT, paramsMap);
+    }
+
+    static void onEvent(String eventId, String content) {
+        HashMap<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put(PARAM_NAME_EVENT_ID, eventId);
+        paramsMap.put(PARAM_NAME_CONTENT, content);
+        statistics(METHOD_ON_EVENT, paramsMap);
+//        XGSDKDataAgentUtils.customEvent(eventId, content);
+    }
+
+    static void onRoleConsume(String accountId, String accountName,
+            String roleId, String roleName, String roleType, String roleLevel,
+            String activity, String itemCatalog, String itemId,
+            String itemName, String consumeGold, String consumeBindingGold) {
+        HashMap<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put(PARAM_NAME_ACCOUNT_ID, accountId);
+        paramsMap.put(PARAM_NAME_ACCOUNT_NAME, accountName);
+        paramsMap.put(PARAM_NAME_ROLE_ID, roleId);
+        paramsMap.put(PARAM_NAME_ROLE_NAME, roleName);
+        paramsMap.put(PARAM_NAME_ROLE_TYPE, roleType);
+        paramsMap.put(PARAM_NAME_ROLE_LEVEL, roleLevel);
+        paramsMap.put(PARAM_NAME_ACTIVITY, activity);
+        paramsMap.put(PARAM_NAME_ITEM_CATALOG, itemCatalog);
+        paramsMap.put(PARAM_NAME_ITEM_ID, itemId);
+        paramsMap.put(PARAM_NAME_ITEM_NAME, itemName);
+        paramsMap.put(PARAM_NAME_CONSUME_GOLD, consumeGold);
+        paramsMap.put(PARAM_NAME_CONSUME_BINDING_GOLD, consumeBindingGold);
+        statistics(METHOD_ON_ROLE_CONSUME, paramsMap);
+//        XGSDKDataAgentUtils.roleConsume(accountId, accountName, roleId,
+//                roleName, roleType, roleLevel, activity, itemCatalog, itemId,
+//                itemName, consumeGold, consumeBindingGold);
     }
 
 }
