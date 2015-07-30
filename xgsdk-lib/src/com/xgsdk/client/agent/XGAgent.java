@@ -62,7 +62,7 @@ public abstract class XGAgent {
 
     public void switchAccount(final Activity activity, final String customParams) {
         if (mUserCallBack != null) {
-            mUserCallBack.onLogoutSuccess("");
+            mUserCallBack.onLogoutSuccess("switch account success");
         }
     }
 

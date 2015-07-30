@@ -7,10 +7,10 @@ import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.entity.PayInfo;
 import com.xgsdk.client.testchannel.view.ExitDialog;
 import com.xgsdk.client.testchannel.view.GameFloatView;
+import com.xgsdk.client.testchannel.view.GameFloatView.GameFloatListener;
 import com.xgsdk.client.testchannel.view.LoginDialog;
 import com.xgsdk.client.testchannel.view.PayDialog;
 import com.xgsdk.client.testchannel.view.UserCenter;
-import com.xgsdk.client.testchannel.view.GameFloatView.GameFloatListener;
 
 import android.app.Activity;
 
@@ -23,7 +23,6 @@ public class SimulateAgent extends XGAgent {
     @Override
     public void init(final Activity activity) {
         mFVInstance = GameFloatView.getInstance(activity, gfListener);
-
     }
 
     private GameFloatListener gfListener = new GameFloatListener() {
@@ -44,7 +43,6 @@ public class SimulateAgent extends XGAgent {
     @Override
     public void login(final Activity activity, String customParams) {
         activity.runOnUiThread(new Runnable() {
-
             @Override
             public void run() {
                 new LoginDialog(activity, mUserCallBack).showLoginDialog();
@@ -100,7 +98,7 @@ public class SimulateAgent extends XGAgent {
     public void logout(Activity activity, String customParams) {
         // TODO Auto-generated method stub
         super.logout(activity, customParams);
-        mUserCallBack.onLogoutSuccess("login out success");
+        // mUserCallBack.onLogoutSuccess("login out success");
     }
 
     @Override
