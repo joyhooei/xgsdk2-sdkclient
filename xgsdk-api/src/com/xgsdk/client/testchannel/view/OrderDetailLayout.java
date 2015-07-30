@@ -1,5 +1,5 @@
 
-package com.xgsdk.client.simulator.view;
+package com.xgsdk.client.testchannel.view;
 
 import com.xgsdk.client.core.util.XGLogger;
 import com.xgsdk.client.entity.PayInfo;

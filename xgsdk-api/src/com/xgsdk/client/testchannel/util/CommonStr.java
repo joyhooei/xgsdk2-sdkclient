@@ -1,5 +1,5 @@
 
-package com.xgsdk.client.simulator.util;
+package com.xgsdk.client.testchannel.util;
 
 import android.graphics.Color;
 

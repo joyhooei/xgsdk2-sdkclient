@@ -1,12 +1,12 @@
 
-package com.xgsdk.client.simulator.view;
+package com.xgsdk.client.testchannel.view;
 
 import com.xgsdk.client.ProductInfo;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.entity.PayInfo;
 import com.xgsdk.client.entity.XGErrorCode;
 import com.xgsdk.client.service.PayService;
-import com.xgsdk.client.simulator.util.CommonStr;
+import com.xgsdk.client.testchannel.util.CommonStr;
 
 import android.app.Activity;
 import android.app.AlertDialog;

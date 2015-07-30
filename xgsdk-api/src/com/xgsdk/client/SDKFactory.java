@@ -3,7 +3,7 @@ package com.xgsdk.client;
 
 import com.xgsdk.client.agent.XGAgent;
 import com.xgsdk.client.core.util.XGLogger;
-import com.xgsdk.client.simulator.SimulateAgent;
+import com.xgsdk.client.testchannel.SimulateAgent;
 
 class SDKFactory {
 

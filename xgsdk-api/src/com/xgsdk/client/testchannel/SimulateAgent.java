@@ -1,16 +1,16 @@
 
-package com.xgsdk.client.simulator;
+package com.xgsdk.client.testchannel;
 
 import com.xgsdk.client.agent.XGAgent;
 import com.xgsdk.client.callback.ExitCallBack;
 import com.xgsdk.client.callback.PayCallBack;
 import com.xgsdk.client.entity.PayInfo;
-import com.xgsdk.client.simulator.view.ExitDialog;
-import com.xgsdk.client.simulator.view.GameFloatView;
-import com.xgsdk.client.simulator.view.GameFloatView.GameFloatListener;
-import com.xgsdk.client.simulator.view.LoginDialog;
-import com.xgsdk.client.simulator.view.PayDialog;
-import com.xgsdk.client.simulator.view.UserCenter;
+import com.xgsdk.client.testchannel.view.ExitDialog;
+import com.xgsdk.client.testchannel.view.GameFloatView;
+import com.xgsdk.client.testchannel.view.LoginDialog;
+import com.xgsdk.client.testchannel.view.PayDialog;
+import com.xgsdk.client.testchannel.view.UserCenter;
+import com.xgsdk.client.testchannel.view.GameFloatView.GameFloatListener;
 
 import android.app.Activity;
 

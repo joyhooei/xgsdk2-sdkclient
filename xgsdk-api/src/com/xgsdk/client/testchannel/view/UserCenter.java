@@ -1,7 +1,7 @@
 
-package com.xgsdk.client.simulator.view;
+package com.xgsdk.client.testchannel.view;
 
-import com.xgsdk.client.simulator.util.CommonStr;
+import com.xgsdk.client.testchannel.util.CommonStr;
 
 import android.app.Activity;
 import android.app.AlertDialog;
