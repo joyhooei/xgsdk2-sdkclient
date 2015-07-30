@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include <vector>
 #include <string>
 
-#include "HelloWorldScene.h"
+#include "XGCocosDemo.h"
 #include "AppMacros.h"
 
 USING_NS_CC;

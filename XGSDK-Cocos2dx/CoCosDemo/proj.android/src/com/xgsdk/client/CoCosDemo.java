@@ -34,14 +34,11 @@ public class CoCosDemo extends XGCocos2dxActivity{
 	
     protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-        //CocosWrapper cw = CocosWrapper.getInstance();
-        //cw.setActivity(this);
 		
 	}
 
     public Cocos2dxGLSurfaceView onCreateView() {
     	Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);
-    	// CoCosDemo should create stencil buffer
     	glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
     	
     	return glSurfaceView;
@@ -50,7 +47,6 @@ public class CoCosDemo extends XGCocos2dxActivity{
     @Override
     protected void onStart(){
         super.onStart();
-       // CocosWrapper.onResult("JNI Start");
     }
 
     static {
