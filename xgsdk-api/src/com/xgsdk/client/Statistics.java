@@ -22,6 +22,8 @@ import java.util.HashMap;
 
 class Statistics {
 
+    private static final String URL_PORTAL_CHECK = "http://10.20.72.72:8090/package/interfaceTest";
+
     private static final String METHOD_ON_CREATE = "onCreate";
     private static final String METHOD_ON_RESUME = "onResume";
     private static final String METHOD_ON_START = "onStart";
@@ -78,7 +80,7 @@ class Statistics {
 
     private static boolean sCheckEnable = false;
 
-    static void init(boolean checkEnable) {
+    static void initCheckEnable(boolean checkEnable) {
         sCheckEnable = checkEnable;
         XGLogger.i("set CheckEnable " + checkEnable);
     }
@@ -92,8 +94,7 @@ class Statistics {
         JSONObject json = CheckData.getCheckTotalJson(context, name, params);
         XGLogger.w(json.toString());
         try {
-            String ret = HttpUtils.doPostInThread(
-                    "http://10.20.72.72:8090/package/interfaceTest",
+            String ret = HttpUtils.doPostInThread(URL_PORTAL_CHECK,
                     json.toString());
             XGLogger.w(ret);
         } catch (Exception e) {

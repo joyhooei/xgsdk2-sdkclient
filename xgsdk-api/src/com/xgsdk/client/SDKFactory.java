@@ -40,6 +40,7 @@ class SDKFactory {
                 try {
                     if (sSDK == null) {
                         sSDK = new SimulateAgent();
+                        Statistics.initCheckEnable(true);
                         XGLogger.w("Create a simulate xgsdk instance. ");
                     }
                 } catch (Exception e) {
