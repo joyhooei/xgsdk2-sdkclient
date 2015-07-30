@@ -114,7 +114,8 @@ class Statistics {
 
                 Method method = methods[i];
                 String name = method.getName();
-                if (name.startsWith("get")) {
+                int parametersCount = method.getParameterTypes().length;
+                if (name.startsWith("get") && parametersCount == 0) {
                     try {
                         Object ret = method.invoke(obj, null);
                         String n = name.substring(3);
