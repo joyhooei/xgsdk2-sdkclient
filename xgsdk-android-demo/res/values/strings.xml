@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xg_app_name">参数验证DEMO</string>
+
+    <string name="xg_pay">支付</string>
+    <string name="xg_login">登录</string>
+    <string name="xg_switch_account">切换账号</string>
+    <string name="xg_logout">退出账号</string>
+    <string name="xg_exit">退出游戏</string>
+    <string name="xg_show_orders">显示订单</string>
+    <string name="xg_money">支付总金额（元）</string>
+    <string name="xg_count">道具总数量</string>
+    <string name="xg_product_name">道具名称</string>
+    <string name="xg_ok">确定</string>
+    <string name="xg_cancel">取消</string>
+    <string name="xg_order_id">订单号</string>
+    <string name="xg_order_time">订单时间</string>
+    <string name="xg_order_status">订单状态</string>
+
+</resources>
