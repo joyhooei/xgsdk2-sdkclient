@@ -20,29 +20,47 @@
             android:layout_height="wrap_content"
             android:text="@string/xg_pay" />
 
-        <Button
-            android:id="@+id/xg_switch_account"
-            android:layout_width="match_parent"
+        <ToggleButton
+            android:id="@+id/xg_tb_switch_more"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/xg_switch_account" />
+            android:layout_gravity="right"
+            android:checked="false"
+            android:text="@string/xg_more_functions"
+            android:textOff="@string/xg_show_more"
+            android:textOn="@string/xg_hide_more" />
 
-        <Button
-            android:id="@+id/xg_logout"
+        <LinearLayout
+            android:id="@+id/xg_layout_more"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/xg_logout" />
+            android:orientation="vertical"
+            android:visibility="gone" >
 
-        <Button
-            android:id="@+id/xg_exit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/xg_exit" />
+            <Button
+                android:id="@+id/xg_switch_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_switch_account" />
 
-        <Button
-            android:id="@+id/xg_show_orders"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/xg_show_orders" />
+            <Button
+                android:id="@+id/xg_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_logout" />
+
+            <Button
+                android:id="@+id/xg_exit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_exit" />
+
+            <Button
+                android:id="@+id/xg_show_orders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_show_orders" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

@@ -10,6 +10,7 @@ import com.xgsdk.client.core.util.ToastUtil;
 import com.xgsdk.client.demo.orders.OrdersActivity;
 import com.xgsdk.client.entity.PayInfo;
 
+import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,7 +21,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 
@@ -65,6 +70,7 @@ public class MainActivity extends Activity {
                         XGSDK.getInstance().logout(MainActivity.this, null);
                     }
                 });
+
         findViewById(RUtil.getId(getApplicationContext(), "xg_exit"))
                 .setOnClickListener(new OnClickListener() {
 
@@ -133,6 +139,25 @@ public class MainActivity extends Activity {
                         startActivity(intent);
                     }
                 });
+
+        ToggleButton tbSwitchMore = (ToggleButton) findViewById(RUtil.getId(
+                getApplicationContext(), "xg_tb_switch_more"));
+
+        final LinearLayout llMore = (LinearLayout) findViewById(RUtil.getId(
+                getApplicationContext(), "xg_layout_more"));
+        tbSwitchMore.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                    boolean isChecked) {
+                if (isChecked) {
+                    llMore.setVisibility(View.VISIBLE);
+                } else {
+                    llMore.setVisibility(View.GONE);
+                }
+
+            }
+        });
 
         XGSDK.getInstance().onCreate(this);
         XGSDK.getInstance().init(this);
