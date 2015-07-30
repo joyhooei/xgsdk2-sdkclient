@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour
     }
 
     // call back method
+	//回调方法设置成静态方法
     public static void XgsdkCallback(string json)
     {
         Debug.Log("receive callback from xgsdk, json is:" + json);

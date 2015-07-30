@@ -88,7 +88,7 @@ namespace XGSDK2
         }
 
 		//支付时调用，使用封装类传输数据
-		public static void pay(PayParameter pay)
+		public static void pay(PayParameters pay)
 		{
 			Debug.Log("call xgsdk pay...");
 			#if UNITY_ANDROID
@@ -113,8 +113,7 @@ namespace XGSDK2
 			Debug.Log("call xgsdk exit...");
 			#if UNITY_ANDROID 
 			callSdkApi("exit", customParams);
-			#endif
-			
+			#endif			
 		}
 		
 		
@@ -187,11 +186,11 @@ namespace XGSDK2
 
 		
 		//传递事件
-		public static void onEvent(string eventID, string content)
+		public static void onEvent(string eventId, string content)
 		{
 			Debug.Log("call xgsdk onEvent...");
 			#if UNITY_ANDROID
-			callSdkApi("onEvent",eventID, content); 
+			callSdkApi("onEvent",eventId, content); 
 			#endif
 		}
 		
@@ -233,7 +232,7 @@ namespace XGSDK2
     }
 
 
-	public class PayParameter
+	public class PayParameters
 	{
 		string userID;
 		int productTotalprice;

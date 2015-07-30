@@ -78,7 +78,7 @@ public class XGSDKCallback : MonoBehaviour
 	//登录取消回调
 	public void onLoginCancel(string msg){
 		Debug.Log ("LoginCancel, message: " + msg);
-		XGSDK2.instance.showAndroidToast("取消登录");
+		XGSDK2.instance.showAndroidToast("登录取消");
 		CallbackToGameController ("2", msg, "XgsdkLoginResult", "NO");
 
 	}

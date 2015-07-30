@@ -54,17 +54,15 @@ public class XGSDKCallback : MonoBehaviour
 
 	//登出成功回调
 	public void onLogoutSuccess(string msg){
-		Debug.Log ("LogoutSuccess, message:" + msg);
+		Debug.Log ("LogoutSuccess");
 		authinfo = "";
 		XGSDK2.instance.showAndroidToast("登出成功");
-
 	}
 
 	//登录取消回调
 	public void onLoginCancel(string msg){
 		Debug.Log ("LoginCancel, message: " + msg);
-		XGSDK2.instance.showAndroidToast("取消登录");
-
+		XGSDK2.instance.showAndroidToast("登录取消");
 	}
 
 	//登出失败回调
@@ -74,7 +72,6 @@ public class XGSDKCallback : MonoBehaviour
 		string msg = retTable ["msg"] as String;
 		Debug.Log ("LogoutFail,code: " + code + " message:" + msg);
 		XGSDK2.instance.showAndroidToast("登出失败");
-
 	}
 
 	//初始化失败回调
@@ -91,7 +88,6 @@ public class XGSDKCallback : MonoBehaviour
 	public void onPaySuccess(string msg){
 		Debug.Log ("PaySuccess, message:" + msg);
 		XGSDK2.instance.showAndroidToast("支付成功");
-
 	}
 
 	//支付失败回调
@@ -101,30 +97,26 @@ public class XGSDKCallback : MonoBehaviour
 		string msg = retTable ["msg"] as String;
 		Debug.Log ("PayFail,code: " + code + " message:" + msg);
 		XGSDK2.instance.showAndroidToast("支付失败");
-
 	}
 
 	//支付取消回调
 	public void onPayCancel(string msg){
 		Debug.Log ("PayCancel, message:" + msg);
 		XGSDK2.instance.showAndroidToast("支付取消");
-
 	}
 
 	//直接退出回调
 	public void onExit(string msg){
-		Debug.Log ("Exit, result:" + msg);
+		Debug.Log ("Exit");
 		XGSDK2.instance.showAndroidToast("直接退出");
-
 		Application.Quit();
 	}
 
 	//使用游戏方退出回调
 	public void onNoChannelExiter(string msg){
-		Debug.Log ("No ChannelExiter: ");
+		Debug.Log ("No ChannelExiter");
 		XGSDK2.instance.showAndroidToast("使用游戏渠道退出");
 		XgsdkDemo.Open();
-
 	}
 
 	//取消退出回调

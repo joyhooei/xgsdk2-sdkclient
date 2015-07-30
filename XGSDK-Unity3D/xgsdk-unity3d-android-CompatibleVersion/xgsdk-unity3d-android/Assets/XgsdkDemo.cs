@@ -24,7 +24,7 @@ public class XgsdkDemo : MonoBehaviour
 	
 	void OnGUI()
 	{           
-		XGSDK2.PayParameter payParameter = new XGSDK2.PayParameter ();
+		XGSDK2.PayParameters payParameter = new XGSDK2.PayParameter ();
 		//初始化调用接口需要的参数
 		payParameter.UserID = "";
 		payParameter.ProductTotalprice = 10;
