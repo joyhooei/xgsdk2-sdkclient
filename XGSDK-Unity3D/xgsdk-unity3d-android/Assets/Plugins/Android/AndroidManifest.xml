@@ -28,7 +28,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
          <activity
-            android:name="com.xgsdk.client.unity3d.XGUnityActivity"
+            android:name="com.xgsdk.client.api.unity3d.XGUnityActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

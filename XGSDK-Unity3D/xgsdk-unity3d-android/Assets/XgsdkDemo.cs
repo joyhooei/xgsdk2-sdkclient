@@ -24,26 +24,26 @@ public class XgsdkDemo : MonoBehaviour
 	
 	void OnGUI()
 	{           
-		XGSDK2.PayParameter payParameter = new XGSDK2.PayParameter ();
+		XGSDK2.PayInfo payinfo = new XGSDK2.PayInfo ();
 		//初始化调用接口需要的参数
-		payParameter.UserID = "";
-		payParameter.ProductTotalprice = 10;
-		payParameter.ProductCount = 2;
-		payParameter.ProductUnitPrice = 5;
-		payParameter.ProductId = "1";
-		payParameter.ProductName = "gift";
-		payParameter.ProductDesc = "Description";
-		payParameter.CurrencyName = "RMB";
-		payParameter.ServerId = "001";
-		payParameter.ServerName = "GD1";
-		payParameter.ZoneId = "1025";
-		payParameter.ZoneName = "ZoneName";
-		payParameter.RoleId = "12345";
-		payParameter.RoleName = "RoleName";
-		payParameter.Balance = "50";
-		payParameter.GameOrderId = "1001";
-		payParameter.Ext = "ext";
-		payParameter.NotifyURL = "Xgsdk";
+		payinfo.UserID = "";
+		payinfo.ProductTotalprice = 10;
+		payinfo.ProductCount = 2;
+		payinfo.ProductUnitPrice = 5;
+		payinfo.ProductId = "1";
+		payinfo.ProductName = "gift";
+		payinfo.ProductDesc = "Description";
+		payinfo.CurrencyName = "RMB";
+		payinfo.ServerId = "001";
+		payinfo.ServerName = "GD1";
+		payinfo.ZoneId = "1025";
+		payinfo.ZoneName = "ZoneName";
+		payinfo.RoleId = "12345";
+		payinfo.RoleName = "RoleName";
+		payinfo.Balance = "50";
+		payinfo.GameOrderId = "1001";
+		payinfo.Ext = "ext";
+		payinfo.NotifyURL = "Xgsdk";
 
 		
 		//设置GUI格式
@@ -79,11 +79,11 @@ public class XgsdkDemo : MonoBehaviour
 				byte[] outputb = GetDecoded(XGSDKCallback.authinfo);
 				string info = Encoding.Default.GetString(outputb);
 				Dictionary<string, object> data = MiniJSON.Json.Deserialize(info) as Dictionary<string, object>;
-				payParameter.UserID = data ["uId"].ToString();
+				payinfo.UserID = data ["uId"].ToString();
 				Debug.Log("authinfo :" + XGSDKCallback.authinfo);
 				
 				
-				XGSDK2.instance.pay(payParameter);
+				XGSDK2.instance.pay(payinfo);
 			}else
 			{
 				Debug.Log("please login first...");

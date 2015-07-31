@@ -13,7 +13,7 @@ namespace XGSDK2
         {
 		}
 		//配置SDK路径 
-		private const string SDK_JAVA_CLASS = "com.xgsdk.client.unity3d.XGSDKUnity3DWrapper";
+		private const string SDK_JAVA_CLASS = "com.xgsdk.client.api.unity3d.XGSDKUnity3DWrapper";
          
         private static void callSdkApi(string apiName, params object[] args)
         {
@@ -88,7 +88,7 @@ namespace XGSDK2
         }
 
 		//支付时调用，使用封装类传输数据
-		public static void pay(PayParameter pay)
+		public static void pay(PayInfo pay)
 		{
 			Debug.Log("call xgsdk pay...");
 			#if UNITY_ANDROID
@@ -155,32 +155,23 @@ namespace XGSDK2
 
 		
 		//创建角色成功后向渠道传递角色信息
-		public static void onCreateRole(string roleId, string roleName, string gender,
-		                                string level, string vipLevel, string balance, string partyName)
+		public static void onCreateRole(RoleInfo roleInfo)
 		{
 			Debug.Log("call xgsdk createRole...");          
 			#if UNITY_ANDROID
-			callSdkApi("onCreateRole", roleId, roleName, gender,
-			           level, vipLevel, balance, partyName);
+			callSdkApi("onCreateRole", roleInfo.RoleID, roleInfo.RoleName, roleInfo.Gender,
+			           roleInfo.Level, roleInfo.VipLevel, roleInfo.Balance, roleInfo.PartyName);
 			#endif
 		}
 
 
 		//角色升级后向渠道传递升级信息
-		public static void onRoleLevelup(string level)
+		public static void onRoleLevelup(RoleInfo roleInfo)
 		{
 			Debug.Log("call xgsdk onRoleLevelup");
 			#if UNITY_ANDROID
-			callSdkApi("onRoleLevelup", level);
-			#endif
-		}
-        
-		//vip升级后传递vip升级信息
-		public static void onVipLevelup(string vipLevel)
-		{
-			Debug.Log("call xgsdk onVipLevelup");
-			#if UNITY_ANDROID
-			callSdkApi("onVipLevelup", vipLevel);
+			callSdkApi("onRoleLevelup", roleInfo.RoleID, roleInfo.RoleName, roleInfo.Gender,
+			           roleInfo.Level, roleInfo.VipLevel, roleInfo.Balance, roleInfo.PartyName);
 			#endif
 		}
         
@@ -232,8 +223,48 @@ namespace XGSDK2
 
     }
 
+	public class RoleInfo
+	{
+		string roleID;
+		string roleName;
+		string gender;
+		string level;
+		string vipLevel;
+		string balance;
+		string partyName;
 
-	public class PayParameter
+		public string RoleID {
+			set{ roleID = value;}
+			get{ return roleID;}
+		}
+		public string RoleName {
+			set{ roleName = value;}
+			get{ return roleName;}
+		}
+		public string Gender {
+			set{ gender = value;}
+			get{ return gender;}
+		}
+		public string Level {
+			set{ level = value;}
+			get{ return level;}
+		}
+		public string VipLevel {
+			set{ vipLevel = value;}
+			get{ return vipLevel;}
+		}
+		public string Balance {
+			set{ balance = value;}
+			get{ return balance;}
+		}
+		public string PartyName {
+			set{ partyName = value;}
+			get{ return partyName;}
+		}
+	}
+
+
+	public class PayInfo
 	{
 		string userID;
 		int productTotalprice;
