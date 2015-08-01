@@ -16,7 +16,7 @@ import android.app.Activity;
 
 public class TestChannel extends XGChannel {
 
-    private static final String CHANNEL_ID = "XG_TEST";
+    private static final String CHANNEL_ID = "xgtest";
     private GameFloatView mFVInstance;
     private UserCenter userCenter;
 
