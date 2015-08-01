@@ -1,10 +1,8 @@
 
 package com.xgsdk.client.core.service;
 
-import com.unity3d.player.UnityPlayer;
 import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.http.HttpUtils;
-import com.xgsdk.client.core.utils.MD5Util;
 import com.xgsdk.client.core.utils.XGLog;
 
 import org.apache.http.NameValuePair;
@@ -12,7 +10,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -24,31 +21,19 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
-public class AuthService {
+public class AuthService extends BaseService {
 
-    // 会话鉴权
-    public static String ACCOUNT_VERIFY_SESSION_URI = "/xgsdk/apiXgsdkAccount/verifySession";
-
-    private static final int THREAD_JOIN_TIME_OUT = 30000;
-
-    /**
-     * 生成鉴权信息
-     * 
-     * @param appId xgsdk分配给游戏appid
-     * @param appKey xgsdk分配给游戏的appkey
-     * @param channleId xgsdk分配给游戏的channleid
-     * @param token 登录返回的token
-     * @param uId 登录返回的uid,没有填""
-     * @param name 登录返回的name,没有填""
-     * @return
-     * @throws Exception
-     */
-    public static String genAuthInfo(String appId, String appKey,
-            String channleId, String token, String uId, String name)
-            throws Exception {
+    public static String genAuthInfo(Context context, String token, String uId,
+            String name) throws Exception {
+        String appId = XGInfo.getXGAppId(context);
+        String channelId = XGInfo.getChannelId();
+        String appKey = XGInfo.getXGAppKey(context);
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
         requestParams.add(new BasicNameValuePair("appId", appId));
-        requestParams.add(new BasicNameValuePair("channelId", channleId));
+        requestParams.add(new BasicNameValuePair("channelId", channelId));
+        requestParams.add(new BasicNameValuePair("deviceId", XGInfo
+                .getXGDeviceId(context)));
+        requestParams.add(new BasicNameValuePair("ts", ts()));
         if (!TextUtils.isEmpty(token)) {
             requestParams.add(new BasicNameValuePair("authToken", token));
         }
@@ -73,7 +58,7 @@ public class AuthService {
                 strSign.append("&");
             }
         }
-        String sign = MD5Util.md5(strSign.toString() + appId + appKey);
+        String sign = sign(strSign.toString() + appId + appKey, appKey);
         XGLog.d("before sign:" + strSign.toString());
         XGLog.d("after sign:" + sign);
         JSONObject jsonAuth = new JSONObject();
@@ -83,13 +68,6 @@ public class AuthService {
         jsonAuth.put("sign", sign);
         return new String(Base64.encode(jsonAuth.toString().getBytes(),
                 Base64.NO_WRAP));
-    }
-
-    public static String genAuthInfo(Context context, String token, String uId,
-            String name) throws Exception {
-        return genAuthInfo(XGInfo.getXGAppId(context),
-                XGInfo.getXGAppKey(context), XGInfo.getChannelId(),
-                token, uId, name);
     }
 
     public static String sessionAuthInThread(final Activity activity,
@@ -108,45 +86,14 @@ public class AuthService {
 
     public static String sessionAuth(Activity activity, final String authInfo)
             throws Exception {
+        List<NameValuePair> requestParams = generateBasicRequestParams(
+                activity, INTERFACE_TYPE_VERIFY_SESSION);
+        requestParams.add(new BasicNameValuePair("authInfo", authInfo));
+        String requestContent = generateSignRequestContent(activity,
+                requestParams);
         return HttpUtils.doGetInThread(XGInfo.getXGAuthUrl(activity)
-                + ACCOUNT_VERIFY_SESSION_URI + "?authInfo=" + authInfo);
+                + ACCOUNT_VERIFY_SESSION_URI + XGInfo.getXGAppId(activity)
+                + "?" + requestContent);
     }
 
-    public static void showDialog(final Activity activity, final String title,
-            final String msg) {
-        activity.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-                dialog.setTitle(title);
-                dialog.setMessage(msg);
-                dialog.setPositiveButton("确认", null);
-                dialog.show();
-            }
-        });
-
-    }
-
-    /**
-     * @param authInfo
-     */
-    public static String verifySession(Activity activity, String authInfo) {
-        String sessionAuth = "";
-        try {
-            sessionAuth = sessionAuth(activity, authInfo);
-            showDialog(activity, "登录结果", "登录成功,会话校验结果是" + sessionAuth);
-            XGLog.i("verify session success:{0}", sessionAuth);
-        } catch (Exception e) {
-            XGLog.e("verify session error:", e);
-        }
-        return sessionAuth;
-    }
-
-    /**
-     * @param authInfo
-     */
-    public static void verifyUnity3dSession(String authInfo) {
-        verifySession(UnityPlayer.currentActivity, authInfo);
-    }
 }

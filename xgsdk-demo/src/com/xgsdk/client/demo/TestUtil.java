@@ -2,6 +2,7 @@
 package com.xgsdk.client.demo;
 
 import com.xgsdk.client.core.XGInfo;
+import com.xgsdk.client.core.service.AuthService;
 import com.xgsdk.client.demo.utils.ToastUtil;
 
 import org.apache.http.HttpEntity;
@@ -19,45 +20,48 @@ public class TestUtil {
 
     public static void auth(Activity activity, String version, String authInfo) {
 
-        sendRequestWithHttpClient(activity, XGInfo.getXGAuthUrl(activity)
-                + "/xgsdk/apiXgsdkAccount/verifySession?version=" + version
-                + "&authInfo=" + authInfo);
+        try {
+            AuthService.sessionAuthInThread(activity, authInfo);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    private static void sendRequestWithHttpClient(final Activity activity,
-            final String url) {
-        new Thread(new Runnable() {
+//    private static void sendRequestWithHttpClient(final Activity activity,
+//            final String url) {
+//        new Thread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                HttpClient httpCient = new DefaultHttpClient();
+//                HttpGet httpGet = new HttpGet(url);
+//                Log.d(TAG, url);
+//
+//                try {
+//                    HttpResponse httpResponse = httpCient.execute(httpGet);
+//                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+//                        HttpEntity entity = httpResponse.getEntity();
+//                        final String response = EntityUtils.toString(entity,
+//                                "utf-8");
+//
+//                        Log.w(TAG, "auth = " + response);
+//                        activity.runOnUiThread(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                ToastUtil.showToast(activity, response);
+//
+//                            }
+//                        });
+//                    }
+//
+//                } catch (Exception e) {
+//                    Log.e(TAG, "auth error : ", e);
+//                }
+//
+//            }
+//        }).start();
 
-            @Override
-            public void run() {
-                HttpClient httpCient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(url);
-                Log.d(TAG, url);
-
-                try {
-                    HttpResponse httpResponse = httpCient.execute(httpGet);
-                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                        HttpEntity entity = httpResponse.getEntity();
-                        final String response = EntityUtils.toString(entity,
-                                "utf-8");
-
-                        Log.w(TAG, "auth = " + response);
-                        activity.runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                ToastUtil.showToast(activity, response);
-
-                            }
-                        });
-                    }
-
-                } catch (Exception e) {
-                    Log.e(TAG, "auth error : ", e);
-                }
-
-            }
-        }).start();
-
-    }
+//    }
 }
