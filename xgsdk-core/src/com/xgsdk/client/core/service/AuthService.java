@@ -2,7 +2,7 @@
 package com.xgsdk.client.core.service;
 
 import com.unity3d.player.UnityPlayer;
-import com.xgsdk.client.core.ProductInfo;
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.http.HttpUtils;
 import com.xgsdk.client.core.utils.MD5Util;
 import com.xgsdk.client.core.utils.XGLog;
@@ -87,8 +87,8 @@ public class AuthService {
 
     public static String genAuthInfo(Context context, String token, String uId,
             String name) throws Exception {
-        return genAuthInfo(ProductInfo.getXGAppId(context),
-                ProductInfo.getXGAppKey(context), ProductInfo.getChannelId(),
+        return genAuthInfo(XGInfo.getXGAppId(context),
+                XGInfo.getXGAppKey(context), XGInfo.getChannelId(),
                 token, uId, name);
     }
 
@@ -108,7 +108,7 @@ public class AuthService {
 
     public static String sessionAuth(Activity activity, final String authInfo)
             throws Exception {
-        return HttpUtils.doGetInThread(ProductInfo.getXGAuthUrl(activity)
+        return HttpUtils.doGetInThread(XGInfo.getXGAuthUrl(activity)
                 + ACCOUNT_VERIFY_SESSION_URI + "?authInfo=" + authInfo);
     }
 

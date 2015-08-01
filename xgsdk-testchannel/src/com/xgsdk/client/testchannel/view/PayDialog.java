@@ -43,10 +43,11 @@ public class PayDialog {
                             payment.getProductName(), payment.getProductDesc(),
                             String.valueOf(payment.getProductCount()),
                             String.valueOf(payment.getProductTotalPrice()),
-                            payment.getServerId(),
+                            payment.getServerId(),payment.getZoneId(),
                             String.valueOf(payment.getRoleId()),
                             payment.getRoleName(), payment.getCurrencyName(),
-                            payment.getExt());
+                            payment.getExt(), payment.getGameOrderId(),
+                            payment.getNotifyURL());
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

@@ -1,7 +1,7 @@
 
 package com.xgsdk.client.data.process;
 
-import com.xgsdk.client.core.ProductInfo;
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.SystemInfo;
 import com.xgsdk.client.core.utils.NetworkUtil;
 import com.xgsdk.client.core.utils.XGLog;
@@ -93,7 +93,7 @@ public class Common {
         // post should terminate activities Json-info to cached file
         DataPackager.prepareTerminateJson(context, getSessionId(context));
         long ctime = System.currentTimeMillis();
-        String strAppkey = ProductInfo.getXGAppKey(context);
+        String strAppkey = XGInfo.getXGAppKey(context);
         String newSessionId = strAppkey + String.valueOf(ctime);
         XGLog.i("session_id is " + newSessionId);
         // open to edit
@@ -497,10 +497,10 @@ public class Common {
             json.put(Constants.KEY_OS_VERSION, Build.VERSION.SDK);
             json.put(Constants.KEY_BUILD_PRODUCT, Build.PRODUCT);
             json.put(Constants.KEY_PRODUCT,
-                    Build.BRAND + " " + SystemInfo.getDeviceModel(context));
+                    Build.BRAND + " " + SystemInfo.getDeviceModel());
             json.put(Constants.KEY_BRAND, Build.BRAND);
             json.put(Constants.KEY_DEVICE_MODEL,
-                    SystemInfo.getDeviceModel(context));
+                    SystemInfo.getDeviceModel());
             json.put(Constants.KEY_CPU, SystemInfo.getCpu(context));
             json.put(Constants.KEY_RESOLUTION,
                     SystemInfo.getResolution(context));

@@ -9,8 +9,8 @@ import com.xgsdk.client.api.entity.GameServerInfo;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.api.entity.RoleInfo;
 import com.xgsdk.client.api.entity.XGUser;
-import com.xgsdk.client.core.ProductInfo;
-import com.xgsdk.client.core.ProductInfo.GAME_ENGINE;
+import com.xgsdk.client.core.XGInfo;
+import com.xgsdk.client.core.XGInfo.GAME_ENGINE;
 import com.xgsdk.client.core.utils.ToastUtil;
 import com.xgsdk.client.core.utils.XGLog;
 
@@ -36,7 +36,7 @@ public class XGSDKCocos2dxWrapper {
     }
 
     private XGSDKCocos2dxWrapper() {
-        ProductInfo.setGameEngine(GAME_ENGINE.COCOS2DX);
+        XGInfo.setGameEngine(GAME_ENGINE.COCOS2DX);
         mSdk = XGSDK.getInstance();
         mSdk.setUserCallBack(new UserCallBack() {
 

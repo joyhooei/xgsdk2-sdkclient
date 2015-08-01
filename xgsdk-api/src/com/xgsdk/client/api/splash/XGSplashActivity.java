@@ -1,7 +1,7 @@
 
 package com.xgsdk.client.api.splash;
 
-import com.xgsdk.client.core.ProductInfo;
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.utils.XGLog;
 
 import android.app.Activity;
@@ -53,12 +53,12 @@ public class XGSplashActivity extends Activity {
             return;
         }
 
-        XGLog.i("xg version:" + ProductInfo.getXGVersion(this));
+        XGLog.i("xg version:" + XGInfo.getXGVersion(this));
         XGLog.i("XGSplashActivity onCreate start");
         mRes = getResources();
 
         int o = mRes.getConfiguration().orientation;
-        mIsPortrait = !ProductInfo.isLandspcape(this);
+        mIsPortrait = !XGInfo.isLandspcape(this);
         if (mIsPortrait) {
             mCurrentPrefix = PORTRAIT_IMG_PREFIX;
         }

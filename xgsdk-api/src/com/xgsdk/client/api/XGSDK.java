@@ -8,7 +8,7 @@ import com.xgsdk.client.api.entity.GameServerInfo;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.api.entity.RoleInfo;
 import com.xgsdk.client.api.entity.XGUser;
-import com.xgsdk.client.core.ProductInfo;
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.service.PayService;
 import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.inner.XGChannel;
@@ -16,6 +16,7 @@ import com.xgsdk.client.inner.XGChannel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 public class XGSDK implements XGErrorCode {
     public static final String LOG_TAG = "XGSDK";
@@ -52,7 +53,7 @@ public class XGSDK implements XGErrorCode {
             if (mXGChannel == null) {
                 throw new RuntimeException("Create xgsdk channel error.");
             }
-            ProductInfo.init(getChannelId());
+            XGInfo.init(VERSION, mXGChannel.getChannelId());
             XGLog.i(LOG_TAG, getChannelId() + " instance " + mXGChannel);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " instance " + " channel error ",
@@ -180,10 +181,11 @@ public class XGSDK implements XGErrorCode {
                         payInfo.getProductName(), payInfo.getProductDesc(),
                         String.valueOf(payInfo.getProductCount()),
                         String.valueOf(payInfo.getProductTotalPrice()),
-                        payInfo.getServerId(), payInfo.getRoleId(),
-                        payInfo.getRoleName(), payInfo.getCurrencyName(),
-                        payInfo.getExt());
-                if (null == orderId || "".equals(orderId)) {
+                        payInfo.getServerId(), payInfo.getZoneId(),
+                        payInfo.getRoleId(), payInfo.getRoleName(),
+                        payInfo.getCurrencyName(), payInfo.getExt(),
+                        payInfo.getGameOrderId(), payInfo.getNotifyURL());
+                if (TextUtils.isEmpty(orderId)) {
                     XGLog.e("create order fail in xg service ,uid:"
                             + payInfo.getUid() + ",price:"
                             + payInfo.getProductTotalPrice() + ",ext:"

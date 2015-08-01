@@ -10,8 +10,8 @@ import com.xgsdk.client.api.entity.GameServerInfo;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.api.entity.RoleInfo;
 import com.xgsdk.client.api.entity.XGUser;
-import com.xgsdk.client.core.ProductInfo;
-import com.xgsdk.client.core.ProductInfo.GAME_ENGINE;
+import com.xgsdk.client.core.XGInfo;
+import com.xgsdk.client.core.XGInfo.GAME_ENGINE;
 import com.xgsdk.client.core.utils.ToastUtil;
 import com.xgsdk.client.core.utils.XGLog;
 
@@ -54,7 +54,7 @@ public class XGSDKUnity3DWrapper {
     }
 
     public XGSDKUnity3DWrapper() {
-        ProductInfo.setGameEngine(GAME_ENGINE.UNITY3D);
+        XGInfo.setGameEngine(GAME_ENGINE.UNITY3D);
         mSdk = XGSDK.getInstance();
         mSdk.setUserCallBack(new UserCallBack() {
 
