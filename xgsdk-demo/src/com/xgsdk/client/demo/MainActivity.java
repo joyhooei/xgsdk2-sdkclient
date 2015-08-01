@@ -6,6 +6,7 @@ import com.xgsdk.client.api.callback.ExitCallBack;
 import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.callback.UserCallBack;
 import com.xgsdk.client.api.entity.PayInfo;
+import com.xgsdk.client.core.ProductInfo;
 import com.xgsdk.client.demo.orders.OrdersActivity;
 import com.xgsdk.client.demo.utils.RUtil;
 import com.xgsdk.client.demo.utils.ToastUtil;
@@ -287,8 +288,10 @@ public class MainActivity extends Activity {
                         payment.setServerId("11");
                         payment.setProductId("payment017");
                         payment.setProductName("大宝剑");
-                        String extraInfo = XGSDK.getInstance().getChannelId()
-                                + " extraInfo ";
+                        String extraInfo = "{planid="
+                                + ProductInfo.getXGPlanId(MainActivity.this)
+                                + ",channelid=" + ProductInfo.getChannelId()
+                                + "}";
                         payment.setExt(extraInfo);
                         int totalPrice = TextUtils.isEmpty(etMoney.getText()) ? 0
                                 : Integer.valueOf(etMoney.getText().toString());
