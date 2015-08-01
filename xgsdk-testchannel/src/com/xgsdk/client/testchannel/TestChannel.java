@@ -5,6 +5,7 @@ import com.xgsdk.client.api.callback.ExitCallBack;
 import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.inner.XGChannel;
+import com.xgsdk.client.testchannel.check.Check;
 import com.xgsdk.client.testchannel.view.ExitDialog;
 import com.xgsdk.client.testchannel.view.GameFloatView;
 import com.xgsdk.client.testchannel.view.GameFloatView.GameFloatListener;

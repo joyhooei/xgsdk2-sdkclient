@@ -2,12 +2,10 @@
 package com.xgsdk.client.core;
 
 import com.xgsdk.client.core.utils.MD5Util;
-import com.xgsdk.client.core.utils.XGLog;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -37,7 +35,7 @@ import java.util.UUID;
 
 public class SystemInfo {
 
-    private static final String LOG_TAG = "ConstInfo";
+    private static final String LOG_TAG = "SystemInfo";
 
     private static final HashMap<String, String> OPERATORS_MAP = new HashMap<String, String>();
     static {
@@ -48,11 +46,11 @@ public class SystemInfo {
     }
 
     private enum ConstKey {
-        DEVICE_ID, SDK_VERSION, APP_VERSION_NAME, APP_VERSION_CODE, APP_NAME, PACKAGE_NAME, RESOLUTION, DEVICE_MODEL, DEVICE_UUID, DEVICE_UUID_HASH, OPERATORS, PROCESS_NAME, PHONE_NUMBER, PHONE_IMEI, PHONE_IMSI, MAC, CPU, MEMORY, LOCAL_IP
+        DEVICE_BRAND, ANDROID_SDK_VERSION, APP_VERSION_NAME, APP_VERSION_CODE, APP_NAME, PACKAGE_NAME, RESOLUTION, DEVICE_MODEL, DEVICE_UUID, DEVICE_UUID_HASH, OPERATORS, PROCESS_NAME, PHONE_NUMBER, PHONE_IMEI, PHONE_IMSI, MAC, CPU, MEMORY, LOCAL_IP
     }
 
-    public static String getSdkVersion(Context context) {
-        return getValue(context, ConstKey.SDK_VERSION);
+    public static String getAndroidSdkVersion(Context context) {
+        return getValue(context, ConstKey.ANDROID_SDK_VERSION);
     }
 
     public static String getAppVersionName(Context context) {
@@ -76,8 +74,8 @@ public class SystemInfo {
         return getValue(context, ConstKey.RESOLUTION);
     }
 
-    public static String getDeviceModel(Context context) {
-        return getValue(context, ConstKey.DEVICE_MODEL);
+    public static String getDeviceModel() {
+        return getValue(null, ConstKey.DEVICE_MODEL);
     }
 
     public static String getDeviceUUID(Context context, boolean hash) {
@@ -124,8 +122,8 @@ public class SystemInfo {
         return getValue(context, ConstKey.LOCAL_IP);
     }
 
-    public static String getXGDeviceId(Context context) {
-        return loadValue(context, ConstKey.DEVICE_ID);
+    public static String getDeviceBrand() {
+        return getValue(null, ConstKey.DEVICE_BRAND);
     }
 
     private static final HashMap<ConstKey, String> sValueMap = new HashMap<ConstKey, String>();
@@ -148,8 +146,8 @@ public class SystemInfo {
     private static String loadValue(Context context, ConstKey key) {
         String result = null;
         switch (key) {
-            case SDK_VERSION:
-                result = _getSdkVersion(context);
+            case ANDROID_SDK_VERSION:
+                result = _getAndroidSdkVersion(context);
                 break;
             case APP_VERSION_NAME:
                 result = _getAppVersion(context);
@@ -167,7 +165,7 @@ public class SystemInfo {
                 result = _getScreenSize(context);
                 break;
             case DEVICE_MODEL:
-                result = _getDeviceModel(context);
+                result = _getDeviceModel();
                 break;
             case DEVICE_UUID:
                 result = _getDeviceUUID(context);
@@ -202,8 +200,8 @@ public class SystemInfo {
             case LOCAL_IP:
                 result = _getLocalIP();
                 break;
-            case DEVICE_ID:
-                result = _getDeviceId(context);
+            case DEVICE_BRAND:
+                result = _getDeviceBrand();
                 break;
             default:
                 result = null;
@@ -232,48 +230,7 @@ public class SystemInfo {
         }
     }
 
-    private static String _getDeviceId(Context context) {
-        {
-            try {
-                TelephonyManager mTelephonyMgr = (TelephonyManager) context
-                        .getSystemService(Context.TELEPHONY_SERVICE);
-                if (mTelephonyMgr != null) {
-                    String imei = mTelephonyMgr.getDeviceId();
-                    if (imei != null) {
-                        return "imei_" + imei;
-                    }
-                }
-            } catch (SecurityException e) {
-                XGLog.e(e.getMessage());
-            }
-
-            try {
-                WifiManager wifi = (WifiManager) context
-                        .getSystemService(Context.WIFI_SERVICE);
-                if (wifi != null) {
-                    WifiInfo info = wifi.getConnectionInfo();
-                    if (info != null && info.getMacAddress() != null) {
-                        return "mac_" + info.getMacAddress();
-                    }
-                }
-            } catch (SecurityException e) {
-                XGLog.e(e.getMessage());
-            }
-
-            SharedPreferences preference = context.getSharedPreferences(
-                    "xgsdk", Context.MODE_PRIVATE);
-            String uuid = preference.getString("UUID", null);
-            if (uuid == null) {
-                uuid = UUID.randomUUID().toString();
-                SharedPreferences.Editor editor = preference.edit();
-                editor.putString("UUID", uuid);
-                editor.commit();
-            }
-            return uuid;
-        }
-    }
-
-    private static String _getSdkVersion(Context context) {
+    private static String _getAndroidSdkVersion(Context context) {
         return Build.VERSION.RELEASE;
     }
 
@@ -321,8 +278,12 @@ public class SystemInfo {
                 .format("%d*%d", metrics.widthPixels, metrics.heightPixels);
     }
 
-    private static String _getDeviceModel(Context context) {
+    private static String _getDeviceModel() {
         return Build.MODEL;
+    }
+
+    private static String _getDeviceBrand() {
+        return Build.BRAND;
     }
 
     private static String _getDeviceUUID(Context context) {

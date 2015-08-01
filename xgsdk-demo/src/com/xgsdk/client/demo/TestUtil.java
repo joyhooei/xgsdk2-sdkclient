@@ -1,6 +1,7 @@
 
 package com.xgsdk.client.demo;
 
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.demo.utils.ToastUtil;
 
 import org.apache.http.HttpEntity;
@@ -16,13 +17,12 @@ import android.util.Log;
 public class TestUtil {
     private static final String TAG = "TestUtil";
 
-    // public static void auth(Activity activity, String version, String
-    // authInfo) {
-    //
-    // sendRequestWithHttpClient(activity, ProductInfo.getXGAuthUrl(activity)
-    // + "/xgsdk/apiXgsdkAccount/verifySession?version=" + version
-    // + "&authInfo=" + authInfo);
-    // }
+    public static void auth(Activity activity, String version, String authInfo) {
+
+        sendRequestWithHttpClient(activity, XGInfo.getXGAuthUrl(activity)
+                + "/xgsdk/apiXgsdkAccount/verifySession?version=" + version
+                + "&authInfo=" + authInfo);
+    }
 
     private static void sendRequestWithHttpClient(final Activity activity,
             final String url) {

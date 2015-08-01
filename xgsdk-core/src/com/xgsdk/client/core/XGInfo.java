@@ -2,25 +2,31 @@
 package com.xgsdk.client.core;
 
 import com.xgsdk.client.core.utils.PropertiesUtil;
+import com.xgsdk.client.core.utils.XGLog;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.UUID;
 
-public class ProductInfo {
+public class XGInfo {
 
     private static final String SDK_CONFIG_FILE = "sdk_config.properties";
-    private static final String CONFIG_KEY_XG_APP_ID = "XgAppID";
+    private static final String CONFIG_KEY_XG_APP_ID = "XgAppId";
     private static final String CONFIG_KEY_XG_APP_KEY = "XgAppKey";
-    private static final String CONFIG_KEY_XG_VERSION = "xgVersion";
+    private static final String CONFIG_KEY_XG_VERSION = "XgVersion";
     private static final String CONFIG_KEY_XG_AUTH_URL = "XgAuthUrl";
     private static final String CONFIG_KEY_XG_RECHARGE_URL = "XgRechargeUrl";
     private static final String CONFIG_KEY_XG_DATA_URL = "XgDataUrl";
     private static final String CONFIG_KEY_XG_BUILD_NUMBER = "XgBuildNumber";
     private static final String CONFIG_KEY_XG_PLAN_ID = "XgPlanId";
-    private static final String CONFIG_KEY_XG_ORIENTATITION = "orientation";
+    private static final String CONFIG_KEY_XG_ORIENTATITION = "XgOrientation";
     private static final String ORIENTATITION_LANDSCAPE = "1";
     private static final String ORIENTATITION_PORTRAIT = "0";
 
@@ -48,7 +54,7 @@ public class ProductInfo {
     }
 
     private enum ConstKey {
-        XG_APP_ID, XG_APP_KEY, XG_CHANNEL_ID, XG_RECHARGE_URL, XG_AUTH_URL, XG_DATA_URL, XG_VERSION, XG_BUILD_NUMBER, XG_PLAN_ID
+        DEVICE_ID, XG_SDK_VERSION, XG_APP_ID, XG_APP_KEY, XG_CHANNEL_ID, XG_RECHARGE_URL, XG_AUTH_URL, XG_DATA_URL, XG_VERSION, XG_BUILD_NUMBER, XG_PLAN_ID
     }
 
     public static String getXGAppId(Context context) {
@@ -96,6 +102,14 @@ public class ProductInfo {
     public static String getXGConfig(Context context, String key,
             String defaultValue) {
         return _getValueFromXGConfig(context, key, defaultValue);
+    }
+
+    public static String getXGSdkVersion() {
+        return getValue(null, ConstKey.XG_SDK_VERSION);
+    }
+
+    public static String getXGDeviceId(Context context) {
+        return loadValue(context, ConstKey.DEVICE_ID);
     }
 
     private static final HashMap<ConstKey, String> sValueMap = new HashMap<ConstKey, String>();
@@ -149,6 +163,9 @@ public class ProductInfo {
                 result = _getValueFromXGConfig(context, CONFIG_KEY_XG_PLAN_ID,
                         DEFAULT_PLAN_ID);
                 break;
+            case DEVICE_ID:
+                result = _getDeviceId(context);
+                break;
 
         }
         return result;
@@ -168,8 +185,50 @@ public class ProductInfo {
         return value;
     }
 
-    public static void init(String channelId) {
+    public static void init(String sdkVersion, String channelId) {
+        sValueMap.put(ConstKey.XG_SDK_VERSION, sdkVersion);
         sValueMap.put(ConstKey.XG_CHANNEL_ID, channelId);
+    }
+
+    private static String _getDeviceId(Context context) {
+        {
+            try {
+                TelephonyManager mTelephonyMgr = (TelephonyManager) context
+                        .getSystemService(Context.TELEPHONY_SERVICE);
+                if (mTelephonyMgr != null) {
+                    String imei = mTelephonyMgr.getDeviceId();
+                    if (imei != null) {
+                        return "imei_" + imei;
+                    }
+                }
+            } catch (SecurityException e) {
+                XGLog.e(e.getMessage());
+            }
+
+            try {
+                WifiManager wifi = (WifiManager) context
+                        .getSystemService(Context.WIFI_SERVICE);
+                if (wifi != null) {
+                    WifiInfo info = wifi.getConnectionInfo();
+                    if (info != null && info.getMacAddress() != null) {
+                        return "mac_" + info.getMacAddress();
+                    }
+                }
+            } catch (SecurityException e) {
+                XGLog.e(e.getMessage());
+            }
+
+            SharedPreferences preference = context.getSharedPreferences(
+                    "xgsdk", Context.MODE_PRIVATE);
+            String uuid = preference.getString("UUID", null);
+            if (uuid == null) {
+                uuid = UUID.randomUUID().toString();
+                SharedPreferences.Editor editor = preference.edit();
+                editor.putString("UUID", uuid);
+                editor.commit();
+            }
+            return uuid;
+        }
     }
 
 }

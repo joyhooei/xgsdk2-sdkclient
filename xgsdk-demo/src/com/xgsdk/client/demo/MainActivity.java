@@ -6,7 +6,7 @@ import com.xgsdk.client.api.callback.ExitCallBack;
 import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.callback.UserCallBack;
 import com.xgsdk.client.api.entity.PayInfo;
-import com.xgsdk.client.core.ProductInfo;
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.demo.orders.OrdersActivity;
 import com.xgsdk.client.demo.utils.RUtil;
 import com.xgsdk.client.demo.utils.ToastUtil;
@@ -180,7 +180,8 @@ public class MainActivity extends Activity {
 
             @Override
             public void onLoginSuccess(String authInfo) {
-                Log.d(TAG, authInfo);
+                Log.w(TAG, "authInfo: \n" + authInfo);
+                TestUtil.auth(MainActivity.this, "2.0", authInfo);
             }
 
             @Override
@@ -289,8 +290,8 @@ public class MainActivity extends Activity {
                         payment.setProductId("payment017");
                         payment.setProductName("大宝剑");
                         String extraInfo = "{planid="
-                                + ProductInfo.getXGPlanId(MainActivity.this)
-                                + ",channelid=" + ProductInfo.getChannelId()
+                                + XGInfo.getXGPlanId(MainActivity.this)
+                                + ",channelid=" + XGInfo.getChannelId()
                                 + "}";
                         payment.setExt(extraInfo);
                         int totalPrice = TextUtils.isEmpty(etMoney.getText()) ? 0
@@ -324,6 +325,8 @@ public class MainActivity extends Activity {
 
                                     }
                                 });
+                        ToastUtil.showToast(MainActivity.this,
+                                payment.getXgOrderId());
                         payDialog.dismiss();
                     }
                 });

@@ -2,7 +2,7 @@
 package com.xgsdk.client.testchannel.check;
 
 import com.xgsdk.client.api.XGSDK;
-import com.xgsdk.client.core.ProductInfo;
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.utils.XGLog;
 
 import org.json.JSONArray;
@@ -39,7 +39,7 @@ public class CheckData {
         JSONObject json = new JSONObject();
         json.put(KEY_OS, "ANDROID");
         json.put(KEY_XG_SDK_VERSION, XGSDK.VERSION);
-        json.put(KEY_XG_APPID, ProductInfo.getXGAppId(context));
+        json.put(KEY_XG_APPID, XGInfo.getXGAppId(context));
         json.put(KEY_TS, getTimeStamp());
         return json;
     }
