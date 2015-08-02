@@ -70,30 +70,31 @@ public class AuthService extends BaseService {
                 Base64.NO_WRAP));
     }
 
-    public static String sessionAuthInThread(final Activity activity,
+    public static Result sessionAuthInThread(final Activity activity,
             final String authInfo) throws Exception {
-        Callable<String> callable = new Callable<String>() {
-            public String call() throws Exception {
+        Callable<Result> callable = new Callable<Result>() {
+            public Result call() throws Exception {
                 return AuthService.sessionAuth(activity, authInfo);
             }
         };
-        FutureTask<String> future = new FutureTask<String>(callable);
+        FutureTask<Result> future = new FutureTask<Result>(callable);
         Thread thread = new Thread(future);
         thread.start();
         thread.join(THREAD_JOIN_TIME_OUT);
         return future.get();
     }
 
-    public static String sessionAuth(Activity activity, final String authInfo)
+    public static Result sessionAuth(Activity activity, final String authInfo)
             throws Exception {
         List<NameValuePair> requestParams = generateBasicRequestParams(
                 activity, INTERFACE_TYPE_VERIFY_SESSION);
         requestParams.add(new BasicNameValuePair("authInfo", authInfo));
         String requestContent = generateSignRequestContent(activity,
                 requestParams);
-        return HttpUtils.doGetInThread(XGInfo.getXGAuthUrl(activity)
+        String ret = HttpUtils.doGetInThread(XGInfo.getXGAuthUrl(activity)
                 + ACCOUNT_VERIFY_SESSION_URI + XGInfo.getXGAppId(activity)
                 + "?" + requestContent);
+        return Result.parse(ret);
     }
 
 }

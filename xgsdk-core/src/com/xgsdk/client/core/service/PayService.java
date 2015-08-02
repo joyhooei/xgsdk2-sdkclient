@@ -6,7 +6,6 @@ import com.xgsdk.client.core.http.HttpUtils;
 import com.xgsdk.client.core.utils.XGLog;
 //import com.xgsdk.client.util.ProductConfig;
 
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -55,10 +54,20 @@ public class PayService extends BaseService {
             final String notifyUrl) throws Exception {
         Callable<String> callable = new Callable<String>() {
             public String call() throws Exception {
-                return PayService.createOrderForOriginal(activity, uId,
-                        productId, productName, productDec, amount, totalPrice,
-                        serverId, zoneId, roleId, roleName, currencyName,
-                        payExt, gameOrderId, notifyUrl);
+                Result result = PayService.createOrderForOriginal(activity,
+                        uId, productId, productName, productDec, amount,
+                        totalPrice, serverId, zoneId, roleId, roleName,
+                        currencyName, payExt, gameOrderId, notifyUrl);
+                if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
+                    throw new Exception("response exception:" + result.getMsg());
+                }
+                if (null == result.getData()) {
+                    throw new Exception("response exception:" + result.getMsg());
+                }
+                JSONObject jsonData = new JSONObject(result.getData());
+                PayService.orderId = jsonData.getString("orderId");
+                return jsonData.getString("orderId");
+
             }
         };
         FutureTask<String> future = new FutureTask<String>(callable);
@@ -124,24 +133,21 @@ public class PayService extends BaseService {
             final String currencyName, final String payExt,
             final String gameOrderId, final String notifyUrl) throws Exception {
         // 发送请求
-        String result = createOrderForOriginal(activity, uId, productId,
+        Result result = createOrderForOriginal(activity, uId, productId,
                 productName, productDec, amount, totalPrice, serverId, zoneId,
                 roleId, roleName, currencyName, payExt, gameOrderId, notifyUrl);
-        JSONObject jsonResult = new JSONObject(result);
-        if (!"1".equals(jsonResult.getString("code"))) {
-            throw new Exception("response exception:"
-                    + jsonResult.getString("msg"));
+        if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
+            throw new Exception("response exception:" + result.getMsg());
         }
-        JSONObject jsonData = jsonResult.getJSONObject("data");
-        if (null == jsonData) {
-            throw new Exception("response exception:"
-                    + jsonResult.getString("msg"));
+        if (null == result.getData()) {
+            throw new Exception("response exception:" + result.getMsg());
         }
+        JSONObject jsonData = new JSONObject(result.getData());
         PayService.orderId = jsonData.getString("orderId");
         return jsonData.getString("orderId");
     }
 
-    public static String createOrderForOriginal(final Activity activity,
+    public static Result createOrderForOriginal(final Activity activity,
             final String uId, final String productId, final String productName,
             final String productDec, final String amount,
             final String totalPrice, final String serverId,
@@ -154,9 +160,10 @@ public class PayService extends BaseService {
                 productDec, amount, totalPrice, serverId, zoneId, roleId,
                 roleName, currencyName, payExt, gameOrderId, notifyUrl);
         // 发送请求
-        String result = HttpUtils.executeHttpGet(getUrl.toString());
+        Result result = Result
+                .parse(HttpUtils.executeHttpGet(getUrl.toString()));
         // 返回结果为空
-        if (TextUtils.isEmpty(result)) {
+        if (result == null) {
             // 生成订单失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
@@ -179,19 +186,18 @@ public class PayService extends BaseService {
                 serverId, zoneId, roleId, roleName, currencyName, payExt,
                 gameOrderId, notifyUrl);
         // 发送请求
-        String result = HttpUtils.executeHttpGet(getUrl.toString());
+        Result result = Result
+                .parse(HttpUtils.executeHttpGet(getUrl.toString()));
         // 返回结果为空
-        if (TextUtils.isEmpty(result)) {
+        if (result == null) {
             // 生成订单失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
         }
-        JSONObject jsonResult = new JSONObject(result);
-        if ("1".equals(jsonResult.getString("code"))) {
+        if (TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
             return;
         } else {
-            throw new Exception("response exception:"
-                    + jsonResult.getString("msg"));
+            throw new Exception("response exception:" + result.getMsg());
         }
     }
 
@@ -326,7 +332,7 @@ public class PayService extends BaseService {
         }
     }
 
-    public static String queryOrderStatus(Activity activity, String orderId)
+    public static Result queryOrderStatus(Activity activity, String orderId)
             throws Exception {
         List<NameValuePair> requestParams = generateBasicRequestParams(
                 activity, INTERFACE_TYPE_QUERY_ORDER_STATUS);
@@ -340,45 +346,18 @@ public class PayService extends BaseService {
                 .append(XGInfo.getXGAppId(activity)).append("?");
         getUrl.append(requestContent);
         // 发送请求
-        String result = HttpUtils.executeHttpGet(getUrl.toString());
+        Result result = Result
+                .parse(HttpUtils.executeHttpGet(getUrl.toString()));
         // 返回结果为空
-        if (TextUtils.isEmpty(result)) {
+        if (result == null) {
             // 失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
         }
-        if (!("0".equals(result))) {
+        if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
             throw new Exception("testChannelNotify failed,request:"
                     + getUrl.toString());
         }
-        return result;
-    }
-
-    // 单独线程运行方式
-    public static String getResponseInThread(final String url) throws Exception {
-
-        Callable<String> callable = new Callable<String>() {
-            public String call() throws Exception {
-                return PayService.getResponse(url);
-            }
-        };
-        FutureTask<String> future = new FutureTask<String>(callable);
-        Thread thread = new Thread(future);
-        thread.start();
-        thread.join(THREAD_JOIN_TIME_OUT);
-        return future.get();
-    }
-
-    public static String getResponse(String url) throws Exception {
-
-        // 发送请求
-        String result = HttpUtils.executeHttpGet(url);
-        // 返回结果为空
-        if (TextUtils.isEmpty(result)) {
-            // 生成订单失败
-            throw new Exception("request:" + url + ",response is null.");
-        }
-
         return result;
     }
 
