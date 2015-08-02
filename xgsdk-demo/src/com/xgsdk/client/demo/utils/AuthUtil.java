@@ -1,19 +1,28 @@
 
-package com.xgsdk.client.demo;
+package com.xgsdk.client.demo.utils;
 
 import com.xgsdk.client.core.service.AuthService;
-import com.xgsdk.client.demo.utils.ToastUtil;
+import com.xgsdk.client.core.service.Result;
+import com.xgsdk.client.demo.GameInfo;
+
+import org.json.JSONObject;
 
 import android.app.Activity;
 
-public class TestUtil {
+public class AuthUtil {
     private static final String TAG = "TestUtil";
 
     public static void auth(Activity activity, String version, String authInfo) {
 
         try {
-            String result = AuthService.sessionAuthInThread(activity, authInfo);
-            ToastUtil.showToast(activity, result);
+            Result result = AuthService.sessionAuthInThread(activity, authInfo);
+            if (result != null) {
+                JSONObject jsonData = new JSONObject(result.getData());
+                String uid = jsonData.optString("uId");
+                GameInfo.getInstance().setUid(uid);
+                ToastUtil.showToast(activity, result.getData());
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

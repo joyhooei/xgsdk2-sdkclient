@@ -9,6 +9,7 @@ import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.demo.orders.OrderUtils;
 import com.xgsdk.client.demo.orders.OrdersActivity;
+import com.xgsdk.client.demo.utils.AuthUtil;
 import com.xgsdk.client.demo.utils.RUtil;
 import com.xgsdk.client.demo.utils.ToastUtil;
 
@@ -182,7 +183,7 @@ public class MainActivity extends Activity {
             @Override
             public void onLoginSuccess(String authInfo) {
                 Log.w(TAG, "authInfo: \n" + authInfo);
-                TestUtil.auth(MainActivity.this, "2.0", authInfo);
+                AuthUtil.auth(MainActivity.this, "2.0", authInfo);
             }
 
             @Override

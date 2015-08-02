@@ -8,9 +8,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -21,6 +26,7 @@ import java.util.Set;
 public class OrdersActivity extends Activity {
 
     private ListView mLVOrders;
+    private Button mBtnClean;
     private SimpleAdapter mAdapter;
 
     private ArrayList<HashMap<String, Object>> mOrderList = new ArrayList<HashMap<String, Object>>();
@@ -32,6 +38,16 @@ public class OrdersActivity extends Activity {
                 "xg_demo_activity_orders"));
         mLVOrders = (ListView) findViewById(RUtil.getId(
                 getApplicationContext(), "xg_lv_orders"));
+        mBtnClean = (Button) findViewById(RUtil.getId(getApplicationContext(),
+                "xg_btn_clean"));
+
+        mBtnClean.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showCleanDialog();
+            }
+        });
 
         mAdapter = new SimpleAdapter(this, mOrderList, RUtil.getLayout(
                 getApplicationContext(), "xg_demo_item_order"),
@@ -94,5 +110,34 @@ public class OrdersActivity extends Activity {
 
             }
         }
+    }
+
+    private void showCleanDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(RUtil.getString(getApplicationContext(),
+                "xg_clean_msg"));
+        builder.setPositiveButton(
+                RUtil.getString(getApplicationContext(), "xg_ok"),
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        OrderUtils.cleanOrders(getApplicationContext(),
+                                GameInfo.getInstance().getUid());
+                        mOrderList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+
+        builder.setNegativeButton(
+                RUtil.getString(getApplicationContext(), "xg_cancel"),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
     }
 }
