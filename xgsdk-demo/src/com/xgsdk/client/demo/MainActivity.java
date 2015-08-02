@@ -7,6 +7,7 @@ import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.callback.UserCallBack;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.core.XGInfo;
+import com.xgsdk.client.demo.orders.OrderUtils;
 import com.xgsdk.client.demo.orders.OrdersActivity;
 import com.xgsdk.client.demo.utils.RUtil;
 import com.xgsdk.client.demo.utils.ToastUtil;
@@ -52,7 +53,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onClick(View v) {
-                        showDialog();
+                        showPayDialog();
                     }
                 });
         findViewById(RUtil.getId(getApplicationContext(), "xg_switch_account"))
@@ -256,7 +257,7 @@ public class MainActivity extends Activity {
         XGSDK.getInstance().onDestory(this);
     }
 
-    private void showDialog() {
+    private void showPayDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final AlertDialog payDialog = builder.create();
@@ -284,15 +285,14 @@ public class MainActivity extends Activity {
                         // "1234567890" + System.currentTimeMillis());
                         // xgsdk.pay(MainActivity1.this, payInfo);
                         PayInfo payment = new PayInfo();
-                        payment.setUid("4fd0144f02840ae77b6f42346c90d8bd");
+                        payment.setUid(GameInfo.getInstance().getUid());
                         payment.setProductDesc("倚天不出谁与争锋");
                         payment.setServerId("11");
                         payment.setProductId("payment017");
                         payment.setProductName("大宝剑");
                         String extraInfo = "{planid="
                                 + XGInfo.getXGPlanId(MainActivity.this)
-                                + ",channelid=" + XGInfo.getChannelId()
-                                + "}";
+                                + ",channelid=" + XGInfo.getChannelId() + "}";
                         payment.setExt(extraInfo);
                         int totalPrice = TextUtils.isEmpty(etMoney.getText()) ? 0
                                 : Integer.valueOf(etMoney.getText().toString());
@@ -327,6 +327,11 @@ public class MainActivity extends Activity {
                                 });
                         ToastUtil.showToast(MainActivity.this,
                                 payment.getXgOrderId());
+
+                        OrderUtils.storeOrder(MainActivity.this, GameInfo
+                                .getInstance().getUid(),
+                                payment.getXgOrderId(), payment);
+
                         payDialog.dismiss();
                     }
                 });

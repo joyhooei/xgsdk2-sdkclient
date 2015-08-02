@@ -16,6 +16,14 @@
         android:textColor="@android:color/black" />
 
     <TextView
+        android:id="@+id/xg_order_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:textColor="@android:color/black" />
+
+    <TextView
         android:id="@+id/xg_order_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

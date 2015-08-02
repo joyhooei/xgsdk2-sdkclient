@@ -1,32 +1,29 @@
 
 package com.xgsdk.client.demo.orders;
 
+import com.xgsdk.client.demo.GameInfo;
 import com.xgsdk.client.demo.utils.RUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
 public class OrdersActivity extends Activity {
 
     private ListView mLVOrders;
+    private SimpleAdapter mAdapter;
 
     private ArrayList<HashMap<String, Object>> mOrderList = new ArrayList<HashMap<String, Object>>();
-
-    private static final String KEY_ORDER_ID = "OrderId";
-    private static final String KEY_ORDER_TIME = "OrderTime";
-    private static final String KEY_ORDER_STATUS = "OrderStatus";
-
-    private static final int STATUS_SUCCESS = 1;
-    private static final int STATUS_FAIL = 2;
-    private static final int STATUS_UNKNOWN = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,49 +33,66 @@ public class OrdersActivity extends Activity {
         mLVOrders = (ListView) findViewById(RUtil.getId(
                 getApplicationContext(), "xg_lv_orders"));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        mAdapter = new SimpleAdapter(this, mOrderList, RUtil.getLayout(
+                getApplicationContext(), "xg_demo_item_order"),
 
-        for (int i = 0; i < 5; i++) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            Date date = new Date(System.currentTimeMillis() - 123456);
-            sdf.format(date);
-            map.put(KEY_ORDER_ID, System.currentTimeMillis() % 10000 + 100000);
-            map.put(KEY_ORDER_TIME, sdf.format(date));
-            String status = "Unknown";
-            switch (i % 3) {
-                case STATUS_SUCCESS:
-                    status = "Success";
-                    break;
-                case STATUS_FAIL:
-                    status = "Fail";
-                    break;
-                case STATUS_UNKNOWN:
-                    status = "Unknown";
-                    break;
-            }
+        new String[] {
+                OrderUtils.KEY_ORDER_ID, OrderUtils.KEY_ORDER_DETAILS,
+                OrderUtils.KEY_ORDER_TIME, OrderUtils.KEY_ORDER_STATUS
+        },
 
-            map.put(KEY_ORDER_STATUS, status);
-            mOrderList.add(map);
-        }
+        new int[] {
+                RUtil.getId(getApplicationContext(), "xg_order_id"),
+                RUtil.getId(getApplicationContext(), "xg_order_details"),
+                RUtil.getId(getApplicationContext(), "xg_order_time"),
+                RUtil.getId(getApplicationContext(), "xg_order_status")
+        });
 
-        SimpleAdapter adapter = new SimpleAdapter(this, mOrderList,
-                RUtil.getLayout(getApplicationContext(), "xg_demo_item_order"),
-
-                new String[] {
-                        KEY_ORDER_ID, KEY_ORDER_TIME, KEY_ORDER_STATUS
-                },
-
-                new int[] {
-                        RUtil.getId(getApplicationContext(), "xg_order_id"),
-                        RUtil.getId(getApplicationContext(), "xg_order_time"),
-                        RUtil.getId(getApplicationContext(), "xg_order_status")
-                });
-
-        mLVOrders.setAdapter(adapter);
+        mLVOrders.setAdapter(mAdapter);
         View header = getLayoutInflater()
                 .inflate(
                         RUtil.getLayout(getApplicationContext(),
                                 "xg_demo_orders_title"), null);
         mLVOrders.addHeaderView(header);
+        new LoadOrdersTask().execute();
+    }
+
+    private class LoadOrdersTask extends
+            AsyncTask<Void, Integer, HashMap<String, JSONObject>> {
+
+        @Override
+        protected HashMap<String, JSONObject> doInBackground(Void... params) {
+            return OrderUtils.getOrders(OrdersActivity.this, GameInfo
+                    .getInstance().getUid());
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<String, JSONObject> result) {
+            super.onPostExecute(result);
+            mOrderList.clear();
+            if (result != null && !result.isEmpty()) {
+                Set<String> set = result.keySet();
+                for (String orderid : set) {
+                    try {
+                        JSONObject json = result.get(orderid);
+                        HashMap<String, Object> map = new HashMap<String, Object>();
+                        map.put(OrderUtils.KEY_ORDER_ID, orderid);
+                        map.put(OrderUtils.KEY_ORDER_DETAILS,
+                                json.get(OrderUtils.KEY_ORDER_DETAILS));
+                        map.put(OrderUtils.KEY_ORDER_TIME,
+                                json.get(OrderUtils.KEY_ORDER_TIME));
+                        map.put(OrderUtils.KEY_ORDER_STATUS,
+                                json.get(OrderUtils.KEY_ORDER_STATUS));
+                        mOrderList.add(map);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                mAdapter.notifyDataSetChanged();
+            } else {
+
+            }
+        }
     }
 }
