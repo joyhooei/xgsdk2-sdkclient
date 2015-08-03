@@ -38,16 +38,8 @@ public class PayDialog {
                 // TODO Auto-generated method stub
                 payCallBack.onSuccess("pay success!");
                 try {
-                    String orderId = PayService.createOrderInThread(activity,
-                            payment.getUid(), payment.getProductId(),
-                            payment.getProductName(), payment.getProductDesc(),
-                            String.valueOf(payment.getProductCount()),
-                            String.valueOf(payment.getProductTotalPrice()),
-                            payment.getServerId(),payment.getZoneId(),
-                            String.valueOf(payment.getRoleId()),
-                            payment.getRoleName(), payment.getCurrencyName(),
-                            payment.getExt(), payment.getGameOrderId(),
-                            payment.getNotifyURL());
+                    String xgOrderId = payment.getXgOrderId();
+                    PayService.testChannelNotifyInThread(activity, xgOrderId);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

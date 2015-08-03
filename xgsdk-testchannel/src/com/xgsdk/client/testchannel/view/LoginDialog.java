@@ -3,7 +3,7 @@ package com.xgsdk.client.testchannel.view;
 
 import com.xgsdk.client.api.XGErrorCode;
 import com.xgsdk.client.api.callback.UserCallBack;
-import com.xgsdk.client.core.SystemInfo;
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.service.AuthService;
 import com.xgsdk.client.core.utils.ToastUtil;
 import com.xgsdk.client.core.utils.XGLog;
@@ -88,8 +88,8 @@ public class LoginDialog {
                             return;
                         }
 
-                        String uid = SystemInfo.getDeviceUUID(activity, true)
-                                + "_" + mUsername;
+                        String uid = XGInfo.getXGDeviceId(activity) + "_"
+                                + mUsername;
                         // String token =
                         // String.valueOf(System.currentTimeMillis());
 
