@@ -3,7 +3,7 @@ package com.xgsdk.client.data.network;
 
 import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.data.Constants;
-import com.xgsdk.client.data.XGDataAgent;
+import com.xgsdk.client.data.XGDATA;
 import com.xgsdk.client.data.process.DataPackager;
 import com.xgsdk.client.data.utils.Base64Util;
 
@@ -22,7 +22,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 
 public class TcpTransmitter implements IDataTransmitter {
-    private static final String LOG_TAG = XGDataAgent.TAG;
+    private static final String LOG_TAG = XGDATA.TAG;
 
     private Context mContext;
     private String mHost;

@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class XGDataAgent {
+public class XGDATA {
 
     public static final String TAG = "XSJData";
 

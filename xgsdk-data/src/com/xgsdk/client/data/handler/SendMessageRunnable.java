@@ -1,7 +1,7 @@
 
 package com.xgsdk.client.data.handler;
 
-import com.xgsdk.client.data.XGDataAgent;
+import com.xgsdk.client.data.XGDATA;
 import com.xgsdk.client.data.process.Common;
 
 import org.json.JSONObject;
@@ -25,7 +25,7 @@ public class SendMessageRunnable implements Runnable {
                 Common.postToServer(mContext, mJSONObject);
             }
         } catch (Exception ex) {
-            Log.e(XGDataAgent.TAG, "Exception occurred when sending message.");
+            Log.e(XGDATA.TAG, "Exception occurred when sending message.");
             ex.printStackTrace();
         }
     }
