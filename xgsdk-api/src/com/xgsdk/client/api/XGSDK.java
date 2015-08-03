@@ -8,6 +8,7 @@ import com.xgsdk.client.api.entity.GameServerInfo;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.api.entity.RoleInfo;
 import com.xgsdk.client.api.entity.XGUser;
+import com.xgsdk.client.api.statistics.Statistics;
 import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.service.PayService;
 import com.xgsdk.client.core.utils.XGLog;
@@ -64,6 +65,7 @@ public class XGSDK implements XGErrorCode {
     public void onCreate(Activity activity) {
         try {
             mXGChannel.onCreate(activity);
+            Statistics.onCreate(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onCreate " + " error ", e);
         }
@@ -72,6 +74,7 @@ public class XGSDK implements XGErrorCode {
     public void onDestory(Activity activity) {
         try {
             mXGChannel.onDestory(activity);
+            Statistics.onDestory(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onDestory " + " error ", e);
         }
@@ -80,6 +83,7 @@ public class XGSDK implements XGErrorCode {
     public void onResume(Activity activity) {
         try {
             mXGChannel.onResume(activity);
+            Statistics.onResume(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onResume " + " error ", e);
         }
@@ -88,6 +92,7 @@ public class XGSDK implements XGErrorCode {
     public void onPause(Activity activity) {
         try {
             mXGChannel.onPause(activity);
+            Statistics.onPause(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onPause " + " error ", e);
         }
@@ -96,6 +101,7 @@ public class XGSDK implements XGErrorCode {
     public void onStart(Activity activity) {
         try {
             mXGChannel.onStart(activity);
+            Statistics.onStart(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onStart " + " error ", e);
         }
@@ -104,6 +110,7 @@ public class XGSDK implements XGErrorCode {
     public void onRestart(Activity activity) {
         try {
             mXGChannel.onRestart(activity);
+            Statistics.onRestart(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onRestart " + " error ", e);
         }
@@ -112,6 +119,7 @@ public class XGSDK implements XGErrorCode {
     public void onStop(Activity activity) {
         try {
             mXGChannel.onStop(activity);
+            Statistics.onStop(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onStop " + " error ", e);
         }
@@ -120,6 +128,7 @@ public class XGSDK implements XGErrorCode {
     public void onNewIntent(Activity activity, Intent intent) {
         try {
             mXGChannel.onNewIntent(activity, intent);
+            Statistics.onNewIntent(activity, intent);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onNewIntent " + " error ", e);
         }
@@ -129,6 +138,8 @@ public class XGSDK implements XGErrorCode {
             int resultCode, Intent data) {
         try {
             mXGChannel
+                    .onActivityResult(activity, requestCode, resultCode, data);
+            Statistics
                     .onActivityResult(activity, requestCode, resultCode, data);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onActivityResult " + " error ",
@@ -148,6 +159,7 @@ public class XGSDK implements XGErrorCode {
     public void init(Activity activity) {
         try {
             mXGChannel.init(activity);
+            Statistics.init(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " init " + " error ", e);
         }
@@ -156,6 +168,7 @@ public class XGSDK implements XGErrorCode {
     public void login(Activity activity, String customParams) {
         try {
             mXGChannel.login(activity, customParams);
+            Statistics.login(activity, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " login " + " error ", e);
         }
@@ -164,6 +177,7 @@ public class XGSDK implements XGErrorCode {
     public void logout(Activity activity, String customParams) {
         try {
             mXGChannel.logout(activity, customParams);
+            Statistics.logout(activity, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " logout " + " error ", e);
         }
@@ -197,6 +211,7 @@ public class XGSDK implements XGErrorCode {
             }
             payInfo.setAdditionalParam(PayInfo.KEY_XG_ORDER_ID, orderId);
             mXGChannel.pay(activity, payInfo, payCallBack);
+            Statistics.pay(activity, payInfo, payCallBack);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " pay " + " error ", e);
         }
@@ -208,6 +223,7 @@ public class XGSDK implements XGErrorCode {
         try {
             mXGChannel.setExitCallBack(exitCallBack);
             mXGChannel.exit(activity, exitCallBack, customParams);
+            Statistics.exit(activity, exitCallBack, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " exit " + " error ", e);
         }
@@ -224,6 +240,7 @@ public class XGSDK implements XGErrorCode {
     public void switchAccount(Activity activity, String customParams) {
         try {
             mXGChannel.switchAccount(activity, customParams);
+            Statistics.switchAccount(activity, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " switchAccount " + " error ", e);
         }
@@ -232,6 +249,7 @@ public class XGSDK implements XGErrorCode {
     public void onCreateRole(Activity activity, RoleInfo info) {
         try {
             mXGChannel.onCreateRole(activity, info);
+            Statistics.onCreateRole(activity, info);
             mXGChannel.setRoleInfo(activity, info);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onCreateRole " + info
@@ -243,6 +261,7 @@ public class XGSDK implements XGErrorCode {
             GameServerInfo serverInfo) {
         try {
             mXGChannel.onEnterGame(activity, user, roleInfo, serverInfo);
+            Statistics.onEnterGame(activity, user, roleInfo, serverInfo);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onEnterGame error ", e);
         }
@@ -251,6 +270,7 @@ public class XGSDK implements XGErrorCode {
     public void onRoleLevelup(Activity activity, RoleInfo role) {
         try {
             mXGChannel.onRoleLevelup(activity, role);
+            Statistics.onRoleLevelup(activity, role);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onRoleLevelup " + role
                     + " error ", e);
@@ -259,6 +279,7 @@ public class XGSDK implements XGErrorCode {
 
     public void onEvent(Activity activity, String eventId, String content) {
         try {
+            Statistics.onEvent(activity, eventId, content);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onEvent error ", e);
         }
@@ -269,6 +290,14 @@ public class XGSDK implements XGErrorCode {
             String roleType, String roleLevel, String activity,
             String itemCatalog, String itemId, String itemName,
             String consumeGold, String consumeBindingGold) {
+        try {
+            Statistics.onRoleConsume(act, accountId, accountName, roleId,
+                    roleName, roleType, roleLevel, activity, itemCatalog,
+                    itemId, itemName, consumeGold, consumeBindingGold);
+
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onEvent error ", e);
+        }
     }
 
     void onApplicationCreate(final Context context) {
