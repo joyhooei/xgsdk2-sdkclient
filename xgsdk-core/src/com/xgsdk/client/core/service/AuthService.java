@@ -25,20 +25,30 @@ public class AuthService extends BaseService {
 
     public static String genAuthInfo(Context context, String token, String uId,
             String name) throws Exception {
-        String appId = XGInfo.getXGAppId(context);
-        String channelId = XGInfo.getChannelId();
         String appKey = XGInfo.getXGAppKey(context);
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
-        requestParams.add(new BasicNameValuePair("appId", appId));
-        requestParams.add(new BasicNameValuePair("channelId", channelId));
-        requestParams.add(new BasicNameValuePair("deviceId", XGInfo
-                .getXGDeviceId(context)));
+        String appId = XGInfo.getXGAppId(context);
+        if (!TextUtils.isEmpty(appId)) {
+            requestParams.add(new BasicNameValuePair("xgAppId", appId));
+        }
+        String channelId = XGInfo.getChannelId();
+        if (!TextUtils.isEmpty(channelId)) {
+            requestParams.add(new BasicNameValuePair("channelId", channelId));
+        }
         requestParams.add(new BasicNameValuePair("ts", ts()));
+        String planId = XGInfo.getXGPlanId(context);
+        if (!TextUtils.isEmpty(planId)) {
+            requestParams.add(new BasicNameValuePair("planId", planId));
+        }
         if (!TextUtils.isEmpty(token)) {
             requestParams.add(new BasicNameValuePair("authToken", token));
         }
         if (!TextUtils.isEmpty(uId)) {
             requestParams.add(new BasicNameValuePair("uId", uId));
+        }
+        String deviceId = XGInfo.getXGDeviceId(context);
+        if (!TextUtils.isEmpty(deviceId)) {
+            requestParams.add(new BasicNameValuePair("deviceId", deviceId));
         }
         if (!TextUtils.isEmpty(name)) {
             requestParams.add(new BasicNameValuePair("name", name));
@@ -58,7 +68,7 @@ public class AuthService extends BaseService {
                 strSign.append("&");
             }
         }
-        String sign = sign(strSign.toString() + appId + appKey, appKey);
+        String sign = sign(strSign.toString(), appKey);
         XGLog.d("before sign:" + strSign.toString());
         XGLog.d("after sign:" + sign);
         JSONObject jsonAuth = new JSONObject();

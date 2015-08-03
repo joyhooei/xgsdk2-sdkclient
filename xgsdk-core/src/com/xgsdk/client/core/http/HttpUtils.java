@@ -37,7 +37,7 @@ public class HttpUtils {
             connection.setReadTimeout(DEFAULT_HTTP_CONNECT_TIMEOUT);
             connection.setRequestProperty("Connection", "close");
             connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Accept", "text/plain");
+            // connection.setRequestProperty("Accept", "text/plain");
             connection.setRequestProperty("Content-Encoding", "gzip");
             connection.connect();
             out = new DataOutputStream(connection.getOutputStream());
@@ -104,7 +104,7 @@ public class HttpUtils {
             connection.setReadTimeout(DEFAULT_HTTP_CONNECT_TIMEOUT);
             connection.setRequestProperty("Connection", "close");
             connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Accept", "text/plain");
+            // connection.setRequestProperty("Accept", "text/plain");
             connection.setRequestProperty("Content-Encoding", "gzip");
             in = new InputStreamReader(connection.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(in);

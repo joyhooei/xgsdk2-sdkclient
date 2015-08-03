@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
@@ -125,8 +126,8 @@ public class PayService extends BaseService {
         thread.join(THREAD_JOIN_TIME_OUT);
     }
 
-    public static String createOrder(final Activity activity, final String uId,
-            final String productId, final String productName,
+    private static String createOrder(final Activity activity,
+            final String uId, final String productId, final String productName,
             final String productDec, final String amount,
             final String totalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
@@ -159,14 +160,19 @@ public class PayService extends BaseService {
                 INTERFACE_TYPE_CREATE_ORDER, null, uId, productId, productName,
                 productDec, amount, totalPrice, serverId, zoneId, roleId,
                 roleName, currencyName, payExt, gameOrderId, notifyUrl);
-        // 发送请求
-        Result result = Result
-                .parse(HttpUtils.executeHttpGet(getUrl.toString()));
+        String resStr = HttpUtils.executeHttpGet(getUrl.toString());
+        String resp = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
+        if (TextUtils.isEmpty(resp)) {
+            throw new Exception("request:" + getUrl.toString()
+                    + ",response is null.");
+        }
+        // 发送请求
+        Result result = Result.parse(resStr);
         if (result == null) {
             // 生成订单失败
             throw new Exception("request:" + getUrl.toString()
-                    + ",response is null.");
+                    + ",result is null.");
         }
         return result;
     }
@@ -185,9 +191,15 @@ public class PayService extends BaseService {
                 uId, productId, productName, productDec, amount, totalPrice,
                 serverId, zoneId, roleId, roleName, currencyName, payExt,
                 gameOrderId, notifyUrl);
+        String resp = HttpUtils.executeHttpGet(getUrl.toString());
+        // 返回结果为空
+        if (TextUtils.isEmpty(resp)) {
+            // 更新订单失败
+            throw new Exception("request:" + getUrl.toString()
+                    + ",response is null.");
+        }
         // 发送请求
-        Result result = Result
-                .parse(HttpUtils.executeHttpGet(getUrl.toString()));
+        Result result = Result.parse(resp);
         // 返回结果为空
         if (result == null) {
             // 生成订单失败
@@ -283,29 +295,32 @@ public class PayService extends BaseService {
      * @param orderId
      * @return
      */
-    public static void cancelOrder(Activity activity, final String orderId)
+    private static void cancelOrder(Activity activity, final String orderId)
             throws Exception {
         StringBuilder getUrl = generateRequestUrl(activity,
                 PAY_CANCEL_ORDER_URI, INTERFACE_TYPE_CANCEL_ORDER, orderId,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null);
         // 发送请求
-        String result = HttpUtils.executeHttpGet(getUrl.toString());
+        String resp = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
-        if (TextUtils.isEmpty(result)) {
-            // 生成订单失败
+        if (TextUtils.isEmpty(resp)) {
+            // 取消订单失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
         }
-        JSONObject jsonResult = new JSONObject(result);
-        if ("1".equals(jsonResult.getString("code"))) {
+        Result result = Result.parse(resp);
+        if (result == null) {
+            throw new Exception("cancel order .parse response error:" + resp);
+        }
+        if (TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
             return;
         } else {
-            throw new Exception(jsonResult.getString("data"));
+            throw new Exception("cancel order error: " + result.getMsg());
         }
     }
 
-    public static void testChannelNotify(Activity activity, String orderId)
+    private static Result testChannelNotify(Activity activity, String orderId)
             throws Exception {
         List<NameValuePair> requestParams = generateBasicRequestParams(
                 activity, INTERFACE_TYPE_TESTCHANNEL_NOTIFY);
@@ -319,30 +334,89 @@ public class PayService extends BaseService {
                 .append(XGInfo.getXGAppId(activity)).append("?");
         getUrl.append(requestContent);
         // 发送请求
-        String result = HttpUtils.executeHttpGet(getUrl.toString());
+        String resp = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
-        if (TextUtils.isEmpty(result)) {
+        if (TextUtils.isEmpty(resp)) {
             // 失败
             throw new Exception("request:" + getUrl.toString()
                     + ",response is null.");
         }
-        if (!("0".equals(result))) {
-            throw new Exception("testChannelNotify failed,request:"
-                    + getUrl.toString());
+        Result result = Result.parse(resp);
+        if (result == null) {
+            throw new Exception(
+                    "testChannelNotify order .parse response error:" + resp);
+        }
+        if (TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
+            XGLog.d("testChannelNotify order ," + result);
+            return result;
+        } else {
+            throw new Exception("testChannelNotify failed,resp:" + resp);
         }
     }
 
-    public static Result queryOrderStatus(Activity activity, String orderId)
+    // 单独线程运行方式
+    public static Result testChannelNotifyInThread(final Activity activity,
+            final String orderId) throws Exception {
+        Callable<Result> callable = new Callable<Result>() {
+            public Result call() throws Exception {
+                Result result = PayService.testChannelNotify(activity, orderId);
+                return result;
+
+            }
+        };
+        FutureTask<Result> future = new FutureTask<Result>(callable);
+        Thread thread = new Thread(future);
+        thread.start();
+        thread.join(THREAD_JOIN_TIME_OUT);
+        return future.get();
+    }
+
+    // 单独线程运行方式
+    public static Result queryOrderStatusInThread(final Activity activity,
+            final String orderId) throws Exception {
+        Callable<Result> callable = new Callable<Result>() {
+            public Result call() throws Exception {
+                Result result = PayService.queryOrderStatus(activity, orderId);
+                return result;
+
+            }
+        };
+        FutureTask<Result> future = new FutureTask<Result>(callable);
+        Thread thread = new Thread(future);
+        thread.start();
+        thread.join(THREAD_JOIN_TIME_OUT);
+        return future.get();
+    }
+
+    private static Result queryOrderStatus(Activity activity, String orderId)
             throws Exception {
-        List<NameValuePair> requestParams = generateBasicRequestParams(
-                activity, INTERFACE_TYPE_QUERY_ORDER_STATUS);
+        List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
+        String appId = XGInfo.getXGAppId(activity);
+        if (!TextUtils.isEmpty(appId)) {
+            requestParams.add(new BasicNameValuePair("xgAppId", appId));
+        }
+        String channelId = XGInfo.getChannelId();
+        if (!TextUtils.isEmpty(channelId)) {
+            requestParams.add(new BasicNameValuePair("channelId", channelId));
+        }
+        requestParams.add(new BasicNameValuePair("ts", ts()));
+        String planId = XGInfo.getXGPlanId(activity);
+        if (!TextUtils.isEmpty(planId)) {
+            requestParams.add(new BasicNameValuePair("planId", planId));
+        }
+        String deviceId = XGInfo.getXGDeviceId(activity);
+        if (!TextUtils.isEmpty(deviceId)) {
+            requestParams.add(new BasicNameValuePair("deviceId", deviceId));
+        }
         requestParams.add(new BasicNameValuePair("orderId", orderId));
+        requestParams.add(new BasicNameValuePair("type",
+                INTERFACE_TYPE_QUERY_ORDER_STATUS));
         String requestContent = generateSignRequestContent(activity,
                 requestParams);
         // 生成请求
         StringBuilder getUrl = new StringBuilder();
         getUrl.append(XGInfo.getXGRechargeUrl(activity))
-                .append(PAY_TESTCHANNEL_NOTIFY).append("/")
+                .append(PAY_QUERY_ORDER_STATUS).append("/")
                 .append(XGInfo.getXGAppId(activity)).append("?");
         getUrl.append(requestContent);
         // 发送请求
@@ -355,7 +429,7 @@ public class PayService extends BaseService {
                     + ",response is null.");
         }
         if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
-            throw new Exception("testChannelNotify failed,request:"
+            throw new Exception("queryOrderStatus failed,request:"
                     + getUrl.toString());
         }
         return result;

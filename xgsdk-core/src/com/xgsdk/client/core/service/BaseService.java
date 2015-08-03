@@ -11,7 +11,6 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
-import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -25,12 +24,12 @@ import java.util.Locale;
 
 public class BaseService {
 
-    protected static final String INTERFACE_TYPE_CREATE_ORDER = "1";
-    protected static final String INTERFACE_TYPE_UPDATE_ORDER = "2";
-    protected static final String INTERFACE_TYPE_CANCEL_ORDER = "3";
-    protected static final String INTERFACE_TYPE_TESTCHANNEL_NOTIFY = "4";
-    protected static final String INTERFACE_TYPE_QUERY_ORDER_STATUS = "7";
-    protected static final String INTERFACE_TYPE_VERIFY_SESSION = "9";
+    protected static final String INTERFACE_TYPE_CREATE_ORDER = "create-order";
+    protected static final String INTERFACE_TYPE_UPDATE_ORDER = "update-order";
+    protected static final String INTERFACE_TYPE_CANCEL_ORDER = "cancel-order";
+    protected static final String INTERFACE_TYPE_TESTCHANNEL_NOTIFY = "testchannel-notify";
+    protected static final String INTERFACE_TYPE_QUERY_ORDER_STATUS = "query-order-status";
+    protected static final String INTERFACE_TYPE_VERIFY_SESSION = "verify-session";
 
     protected static final int THREAD_JOIN_TIME_OUT = 30000;
 
@@ -40,11 +39,11 @@ public class BaseService {
     protected static String PAY_UPDATE_ORDER_URI = "/pay/update-order";
     // 取消订单URI
     protected static String PAY_CANCEL_ORDER_URI = "/pay/cancel-order";
-    
-    protected static String PAY_TESTCHANNEL_NOTIFY = "/pay/testchannel_notify";
-    
-    protected static String PAY_QUERY_ORDER_STATUS = "/pay/query_order_status";
-    
+
+    protected static String PAY_TESTCHANNEL_NOTIFY = "/pay/testchannel-notify";
+
+    protected static String PAY_QUERY_ORDER_STATUS = "/pay/query-order-status";
+
     protected static String ACCOUNT_VERIFY_SESSION_URI = "/account/verify-session/";
 
     private static final String TIME_PATTERN = "yyyyMMddHHmmss";
@@ -61,12 +60,12 @@ public class BaseService {
     }
 
     protected static List<NameValuePair> generateBasicRequestParams(
-            Activity activity, String interfaceType) {
+            Context context, String interfaceType) {
 
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
-        String appId = XGInfo.getXGAppId(activity);
+        String appId = XGInfo.getXGAppId(context);
         if (!TextUtils.isEmpty(appId)) {
-            requestParams.add(new BasicNameValuePair("sdkAppid", appId));
+            requestParams.add(new BasicNameValuePair("xgAppId", appId));
         }
         String channelId = XGInfo.getChannelId();
         if (!TextUtils.isEmpty(channelId)) {
@@ -77,16 +76,16 @@ public class BaseService {
                     .getXGSdkVersion()));
         }
         requestParams.add(new BasicNameValuePair("ts", ts()));
-        String planId = XGInfo.getXGPlanId(activity);
+        String planId = XGInfo.getXGPlanId(context);
         if (!TextUtils.isEmpty(planId)) {
             requestParams.add(new BasicNameValuePair("planId", planId));
         }
-        String buildNumber = XGInfo.getXGBuildNumber(activity);
+        String buildNumber = XGInfo.getXGBuildNumber(context);
         if (!TextUtils.isEmpty(buildNumber)) {
             requestParams
                     .add(new BasicNameValuePair("buildNumber", buildNumber));
         }
-        String deviceId = XGInfo.getXGDeviceId(activity);
+        String deviceId = XGInfo.getXGDeviceId(context);
         if (!TextUtils.isEmpty(deviceId)) {
             requestParams.add(new BasicNameValuePair("deviceId", deviceId));
         }

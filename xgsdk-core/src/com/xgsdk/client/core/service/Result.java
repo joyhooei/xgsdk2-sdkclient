@@ -1,13 +1,15 @@
 
 package com.xgsdk.client.core.service;
 
+import com.xgsdk.client.core.utils.XGLog;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
 
 public class Result {
-    
+
     public static final String CODE_SUCCESS = "0";
 
     private String code;
@@ -40,7 +42,14 @@ public class Result {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        XGLog.d("response json :" + ret + "\n");
+        XGLog.d("result:" + result);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Result [code=" + code + ", msg=" + msg + ", data=" + data + "]";
     }
 
 }
