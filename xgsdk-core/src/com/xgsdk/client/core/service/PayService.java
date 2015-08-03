@@ -23,18 +23,18 @@ public class PayService extends BaseService {
     // 单独线程运行方式
     public static String createOrderInThread(final Activity activity,
             final String uId, final String productId, final String productName,
-            final String productDec, final String amount,
-            final String totalPrice, final String serverId,
+            final String productDesc, final String productCount,
+            final String productTotalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
-            final String currencyName, final String payExt,
+            final String currencyName, final String ext,
             final String gameOrderId, final String notifyUrl) throws Exception {
 
         Callable<String> callable = new Callable<String>() {
             public String call() throws Exception {
                 return PayService.createOrder(activity, uId, productId,
-                        productName, productDec, amount, totalPrice, serverId,
-                        zoneId, roleId, roleName, currencyName, payExt,
-                        gameOrderId, notifyUrl);
+                        productName, productDesc, productCount,
+                        productTotalPrice, serverId, zoneId, roleId, roleName,
+                        currencyName, ext, gameOrderId, notifyUrl);
             }
         };
         FutureTask<String> future = new FutureTask<String>(callable);
@@ -47,18 +47,17 @@ public class PayService extends BaseService {
     // 单独线程运行方式
     public static String createOrderInThreadForOriginal(
             final Activity activity, final String uId, final String productId,
-            final String productName, final String productDec,
-            final String amount, final String totalPrice,
+            final String productName, final String productDesc,
+            final String productCount, final String productTotalPrice,
             final String serverId, final String zoneId, final String roleId,
-            final String roleName, final String currencyName,
-            final String payExt, final String gameOrderId,
-            final String notifyUrl) throws Exception {
+            final String roleName, final String currencyName, final String ext,
+            final String gameOrderId, final String notifyUrl) throws Exception {
         Callable<String> callable = new Callable<String>() {
             public String call() throws Exception {
                 Result result = PayService.createOrderForOriginal(activity,
-                        uId, productId, productName, productDec, amount,
-                        totalPrice, serverId, zoneId, roleId, roleName,
-                        currencyName, payExt, gameOrderId, notifyUrl);
+                        uId, productId, productName, productDesc, productCount,
+                        productTotalPrice, serverId, zoneId, roleId, roleName,
+                        currencyName, ext, gameOrderId, notifyUrl);
                 if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
                     throw new Exception("response exception:" + result.getMsg());
                 }
@@ -84,21 +83,22 @@ public class PayService extends BaseService {
     // 单独线程运行方式
     public static void updateOrderInThread(final Activity activity,
             final String orderId, final String uId, final String productId,
-            final String productName, final String productDec,
-            final String amount, final String totalPrice,
+            final String productName, final String productDesc,
+            final String productCount, final String productTotalPrice,
             final String serverId, final String zoneId, final String roleId,
-            final String roleName, final String currencyName,
-            final String payExt, final String gameOrderId,
-            final String notifyUrl) throws Exception {
+            final String roleName, final String currencyName, final String ext,
+            final String gameOrderId, final String notifyUrl) throws Exception {
         PayService.orderId = orderId;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    PayService.updateOrder(activity, orderId, uId, productId,
-                            productName, productDec, amount, totalPrice,
-                            serverId, zoneId, roleId, roleName, currencyName,
-                            payExt, gameOrderId, notifyUrl);
+                    PayService
+                            .updateOrder(activity, orderId, uId, productId,
+                                    productName, productDesc, productCount,
+                                    productTotalPrice, serverId, zoneId,
+                                    roleId, roleName, currencyName, ext,
+                                    gameOrderId, notifyUrl);
                 } catch (Exception ex) {
                     XGLog.e(ex.getMessage(), ex);
                 }
@@ -128,15 +128,16 @@ public class PayService extends BaseService {
 
     private static String createOrder(final Activity activity,
             final String uId, final String productId, final String productName,
-            final String productDec, final String amount,
-            final String totalPrice, final String serverId,
+            final String productDesc, final String productCount,
+            final String productTotalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
-            final String currencyName, final String payExt,
+            final String currencyName, final String ext,
             final String gameOrderId, final String notifyUrl) throws Exception {
         // 发送请求
         Result result = createOrderForOriginal(activity, uId, productId,
-                productName, productDec, amount, totalPrice, serverId, zoneId,
-                roleId, roleName, currencyName, payExt, gameOrderId, notifyUrl);
+                productName, productDesc, productCount, productTotalPrice,
+                serverId, zoneId, roleId, roleName, currencyName, ext,
+                gameOrderId, notifyUrl);
         if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
             throw new Exception("response exception:" + result.getMsg());
         }
@@ -150,16 +151,16 @@ public class PayService extends BaseService {
 
     public static Result createOrderForOriginal(final Activity activity,
             final String uId, final String productId, final String productName,
-            final String productDec, final String amount,
-            final String totalPrice, final String serverId,
+            final String productDesc, final String productCount,
+            final String productTotalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
-            final String currencyName, final String payExt,
+            final String currencyName, final String ext,
             final String gameOrderId, final String notifyUrl) throws Exception {
         // 排序签名
         StringBuilder getUrl = generateRequestUrl(activity, PAY_NEW_ORDER_URI,
                 INTERFACE_TYPE_CREATE_ORDER, null, uId, productId, productName,
-                productDec, amount, totalPrice, serverId, zoneId, roleId,
-                roleName, currencyName, payExt, gameOrderId, notifyUrl);
+                productDesc, productCount, productTotalPrice, serverId, zoneId,
+                roleId, roleName, currencyName, ext, gameOrderId, notifyUrl);
         String resStr = HttpUtils.executeHttpGet(getUrl.toString());
         String resp = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
@@ -179,18 +180,17 @@ public class PayService extends BaseService {
 
     private static void updateOrder(final Activity activity,
             final String orderId, final String uId, final String productId,
-            final String productName, final String productDec,
-            final String amount, final String totalPrice,
+            final String productName, final String productDesc,
+            final String productCount, final String productTotalPrice,
             final String serverId, final String zoneId, final String roleId,
-            final String roleName, final String currencyName,
-            final String payExt, final String gameOrderId,
-            final String notifyUrl) throws Exception {
+            final String roleName, final String currencyName, final String ext,
+            final String gameOrderId, final String notifyUrl) throws Exception {
         PayService.orderId = orderId;
         StringBuilder getUrl = generateRequestUrl(activity,
                 PAY_UPDATE_ORDER_URI, INTERFACE_TYPE_UPDATE_ORDER, orderId,
-                uId, productId, productName, productDec, amount, totalPrice,
-                serverId, zoneId, roleId, roleName, currencyName, payExt,
-                gameOrderId, notifyUrl);
+                uId, productId, productName, productDesc, productCount,
+                productTotalPrice, serverId, zoneId, roleId, roleName,
+                currencyName, ext, gameOrderId, notifyUrl);
         String resp = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
         if (TextUtils.isEmpty(resp)) {
@@ -216,10 +216,10 @@ public class PayService extends BaseService {
     private static StringBuilder generateRequestUrl(final Activity activity,
             final String uri, final String interfacetype, final String orderId,
             final String uId, final String productId, final String productName,
-            final String productDec, final String amount,
-            final String totalPrice, final String serverId,
+            final String productDesc, final String productCount,
+            final String productTotalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
-            final String currencyName, final String payExt,
+            final String currencyName, final String ext,
             final String gameOrderId, final String notifyUrl) throws Exception {
         List<NameValuePair> requestParams = generateBasicRequestParams(
                 activity, interfacetype);
@@ -230,13 +230,15 @@ public class PayService extends BaseService {
         if (!TextUtils.isEmpty(uId)) {
             requestParams.add(new BasicNameValuePair("sdkUid", uId));
         }
-        if (!TextUtils.isEmpty(totalPrice)) {
-            requestParams.add(new BasicNameValuePair("totalPrice", totalPrice));
+        if (!TextUtils.isEmpty(productTotalPrice)) {
+            requestParams.add(new BasicNameValuePair("productTotalPrice",
+                    productTotalPrice));
             requestParams.add(new BasicNameValuePair("originalPrice",
-                    totalPrice));
+                    productTotalPrice));
         }
-        if (!TextUtils.isEmpty(amount)) {
-            requestParams.add(new BasicNameValuePair("appGoodsAmount", amount));
+        if (!TextUtils.isEmpty(productCount)) {
+            requestParams.add(new BasicNameValuePair("appGoodsAmount",
+                    productCount));
         }
         if (!TextUtils.isEmpty(productId)) {
             requestParams.add(new BasicNameValuePair("appGoodsId", productId));
@@ -245,9 +247,9 @@ public class PayService extends BaseService {
             requestParams.add(new BasicNameValuePair("appGoodsName",
                     productName));
         }
-        if (!TextUtils.isEmpty(productDec)) {
-            requestParams
-                    .add(new BasicNameValuePair("appGoodsDesc", productDec));
+        if (!TextUtils.isEmpty(productDesc)) {
+            requestParams.add(new BasicNameValuePair("appGoodsDesc",
+                    productDesc));
         }
         if (!TextUtils.isEmpty(serverId)) {
             requestParams.add(new BasicNameValuePair("serverId", serverId));
@@ -266,8 +268,8 @@ public class PayService extends BaseService {
             requestParams.add(new BasicNameValuePair("currencyName",
                     currencyName));
         }
-        if (!TextUtils.isEmpty(payExt)) {
-            requestParams.add(new BasicNameValuePair("custom", payExt));
+        if (!TextUtils.isEmpty(ext)) {
+            requestParams.add(new BasicNameValuePair("custom", ext));
         }
         if (!TextUtils.isEmpty(gameOrderId)) {
             requestParams
