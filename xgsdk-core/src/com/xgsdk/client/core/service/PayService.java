@@ -231,7 +231,7 @@ public class PayService extends BaseService {
             requestParams.add(new BasicNameValuePair("sdkUid", uId));
         }
         if (!TextUtils.isEmpty(productTotalPrice)) {
-            requestParams.add(new BasicNameValuePair("productTotalPrice",
+            requestParams.add(new BasicNameValuePair("totalPrice",
                     productTotalPrice));
             requestParams.add(new BasicNameValuePair("originalPrice",
                     productTotalPrice));
