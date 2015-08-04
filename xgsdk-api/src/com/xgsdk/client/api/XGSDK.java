@@ -240,7 +240,6 @@ public class XGSDK implements XGErrorCode {
         try {
             mXGChannel.onCreateRole(activity, info);
             Statistics.onCreateRole(activity, info);
-            mXGChannel.setRoleInfo(activity, info);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onCreateRole " + info
                     + " error ", e);

@@ -20,9 +20,6 @@ import java.util.HashMap;
 
 public abstract class XGChannel {
 
-    protected XGUser mUserInfo;
-    protected GameServerInfo mGameServerInfo;
-    protected RoleInfo mRoleInfo;
     protected UserCallBack mUserCallBack;
 
     public abstract String getChannelId();
@@ -51,7 +48,7 @@ public abstract class XGChannel {
         }
     }
 
-    public abstract void pay(final Activity activity, final PayInfo payment,
+    public abstract void pay(final Activity activity, final PayInfo payInfo,
             final PayCallBack payCallBack);
 
     public void switchAccount(final Activity activity, final String customParams) {
@@ -94,49 +91,14 @@ public abstract class XGChannel {
             final String customParams) {
     }
 
-    public void onLoginSuccess(final Activity activity, final XGUser info) {
-        mUserInfo = info;
-    }
-
     public void onCreateRole(final Activity activity, final RoleInfo info) {
-        mRoleInfo = info;
-    }
-
-    public void setRoleInfo(final Activity activity, final RoleInfo info) {
-        mRoleInfo = info;
-    }
-
-    public void onSelectGameServer(final Activity activity,
-            final GameServerInfo info) {
-        mGameServerInfo = info;
-    }
-
-    public void setGameServerInfo(final Activity activity,
-            final GameServerInfo info) {
-        mGameServerInfo = info;
     }
 
     public void onRoleLevelup(final Activity activity, final RoleInfo roleInfo) {
-        mRoleInfo = roleInfo;
     }
 
     public void onEnterGame(final Activity activity, XGUser user,
             RoleInfo roleInfo, GameServerInfo serverInfo) {
-        setRoleInfo(activity, roleInfo);
-        onSelectGameServer(activity, serverInfo);
-        onLoginSuccess(activity, user);
-    }
-
-    public XGUser getUserInfo() {
-        return mUserInfo;
-    }
-
-    public RoleInfo getRoleInfo() {
-        return mRoleInfo;
-    }
-
-    public GameServerInfo getGameServerInfo() {
-        return mGameServerInfo;
     }
 
     public void onActivityResult(Activity activity, int requestCode,
@@ -147,7 +109,7 @@ public abstract class XGChannel {
         return false;
     }
 
-    public void updateOrder(Activity activity, PayInfo payInfo) {
+    public final void updateOrder(Activity activity, PayInfo payInfo) {
         try {
             PayService.updateOrderInThread(activity, payInfo.getXgOrderId(),
                     payInfo.getUid(), payInfo.getProductId(),
@@ -163,7 +125,7 @@ public abstract class XGChannel {
         }
     }
 
-    public void cancelOrder(Activity activity, String XgOrderId) {
+    public final void cancelOrder(Activity activity, String XgOrderId) {
         try {
             PayService.cancelOrderInThread(activity, XgOrderId);
         } catch (Exception e) {
@@ -171,7 +133,7 @@ public abstract class XGChannel {
         }
     }
 
-    public String createOrder(Activity activity, PayInfo payInfo) {
+    public final String createOrder(Activity activity, PayInfo payInfo) {
         String orderId = null;
         try {
             orderId = PayService.createOrderInThread(activity,
@@ -190,7 +152,8 @@ public abstract class XGChannel {
         return orderId;
     }
 
-    public static boolean isMethodSupported(XGChannel agent, String methodName) {
+    public final static boolean isMethodSupported(XGChannel agent,
+            String methodName) {
         Class<?>[] parameterTypes = METHODS_MAP.get(methodName);
         return CommonUtils.supportMethodInSubClass(agent, methodName,
                 parameterTypes);

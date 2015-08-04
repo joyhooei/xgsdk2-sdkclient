@@ -20,6 +20,8 @@ public class PayInfo {
     private String notifyURL;
     private String roleId;
     private String roleName;
+    private String level;
+    private String vipLevel;
     private String serverId;
     private String serverName;
     private String balance;
@@ -185,6 +187,22 @@ public class PayInfo {
         this.serverName = serverName;
     }
 
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getVipLevel() {
+        return vipLevel;
+    }
+
+    public void setVipLevel(String vipLevel) {
+        this.vipLevel = vipLevel;
+    }
+
     public void setUid(String uid) {
         this.uid = uid;
     }
@@ -197,11 +215,11 @@ public class PayInfo {
                 + ", productUnitPrice=" + productUnitPrice + ", productCount="
                 + productCount + ", currencyName=" + currencyName + ", ext="
                 + ext + ", notifyURL=" + notifyURL + ", roleId=" + roleId
-                + ", roleName=" + roleName + ", serverId=" + serverId
-                + ", serverName=" + serverName + ", balance=" + balance
-                + ", gameOrderId=" + gameOrderId + ", zoneId=" + zoneId
-                + ", zoneName=" + zoneName + ", additionalParams="
-                + additionalParams + "]";
+                + ", roleName=" + roleName + ", level=" + level + ", vipLevel="
+                + vipLevel + ", serverId=" + serverId + ", serverName="
+                + serverName + ", balance=" + balance + ", gameOrderId="
+                + gameOrderId + ", zoneId=" + zoneId + ", zoneName=" + zoneName
+                + ", additionalParams=" + additionalParams + "]";
     }
 
 }
