@@ -187,7 +187,6 @@ public class XGSDK implements XGErrorCode {
             PayCallBack payCallBack) {
 
         try {
-            mXGChannel.setPayCallBack(payCallBack);
             String orderId = null;
             if (!mXGChannel.isCreateXGOrderIdBySelf()) {// 若渠道实现不自己创建XG订单，主动帮它创建
                 orderId = PayService.createOrderInThread(activity,
@@ -198,7 +197,8 @@ public class XGSDK implements XGErrorCode {
                         payInfo.getServerId(), payInfo.getZoneId(),
                         payInfo.getRoleId(), payInfo.getRoleName(),
                         payInfo.getCurrencyName(), payInfo.getExt(),
-                        payInfo.getGameOrderId(), payInfo.getNotifyURL());
+                        payInfo.getGameOrderId(), payInfo.getNotifyURL(),
+                        mXGChannel.getChannelAppId(activity));
                 if (TextUtils.isEmpty(orderId)) {
                     XGLog.e("create order fail in xg service ,uid:"
                             + payInfo.getUid() + ",price:"
@@ -221,7 +221,6 @@ public class XGSDK implements XGErrorCode {
     public void exit(Activity activity, ExitCallBack exitCallBack,
             String customParams) {
         try {
-            mXGChannel.setExitCallBack(exitCallBack);
             mXGChannel.exit(activity, exitCallBack, customParams);
             Statistics.exit(activity, exitCallBack, customParams);
         } catch (Exception e) {

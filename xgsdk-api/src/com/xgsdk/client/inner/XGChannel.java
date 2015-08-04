@@ -8,7 +8,9 @@ import com.xgsdk.client.api.entity.GameServerInfo;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.api.entity.RoleInfo;
 import com.xgsdk.client.api.entity.XGUser;
+import com.xgsdk.client.core.service.PayService;
 import com.xgsdk.client.core.utils.CommonUtils;
+import com.xgsdk.client.core.utils.XGLog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,23 +24,15 @@ public abstract class XGChannel {
     protected GameServerInfo mGameServerInfo;
     protected RoleInfo mRoleInfo;
     protected UserCallBack mUserCallBack;
-    protected ExitCallBack mExitCallBack;
-    protected PayCallBack mPayCallBack;
 
     public abstract String getChannelId();
+
+    public abstract String getChannelAppId(Context context);
 
     public abstract void init(final Activity activity); // 初始化
 
     public final void setUserCallBack(final UserCallBack userCallBack) {
         mUserCallBack = userCallBack;
-    }
-
-    public final void setExitCallBack(final ExitCallBack exitCallBack) {
-        mExitCallBack = exitCallBack;
-    }
-
-    public final void setPayCallBack(final PayCallBack payCallBack) {
-        mPayCallBack = payCallBack;
     }
 
     public abstract void login(final Activity activity,
@@ -48,14 +42,14 @@ public abstract class XGChannel {
         if (mUserCallBack != null) {
             mUserCallBack.onLogoutSuccess("");
         }
-    }// 登出
+    }
 
     public void exit(final Activity activity, final ExitCallBack exitCallBack,
             final String customParams) {
         if (exitCallBack != null) {
             exitCallBack.onNoChannelExiter();
         }
-    }// 退出游戏
+    }
 
     public abstract void pay(final Activity activity, final PayInfo payment,
             final PayCallBack payCallBack);
@@ -153,6 +147,49 @@ public abstract class XGChannel {
         return false;
     }
 
+    protected void updateOrder(Activity activity, PayInfo payInfo) {
+        try {
+            PayService.updateOrderInThread(activity, payInfo.getXgOrderId(),
+                    payInfo.getUid(), payInfo.getProductId(),
+                    payInfo.getProductName(), payInfo.getProductDesc(),
+                    String.valueOf(payInfo.getProductCount()),
+                    String.valueOf(payInfo.getProductTotalPrice()),
+                    payInfo.getServerId(), payInfo.getServerName(),
+                    payInfo.getRoleId(), payInfo.getRoleName(),
+                    payInfo.getCurrencyName(), payInfo.getExt(),
+                    payInfo.getGameOrderId(), payInfo.getNotifyURL());
+        } catch (Exception e) {
+            XGLog.e("update order error", e);
+        }
+    }
+
+    protected void cancelOrder(Activity activity, String XgOrderId) {
+        try {
+            PayService.cancelOrderInThread(activity, XgOrderId);
+        } catch (Exception e) {
+            XGLog.e("cancel order error", e);
+        }
+    }
+
+    protected String createOrder(Activity activity, PayInfo payInfo) {
+        String orderId = null;
+        try {
+            orderId = PayService.createOrderInThread(activity,
+                    payInfo.getUid(), payInfo.getProductId(),
+                    payInfo.getProductName(), payInfo.getProductDesc(),
+                    String.valueOf(payInfo.getProductCount()),
+                    String.valueOf(payInfo.getProductTotalPrice()),
+                    payInfo.getServerId(), payInfo.getZoneId(),
+                    payInfo.getRoleId(), payInfo.getRoleName(),
+                    payInfo.getCurrencyName(), payInfo.getExt(),
+                    payInfo.getGameOrderId(), payInfo.getNotifyURL(),
+                    getChannelAppId(activity));
+        } catch (Exception e) {
+            XGLog.e("create order error", e);
+        }
+        return orderId;
+    }
+
     public static boolean isMethodSupported(XGChannel agent, String methodName) {
         Class<?>[] parameterTypes = METHODS_MAP.get(methodName);
         return CommonUtils.supportMethodInSubClass(agent, methodName,
@@ -170,9 +207,6 @@ public abstract class XGChannel {
         METHODS_MAP.put("pay", new Class[] {
                 Activity.class, PayInfo.class, PayCallBack.class
         });
-        // METHODS_MAP.put("showFloatWindow", new Class[] {
-        // Activity.class, Boolean.class
-        // });
         METHODS_MAP.put("switchAccount", new Class[] {
                 Activity.class, String.class
         });
