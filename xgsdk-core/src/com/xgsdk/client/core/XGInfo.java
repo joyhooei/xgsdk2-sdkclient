@@ -95,7 +95,7 @@ public class XGInfo {
         return getValue(context, ConstKey.XG_PLAN_ID);
     }
 
-    public static String getXGBuildNumsber(Context context) {
+    public static String getXGBuildNumber(Context context) {
         return getValue(context, ConstKey.XG_BUILD_NUMBER);
     }
 
