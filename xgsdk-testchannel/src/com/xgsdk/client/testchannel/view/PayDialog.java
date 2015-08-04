@@ -5,6 +5,7 @@ import com.xgsdk.client.api.XGErrorCode;
 import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.core.service.PayService;
+import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.testchannel.util.CommonStr;
 
 import android.app.Activity;
@@ -51,7 +52,12 @@ public class PayDialog {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
+                String xgOrderId = payment.getXgOrderId();
+                try {
+                    PayService.cancelOrderInThread(activity, xgOrderId);
+                } catch (Exception e) {
+                    XGLog.e("cancel order error", e);
+                }
                 payCallBack.onCancel("pay cancel!");
                 payDialog.dismiss();
             }

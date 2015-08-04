@@ -27,6 +27,11 @@ public class TestChannel extends XGChannel {
     private UserCenter userCenter;
 
     @Override
+    public String getChannelAppId(Context context) {
+        return String.valueOf(context.getPackageName().hashCode());
+    }
+
+    @Override
     public void init(final Activity activity) {
         mFVInstance = GameFloatView.getInstance(activity, gfListener);
         Check.init(activity);
@@ -123,42 +128,43 @@ public class TestChannel extends XGChannel {
             userCenter = UserCenter.getInstance();
         userCenter.showDialog(activity, customParams);
     }
-    
+
     @Override
     public void switchAccount(Activity activity, String customParams) {
         // TODO Auto-generated method stub
         super.switchAccount(activity, customParams);
         Check.switchAccount(activity, customParams);
     }
-    
+
     @Override
     public void onNewIntent(Activity activity, Intent intent) {
         // TODO Auto-generated method stub
         super.onNewIntent(activity, intent);
         Check.onNewIntent(activity, intent);
     }
-    
+
     @Override
     public void onRestart(Activity activity) {
         // TODO Auto-generated method stub
         super.onRestart(activity);
         Check.onRestart(activity);
     }
-    
+
     @Override
     public void onStart(Activity activity) {
         // TODO Auto-generated method stub
         super.onStart(activity);
-        Check.onStart(activity);;
+        Check.onStart(activity);
+        ;
     }
-    
+
     @Override
     public void onStop(Activity activity) {
         // TODO Auto-generated method stub
         super.onStop(activity);
         Check.onStop(activity);
     }
-    
+
     @Override
     public void onActivityResult(Activity activity, int requestCode,
             int resultCode, Intent data) {
@@ -166,27 +172,28 @@ public class TestChannel extends XGChannel {
         super.onActivityResult(activity, requestCode, resultCode, data);
         Check.onActivityResult(activity, requestCode, resultCode, data);
     }
-    
+
     @Override
     public void onApplicationAttachBaseContext(Context context) {
         // TODO Auto-generated method stub
         super.onApplicationAttachBaseContext(context);
         Check.onApplicationAttachBaseContext(context);
     }
-    
+
     @Override
     public void onApplicationCreate(Context context) {
         // TODO Auto-generated method stub
         super.onApplicationCreate(context);
         Check.onApplicationCreate(context);
     }
+
     @Override
     public void onCreateRole(Activity activity, RoleInfo info) {
         // TODO Auto-generated method stub
         super.onCreateRole(activity, info);
         Check.onCreateRole(activity, info);
     }
-    
+
     @Override
     public void onEnterGame(Activity activity, XGUser user, RoleInfo roleInfo,
             GameServerInfo serverInfo) {
@@ -194,14 +201,14 @@ public class TestChannel extends XGChannel {
         super.onEnterGame(activity, user, roleInfo, serverInfo);
         Check.onEnterGame(activity, user, roleInfo, serverInfo);
     }
-    
+
     @Override
     public void onRoleLevelup(Activity activity, RoleInfo role) {
         // TODO Auto-generated method stub
         super.onRoleLevelup(activity, role);
-        //Check.onRoleLevelup(activity, level);
+        // Check.onRoleLevelup(activity, level);
     }
-    
+
     @Override
     public void onSelectGameServer(Activity activity, GameServerInfo info) {
         // TODO Auto-generated method stub
