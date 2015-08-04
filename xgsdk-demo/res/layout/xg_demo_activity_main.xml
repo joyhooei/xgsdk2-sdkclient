@@ -50,6 +50,18 @@
                 android:text="@string/xg_switch_account" />
 
             <Button
+                android:id="@+id/xg_create_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_create_role" />
+
+            <Button
+                android:id="@+id/xg_role_levelup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_role_levelup" />
+
+            <Button
                 android:id="@+id/xg_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

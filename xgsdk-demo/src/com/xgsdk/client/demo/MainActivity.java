@@ -149,6 +149,25 @@ public class MainActivity extends Activity {
                         startActivity(intent);
                     }
                 });
+        findViewById(RUtil.getId(getApplicationContext(), "xg_create_role"))
+                .setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        XGSDK.getInstance().onCreateRole(MainActivity.this,
+                                mRoleInfo);
+                    }
+                });
+        findViewById(RUtil.getId(getApplicationContext(), "xg_role_levelup"))
+                .setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        mRoleInfo.setLevel("2");
+                        XGSDK.getInstance().onRoleLevelup(MainActivity.this,
+                                mRoleInfo);
+                    }
+                });
 
         ToggleButton tbSwitchMore = (ToggleButton) findViewById(RUtil.getId(
                 getApplicationContext(), "xg_tb_switch_more"));
@@ -307,6 +326,9 @@ public class MainActivity extends Activity {
                         String extraInfo = "{planid="
                                 + XGInfo.getXGPlanId(MainActivity.this)
                                 + ",channelid=" + XGInfo.getChannelId() + "}";
+                        payment.setNotifyURL(XGInfo
+                                .getXGPortalUrl(getApplicationContext())
+                                + "/sdkserver/receivePayResult");
                         payment.setExt(extraInfo);
                         int totalPrice = TextUtils.isEmpty(etMoney.getText()) ? 0
                                 : Integer.valueOf(etMoney.getText().toString());
