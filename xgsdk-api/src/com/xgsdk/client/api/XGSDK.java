@@ -189,16 +189,7 @@ public class XGSDK implements XGErrorCode {
         try {
             String orderId = null;
             if (!mXGChannel.isCreateXGOrderIdBySelf()) {// 若渠道实现不自己创建XG订单，主动帮它创建
-                orderId = PayService.createOrderInThread(activity,
-                        payInfo.getUid(), payInfo.getProductId(),
-                        payInfo.getProductName(), payInfo.getProductDesc(),
-                        String.valueOf(payInfo.getProductCount()),
-                        String.valueOf(payInfo.getProductTotalPrice()),
-                        payInfo.getServerId(), payInfo.getZoneId(),
-                        payInfo.getRoleId(), payInfo.getRoleName(),
-                        payInfo.getCurrencyName(), payInfo.getExt(),
-                        payInfo.getGameOrderId(), payInfo.getNotifyURL(),
-                        mXGChannel.getChannelAppId(activity));
+                orderId = mXGChannel.createOrder(activity, payInfo);
                 if (TextUtils.isEmpty(orderId)) {
                     XGLog.e("create order fail in xg service ,uid:"
                             + payInfo.getUid() + ",price:"
