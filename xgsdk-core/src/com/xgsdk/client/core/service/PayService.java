@@ -27,14 +27,17 @@ public class PayService extends BaseService {
             final String productTotalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
             final String currencyName, final String ext,
-            final String gameOrderId, final String notifyUrl) throws Exception {
+            final String gameOrderId, final String notifyUrl,
+            final String channelAppId) throws Exception {
 
         Callable<String> callable = new Callable<String>() {
             public String call() throws Exception {
-                return PayService.createOrder(activity, uId, productId,
-                        productName, productDesc, productCount,
-                        productTotalPrice, serverId, zoneId, roleId, roleName,
-                        currencyName, ext, gameOrderId, notifyUrl);
+                return PayService
+                        .createOrder(activity, uId, productId, productName,
+                                productDesc, productCount, productTotalPrice,
+                                serverId, zoneId, roleId, roleName,
+                                currencyName, ext, gameOrderId, notifyUrl,
+                                channelAppId);
             }
         };
         FutureTask<String> future = new FutureTask<String>(callable);
@@ -51,13 +54,16 @@ public class PayService extends BaseService {
             final String productCount, final String productTotalPrice,
             final String serverId, final String zoneId, final String roleId,
             final String roleName, final String currencyName, final String ext,
-            final String gameOrderId, final String notifyUrl) throws Exception {
+            final String gameOrderId, final String notifyUrl,
+            final String channelAppId) throws Exception {
         Callable<String> callable = new Callable<String>() {
             public String call() throws Exception {
-                Result result = PayService.createOrderForOriginal(activity,
-                        uId, productId, productName, productDesc, productCount,
-                        productTotalPrice, serverId, zoneId, roleId, roleName,
-                        currencyName, ext, gameOrderId, notifyUrl);
+                Result result = PayService
+                        .createOrderForOriginal(activity, uId, productId,
+                                productName, productDesc, productCount,
+                                productTotalPrice, serverId, zoneId, roleId,
+                                roleName, currencyName, ext, gameOrderId,
+                                notifyUrl, channelAppId);
                 if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
                     throw new Exception("response exception:" + result.getMsg());
                 }
@@ -132,12 +138,13 @@ public class PayService extends BaseService {
             final String productTotalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
             final String currencyName, final String ext,
-            final String gameOrderId, final String notifyUrl) throws Exception {
+            final String gameOrderId, final String notifyUrl,
+            final String channelAppId) throws Exception {
         // 发送请求
         Result result = createOrderForOriginal(activity, uId, productId,
                 productName, productDesc, productCount, productTotalPrice,
                 serverId, zoneId, roleId, roleName, currencyName, ext,
-                gameOrderId, notifyUrl);
+                gameOrderId, notifyUrl, channelAppId);
         if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
             throw new Exception("response exception:" + result.getMsg());
         }
@@ -155,12 +162,14 @@ public class PayService extends BaseService {
             final String productTotalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
             final String currencyName, final String ext,
-            final String gameOrderId, final String notifyUrl) throws Exception {
+            final String gameOrderId, final String notifyUrl,
+            final String channelAppId) throws Exception {
         // 排序签名
         StringBuilder getUrl = generateRequestUrl(activity, PAY_NEW_ORDER_URI,
                 INTERFACE_TYPE_CREATE_ORDER, null, uId, productId, productName,
                 productDesc, productCount, productTotalPrice, serverId, zoneId,
-                roleId, roleName, currencyName, ext, gameOrderId, notifyUrl);
+                roleId, roleName, currencyName, ext, gameOrderId, notifyUrl,
+                channelAppId);
         String resStr = HttpUtils.executeHttpGet(getUrl.toString());
         String resp = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
@@ -190,7 +199,7 @@ public class PayService extends BaseService {
                 PAY_UPDATE_ORDER_URI, INTERFACE_TYPE_UPDATE_ORDER, orderId,
                 uId, productId, productName, productDesc, productCount,
                 productTotalPrice, serverId, zoneId, roleId, roleName,
-                currencyName, ext, gameOrderId, notifyUrl);
+                currencyName, ext, gameOrderId, notifyUrl, null);
         String resp = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空
         if (TextUtils.isEmpty(resp)) {
@@ -220,13 +229,18 @@ public class PayService extends BaseService {
             final String productTotalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
             final String currencyName, final String ext,
-            final String gameOrderId, final String notifyUrl) throws Exception {
+            final String gameOrderId, final String notifyUrl,
+            final String channelAppId) throws Exception {
         List<NameValuePair> requestParams = generateBasicRequestParams(
                 activity, interfacetype);
+        if (!TextUtils.isEmpty(channelAppId)) {
+            requestParams.add(new BasicNameValuePair("channelAppId",
+                    channelAppId));
+        }
         if (!TextUtils.isEmpty(orderId)) {
             requestParams.add(new BasicNameValuePair("orderId", orderId));
         }
-        String appId = XGInfo.getXGAppId(activity);
+        String xgAppId = XGInfo.getXGAppId(activity);
         if (!TextUtils.isEmpty(uId)) {
             requestParams.add(new BasicNameValuePair("sdkUid", uId));
         }
@@ -285,7 +299,7 @@ public class PayService extends BaseService {
         StringBuilder getUrl = new StringBuilder();
         getUrl.append(XGInfo.getXGRechargeUrl(activity)).append(uri)
                 .append("/").append(XGInfo.getChannelId()).append("/")
-                .append(appId).append("?");
+                .append(xgAppId).append("?");
         getUrl.append(requestContent);
         return getUrl;
 
@@ -302,7 +316,7 @@ public class PayService extends BaseService {
         StringBuilder getUrl = generateRequestUrl(activity,
                 PAY_CANCEL_ORDER_URI, INTERFACE_TYPE_CANCEL_ORDER, orderId,
                 null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null);
+                null, null, null, null, null);
         // 发送请求
         String resp = HttpUtils.executeHttpGet(getUrl.toString());
         // 返回结果为空

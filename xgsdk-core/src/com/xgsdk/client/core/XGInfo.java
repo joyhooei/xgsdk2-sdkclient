@@ -26,12 +26,14 @@ public class XGInfo {
     private static final String CONFIG_KEY_XG_DATA_URL = "XgDataUrl";
     private static final String CONFIG_KEY_XG_BUILD_NUMBER = "XgBuildNumber";
     private static final String CONFIG_KEY_XG_PLAN_ID = "XgPlanId";
+    private static final String CONFIG_KEY_XG_PORTAL_URL = "XgPortalUrl";
     private static final String CONFIG_KEY_XG_ORIENTATITION = "XgOrientation";
     private static final String ORIENTATITION_LANDSCAPE = "1";
     private static final String ORIENTATITION_PORTRAIT = "0";
 
     private static final String DEFAULT_AUTH_URL = "http://onsite.auth.xgsdk.com:8180";
     private static final String DEFAULT_RECHARGE_URL = "http://onsite.recharge.xgsdk.com:8180";
+    private static final String DEFAULT_PORTAL_URL = "http://www.xgsdk.com";
     private static final String DEFAULT_BUILD_NUMBER = "-1";
     private static final String DEFAULT_PLAN_ID = "-1";
 
@@ -54,7 +56,7 @@ public class XGInfo {
     }
 
     private enum ConstKey {
-        DEVICE_ID, XG_SDK_VERSION, XG_APP_ID, XG_APP_KEY, XG_CHANNEL_ID, XG_RECHARGE_URL, XG_AUTH_URL, XG_DATA_URL, XG_VERSION, XG_BUILD_NUMBER, XG_PLAN_ID
+        XG_PORTAL_URL, DEVICE_ID, XG_SDK_VERSION, XG_APP_ID, XG_APP_KEY, XG_CHANNEL_ID, XG_RECHARGE_URL, XG_AUTH_URL, XG_DATA_URL, XG_VERSION, XG_BUILD_NUMBER, XG_PLAN_ID
     }
 
     public static String getXGAppId(Context context) {
@@ -79,6 +81,10 @@ public class XGInfo {
 
     public static String getXGDataUrl(Context context) {
         return getValue(context, ConstKey.XG_DATA_URL);
+    }
+
+    public static String getXGPortalUrl(Context context) {
+        return getValue(context, ConstKey.XG_PORTAL_URL);
     }
 
     public static String getXGVersion(Context context) {
@@ -165,6 +171,10 @@ public class XGInfo {
                 break;
             case DEVICE_ID:
                 result = _getDeviceId(context);
+                break;
+            case XG_PORTAL_URL:
+                result = _getValueFromXGConfig(context,
+                        CONFIG_KEY_XG_PORTAL_URL, DEFAULT_PORTAL_URL);
                 break;
 
         }
