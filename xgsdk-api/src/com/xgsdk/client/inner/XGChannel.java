@@ -147,7 +147,7 @@ public abstract class XGChannel {
         return false;
     }
 
-    protected void updateOrder(Activity activity, PayInfo payInfo) {
+    public void updateOrder(Activity activity, PayInfo payInfo) {
         try {
             PayService.updateOrderInThread(activity, payInfo.getXgOrderId(),
                     payInfo.getUid(), payInfo.getProductId(),
@@ -163,7 +163,7 @@ public abstract class XGChannel {
         }
     }
 
-    protected void cancelOrder(Activity activity, String XgOrderId) {
+    public void cancelOrder(Activity activity, String XgOrderId) {
         try {
             PayService.cancelOrderInThread(activity, XgOrderId);
         } catch (Exception e) {
@@ -171,7 +171,7 @@ public abstract class XGChannel {
         }
     }
 
-    protected String createOrder(Activity activity, PayInfo payInfo) {
+    public String createOrder(Activity activity, PayInfo payInfo) {
         String orderId = null;
         try {
             orderId = PayService.createOrderInThread(activity,
