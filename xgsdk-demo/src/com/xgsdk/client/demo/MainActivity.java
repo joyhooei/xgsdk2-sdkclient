@@ -16,6 +16,9 @@ import com.xgsdk.client.demo.utils.AuthUtil;
 import com.xgsdk.client.demo.utils.RUtil;
 import com.xgsdk.client.demo.utils.ToastUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -321,21 +324,27 @@ public class MainActivity extends Activity {
                         payment.setProductDesc("倚天不出谁与争锋");
                         payment.setServerId("11");
                         payment.setProductId("payment017");
-                        //payment.setProductName("dabaojian");
+                        // payment.setProductName("dabaojian");
                         payment.setProductName("屠龙宝刀");
-                        String extraInfo = "{planid="
-                                + XGInfo.getXGPlanId(MainActivity.this)
-                                + ",channelid=" + XGInfo.getChannelId() + "}";
+                        JSONObject extJson = new JSONObject();
+                        try {
+                            extJson.put("planId",
+                                    XGInfo.getXGPlanId(MainActivity.this));
+                            extJson.put("channelId", XGInfo.getChannelId());
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                         payment.setNotifyURL(XGInfo
                                 .getXGPortalUrl(getApplicationContext())
                                 + "/sdkserver/receivePayResult");
-                        payment.setExt(extraInfo);
+                        payment.setExt(extJson.toString());
                         int totalPrice = TextUtils.isEmpty(etMoney.getText()) ? 0
                                 : Integer.valueOf(etMoney.getText().toString());
                         int count = TextUtils.isEmpty(etCount.getText()) ? 1
                                 : Integer.valueOf(etCount.getText().toString());
                         payment.setProductCount(count);
-                        //payment.setCurrencyName("yuanbao");
+                        // payment.setCurrencyName("yuanbao");
                         payment.setCurrencyName("美元");
                         payment.setProductTotalPrice(totalPrice);
                         payment.setProductUnitPrice(1);
