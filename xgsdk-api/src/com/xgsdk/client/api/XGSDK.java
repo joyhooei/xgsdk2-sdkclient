@@ -187,7 +187,6 @@ public class XGSDK implements XGErrorCode {
             PayCallBack payCallBack) {
 
         try {
-           /* mXGChannel.setPayCallBack(payCallBack);
             String orderId = null;
             if (!mXGChannel.isCreateXGOrderIdBySelf()) {// 若渠道实现不自己创建XG订单，主动帮它创建
                 orderId = mXGChannel.createOrder(activity, payInfo);
@@ -201,7 +200,7 @@ public class XGSDK implements XGErrorCode {
                     return;
                 }
             }
-            payInfo.setAdditionalParam(PayInfo.KEY_XG_ORDER_ID, orderId);*/
+            payInfo.setAdditionalParam(PayInfo.KEY_XG_ORDER_ID, orderId);
             mXGChannel.pay(activity, payInfo, payCallBack);
             Statistics.pay(activity, payInfo, payCallBack);
         } catch (Exception e) {
