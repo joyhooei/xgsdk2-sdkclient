@@ -41,7 +41,7 @@ public class HttpUtils {
             connection.setRequestProperty("Content-Encoding", "gzip");
             connection.connect();
             out = new DataOutputStream(connection.getOutputStream());
-            out.writeBytes(content);
+            out.write(content.getBytes());
             out.flush();
             in = new InputStreamReader(connection.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(in);

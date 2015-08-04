@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 public class Check {
 
-    private static final String URL_PORTAL_CHECK = "http://10.20.72.72:8090/package/interfaceTest";
+    private static final String URL_PORTAL_CHECK = "http://10.20.72.190:8090/package/interfaceTest";
 
     private static final String METHOD_ON_CREATE = "onCreate";
     private static final String METHOD_ON_RESUME = "onResume";
@@ -77,18 +77,9 @@ public class Check {
     private static final String PARAM_NAME_CONSUME_GOLD = "ConsumeGold";
     private static final String PARAM_NAME_CONSUME_BINDING_GOLD = "ConsumeBindingGold";
 
-    private static boolean sCheckEnable = false;
-
-    public static void initCheckEnable(boolean checkEnable) {
-        sCheckEnable = checkEnable;
-        XGLog.i("set CheckEnable " + checkEnable);
-    }
 
     private static void check(Context context, String name,
             HashMap<String, Object> params) {
-        if (!sCheckEnable) {
-            return;
-        }
 
         JSONObject json = CheckData.getCheckTotalJson(context, name, params);
         XGLog.w(json.toString());
@@ -250,9 +241,9 @@ public class Check {
         check(activity, METHOD_ON_ENTER_GAME, paramsMap);
     }
 
-    public static void onRoleLevelup(Activity activity, String level) {
+    public static void onRoleLevelup(Activity activity, RoleInfo roleInfo) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
-        paramsMap.put(PARAM_NAME_LEVEL, level);
+        paramsMap.put(PARAM_NAME_LEVEL, getVariablesFromObj(roleInfo));
         check(activity, METHOD_ON_ROLE_LEVELUP, paramsMap);
     }
 

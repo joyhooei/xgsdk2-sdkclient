@@ -27,7 +27,7 @@ public class TestChannel extends XGChannel {
     private UserCenter userCenter;
 
     @Override
-    public String getChannelAppId(Context context) {
+    public String getChannelAppId(Context context){
         return String.valueOf(context.getPackageName().hashCode());
     }
 
@@ -66,52 +66,48 @@ public class TestChannel extends XGChannel {
     @Override
     public void onCreate(Activity activity) {
         // TODO Auto-generated method stub
-
+        Check.onCreate(activity);
     }
 
     @Override
     public void onDestory(Activity activity) {
         // TODO Auto-generated method stub
         mFVInstance.destroyFloatView();
-        /*
-         * mFVInstance = null; activity.finish();
-         */
+        Check.onDestory(activity);
     }
 
     @Override
     public void onPause(Activity activity) {
         // TODO Auto-generated method stub
         mFVInstance.pauseFloatView();
-        /*
-         * if(mLoginDialog != null){ mLoginDialog.dismiss(); }
-         */
+        Check.onPause(activity);
     }
 
     @Override
     public void onResume(Activity activity) {
         // TODO Auto-generated method stub
         mFVInstance.resumeFloatView();
-        /*
-         * if(mLoginDialog != null){ mLoginDialog.show(); }
-         */
+        Check.onResume(activity);
     }
 
     @Override
     public void pay(Activity activity, PayInfo payment, PayCallBack payCallBack) {
         new PayDialog().showDialog(activity, payment, payCallBack);
+        Check.pay(activity, payment, payCallBack);
     }
 
     @Override
     public void exit(Activity activity, final ExitCallBack exitCallBack,
             String customParams) {
         new ExitDialog().showDialog(activity, exitCallBack, customParams);
+        Check.exit(activity, exitCallBack, customParams);
     }
 
     @Override
     public void logout(Activity activity, String customParams) {
         // TODO Auto-generated method stub
         super.logout(activity, customParams);
-        // mUserCallBack.onLogoutSuccess("login out success");
+        Check.logout(activity, customParams);
     }
 
     @Override
@@ -127,6 +123,7 @@ public class TestChannel extends XGChannel {
         if (userCenter == null)
             userCenter = UserCenter.getInstance();
         userCenter.showDialog(activity, customParams);
+        Check.openUserCenter(activity);
     }
 
     @Override
@@ -203,10 +200,10 @@ public class TestChannel extends XGChannel {
     }
 
     @Override
-    public void onRoleLevelup(Activity activity, RoleInfo role) {
+    public void onRoleLevelup(Activity activity, RoleInfo roleInfo) {
         // TODO Auto-generated method stub
-        super.onRoleLevelup(activity, role);
-        // Check.onRoleLevelup(activity, level);
+        super.onRoleLevelup(activity, roleInfo);
+        Check.onRoleLevelup(activity, roleInfo);
     }
 
     @Override

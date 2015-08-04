@@ -1,6 +1,7 @@
 
 package com.xgsdk.client.testchannel.view;
 
+import com.xgsdk.client.testchannel.check.Check;
 import com.xgsdk.client.testchannel.util.CommonStr;
 
 import android.app.Activity;
@@ -161,8 +162,9 @@ public class GameFloatView {
              * }); builder.show();
              */
             if (userCenter == null)
-                userCenter.getInstance()
-                        .showDialog(activity, getmUserSession());
+                userCenter = UserCenter.getInstance();
+            userCenter.showDialog(activity,getMUserSession());
+            Check.openUserCenter(activity);
 
         }
     };
@@ -366,14 +368,14 @@ public class GameFloatView {
     /**
      * @return the mUserSession
      */
-    public String getmUserSession() {
+    public String getMUserSession() {
         return mUserSession;
     }
 
     /**
      * @param mUserSession the mUserSession to set
      */
-    public void setmUserSession(String mUserSession) {
+    public void setMUserSession(String mUserSession) {
         this.mUserSession = mUserSession;
     }
 

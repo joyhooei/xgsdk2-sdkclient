@@ -116,8 +116,8 @@ public abstract class XGChannel {
         mGameServerInfo = info;
     }
 
-    public void onRoleLevelup(final Activity activity, final RoleInfo role) {
-        mRoleInfo = role;
+    public void onRoleLevelup(final Activity activity, final RoleInfo roleInfo) {
+        mRoleInfo = roleInfo;
     }
 
     public void onEnterGame(final Activity activity, XGUser user,

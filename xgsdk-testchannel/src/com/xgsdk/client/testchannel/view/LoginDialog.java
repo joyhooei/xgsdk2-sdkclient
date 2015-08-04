@@ -126,7 +126,7 @@ public class LoginDialog {
                                     }
                                 });
 
-                        mFVInstance.setmUserSession(session);
+                        mFVInstance.setMUserSession(session);
                         mFVInstance.createFloatWindow();
                     }
                 });

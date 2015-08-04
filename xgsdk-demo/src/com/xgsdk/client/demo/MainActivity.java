@@ -302,7 +302,8 @@ public class MainActivity extends Activity {
                         payment.setProductDesc("倚天不出谁与争锋");
                         payment.setServerId("11");
                         payment.setProductId("payment017");
-                        payment.setProductName("大宝剑");
+                        //payment.setProductName("dabaojian");
+                        payment.setProductName("屠龙宝刀");
                         String extraInfo = "{planid="
                                 + XGInfo.getXGPlanId(MainActivity.this)
                                 + ",channelid=" + XGInfo.getChannelId() + "}";
@@ -312,7 +313,8 @@ public class MainActivity extends Activity {
                         int count = TextUtils.isEmpty(etCount.getText()) ? 1
                                 : Integer.valueOf(etCount.getText().toString());
                         payment.setProductCount(count);
-                        payment.setCurrencyName("元宝");
+                        //payment.setCurrencyName("yuanbao");
+                        payment.setCurrencyName("美元");
                         payment.setProductTotalPrice(totalPrice);
                         payment.setProductUnitPrice(1);
                         XGSDK.getInstance().pay(MainActivity.this, payment,

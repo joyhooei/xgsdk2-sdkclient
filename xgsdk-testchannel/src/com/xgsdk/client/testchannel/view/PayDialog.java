@@ -38,9 +38,12 @@ public class PayDialog {
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
                 payCallBack.onSuccess("pay success!");
+
                 try {
                     String xgOrderId = payment.getXgOrderId();
                     PayService.testChannelNotifyInThread(activity, xgOrderId);
+
+                
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
