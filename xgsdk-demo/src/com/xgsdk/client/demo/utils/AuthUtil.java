@@ -1,6 +1,7 @@
 
 package com.xgsdk.client.demo.utils;
 
+import com.xgsdk.client.api.entity.XGUser;
 import com.xgsdk.client.core.service.AuthService;
 import com.xgsdk.client.core.service.Result;
 import com.xgsdk.client.demo.GameInfo;
@@ -12,20 +13,23 @@ import android.app.Activity;
 public class AuthUtil {
     private static final String TAG = "TestUtil";
 
-    public static void auth(Activity activity, String version, String authInfo) {
-
+    public static XGUser auth(Activity activity, String authInfo) {
+        XGUser user = new XGUser();
         try {
             Result result = AuthService.sessionAuthInThread(activity, authInfo);
             if (result != null) {
                 JSONObject jsonData = new JSONObject(result.getData());
                 String uid = jsonData.optString("uId");
                 GameInfo.getInstance().setUid(uid);
+                user.setAuthInfo(authInfo);
+                user.setUid(uid);
                 ToastUtil.showToast(activity, result.getData());
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return user;
     }
 
     // private static void sendRequestWithHttpClient(final Activity activity,

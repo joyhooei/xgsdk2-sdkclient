@@ -5,7 +5,10 @@ import com.xgsdk.client.api.XGSDK;
 import com.xgsdk.client.api.callback.ExitCallBack;
 import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.callback.UserCallBack;
+import com.xgsdk.client.api.entity.GameServerInfo;
 import com.xgsdk.client.api.entity.PayInfo;
+import com.xgsdk.client.api.entity.RoleInfo;
+import com.xgsdk.client.api.entity.XGUser;
 import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.demo.orders.OrderUtils;
 import com.xgsdk.client.demo.orders.OrdersActivity;
@@ -32,6 +35,9 @@ import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
+
+    private RoleInfo mRoleInfo = new RoleInfo();
+    private GameServerInfo mServerInfo = new GameServerInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +189,13 @@ public class MainActivity extends Activity {
             @Override
             public void onLoginSuccess(String authInfo) {
                 Log.w(TAG, "authInfo: \n" + authInfo);
-                AuthUtil.auth(MainActivity.this, "2.0", authInfo);
+                XGUser user = AuthUtil.auth(MainActivity.this, authInfo);
+                mRoleInfo.setRoleId("su27");
+                mRoleInfo.setRoleName("侧卫");
+                mServerInfo.setServerId("11");
+                mServerInfo.setServerName("太平洋");
+                XGSDK.getInstance().onEnterGame(MainActivity.this, user,
+                        mRoleInfo, mServerInfo);
             }
 
             @Override
