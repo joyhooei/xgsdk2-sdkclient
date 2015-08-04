@@ -59,6 +59,10 @@ public class OrdersActivity extends Activity {
                             Result result = PayService
                                     .queryOrderStatusInThread(
                                             OrdersActivity.this, orderId);
+                            if (result != null && result.getData() != null){
+                                JSONObject json = new JSONObject(result.getData());
+                                String status = json.optString("status");
+                            }
                             XGLog.d("query order status." + result);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -123,8 +127,9 @@ public class OrdersActivity extends Activity {
                         JSONObject json = result.get(orderid);
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put(OrderUtils.KEY_ORDER_ID, orderid);
-                        map.put(OrderUtils.KEY_ORDER_DETAILS,
-                                json.get(OrderUtils.KEY_ORDER_DETAILS));
+                        // map.put(OrderUtils.KEY_ORDER_DETAILS,
+                        // json.get(OrderUtils.KEY_ORDER_DETAILS));
+                        map.put(OrderUtils.KEY_ORDER_DETAILS, null);
                         map.put(OrderUtils.KEY_ORDER_TIME,
                                 json.get(OrderUtils.KEY_ORDER_TIME));
                         map.put(OrderUtils.KEY_ORDER_STATUS,

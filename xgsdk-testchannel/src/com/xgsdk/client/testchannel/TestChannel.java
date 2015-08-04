@@ -206,10 +206,4 @@ public class TestChannel extends XGChannel {
         Check.onRoleLevelup(activity, roleInfo);
     }
 
-    @Override
-    public void onSelectGameServer(Activity activity, GameServerInfo info) {
-        // TODO Auto-generated method stub
-        super.onSelectGameServer(activity, info);
-    }
-
 }
