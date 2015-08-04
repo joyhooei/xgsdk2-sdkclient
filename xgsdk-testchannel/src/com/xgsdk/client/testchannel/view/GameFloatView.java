@@ -163,7 +163,7 @@ public class GameFloatView {
              */
             if (userCenter == null)
                 userCenter = UserCenter.getInstance();
-            userCenter.showDialog(activity,getMUserSession());
+            userCenter.showDialog(activity, getMUserSession());
             Check.openUserCenter(activity);
 
         }

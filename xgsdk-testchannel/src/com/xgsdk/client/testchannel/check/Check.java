@@ -7,6 +7,7 @@ import com.xgsdk.client.api.entity.GameServerInfo;
 import com.xgsdk.client.api.entity.PayInfo;
 import com.xgsdk.client.api.entity.RoleInfo;
 import com.xgsdk.client.api.entity.XGUser;
+import com.xgsdk.client.core.XGInfo;
 import com.xgsdk.client.core.http.HttpUtils;
 import com.xgsdk.client.core.utils.XGLog;
 
@@ -20,8 +21,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class Check {
-
-    private static final String URL_PORTAL_CHECK = "http://10.20.72.190:8090/package/interfaceTest";
 
     private static final String METHOD_ON_CREATE = "onCreate";
     private static final String METHOD_ON_RESUME = "onResume";
@@ -77,14 +76,14 @@ public class Check {
     private static final String PARAM_NAME_CONSUME_GOLD = "ConsumeGold";
     private static final String PARAM_NAME_CONSUME_BINDING_GOLD = "ConsumeBindingGold";
 
-
     private static void check(Context context, String name,
             HashMap<String, Object> params) {
 
         JSONObject json = CheckData.getCheckTotalJson(context, name, params);
         XGLog.w(json.toString());
         try {
-            String ret = HttpUtils.doPostInThread(URL_PORTAL_CHECK,
+            String ret = HttpUtils.doPostInThread(
+                    XGInfo.getXGPortalUrl(context) + "/package/interfaceTest",
                     json.toString());
             XGLog.w(ret);
         } catch (Exception e) {

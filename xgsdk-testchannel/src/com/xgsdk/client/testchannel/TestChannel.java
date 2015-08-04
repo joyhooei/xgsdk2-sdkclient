@@ -27,7 +27,7 @@ public class TestChannel extends XGChannel {
     private UserCenter userCenter;
 
     @Override
-    public String getChannelAppId(Context context){
+    public String getChannelAppId(Context context) {
         return String.valueOf(context.getPackageName().hashCode());
     }
 

@@ -43,7 +43,6 @@ public class PayDialog {
                     String xgOrderId = payment.getXgOrderId();
                     PayService.testChannelNotifyInThread(activity, xgOrderId);
 
-                
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
