@@ -1,6 +1,9 @@
 
 package com.xgsdk.client.demo.orders;
 
+import com.xgsdk.client.core.service.PayService;
+import com.xgsdk.client.core.service.Result;
+import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.demo.GameInfo;
 import com.xgsdk.client.demo.utils.RUtil;
 
@@ -12,9 +15,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -38,6 +43,31 @@ public class OrdersActivity extends Activity {
                 "xg_demo_activity_orders"));
         mLVOrders = (ListView) findViewById(RUtil.getId(
                 getApplicationContext(), "xg_lv_orders"));
+        mLVOrders.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                if (position < 1) {
+                    return;
+                }
+                HashMap<String, Object> map = mOrderList.get(position - 1);
+                if (map != null) {
+                    String orderId = (String) map.get(OrderUtils.KEY_ORDER_ID);
+                    if (!TextUtils.isEmpty(orderId)) {
+                        try {
+                            Result result = PayService
+                                    .queryOrderStatusInThread(
+                                            OrdersActivity.this, orderId);
+                            XGLog.d("query order status." + result);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        });
         mBtnClean = (Button) findViewById(RUtil.getId(getApplicationContext(),
                 "xg_btn_clean"));
 
