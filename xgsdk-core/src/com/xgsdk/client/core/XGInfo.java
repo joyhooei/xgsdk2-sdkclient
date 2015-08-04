@@ -95,7 +95,7 @@ public class XGInfo {
         return getValue(context, ConstKey.XG_PLAN_ID);
     }
 
-    public static String getXGBuildNumber(Context context) {
+    public static String getXGBuildNumsber(Context context) {
         return getValue(context, ConstKey.XG_BUILD_NUMBER);
     }
 
@@ -105,7 +105,7 @@ public class XGInfo {
                         ORIENTATITION_LANDSCAPE), ORIENTATITION_LANDSCAPE);
     }
 
-    public static String getXGConfig(Context context, String key,
+    public static String getSdkConfig(Context context, String key,
             String defaultValue) {
         return _getValueFromXGConfig(context, key, defaultValue);
     }
