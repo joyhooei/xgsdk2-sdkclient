@@ -242,7 +242,7 @@ public class Check {
 
     public static void onRoleLevelup(Activity activity, RoleInfo roleInfo) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
-        paramsMap.put(PARAM_NAME_LEVEL, getVariablesFromObj(roleInfo));
+        paramsMap.put(PARAM_NAME_ROLEINFO, getVariablesFromObj(roleInfo));
         check(activity, METHOD_ON_ROLE_LEVELUP, paramsMap);
     }
 
