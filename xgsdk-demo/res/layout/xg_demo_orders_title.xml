@@ -23,7 +23,8 @@
         android:gravity="center"
         android:text="@string/xg_order_details"
         android:textColor="#F0F8FF"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="match_parent"

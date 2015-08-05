@@ -2,6 +2,7 @@
 package com.xgsdk.client.demo.orders;
 
 import com.xgsdk.client.core.service.PayService;
+import com.xgsdk.client.core.service.PayStatus;
 import com.xgsdk.client.core.service.Result;
 import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.demo.GameInfo;
@@ -15,6 +16,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,18 @@ public class OrdersActivity extends Activity {
     private ListView mLVOrders;
     private Button mBtnClean;
     private SimpleAdapter mAdapter;
+    
+    private static final int MSG_REFRESH = 1000;
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch(msg.what){
+                case MSG_REFRESH:
+                    mAdapter.notifyDataSetChanged();
+                    break;
+            }
+        };
+    };
 
     private ArrayList<HashMap<String, Object>> mOrderList = new ArrayList<HashMap<String, Object>>();
 
@@ -59,11 +73,22 @@ public class OrdersActivity extends Activity {
                             Result result = PayService
                                     .queryOrderStatusInThread(
                                             OrdersActivity.this, orderId);
-                            if (result != null && result.getData() != null){
-                                JSONObject json = new JSONObject(result.getData());
+                            if (result != null && result.getData() != null) {
+                                JSONObject json = new JSONObject(result
+                                        .getData());
                                 String status = json.optString("status");
+                                if (!TextUtils.isEmpty(status)) {
+                                    PayStatus st = PayStatus.valueOf(Integer
+                                            .valueOf(status));
+                                    XGLog.d("query order status." + st);
+                                    OrderUtils.updateOrderStatus(
+                                            getApplicationContext(), GameInfo
+                                                    .getInstance().getUid(),
+                                            orderId, st.name());
+
+                                    new LoadOrdersTask().execute();
+                                }
                             }
-                            XGLog.d("query order status." + result);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

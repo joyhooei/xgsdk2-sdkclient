@@ -2,6 +2,7 @@
 package com.xgsdk.client.demo.orders;
 
 import com.xgsdk.client.api.entity.PayInfo;
+import com.xgsdk.client.core.service.PayStatus;
 import com.xgsdk.client.core.utils.XGLog;
 
 import org.json.JSONException;
@@ -25,10 +26,6 @@ public class OrderUtils {
     private static SimpleDateFormat sdf = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-    public static final String STATUS_SUCCESS = "success";
-    public static final String STATUS_FAIL = "fail";
-    public static final String STATUS_UNKNOWN = "unknown";
-
     public static final String KEY_ORDER_ID = "orderid";
     public static final String KEY_ORDER_DETAILS = "details";
     public static final String KEY_ORDER_TIME = "time";
@@ -45,7 +42,7 @@ public class OrderUtils {
             json = toJson(pay);
 
             if (json != null) {
-                json.put("status", STATUS_UNKNOWN);
+                json.put("status", PayStatus.UNKNOWN);
                 json.put("time",
                         sdf.format(new Date(System.currentTimeMillis())));
                 editor.putString(orderId, json.toString());

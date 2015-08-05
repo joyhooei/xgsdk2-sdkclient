@@ -2,6 +2,7 @@
 <resources>
 
     <string name="xg_app_name">参数验证DEMO</string>
+    <string name="xg_testchannel_app_name">测试渠道DEMO</string>
     <string name="xg_pay">支付</string>
     <string name="xg_login">登录</string>
     <string name="xg_switch_account">切换账号</string>
@@ -23,6 +24,7 @@
     <string name="xg_hide_more">隐藏更多</string>
     <string name="xg_more_functions">更多功能</string>
     <string name="xg_clean">清除</string>
+    <string name="xg_set_planid">设置planid</string>
     <string name="xg_clean_msg">清除所有订单信息吗？</string>
 
 </resources>
