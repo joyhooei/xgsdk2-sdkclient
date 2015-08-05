@@ -10,7 +10,6 @@ import com.xgsdk.client.api.entity.RoleInfo;
 import com.xgsdk.client.api.entity.XGUser;
 import com.xgsdk.client.api.statistics.Statistics;
 import com.xgsdk.client.core.XGInfo;
-import com.xgsdk.client.core.service.PayService;
 import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.inner.XGChannel;
 
