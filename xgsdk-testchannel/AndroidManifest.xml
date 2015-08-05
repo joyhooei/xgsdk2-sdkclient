@@ -26,7 +26,8 @@
     <application
         android:name="com.xgsdk.client.api.XGApplication"
         android:allowBackup="true"
-        android:label="xgtest" >
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/xg_testchannel_app_name" >
         <activity
             android:name="com.xgsdk.client.api.splash.XGSplashActivity"
             android:launchMode="singleTop"
