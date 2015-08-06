@@ -18,7 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-public class XGSDK implements XGErrorCode {
+public class XGSDK {
     public static final String LOG_TAG = "XGSDK";
 
     public static final String VERSION = "2.0";
@@ -186,6 +186,13 @@ public class XGSDK implements XGErrorCode {
             PayCallBack payCallBack) {
 
         try {
+
+            // if (!TextUtils.isEmpty(payInfo.getUid())) {
+            // int errorCode = XGErrorCode.PAY_FAILED_UID_INVALID;
+            // payCallBack.onFail(errorCode, XGErrorCode.parseCode(errorCode)
+            // + " uid : " + payInfo.getUid());
+            // }
+
             String orderId = null;
             if (!mXGChannel.isCreateXGOrderIdBySelf()) {// 若渠道实现不自己创建XG订单，主动帮它创建
                 orderId = mXGChannel.createOrder(activity, payInfo);
@@ -194,8 +201,12 @@ public class XGSDK implements XGErrorCode {
                             + payInfo.getUid() + ",price:"
                             + payInfo.getProductTotalPrice() + ",ext:"
                             + payInfo.getExt());
-                    payCallBack.onFail(SDK_PAY_CREATE_ORDER_FAILED,
-                            "create order fail in xg service .");
+                    payCallBack.onFail(
+                            XGErrorCode.PAY_FAILED_CREATE_ORDER_FAILED,
+                            "create order fail in xg service ,uid:"
+                                    + payInfo.getUid() + ",price:"
+                                    + payInfo.getProductTotalPrice() + ",ext:"
+                                    + payInfo.getExt());
                     return;
                 }
             }
