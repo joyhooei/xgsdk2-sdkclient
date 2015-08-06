@@ -3,6 +3,10 @@ package com.xgsdk.client.demo.orders;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 917b1a34a14e21b7f8381d551ff492e9b2b5f213
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.SuppressLint;
@@ -20,6 +24,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 917b1a34a14e21b7f8381d551ff492e9b2b5f213
 import com.xgsdk.client.core.service.ICallback;
 import com.xgsdk.client.core.service.PayService;
 import com.xgsdk.client.core.service.PayStatus;
@@ -36,7 +44,10 @@ public class OrdersActivity extends Activity {
 
 	private static final int MSG_REFRESH = 1000;
 
+<<<<<<< HEAD
 	@SuppressLint("HandlerLeak")
+=======
+>>>>>>> 917b1a34a14e21b7f8381d551ff492e9b2b5f213
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -139,12 +150,19 @@ public class OrdersActivity extends Activity {
 				RUtil.getId(getApplicationContext(), "xg_order_time"),
 				RUtil.getId(getApplicationContext(), "xg_order_status") });
 
+<<<<<<< HEAD
+=======
+		mLVOrders.setAdapter(mAdapter);
+>>>>>>> 917b1a34a14e21b7f8381d551ff492e9b2b5f213
 		View header = getLayoutInflater()
 				.inflate(
 						RUtil.getLayout(getApplicationContext(),
 								"xg_demo_orders_title"), null);
 		mLVOrders.addHeaderView(header);
+<<<<<<< HEAD
 		mLVOrders.setAdapter(mAdapter);
+=======
+>>>>>>> 917b1a34a14e21b7f8381d551ff492e9b2b5f213
 		new LoadOrdersTask().execute();
 	}
 
