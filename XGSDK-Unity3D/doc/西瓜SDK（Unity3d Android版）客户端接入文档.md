@@ -28,8 +28,8 @@
 	
 	渠道SDK Unity3d Android客户端接入文档
 	作者：林立
-	SDK版本：0.9.0
-	文档版本：0.9.0
+	SDK版本：2.0
+	文档版本：1.0
 	日期：2015.7.29
 	
 ###文档版本说明
@@ -38,7 +38,7 @@
 <td>SDK版本</td><td>文档版本</td> <td>DK修改内容</td> <td>文档修改内容</td> <td>修改日期</td>  
 </tr>
 <tr> 
-<td>0.9.0 </td><td>0.9.0</td> <td>初版</td> <td>初版</td> <td>2015.7.29</td> 
+<td>2.0 </td><td>1.0</td> <td>初版</td> <td>初版</td> <td>2015.7.29</td> 
 </tr>
 </table>
 ****
@@ -55,10 +55,20 @@
 
 	JDK6以上
 	Android4.0以上
+	Unity 4.6.2以上
 
 ###2.2 SDK下载包
 
-	渠道版SDK下载包包含：xgsdk-api.jar、xgsdk-core.jar，xgsdk-data.jar，xgsdk-common-lib.jar，xgsdk-lib.jar、以及脚本文件XGSDK2.cs、XGSDKCallback.cs、JsonDeserializer.cs、MiniJSON.cs、MiniJsonData.cs、SafetyValue.cs、XgsdkDemo.cs。
+<p></p>
+<div>
+<b><font face="微软雅黑" size='3' color='#FF0000'>渠道版SDK下载包包含：</font></br></b>
+<font face="微软雅黑" color='#0000FF'>&nbsp&nbsp&nbsp&nbsp 1. 西瓜SDKV2的Jar包：xgsdk-api.jar、xgsdk-core.jar，xgsdk-data.jar，xgsdk-common-lib.jar，xgsdk-lib.jar。</font> </br>
+<font face="微软雅黑" color='0000FF'>&nbsp&nbsp&nbsp&nbsp 2. 脚本文件：XGSDK2.cs、XGSDKCallback.cs、JsonDeserializer.cs、MiniJSON.cs、MiniJsonData.cs、SafetyValue.cs、XgsdkDemo.cs。</font></br>
+<font face="微软雅黑" color='0000FF'>&nbsp&nbsp&nbsp&nbsp 其中XGSDK2.cs为西瓜SDK2.0版本接口，XGSDKCallback.cs为回调方法。</font></br>
+
+</div>
+
+
 
 
 ###2.3 项目配置
@@ -85,28 +95,24 @@
 
 **<application>标签中<activity>标签的属性android:name必须配置成com.xgsdk.client.unity3d.XGUnityActivity**
 
-	<application
-        android:allowBackup="true"
-        android:icon="@drawable/demo_ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-         <activity
-            android:name="com.xgsdk.client.unity3d.XGUnityActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+           android:name="com.xgsdk.client.unity3d.XGUnityActivity"
+           android:label="@string/app_name" >
+           <intent-filter>
+               <action android:name="android.intent.action.MAIN" />
+               <category android:name="android.intent.category.LAUNCHER" />
+           </intent-filter>
         </activity>
-    </application>
+
 
 
 
 ####2.3.2 导入SDK及插件
 
-	将下载的SDK包中的所有jar包拷贝至<项目目录>\Assets\Plugins\Android\libs，并将所有的cs脚本文件放入<项目目录>\Assets中。
-	注意：导入的cs脚本文件名称不可修改。
+将下载的SDK包中的所有jar包拷贝至<项目目录>\Assets\Plugins\Android\libs，并将所有的cs脚本文件放入<项目目录>\Assets中。
+
+<font face="微软雅黑" size='3' color='#FF0000'>注意：导入的cs脚本文件名称不可修改。</font>
 
 ##三、接口接入
 
@@ -126,6 +132,9 @@
 
 **参数说明：**
 customParams参数用于扩展，接入时直接置空即可。
+
+**回调方法：**
+登录接口提供登录成功、登录取消和登录失败三种回调方法，详见4.2。
 
 ####3.1.2 支付接口
 		public static void pay(string userid, int productTotalPirce, int productCount,
@@ -169,7 +178,7 @@ customParams参数用于扩展，接入时直接置空即可。
 		}
 
 **接口说明：**
-支付时调用，支付接口提供两种传参方式，一种是直接将参数传给pay方法，另一种是使用XGSDK2脚本文件中的PayParameters类封装后进行传参。
+支付时调用，支付接口提供两种传参方式，一种是直接将参数传给pay方法，另一种是使用XGSDK2脚本文件中的PayParameters类封装后进行传参，两种方式选择其中一种即可。
 
 **参数说明**
 <table> 
@@ -232,6 +241,9 @@ customParams参数用于扩展，接入时直接置空即可。
 </tr>
 </table>
 
+**支付回调方法：**
+支付接口提供支付成功、支付取消和支付失败三种回调方法，详见4.3。
+
 ####3.1.3 退出接口
 		public static void exit(string customParams)
 		{
@@ -246,6 +258,9 @@ customParams参数用于扩展，接入时直接置空即可。
 
 **参数说明：**
 customParams参数用于扩展，接入时直接置空即可。
+
+**回调方法：**
+退出接口提供直接退出，使用游戏方退出和退出取消三种回调方法，详见4.5。
 
 ####3.1.4登出接口
        public static void logout(string customParams)
@@ -262,6 +277,9 @@ customParams参数用于扩展，接入时直接置空即可。
 **参数说明：**
 customParams参数用于扩展，接入时直接置空即可。
 
+**回调方法：**
+登出接口提供登出成功和登出失败两种回调方法，详见4.4。
+
 ####3.1.5 进入游戏
 
 	public static void onEnterGame(string userId, string username, string roleId,
@@ -276,10 +294,10 @@ customParams参数用于扩展，接入时直接置空即可。
 		#endif
 	}	
 
-**接口说明**
+**接口说明:**
 进入游戏时调用
 
-**参数说明**
+**参数说明:**
 
 <table> 
 <tr> 
@@ -319,24 +337,7 @@ customParams参数用于扩展，接入时直接置空即可。
 <td>serverName</td><td>string</td><td>服务器名称</td>
 </tr></table>
 
-
-###3.2可选接口
-
-####3.2.1 切换账号
-
-		public static void switchAccount()
-		{
-			Debug.Log("call xgsdk switchAccount...");    
-			#if UNITY_ANDROID               
-			callSdkApi("switchAccount");
-			#endif
-		}
-
-**接口说明：**
-切换账号时调用。
-
-
-####3.2.2 创建角色
+####3.1.5 创建角色
 
 		public static void onCreateRole(string roleId, string roleName, string gender,
 		                                string level, string vipLevel, string balance, string partyName)
@@ -351,7 +352,7 @@ customParams参数用于扩展，接入时直接置空即可。
 **接口说明：**
 创建角色时调用。
 
-**参数说明**
+**参数说明:**
 <table>
 <tr>
 <td>参数名</td><td>类型</td><td>说明</td>
@@ -379,7 +380,7 @@ customParams参数用于扩展，接入时直接置空即可。
 </tr>
 </table>
 
-####3.2.3 角色升级
+####3.1.6 角色升级
 
 		public static void onRoleLevelup(string level)
 		{
@@ -392,7 +393,7 @@ customParams参数用于扩展，接入时直接置空即可。
 **接口说明：**
 角色升级时调用。
 
-**参数说明**
+**参数说明:**
 <table>
 <tr>
 <td>参数名</td><td>类型</td><td>说明</td>
@@ -400,28 +401,26 @@ customParams参数用于扩展，接入时直接置空即可。
 <td>level</td><td>string</td><td>等级</td>
 </table>
 
-####3.2.4 Vip角色升级
 
-		public static void onVipLevelup(string vipLevel)
+###3.2可选接口
+
+####3.2.1 切换账号
+
+		public static void switchAccount()
 		{
-			Debug.Log("call xgsdk onVipLevelup");
-			#if UNITY_ANDROID
-			callSdkApi("onVipLevelup", vipLevel);
+			Debug.Log("call xgsdk switchAccount...");    
+			#if UNITY_ANDROID               
+			callSdkApi("switchAccount");
 			#endif
 		}
 
 **接口说明：**
-Vip角色升级时调用。
+切换账号时调用。
 
-**参数说明**
-<table>
-<tr>
-<td>参数名</td><td>类型</td><td>说明</td>
-</tr>
-<td>vipLevel</td><td>string</td><td>Vip等级</td>
-</table>
 
-####3.2.5 自定义事件
+
+
+####3.2.2 自定义事件
 
 
 		public static void onEvent(string eventID, string content)
@@ -435,7 +434,7 @@ Vip角色升级时调用。
 **接口说明：**
 传递事件时使用。
 
-**参数说明**
+**参数说明:**
 <table>
 <tr>
 <td>参数名</td><td>类型</td><td>说明</td>
@@ -448,7 +447,7 @@ Vip角色升级时调用。
 </tr>
 </table>
 
-####3.2.6访问用户中心
+####3.2.3访问用户中心
 
 		public static void openUserCenter()
 		{
@@ -462,7 +461,7 @@ Vip角色升级时调用。
 访问用户中心时使用。
 
 
-####3.2.7 判断当前渠道是否提供该接口
+####3.2.4 判断当前渠道是否提供该接口
 
 		public static bool isMethodSupport(string methodName)
 		{
@@ -480,7 +479,7 @@ Vip角色升级时调用。
 **接口说明：**
 判断当前渠道是否提供该接口时调用。
 
-**参数说明**
+**参数说明:**
 <table>
 <tr>
 <td>参数名</td><td>类型</td><td>说明</td>
@@ -488,7 +487,7 @@ Vip角色升级时调用。
 <td>methodName</td><td>string</td><td>接口名称</td>
 </table>
 
-**返回值**
+**返回值:**
 <table>
 <tr> 
 <td>类型</td><td>说明</td>
@@ -498,7 +497,7 @@ Vip角色升级时调用。
 </tr>
 </table>
 
-####3.2.8 获取渠道tag
+####3.2.5 获取渠道tag
 
 		public static string getChannelId()
 		{
@@ -514,7 +513,7 @@ Vip角色升级时调用。
 **接口说明：**
 获取渠道tag时使用。
 
-**返回值**
+**返回值:**
 <table>
 <tr> 
 <td>类型</td><td>说明</td>
@@ -524,7 +523,7 @@ Vip角色升级时调用。
 </tr>
 </table>
 
-####3.2.9 toast功能接口
+####3.2.6 toast功能接口
 
 		public static void showAndroidToast(string msg)
 		{
@@ -537,7 +536,7 @@ Vip角色升级时调用。
 **接口说明：**
 用于提示toast想要展示的信息。
 
-**参数说明**
+**参数说明:**
 <table>
 <tr>
 <td>参数名</td><td>类型</td><td>说明</td>
@@ -617,7 +616,7 @@ Vip角色升级时调用。
 **回调说明：**
 支付成功后，会收到支付成功的回调。
 
-**参数说明**
+**参数说明:**
 返回的参数是支付成功的信息。
 
 ###4.3.2 支付取消回调

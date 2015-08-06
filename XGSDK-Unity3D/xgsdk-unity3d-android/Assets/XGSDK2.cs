@@ -65,29 +65,8 @@ namespace XGSDK2
             #endif
         }       
         
-		//支付时调用 必接接口（两种传参方式选其一即可）
-		public static void pay(string userid, int productTotalPirce, int productCount,
-		                       int productUnitPrice,string productId,
-		                       string productName,string productDesc,
-		                       string currencyName,string serverId,string serverName,string zoneId, string zoneName,
-		                       string roleId,string roleName,string balance,string gameOrderId, string ext, string notifyURL)
-        {
-            Debug.Log("call xgsdk pay...");
-            #if UNITY_ANDROID
-			Debug.Log("call xgsdk set messageObj..." + userid + productTotalPirce + productCount + 
-			          productUnitPrice + productId + 
-			          productName + productDesc + 
-			          currencyName + serverId + serverName + zoneId + zoneName +
-			          roleId + roleName + balance + gameOrderId + ext + notifyURL);
-			callSdkApi("pay",userid,productTotalPirce,productCount,
-			           productUnitPrice,productId,
-			           productName,productDesc,
-			           currencyName,serverId,serverName,zoneId,zoneName,
-			           roleId,roleName,balance,gameOrderId,ext,notifyURL);
-            #endif
-        }
 
-		//支付时调用，使用封装类传输数据
+		//支付时调用，必接接口
 		public static void pay(PayInfo pay)
 		{
 			Debug.Log("call xgsdk pay...");
@@ -261,6 +240,68 @@ namespace XGSDK2
 			set{ partyName = value;}
 			get{ return partyName;}
 		}
+	}
+
+	public class UserInfo 
+	{
+		string uid;
+		string userName;
+		string roleId;
+		string roleName;
+		string gender;
+		string level;
+		string vipLevel;
+		string balance;
+		string partyName;
+		string serverId;
+		string serverName;
+
+		public string Uid {
+			set{ uid = value;}
+			get{ return uid;}
+		}
+		public string UserName {
+			set{ userName = value;}
+			get{ return userName;}
+		}
+		public string RoleId {
+			set{ roleId = value;}
+			get{ return roleId;}
+		}
+		public string RoleName {
+			set{ roleName = value;}
+			get{ return roleName;}
+		}
+		public string Gender {
+			set{ gender = value;}
+			get{ return gender;}
+		}
+		public string Level {
+			set{ level = value;}
+			get{ return level;}
+		}
+		public string VipLevel {
+			set{ vipLevel = value;}
+			get{ return vipLevel;}
+		}
+		public string Balance {
+			set{ balance = value;}
+			get{ return balance;}
+		}
+		public string PartyName {
+			set{ partyName = value;}
+			get{ return partyName;}
+		}
+		public string ServerId {
+			set{ serverId = value;}
+			get{ return serverId;}
+		}
+		public string ServerName {
+			set{ serverName = value;}
+			get{ return serverName;}
+		}
+
+		
 	}
 
 

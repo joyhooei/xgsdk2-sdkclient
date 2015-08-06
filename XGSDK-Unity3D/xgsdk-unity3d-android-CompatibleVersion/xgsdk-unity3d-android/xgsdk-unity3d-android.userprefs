@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="..\..\xgsdk-unity3d-android\Assets\XGSDK2.cs">
     <Files>
-      <File FileName="..\..\xgsdk-unity3d-android\Assets\XGSDK2.cs" Line="1" Column="1" />
+      <File FileName="..\..\xgsdk-unity3d-android\Assets\XGSDKCallback.cs" Line="14" Column="5" />
+      <File FileName="..\..\xgsdk-unity3d-android\Assets\XGSDK2.cs" Line="96" Column="53" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
