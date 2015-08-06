@@ -19,7 +19,7 @@ import com.xgsdk.client.core.service.Result;
 import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.inner.XGChannel;
 
-public class XGSDK implements XGErrorCode {
+public class XGSDK {
 	public static final String LOG_TAG = "XGSDK";
 
 	public static final String VERSION = "2.0";
@@ -198,8 +198,12 @@ public class XGSDK implements XGErrorCode {
 									+ payInfo.getUid() + ",price:"
 									+ payInfo.getProductTotalPrice() + ",ext:"
 									+ payInfo.getExt());
-							payCallBack.onFail(SDK_PAY_CREATE_ORDER_FAILED,
-									"create order fail in xg service .");
+							payCallBack.onFail(
+									XGErrorCode.PAY_FAILED_CREATE_ORDER_FAILED,
+									"create order fail in xg service ,uid:"
+											+ payInfo.getUid() + ",price:"
+											+ payInfo.getProductTotalPrice()
+											+ ",ext:" + payInfo.getExt());
 							return;
 						}
 						payInfo.setAdditionalParam(PayInfo.KEY_XG_ORDER_ID,
