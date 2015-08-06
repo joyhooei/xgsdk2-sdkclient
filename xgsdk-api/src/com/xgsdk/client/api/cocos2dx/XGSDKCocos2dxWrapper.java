@@ -1,6 +1,7 @@
 
 package com.xgsdk.client.api.cocos2dx;
 
+import com.unity3d.player.UnityPlayer;
 import com.xgsdk.client.api.XGSDK;
 import com.xgsdk.client.api.callback.ExitCallBack;
 import com.xgsdk.client.api.callback.PayCallBack;
@@ -15,8 +16,14 @@ import com.xgsdk.client.core.utils.ToastUtil;
 import com.xgsdk.client.core.utils.XGLog;
 
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.text.TextUtils;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class XGSDKCocos2dxWrapper {
     private static final String LOG_TAG = "XGCocos2dxWrapper";
@@ -340,28 +347,26 @@ public class XGSDKCocos2dxWrapper {
         mSdk.onCreateRole(mActivity, info);
     }
 
-    public void onRoleLevelup(String roleId, String roleName, String gender,
-            String level, String vipLevel, String balance, String partyName) {
+    public void onRoleLevelup(String uid, String username, String roleId,
+            String roleName, String gender, String level, String vipLevel,
+            String balance, String partyName, String serverId, String serverName) {
         XGLog.i(LOG_TAG, "onRoleLevelup");
-        RoleInfo info = new RoleInfo();
-        info.setBalance(balance);
-        info.setGender(gender);
-        info.setLevel(level);
-        info.setPartyName(partyName);
-        info.setRoleId(roleId);
-        info.setRoleName(roleName);
-        info.setVipLevel(vipLevel);
-        mSdk.onRoleLevelup(mActivity, info);
-    }
-
-    /**
-     * 自定义事件
-     * 
-     * @param eventId
-     */
-    public void onEvent(String eventId) {
-        XGLog.i(LOG_TAG, "onEvent");
-        // mSdk.onEvent(mActivity, eventId);
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo gameInfo = new GameServerInfo();
+        gameInfo.setServerId(serverId);
+        gameInfo.setServerName(serverName);
+        mSdk.onRoleLevelup(UnityPlayer.currentActivity, userInfo, roleInfo,
+                gameInfo);
     }
 
     /**
@@ -376,6 +381,249 @@ public class XGSDKCocos2dxWrapper {
                 mSdk.openUserCenter(mActivity, "");
             }
         });
+    }
+
+    /**
+     * @Title: onEvent
+     * @Description: 自定义事件
+     * @param: @param uid
+     * @param: @param username
+     * @param: @param roleId
+     * @param: @param roleName
+     * @param: @param gender
+     * @param: @param level
+     * @param: @param vipLevel
+     * @param: @param balance
+     * @param: @param partyName
+     * @param: @param serverId
+     * @param: @param serverName
+     * @param: @param eventId 事件id
+     * @param: @param eventDesc 事件描述
+     * @param: @param eventVal 事件值
+     * @param: @param eventBody 事件内容 必须是json格式
+     * @param: @param customParams 扩展字段 必须是json格式
+     * @return: void
+     * @throws
+     */
+    public void onEvent(String uid, String username, String roleId,
+            String roleName, String gender, String level, String vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String eventId, String eventDesc, int eventVal,
+            String eventBody, String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo gameInfo = new GameServerInfo();
+        gameInfo.setServerId(serverId);
+        gameInfo.setServerName(serverName);
+        HashMap<String, Object> bodyMap = new HashMap<String, Object>();
+        if (!TextUtils.isEmpty(eventBody)) {
+            try {
+                JSONObject body = new JSONObject(eventBody);
+                Iterator<String> keys = body.keys();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    bodyMap.put(key, body.opt(key));
+                }
+            } catch (JSONException e) {
+                XGLog.e("eventBody is invalid." + eventBody, e);
+            }
+        }
+        HashMap<String, Object> customMap = new HashMap<String, Object>();
+        if (!TextUtils.isEmpty(customParams)) {
+            try {
+                JSONObject custom = new JSONObject(customParams);
+                Iterator<String> keys = custom.keys();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    customMap.put(key, custom.opt(key));
+                }
+            } catch (JSONException e) {
+                XGLog.e("customParams is invalid." + customParams, e);
+            }
+        }
+        mSdk.onEvent(UnityPlayer.currentActivity, userInfo, roleInfo, gameInfo,
+                eventId, eventDesc, eventVal, bodyMap, customMap);
+
+    }
+
+    /**
+     * @Title: onMissionBegin
+     * @Description: 任务开始
+     * @param: @param uid
+     * @param: @param username
+     * @param: @param roleId
+     * @param: @param roleName
+     * @param: @param gender
+     * @param: @param level
+     * @param: @param vipLevel
+     * @param: @param balance
+     * @param: @param partyName
+     * @param: @param serverId
+     * @param: @param serverName
+     * @param: @param activity
+     * @param: @param missionName 任务名称
+     * @param: @param customParams 扩展参数，必须是json
+     * @return: void
+     * @throws
+     */
+    public void onMissionBegin(String uid, String username, String roleId,
+            String roleName, String gender, String level, String vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, Activity activity, String missionName,
+            String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        HashMap<String, Object> customMap = new HashMap<String, Object>();
+        if (!TextUtils.isEmpty(customParams)) {
+            try {
+                JSONObject custom = new JSONObject(customParams);
+                Iterator<String> keys = custom.keys();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    customMap.put(key, custom.opt(key));
+                }
+            } catch (JSONException e) {
+                XGLog.e("customParams is invalid." + customParams, e);
+            }
+        }
+        mSdk.onMissionBegin(activity, userInfo, roleInfo, serverInfo,
+                missionName, customMap);
+
+    }
+
+    /**
+     * @Title: onMissionSuccess
+     * @Description: 任务成功
+     * @param: @param uid
+     * @param: @param username
+     * @param: @param roleId
+     * @param: @param roleName
+     * @param: @param gender
+     * @param: @param level
+     * @param: @param vipLevel
+     * @param: @param balance
+     * @param: @param partyName
+     * @param: @param serverId
+     * @param: @param serverName
+     * @param: @param activity
+     * @param: @param missionName 任务名称
+     * @param: @param customParams 扩展参数，必须是json
+     * @return: void
+     * @throws
+     */
+    public void onMissionSuccess(String uid, String username, String roleId,
+            String roleName, String gender, String level, String vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, Activity activity, String missionName,
+            String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        HashMap<String, Object> customMap = new HashMap<String, Object>();
+        if (!TextUtils.isEmpty(customParams)) {
+            try {
+                JSONObject custom = new JSONObject(customParams);
+                Iterator<String> keys = custom.keys();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    customMap.put(key, custom.opt(key));
+                }
+            } catch (JSONException e) {
+                XGLog.e("customParams is invalid." + customParams, e);
+            }
+        }
+        mSdk.onMissionSuccess(activity, userInfo, roleInfo, serverInfo,
+                missionName, customMap);
+
+    }
+
+    /**
+     * @Title: onMissionFail
+     * @Description: 任务失败
+     * @param: @param uid
+     * @param: @param username
+     * @param: @param roleId
+     * @param: @param roleName
+     * @param: @param gender
+     * @param: @param level
+     * @param: @param vipLevel
+     * @param: @param balance
+     * @param: @param partyName
+     * @param: @param serverId
+     * @param: @param serverName
+     * @param: @param activity
+     * @param: @param missionName 任务名称
+     * @param: @param customParams 扩展参数，必须是json
+     * @return: void
+     * @throws
+     */
+    public void onMissionFail(String uid, String username, String roleId,
+            String roleName, String gender, String level, String vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, Activity activity, String missionName,
+            String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        HashMap<String, Object> customMap = new HashMap<String, Object>();
+        if (!TextUtils.isEmpty(customParams)) {
+            try {
+                JSONObject custom = new JSONObject(customParams);
+                Iterator<String> keys = custom.keys();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    customMap.put(key, custom.opt(key));
+                }
+            } catch (JSONException e) {
+                XGLog.e("customParams is invalid." + customParams, e);
+            }
+        }
+        mSdk.onMissionFail(activity, userInfo, roleInfo, serverInfo,
+                missionName, customMap);
+
     }
 
     /**

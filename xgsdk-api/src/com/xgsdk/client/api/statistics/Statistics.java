@@ -12,6 +12,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.Map;
+
 public class Statistics {
 
     private static final String DATA_CLASS = "com.xgsdk.data.XGDATA";
@@ -74,10 +76,8 @@ public class Statistics {
             RoleInfo role, GameServerInfo server) {
     }
 
-    public static void onRoleLevelup(Activity activity, RoleInfo role) {
-    }
-
-    public static void onVipLevelup(Activity activity, String vipLevel) {
+    public static void onRoleLevelup(Activity activity, XGUser user,
+            RoleInfo role, GameServerInfo server) {
     }
 
     public static void onApplicationCreate(Context context) {
@@ -86,14 +86,37 @@ public class Statistics {
     public static void onApplicationAttachBaseContext(Context context) {
     }
 
-    public static void onEvent(Activity activity, String eventId, String content) {
+    public static void onEvent(Activity activity, XGUser user,
+            RoleInfo roleInfo, GameServerInfo serverInfo, String eventId,
+            String eventDesc, int eventVal, Map<String, Object> eventBody,
+            Map<String, Object> customParams) {
     }
 
-    public static void onRoleConsume(Activity acti, String accountId,
-            String accountName, String roleId, String roleName,
-            String roleType, String roleLevel, String activity,
-            String itemCatalog, String itemId, String itemName,
-            String consumeGold, String consumeBindingGold) {
+    public static void onMissionBegin(Activity activity, XGUser user,
+            RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
+            Map<String, Object> customParams) {
+        onRoleMission(activity, user, roleInfo, serverInfo, missionName,
+                "enter", customParams);
+    }
+
+    public static void onMissionSuccess(Activity activity, XGUser user,
+            RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
+            Map<String, Object> customParams) {
+        onRoleMission(activity, user, roleInfo, serverInfo, missionName,
+                "success", customParams);
+    }
+
+    public static void onMissionFail(Activity activity, XGUser user,
+            RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
+            Map<String, Object> customParams) {
+        onRoleMission(activity, user, roleInfo, serverInfo, missionName,
+                "failed", customParams);
+    }
+
+    private static void onRoleMission(Activity activity, XGUser user,
+            RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
+            String missionFlag, Map<String, Object> customParams) {
+
     }
 
 }
