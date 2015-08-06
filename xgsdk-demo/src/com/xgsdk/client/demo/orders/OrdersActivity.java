@@ -3,10 +3,9 @@ package com.xgsdk.client.demo.orders;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,7 +20,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-
 import com.xgsdk.client.core.service.ICallback;
 import com.xgsdk.client.core.service.PayService;
 import com.xgsdk.client.core.service.PayStatus;
@@ -38,6 +36,7 @@ public class OrdersActivity extends Activity {
 
 	private static final int MSG_REFRESH = 1000;
 
+	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -140,12 +139,12 @@ public class OrdersActivity extends Activity {
 				RUtil.getId(getApplicationContext(), "xg_order_time"),
 				RUtil.getId(getApplicationContext(), "xg_order_status") });
 
-		mLVOrders.setAdapter(mAdapter);
 		View header = getLayoutInflater()
 				.inflate(
 						RUtil.getLayout(getApplicationContext(),
 								"xg_demo_orders_title"), null);
 		mLVOrders.addHeaderView(header);
+		mLVOrders.setAdapter(mAdapter);
 		new LoadOrdersTask().execute();
 	}
 
