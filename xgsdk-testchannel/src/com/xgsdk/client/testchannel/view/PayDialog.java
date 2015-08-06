@@ -11,72 +11,13 @@ import android.widget.TextView;
 import com.xgsdk.client.api.XGErrorCode;
 import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.entity.PayInfo;
-<<<<<<< HEAD
-import com.xgsdk.client.core.service.ICallback;
 import com.xgsdk.client.core.service.PayService;
-import com.xgsdk.client.core.service.Result;
-=======
-import com.xgsdk.client.core.service.PayService;
->>>>>>> 917b1a34a14e21b7f8381d551ff492e9b2b5f213
 import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.testchannel.util.CommonStr;
 
 public class PayDialog {
 
 	public PayDialog() {
-<<<<<<< HEAD
-
-	}
-
-	public void showDialog(final Activity activity, final PayInfo payment,
-			final PayCallBack payCallBack) {
-		AlertDialog.Builder builder = new Builder(activity);
-		TextView title = new TextView(activity);
-		title.setText(CommonStr.PAY_ORDER);
-		title.setGravity(Gravity.CENTER_HORIZONTAL);
-		title.setTextSize(22);
-		builder.setCustomTitle(title);
-		final AlertDialog payDialog = builder.create();
-		OrderDetailLayout orderLayout = new OrderDetailLayout(activity, payment);
-		builder.setView(orderLayout);
-		builder.setPositiveButton(CommonStr.PAY_SUCCESS, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				payCallBack.onSuccess("pay success!");
-				try {
-					String xgOrderId = payment.getXgOrderId();
-					PayService.testChannelNotify(activity, xgOrderId,
-							new ICallback() {
-
-								@Override
-								public void callback(Result result,
-										String retStr) {
-
-								}
-							});
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-		builder.setNeutralButton(CommonStr.PAY_CANCEL, new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				String xgOrderId = payment.getXgOrderId();
-				try {
-					PayService.cancelOrder(activity, xgOrderId,
-							new ICallback() {
-
-								@Override
-								public void callback(Result result,
-										String retStr) {
-									// TODO Auto-generated method stub
-								}
-							});
-=======
 
 	}
 
@@ -115,7 +56,6 @@ public class PayDialog {
 				String xgOrderId = payment.getXgOrderId();
 				try {
 					PayService.cancelOrder(activity, xgOrderId, null);
->>>>>>> 917b1a34a14e21b7f8381d551ff492e9b2b5f213
 				} catch (Exception e) {
 					XGLog.e("cancel order error", e);
 				}
