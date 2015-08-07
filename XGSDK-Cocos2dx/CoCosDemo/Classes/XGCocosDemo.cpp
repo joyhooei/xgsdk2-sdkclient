@@ -11,6 +11,7 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 void XGSDKTestCallback::onLogoutSuccess(const char *msg){
+    CCLOG("LOGOUT Call");
     cocos2d::CCMessageBox(msg, "INFO");
 }
 void XGSDKTestCallback::onLogoutFail(int retCode, const char *msg){
@@ -122,7 +123,7 @@ void HelloWorld::pay(CCObject* pSender)
     payInfo.productName = "test product";
     payInfo.productDesc = "for test";
     payInfo.currencyName = "currencyName";
-    payInfo.serverId = "A qu";
+    payInfo.serverId = "Aqu";
     payInfo.serverName = "zhengfuzhihai";
     payInfo.zoneId = "zoneId";
     payInfo.zoneName = "zoneName";

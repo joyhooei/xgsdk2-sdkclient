@@ -175,10 +175,12 @@ public class XGSDKCocos2dxWrapper {
                 payment.setCurrencyName(currencyName);
                 payment.setProductTotalPrice(productTotalPirce);
                 payment.setProductUnitPrice(productUnitPrice);
-                payment.setRoleId(roleId);
                 payment.setZoneId(zoneId);
                 payment.setZoneName(zoneName);
+                payment.setRoleId(roleId);
                 payment.setRoleName(roleName);
+                payment.setLevel(level);
+                payment.setVipLevel(vipLevel);
                 payment.setBalance(balance);
                 payment.setGameOrderId(gameOrderId);
                 payment.setServerName(serverName);

@@ -82,12 +82,12 @@ public:
 	void prepare();
 	void getChannelId();
 	void login(const char *msg = 0);
-	void pay(PayInfo);
+	void pay(PayInfo &);
 	void exit(const char *msg = 0);
 	void logout(const char *msg = 0);
 	void switchAccount(const char *msg = 0);
-	void onEnterGame(UserInfo);
-	void onCreateRole(UserInfo);
+	void onEnterGame(UserInfo &);
+	void onCreateRole(UserInfo &);
 	void openUserCenter();
 	bool isMethodSupport(const char *);
 

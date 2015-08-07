@@ -51,12 +51,15 @@ static char* jstringTostr(JNIEnv* jniEnv, jstring jstr) {
 }
 
 XGSDKCallback *globalListener;
+char *XG_tmp;
 void ProtocolXGSDK::setListener(XGSDKCallback *lis){
 	globalListener = lis;
 }
 void ProtocolXGSDK::prepare(){
 	LOGI("PREPARE BEGIN");
 	channelId = (char*)malloc(sizeof(char));
+	XG_tmp = (char*)malloc(sizeof(char));
+
 	JniMethodInfo t;
 	if(JniHelper::getStaticMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "getInstance", "()Lcom/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper;")){
 		LOGI("PREPARE ENTER METHOD");
@@ -103,7 +106,7 @@ void ProtocolXGSDK::login(const char *msg){
 	LOGI("EXIT LOGIN");
 }
 
-void ProtocolXGSDK::pay(PayInfo payInfo){
+void ProtocolXGSDK::pay(PayInfo &payInfo){
 	LOGI("PAY BEGIN");
 	JniMethodInfo t;
 	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "pay", "(Ljava/lang/String;IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
@@ -198,8 +201,8 @@ void ProtocolXGSDK::switchAccount(const char *msg){
 	}
 	LOGI("EXIT SWITCHACCOUNT");
 }
-
-void ProtocolXGSDK::onEnterGame(UserInfo userInfo){
+/*统计*/
+void ProtocolXGSDK::onEnterGame(UserInfo &userInfo){
 	LOGI("ONENTERGAME BEGIN");
 	JniMethodInfo t;
 	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "onEnterGame", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
@@ -236,8 +239,8 @@ void ProtocolXGSDK::onEnterGame(UserInfo userInfo){
 	}
 	LOGI("EXIT ONENTERGAME");
 }
-
-void ProtocolXGSDK::onCreateRole(UserInfo userInfo){
+/*统计*/
+void ProtocolXGSDK::onCreateRole(UserInfo &userInfo){
 	LOGI("ONCREATEROLE BEGIN");
 	JniMethodInfo t;
 	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "onCreateRole", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
@@ -311,109 +314,109 @@ void ProtocolXGSDK::showCocosNoChannelDialog(){
 
 void ProtocolXGSDK::releaseResource(){
 	free(channelId);
-
+	free(XG_tmp);
 	delete globalListener;
 	delete this;
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLogoutSuccess
   (JNIEnv *env, jclass obj, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onLogoutSuccess(tmp);
-	free(tmp);
+	globalListener->onLogoutSuccess(XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLogoutFail
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onLogoutFail(retCode, tmp);
-	free(tmp);
+	globalListener->onLogoutFail(retCode, XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginSuccess
   (JNIEnv *env, jclass obj, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onLoginSuccess(tmp);
-	free(tmp);
+	globalListener->onLoginSuccess(XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginFail
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onLoginFail(retCode, tmp);
-	free(tmp);
+	globalListener->onLoginFail(retCode, XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginCancel
   (JNIEnv *env, jclass obj, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onLoginCancel(tmp);
-	free(tmp);
+	globalListener->onLoginCancel(XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onInitFail
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onInitFail(retCode, tmp);
-	free(tmp);
+	globalListener->onInitFail(retCode, XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onSuccess
   (JNIEnv *env, jclass obj, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onPaySuccess(tmp);
-	free(tmp);
+	globalListener->onPaySuccess(XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onFail
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onPayFail(retCode, tmp);
-	free(tmp);
+	globalListener->onPayFail(retCode, XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onCancel
   (JNIEnv *env, jclass obj, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onPayCancel(tmp);
-	free(tmp);
+	globalListener->onPayCancel(XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onOthers
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
-	char *tmp = jstringTostr(env,msg);
+	free(XG_tmp);
+	XG_tmp = jstringTostr(env,msg);
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
 	}
-	globalListener->onPayOthers(retCode, tmp);
-	free(tmp);
+	globalListener->onPayOthers(retCode, XG_tmp);
 }
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onExit
