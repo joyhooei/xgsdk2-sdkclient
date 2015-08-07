@@ -1,4 +1,4 @@
-package com.xgsdk.client.data.model;
+package com.xgsdk.client.data.message;
 
 
 /**
@@ -7,7 +7,7 @@ package com.xgsdk.client.data.model;
  * @author yinlong
  *
  */
-public enum XGDataMessageType {
+public enum MessageType {
 
 	/**
 	 * 设备连接
@@ -43,7 +43,7 @@ public enum XGDataMessageType {
 	
 	private String type;
 	
-	private XGDataMessageType(String type) {
+	private MessageType(String type) {
 		this.type = type;
 	}
 	
