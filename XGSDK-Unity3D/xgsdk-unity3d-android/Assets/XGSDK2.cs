@@ -65,27 +65,6 @@ namespace XGSDK2
             #endif
         }       
         
-		//支付时调用 必接接口（两种传参方式选其一即可）
-		public static void pay(string userid, int productTotalPirce, int productCount,
-		                       int productUnitPrice,string productId,
-		                       string productName,string productDesc,
-		                       string currencyName,string serverId,string serverName,string zoneId, string zoneName,
-		                       string roleId,string roleName,string balance,string gameOrderId, string ext, string notifyURL)
-        {
-            Debug.Log("call xgsdk pay...");
-            #if UNITY_ANDROID
-			Debug.Log("call xgsdk set messageObj..." + userid + productTotalPirce + productCount + 
-			          productUnitPrice + productId + 
-			          productName + productDesc + 
-			          currencyName + serverId + serverName + zoneId + zoneName +
-			          roleId + roleName + balance + gameOrderId + ext + notifyURL);
-			callSdkApi("pay",userid,productTotalPirce,productCount,
-			           productUnitPrice,productId,
-			           productName,productDesc,
-			           currencyName,serverId,serverName,zoneId,zoneName,
-			           roleId,roleName,balance,gameOrderId,ext,notifyURL);
-            #endif
-        }
 
 		//支付时调用，使用封装类传输数据
 		public static void pay(PayInfo pay)
@@ -96,12 +75,12 @@ namespace XGSDK2
 			          pay.ProductUnitPrice + pay.ProductId + 
 			          pay.ProductName + pay.ProductDesc + 
 			          pay.CurrencyName + pay.ServerId + pay.ServerName + pay.ZoneId + pay.ZoneName +
-			          pay.RoleId + pay.RoleName + pay.Balance + pay.GameOrderId + pay.Ext + pay.NotifyURL);
+			          pay.RoleId + pay.RoleName + pay.Level + pay.VipLevel + pay.Balance + pay.GameOrderId + pay.Ext + pay.NotifyURL);
 			callSdkApi("pay",pay.UserID, pay.ProductTotalprice, pay.ProductCount, 
 			           pay.ProductUnitPrice, pay.ProductId, 
 			           pay.ProductName, pay.ProductDesc, 
 			           pay.CurrencyName, pay.ServerId, pay.ServerName,pay.ZoneId, pay.ZoneName,
-			           pay.RoleId, pay.RoleName, pay.Balance, pay.GameOrderId, pay.Ext, pay.NotifyURL);
+			           pay.RoleId, pay.RoleName, pay.Level, pay.VipLevel, pay.Balance, pay.GameOrderId, pay.Ext, pay.NotifyURL);
 			#endif
 		}
 
@@ -170,19 +149,62 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk onRoleLevelup");
 			#if UNITY_ANDROID
-			callSdkApi("onRoleLevelup", roleInfo.RoleID, roleInfo.RoleName, roleInfo.Gender,
-			           roleInfo.Level, roleInfo.VipLevel, roleInfo.Balance, roleInfo.PartyName);
+			callSdkApi("onRoleLevelup", roleInfo .Uid, roleInfo.UserName,roleInfo.RoleID, roleInfo.RoleName, roleInfo.Gender,
+			           roleInfo.Level, roleInfo.VipLevel, roleInfo.Balance, roleInfo.PartyName, roleInfo.ServerId, roleInfo.ServerName);
 			#endif
 		}
         
 
 		
 		//传递事件
-		public static void onEvent(string eventID, string content)
+		public static void onEvent(EventInfo eventInfo)
 		{
 			Debug.Log("call xgsdk onEvent...");
 			#if UNITY_ANDROID
-			callSdkApi("onEvent",eventID, content); 
+			callSdkApi("onEvent",eventInfo.EventRoleInfo.Uid, eventInfo.EventRoleInfo.UserName, eventInfo.EventRoleInfo.RoleID,
+			           eventInfo.EventRoleInfo.RoleName, eventInfo.EventRoleInfo.Gender, eventInfo.EventRoleInfo.Level,
+			           eventInfo.EventRoleInfo.VipLevel, eventInfo.EventRoleInfo.Balance, eventInfo.EventRoleInfo.PartyName,
+			           eventInfo.EventRoleInfo.ServerId, eventInfo.EventRoleInfo.ServerName, eventInfo.EventId,eventInfo.EventDesc,
+			           eventInfo.EventVal, eventInfo.EventBody, eventInfo.CustomParams); 
+			#endif
+		}
+
+		//任务开始时调用
+		public void onMissionBegin(MissionInfo missionInfo)
+		{
+			Debug.Log("call xgsdk onMissionBegin...");
+			#if UNITY_ANDROID
+			callSdkApi("onMissionBegin", missionInfo.MissionRoleInfo.Uid, missionInfo.MissionRoleInfo.UserName,
+			           missionInfo.MissionRoleInfo.RoleID, missionInfo.MissionRoleInfo.RoleName,missionInfo.MissionRoleInfo.Gender,
+			           missionInfo.MissionRoleInfo.Level, missionInfo.MissionRoleInfo.VipLevel, missionInfo.MissionRoleInfo.Balance,
+			           missionInfo.MissionRoleInfo.PartyName, missionInfo.MissionRoleInfo.ServerId,missionInfo.MissionRoleInfo.ServerName,
+			           missionInfo.MissionName, missionInfo.CustomParams); 
+			#endif
+		}
+
+		//任务成功时调用
+		public void onMissionSuccess(MissionInfo missionInfo)
+		{
+			Debug.Log("call xgsdk onMissionSuccess...");
+			#if UNITY_ANDROID
+			callSdkApi("onMissionBegin", missionInfo.MissionRoleInfo.Uid, missionInfo.MissionRoleInfo.UserName,
+			           missionInfo.MissionRoleInfo.RoleID, missionInfo.MissionRoleInfo.RoleName,missionInfo.MissionRoleInfo.Gender,
+			           missionInfo.MissionRoleInfo.Level, missionInfo.MissionRoleInfo.VipLevel, missionInfo.MissionRoleInfo.Balance,
+			           missionInfo.MissionRoleInfo.PartyName, missionInfo.MissionRoleInfo.ServerId,missionInfo.MissionRoleInfo.ServerName,
+			           missionInfo.MissionName, missionInfo.CustomParams); 
+			#endif
+		}
+
+		//任务失败时调用
+		public void onMissionFail(MissionInfo missionInfo)
+		{
+			Debug.Log("call xgsdk onMissionFail...");
+			#if UNITY_ANDROID
+			callSdkApi("onMissionBegin", missionInfo.MissionRoleInfo.Uid, missionInfo.MissionRoleInfo.UserName,
+			           missionInfo.MissionRoleInfo.RoleID, missionInfo.MissionRoleInfo.RoleName,missionInfo.MissionRoleInfo.Gender,
+			           missionInfo.MissionRoleInfo.Level, missionInfo.MissionRoleInfo.VipLevel, missionInfo.MissionRoleInfo.Balance,
+			           missionInfo.MissionRoleInfo.PartyName, missionInfo.MissionRoleInfo.ServerId,missionInfo.MissionRoleInfo.ServerName,
+			           missionInfo.MissionName, missionInfo.CustomParams); 
 			#endif
 		}
 		
@@ -225,6 +247,8 @@ namespace XGSDK2
 
 	public class RoleInfo
 	{
+		string uid;
+		string userName;
 		string roleID;
 		string roleName;
 		string gender;
@@ -232,34 +256,104 @@ namespace XGSDK2
 		string vipLevel;
 		string balance;
 		string partyName;
+		string serverId;
+		string serverName;
 
-		public string RoleID {
+		public string Uid
+		{
+			set{ uid = value;}
+			get{ return uid;}
+		}
+		public string UserName
+		{
+			set{ userName = value;}
+			get{ return userName;}
+		}
+		public string RoleID 
+		{
 			set{ roleID = value;}
 			get{ return roleID;}
 		}
-		public string RoleName {
+		public string RoleName 
+		{
 			set{ roleName = value;}
 			get{ return roleName;}
 		}
-		public string Gender {
+		public string Gender 
+		{
 			set{ gender = value;}
 			get{ return gender;}
 		}
-		public string Level {
+		public string Level 
+		{
 			set{ level = value;}
 			get{ return level;}
 		}
-		public string VipLevel {
+		public string VipLevel 
+		{
 			set{ vipLevel = value;}
 			get{ return vipLevel;}
 		}
-		public string Balance {
+		public string Balance 
+		{
 			set{ balance = value;}
 			get{ return balance;}
 		}
-		public string PartyName {
+		public string PartyName 
+		{
 			set{ partyName = value;}
 			get{ return partyName;}
+		}
+		public string ServerId
+		{
+			set{ serverId = value;}
+			get{ return serverId;}
+		}
+		public string ServerName
+		{
+			set{ serverName = value;}
+			get{ return serverName;}
+		}
+	}
+
+	public class EventInfo
+	{
+		RoleInfo eventRoleInfo;
+		string eventId;
+		string eventDesc;
+		int eventVal;
+		string eventBody;
+		string customParams;
+
+		public RoleInfo EventRoleInfo
+		{
+			set{ eventRoleInfo = value;}
+			get{ return eventRoleInfo;}
+		}
+		public string EventId
+		{
+			set{ eventId = value;}
+			get{ return eventId;}
+		}
+		public string EventDesc
+		{
+			set{ eventDesc = value;}
+			get{ return eventDesc;}
+		}
+		public int EventVal
+		{
+			set{ eventVal = value;}
+			get{ return eventVal;}
+		}
+		public string EventBody
+		{
+			set{ eventBody = value;}
+			get{ return eventBody;}
+		}
+		public string CustomParams
+		{
+			set{ customParams = value;}
+			get{ return customParams;}
 		}
 	}
 
@@ -280,98 +374,153 @@ namespace XGSDK2
 		string zoneName;
 		string roleId;
 		string roleName;
+		string level;
+		string vipLevel;
 		string balance;
 		string gameOrderId;
 		string ext;
 		string notifyURL;
-		public string UserID {
+		public string UserID 
+		{
 			set{ userID = value;}
 			get{ return userID;}
 		}
 
-		public int ProductTotalprice {
+		public int ProductTotalprice 
+		{
 			set{ productTotalprice = value;}
 			get{ return productTotalprice;}
 		}
 
-		public int ProductCount {
+		public int ProductCount 
+		{
 			set{ productCount = value;}
 			get{ return productCount;}
 		}
 
-		public int ProductUnitPrice {
+		public int ProductUnitPrice 
+		{
 			set{ productUnitPrice = value;}
 			get{ return productUnitPrice;}
 		}
 
-		public string ProductId {
+		public string ProductId 
+		{
 			set{ productId = value;}
 			get{ return productId;}
 		}
 
-		public string ProductName {
+		public string ProductName 
+		{
 			set{ productName = value;}
 			get{ return productName;}
 		}
 
-		public string ProductDesc {
+		public string ProductDesc 
+		{
 			set{ productDesc = value;}
 			get{ return productDesc;}
 		}
 
-		public string CurrencyName {
+		public string CurrencyName 
+		{
 			set{ currencyName = value;}
 			get{ return currencyName;}
 		}
 
-		public string ServerId {
+		public string ServerId 
+		{
 			set{ serverId = value;}
 			get{ return serverId;}
 		}
 
-		public string ServerName {
+		public string ServerName 
+		{
 			set{ serverName = value;}
 			get{ return serverName;}
 		}
 
-		public string ZoneId {
+		public string ZoneId 
+		{
 			set{ zoneId = value;}
 			get{ return zoneId;}
 		}
 
-		public string ZoneName{
+		public string ZoneName
+		{
 			set{ zoneName = value;}
 			get{ return zoneName;}
 		}
 
-		public string RoleId {
+		public string RoleId 
+		{
 			set{ roleId = value;}
 			get{ return roleId;}
 		}
 
-		public string RoleName {
+		public string RoleName 
+		{
 			set{ roleName = value;}
 			get{ return roleName;}
 		}
 
-		public string Balance {
+		public string Level
+		{
+			set{ level = value;}
+			get{ return level;}
+		}
+
+		public string VipLevel
+		{
+			set{ vipLevel = value;}
+			get{ return vipLevel;}
+		}
+
+		public string Balance 
+		{
 			set{ balance = value;}
 			get{ return balance;}
 		}
 
-		public string GameOrderId {
+		public string GameOrderId 
+		{
 			set{ gameOrderId = value;}
 			get{ return gameOrderId;}
 		}
 
-		public string Ext {
+		public string Ext 
+		{
 			set{ ext = value;}
 			get{ return ext;}
 		}
 
-		public string NotifyURL {
+		public string NotifyURL
+		{
 			set{ notifyURL = value;}
 			get{ return notifyURL;}
+		}
+	}
+
+	public class MissionInfo
+	{
+		RoleInfo missionRoleInfo;
+		string missionName;
+		string customParams;
+
+		public RoleInfo MissionRoleInfo
+		{
+			set{ missionRoleInfo = value;}
+			get{ return missionRoleInfo;}
+		}
+		public string MissionName
+		{
+			set{ missionName = value;}
+			get{ return missionName;}
+		}
+		public string CustomParams
+		{
+			set{ customParams = value;}
+			get{ return customParams;}
 		}
 	}
 }

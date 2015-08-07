@@ -30,7 +30,7 @@ public class XgsdkDemo : MonoBehaviour
 		payinfo.ProductTotalprice = 10;
 		payinfo.ProductCount = 2;
 		payinfo.ProductUnitPrice = 5;
-		payinfo.ProductId = "1";
+		payinfo.ProductId = "199";
 		payinfo.ProductName = "gift";
 		payinfo.ProductDesc = "Description";
 		payinfo.CurrencyName = "RMB";
@@ -40,10 +40,12 @@ public class XgsdkDemo : MonoBehaviour
 		payinfo.ZoneName = "ZoneName";
 		payinfo.RoleId = "12345";
 		payinfo.RoleName = "RoleName";
+		payinfo.Level = "2";
+		payinfo.VipLevel = "1";
 		payinfo.Balance = "50";
 		payinfo.GameOrderId = "1001";
 		payinfo.Ext = "ext";
-		payinfo.NotifyURL = "Xgsdk";
+		//payinfo.NotifyURL = "Xgsdk";
 
 		
 		//设置GUI格式
