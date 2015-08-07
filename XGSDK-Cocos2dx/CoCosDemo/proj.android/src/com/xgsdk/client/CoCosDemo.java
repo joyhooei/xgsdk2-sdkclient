@@ -23,7 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 package com.xgsdk.client;
 
-import com.xgsdk.client.cocos2dx.XGCocos2dxActivity;
+import com.xgsdk.client.api.cocos2dx.XGCocos2dxActivity;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;

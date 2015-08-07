@@ -52,6 +52,7 @@ static char* jstringTostr(JNIEnv* jniEnv, jstring jstr) {
 
 XGSDKCallback *globalListener;
 char *XG_tmp;
+const char XG_PACKAGE[] = "com/xgsdk/client/api/cocos2dx/XGSDKCocos2dxWrapper";
 void ProtocolXGSDK::setListener(XGSDKCallback *lis){
 	globalListener = lis;
 }
@@ -61,7 +62,7 @@ void ProtocolXGSDK::prepare(){
 	XG_tmp = (char*)malloc(sizeof(char));
 
 	JniMethodInfo t;
-	if(JniHelper::getStaticMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "getInstance", "()Lcom/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper;")){
+	if(JniHelper::getStaticMethodInfo(t, XG_PACKAGE, "getInstance", "()Lcom/xgsdk/client/api/cocos2dx/XGSDKCocos2dxWrapper;")){
 		LOGI("PREPARE ENTER METHOD");
 		mXGEngine = t.env->CallStaticObjectMethod(t.classID, t.methodID);
 	}
@@ -69,11 +70,11 @@ void ProtocolXGSDK::prepare(){
 	LOGI("PREPARE END");
 }
 
-void ProtocolXGSDK::getChannelId(){
+void ProtocolXGSDK::getChannelId_(){
 	LOGI("GET CHANNELID BEGIN");
 	JniMethodInfo t;
 
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper","getChannelId", "()Ljava/lang/String;")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "getChannelId", "()Ljava/lang/String;")){
 		LOGI("ENTER GET CHANNELID METHOD");
 		if(mXGEngine == NULL){
 			LOGE("mXGEngine is NULL");
@@ -85,8 +86,8 @@ void ProtocolXGSDK::getChannelId(){
 	LOGI("GET CHANNELID EXIT");
 }
 
-char *ProtocolXGSDK::getChannelID(){
-	getChannelId();
+char *ProtocolXGSDK::getChannelId(){
+	getChannelId_();
 	return channelId;
 }
 
@@ -94,7 +95,7 @@ void ProtocolXGSDK::login(const char *msg){
 	LOGI("LOGIN BEGIN");
 	JniMethodInfo t;
 
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "login", "(Ljava/lang/String;)V")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "login", "(Ljava/lang/String;)V")){
 		LOGI("LOGIN ENTER METHOD");
 		jstring jtmp = stoJstring(t.env,"");
 		if(mXGEngine == NULL){
@@ -109,7 +110,7 @@ void ProtocolXGSDK::login(const char *msg){
 void ProtocolXGSDK::pay(PayInfo &payInfo){
 	LOGI("PAY BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "pay", "(Ljava/lang/String;IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "pay", "(Ljava/lang/String;IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
 		LOGI("ENTER PAY METHOD");
 		jstring juid = stoJstring(t.env, payInfo.uid);
 		jint jproductTotalPirce = payInfo.productTotalPirce;
@@ -125,6 +126,8 @@ void ProtocolXGSDK::pay(PayInfo &payInfo){
 		jstring jzoneName = stoJstring(t.env, payInfo.zoneName);
 		jstring jroleId = stoJstring(t.env, payInfo.roleId);
 		jstring jroleName = stoJstring(t.env, payInfo.roleName);
+		jstring jlevel = stoJstring(t.env, payInfo.level);
+		jstring jvipLevel = stoJstring(t.env, payInfo.vipLevel);
 		jstring jbalance = stoJstring(t.env, payInfo.balance);
 		jstring jgameOrderId = stoJstring(t.env, payInfo.gameOrderId);
 		jstring jext = stoJstring(t.env, payInfo.ext);
@@ -136,7 +139,7 @@ void ProtocolXGSDK::pay(PayInfo &payInfo){
 
 		t.env->CallVoidMethod(mXGEngine, t.methodID, juid, jproductTotalPirce, jproductCount,
 				jproductUnitPrice, jproductId, jproductName, jproductDesc, jcurrencyName,
-				jserverId, jserverName, jzoneId, jzoneName, jroleId, jroleName, jbalance, jgameOrderId,
+				jserverId, jserverName, jzoneId, jzoneName, jroleId, jroleName, jlevel, jvipLevel, jbalance, jgameOrderId,
 				jext, jnotifyURL);
 
 		t.env->DeleteLocalRef(juid);
@@ -150,6 +153,8 @@ void ProtocolXGSDK::pay(PayInfo &payInfo){
 		t.env->DeleteLocalRef(jzoneName);
 		t.env->DeleteLocalRef(jroleId);
 		t.env->DeleteLocalRef(jroleName);
+		t.env->DeleteLocalRef(jlevel);
+		t.env->DeleteLocalRef(jvipLevel);
 		t.env->DeleteLocalRef(jbalance);
 		t.env->DeleteLocalRef(jgameOrderId);
 		t.env->DeleteLocalRef(jext);
@@ -162,7 +167,7 @@ void ProtocolXGSDK::pay(PayInfo &payInfo){
 void ProtocolXGSDK::exit(const char *msg){
 	LOGI("EXIT BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "exit", "(Ljava/lang/String;)V")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "exit", "(Ljava/lang/String;)V")){
 		LOGI("ENTER EXIT METHOD");
 
 		if(mXGEngine == NULL){
@@ -177,7 +182,7 @@ void ProtocolXGSDK::exit(const char *msg){
 void ProtocolXGSDK::logout(const char *msg){
 	LOGI("LOGOUT BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "logout", "(Ljava/lang/String;)V")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "logout", "(Ljava/lang/String;)V")){
 		LOGI("LOGOUT ENTER METHOD");
 		if(mXGEngine == NULL){
 			LOGE("mXGEngine is NULL");
@@ -190,7 +195,7 @@ void ProtocolXGSDK::logout(const char *msg){
 void ProtocolXGSDK::switchAccount(const char *msg){
 	LOGI("SWITCHACCOUNT BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "switchAccount", "(Ljava/lang/String;)V")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "switchAccount", "(Ljava/lang/String;)V")){
 		LOGI("ENTER SWITCHACCOUNT METHOD");
 
 		if(mXGEngine == NULL){
@@ -243,7 +248,7 @@ void ProtocolXGSDK::onEnterGame(UserInfo &userInfo){
 void ProtocolXGSDK::onCreateRole(UserInfo &userInfo){
 	LOGI("ONCREATEROLE BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "onCreateRole", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onCreateRole", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
 		LOGI("ENTER ONCREATEROLE METHOD");
 		jstring jroleId = stoJstring(t.env, userInfo.roleId);
 		jstring jroleName = stoJstring(t.env, userInfo.roleName);
@@ -252,6 +257,10 @@ void ProtocolXGSDK::onCreateRole(UserInfo &userInfo){
 		jstring jvipLevel = stoJstring(t.env, userInfo.vipLevel);
 		jstring jbalance = stoJstring(t.env, userInfo.balance);
 		jstring jpartyName = stoJstring(t.env, userInfo.partyName);
+
+		if(mXGEngine == NULL){
+			LOGE("mXGEngine is NULL");
+		}
 
 		t.env->CallVoidMethod(mXGEngine, t.methodID, jroleId, jroleName, jgender, jlevel, jvipLevel, jbalance, jpartyName);
 
@@ -266,10 +275,67 @@ void ProtocolXGSDK::onCreateRole(UserInfo &userInfo){
 	LOGI("EXIT ONCREATEROLE");
 }
 
-void ProtocolXGSDK::openUserCenter(){
+void ProtocolXGSDK::onRoleLevelUp(UserInfo &userInfo){
+	LOGI("ON ROLE LEVEL UP BEGIN");
+	JniMethodInfo t;
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onRoleLevelup", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
+		LOGI("ON ROLE LEVEL UP ENTER METHOD");
+		jstring juid = stoJstring(t.env, userInfo.uid);
+		jstring juserName = stoJstring(t.env, userInfo.userName);
+		jstring jroleId = stoJstring(t.env, userInfo.roleId);
+    	jstring jroleName = stoJstring(t.env, userInfo.roleName);
+    	jstring jgender = stoJstring(t.env, userInfo.gender);
+    	jstring jlevel = stoJstring(t.env, userInfo.level);
+    	jstring jvipLevel = stoJstring(t.env, userInfo.vipLevel);
+    	jstring jbalance = stoJstring(t.env, userInfo.balance);
+    	jstring jpartyName = stoJstring(t.env, userInfo.partyName);
+    	jstring jserverId = stoJstring(t.env, userInfo.serverId);
+    	jstring jserverName = stoJstring(t.env, userInfo.serverName);
+
+		if(mXGEngine == NULL){
+			LOGE("mXGEngine is NULL");
+		}
+
+    	t.env->CallVoidMethod(mXGEngine, t.methodID, jroleId, jroleName, jgender, jlevel, jvipLevel, jbalance, jpartyName);
+
+    	t.env->DeleteLocalRef(juid);
+    	t.env->DeleteLocalRef(juserName);
+    	t.env->DeleteLocalRef(jroleId);
+    	t.env->DeleteLocalRef(jroleName);
+    	t.env->DeleteLocalRef(jgender);
+    	t.env->DeleteLocalRef(jlevel);
+    	t.env->DeleteLocalRef(jvipLevel);
+    	t.env->DeleteLocalRef(jbalance);
+    	t.env->DeleteLocalRef(jpartyName);
+    	t.env->DeleteLocalRef(jserverId);
+    	t.env->DeleteLocalRef(jserverName);
+
+	}
+	LOGI("EXIT ON ROLE LEVEL UP");
+}
+
+void ProtocolXGSDK::onEvent(const char *eventId){
+	LOGI("ON EVENT BEGIN");
+	JniMethodInfo t;
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onEvent", "(Ljava/lang/String;)V")){
+		LOGI("ON EVENT ENTER METHOD");
+		jstring jeventId = stoJstring(t.env, eventId);
+
+		if(mXGEngine == NULL){
+			LOGE("mXGEngine is NULL");
+		}
+
+		t.env->CallVoidMethod(mXGEngine, t.methodID, jeventId);
+
+		t.env->DeleteLocalRef(jeventId);
+	}
+	LOGI("EXIT ON EVENT");
+}
+
+void ProtocolXGSDK::openUserCenter(const char *msg){
 	LOGI("OPENUSERCENTER BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "openUserCenter", "()V")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "openUserCenter", "()V")){
 		LOGI("ENTER OPENUSERCENTER METHOD");
 
 		if(mXGEngine == NULL){
@@ -284,7 +350,7 @@ void ProtocolXGSDK::openUserCenter(){
 bool ProtocolXGSDK::isMethodSupport(const char *methodName){
 	LOGI("IS METHOD SUPPORT BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "isMethodSupport", "(Ljava/lang/String;)Z")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "isMethodSupport", "(Ljava/lang/String;)Z")){
 		LOGI("IS METHOD SUPPORT ENTER");
 		if(mXGEngine == NULL){
 			LOGE("mXGEngine is NULL");
@@ -300,7 +366,7 @@ bool ProtocolXGSDK::isMethodSupport(const char *methodName){
 void ProtocolXGSDK::showCocosNoChannelDialog(){
 	LOGI("SHOW_COCOS_NO_CHANNEL_DIALOG BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "showCocosNoChannelDialog","()V")){
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "showCocosNoChannelDialog","()V")){
 		LOGI("ENTER SHOW_COCOS_NO_CHANNEL_DIALOG METHOD");
 
 		if(mXGEngine == NULL){
@@ -319,7 +385,7 @@ void ProtocolXGSDK::releaseResource(){
 	delete this;
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLogoutSuccess
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLogoutSuccess
   (JNIEnv *env, jclass obj, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -329,7 +395,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLog
 	globalListener->onLogoutSuccess(XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLogoutFail
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLogoutFail
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -339,7 +405,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLog
 	globalListener->onLogoutFail(retCode, XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginSuccess
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLoginSuccess
   (JNIEnv *env, jclass obj, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -349,7 +415,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLog
 	globalListener->onLoginSuccess(XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginFail
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLoginFail
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -359,7 +425,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLog
 	globalListener->onLoginFail(retCode, XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginCancel
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLoginCancel
   (JNIEnv *env, jclass obj, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -369,7 +435,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLog
 	globalListener->onLoginCancel(XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onInitFail
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onInitFail
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -379,7 +445,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onIni
 	globalListener->onInitFail(retCode, XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onSuccess
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_onSuccess
   (JNIEnv *env, jclass obj, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -389,7 +455,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onSucc
 	globalListener->onPaySuccess(XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onFail
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_onFail
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -399,7 +465,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onFail
 	globalListener->onPayFail(retCode, XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onCancel
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_onCancel
   (JNIEnv *env, jclass obj, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -409,7 +475,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onCanc
 	globalListener->onPayCancel(XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onOthers
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_onOthers
   (JNIEnv *env, jclass obj, jint retCode, jstring msg){
 	free(XG_tmp);
 	XG_tmp = jstringTostr(env,msg);
@@ -419,7 +485,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onOthe
 	globalListener->onPayOthers(retCode, XG_tmp);
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onExit
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_cocos2dx_Cocos2dxExitCallBack_onExit
   (JNIEnv *, jclass){
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
@@ -427,7 +493,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onExi
 	globalListener->onExit();
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onNoChannelExiter
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxExitCallBack_onNoChannelExiter
   (JNIEnv *, jclass){
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");
@@ -435,7 +501,7 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onNoC
 	globalListener->onNoChannelExiter();
 }
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onCancel
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxExitCallBack_onCancel
   (JNIEnv *, jclass){
 	if(globalListener == NULL){
 		LOGE("globalListener is NULL");

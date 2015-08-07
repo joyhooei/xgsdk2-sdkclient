@@ -203,7 +203,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/AppDelegate.o: \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/support/data_support/uthash.h \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/support/component/CCComponent.h \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/support/component/CCComponentContainer.h \
- jni/../../Classes/HelloWorldScene.h \
+ jni/../../Classes/XGCocosDemo.h \
  jni/../../Classes/../proj.android/jni/hellocpp/ProtocolXGSDK.h \
  /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/jni.h \
  jni/../../Classes/AppMacros.h
@@ -616,7 +616,7 @@ jni/../../Classes/AppDelegate.h:
 
 /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/support/component/CCComponentContainer.h:
 
-jni/../../Classes/HelloWorldScene.h:
+jni/../../Classes/XGCocosDemo.h:
 
 jni/../../Classes/../proj.android/jni/hellocpp/ProtocolXGSDK.h:
 

@@ -5,6 +5,25 @@ obj/local/armeabi/objs/cocos2dcpp_shared/hellocpp/ProtocolXGSDK.o: \
  /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/cdefs_elf.h \
  /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/android/api-level.h \
  jni/hellocpp/ProtocolXGSDK.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/stdlib.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/string.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/malloc.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/alloca.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/strings.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/types.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/stdint.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/_types.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/machine/_types.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/_wchar_limits.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/linux/posix_types.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/linux/stddef.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/linux/compiler.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/asm/posix_types.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/asm/types.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/linux/types.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/machine/kernel.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/sysmacros.h \
+ /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/memory.h \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/platform/android/jni/JniHelper.h \
  /cygdrive/d/android-ndk-r10/sources/cxx-stl/gnu-libstdc++/4.6/include/string \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/platform/CCPlatformMacros.h \
@@ -27,10 +46,6 @@ obj/local/armeabi/objs/cocos2dcpp_shared/hellocpp/ProtocolXGSDK.o: \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/platform/CCCommon.h \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/platform/CCPlatformMacros.h \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/platform/android/CCStdC.h \
- /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/stdlib.h \
- /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/alloca.h \
- /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/strings.h \
- /cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/memory.h \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/cocoa/CCAffineTransform.h \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/cocoa/CCGeometry.h \
  /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/cocoa/CCArray.h \
@@ -220,6 +235,44 @@ obj/local/armeabi/objs/cocos2dcpp_shared/hellocpp/ProtocolXGSDK.o: \
 
 jni/hellocpp/ProtocolXGSDK.h:
 
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/stdlib.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/string.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/malloc.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/alloca.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/strings.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/types.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/stdint.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/_types.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/machine/_types.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/_wchar_limits.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/linux/posix_types.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/linux/stddef.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/linux/compiler.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/asm/posix_types.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/asm/types.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/linux/types.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/machine/kernel.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/sys/sysmacros.h:
+
+/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/memory.h:
+
 /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/platform/android/jni/JniHelper.h:
 
 /cygdrive/d/android-ndk-r10/sources/cxx-stl/gnu-libstdc++/4.6/include/string:
@@ -263,14 +316,6 @@ jni/hellocpp/ProtocolXGSDK.h:
 /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/platform/CCPlatformMacros.h:
 
 /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/platform/android/CCStdC.h:
-
-/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/stdlib.h:
-
-/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/alloca.h:
-
-/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/strings.h:
-
-/cygdrive/d/android-ndk-r10/platforms/android-19/arch-arm/usr/include/memory.h:
 
 /cygdrive/d/cocos2d-x-2.2.6/projects/CoCosDemo/proj.android/../../../cocos2dx/cocoa/CCAffineTransform.h:
 

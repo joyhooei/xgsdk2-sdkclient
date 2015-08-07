@@ -85,7 +85,7 @@ bool HelloWorld::init()
     mXgSdk->prepare();
     mTestListener = new XGSDKTestCallback();
     mXgSdk->setListener(mTestListener);
-    channelId = mXgSdk->getChannelID();
+    channelId = mXgSdk->getChannelId();
     CCMessageBox(channelId, "INFO");
 
     int x = origin.x+150;
@@ -115,15 +115,15 @@ void HelloWorld::pay(CCObject* pSender)
 {
     CCLOG("xgsdk call pay...");
     PayInfo payInfo;
-    payInfo.uid = "123";
+    payInfo.uid = "4fd0144f02840ae77b6f42346c90d8bd";
     payInfo.productTotalPirce = 1;
     payInfo.productCount = 1;
     payInfo.productUnitPrice = 1;
-    payInfo.productId = "p123";
-    payInfo.productName = "test product";
-    payInfo.productDesc = "for test";
-    payInfo.currencyName = "currencyName";
-    payInfo.serverId = "Aqu";
+    payInfo.productId = "payment017";
+    payInfo.productName = "大宝剑";
+    payInfo.productDesc = "倚天不出谁与争锋";
+    payInfo.currencyName = "元宝";
+    payInfo.serverId = "11";
     payInfo.serverName = "zhengfuzhihai";
     payInfo.zoneId = "zoneId";
     payInfo.zoneName = "zoneName";

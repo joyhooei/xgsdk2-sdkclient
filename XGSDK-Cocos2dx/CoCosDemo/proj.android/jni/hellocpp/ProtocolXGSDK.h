@@ -37,6 +37,8 @@ struct PayInfo{
 	const char *zoneName;
 	const char *roleId;
 	const char *roleName;
+	const char *level;
+	const char *vipLevel;
 	const char *balance;
 	const char *gameOrderId;
 	const char *ext;
@@ -80,7 +82,7 @@ private:
 	}
 public:
 	void prepare();
-	void getChannelId();
+	void getChannelId_();
 	void login(const char *msg = 0);
 	void pay(PayInfo &);
 	void exit(const char *msg = 0);
@@ -88,10 +90,12 @@ public:
 	void switchAccount(const char *msg = 0);
 	void onEnterGame(UserInfo &);
 	void onCreateRole(UserInfo &);
-	void openUserCenter();
+	void onRoleLevelUp(UserInfo &);
+	void onEvent(const char *eventId);
+	void openUserCenter(const char *msg = 0);
 	bool isMethodSupport(const char *);
 
-	char *getChannelID();
+	char *getChannelId();
 
 	void showCocosNoChannelDialog();
 	void setListener(XGSDKCallback *);
@@ -100,40 +104,40 @@ public:
 };
 
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLogoutSuccess
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLogoutSuccess
   (JNIEnv *, jclass, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLogoutFail
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLogoutFail
   (JNIEnv *, jclass, jint, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginSuccess
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLoginSuccess
   (JNIEnv *, jclass, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginFail
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLoginFail
   (JNIEnv *, jclass, jint, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onLoginCancel
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onLoginCancel
   (JNIEnv *, jclass, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxUserCallBack_onInitFail
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxUserCallBack_onInitFail
   (JNIEnv *, jclass, jint, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onSuccess
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_onSuccess
   (JNIEnv *, jclass, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onFail
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_onFail
   (JNIEnv *, jclass, jint, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxPayCallBack_onCancel
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_onCancel
   (JNIEnv *, jclass, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onExit
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxExitCallBack_onExit
   (JNIEnv *, jclass);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onNoChannelExiter
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxExitCallBack_onNoChannelExiter
   (JNIEnv *, jclass);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_cocos2dx_Cocos2dxExitCallBack_onCancel
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxExitCallBack_onCancel
   (JNIEnv *, jclass);
 
 
