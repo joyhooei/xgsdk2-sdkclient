@@ -18,7 +18,6 @@ import com.xgsdk.client.core.utils.XGLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.text.TextUtils;
 
 import java.util.HashMap;
@@ -159,6 +158,8 @@ public class XGSDKUnity3DWrapper {
      * @param zoneName
      * @param roleId
      * @param roleName
+     * @param level
+     * @param vipLevel
      * @param balance
      * @param gameOrderId
      * @param ext
@@ -170,7 +171,7 @@ public class XGSDKUnity3DWrapper {
             final String productDesc, final String currencyName,
             final String serverId, final String serverName,
             final String zoneId, final String zoneName, final String roleId,
-            final String roleName, final String balance,
+            final String roleName, final String level,final String vipLevel,final String balance,
             final String gameOrderId, final String ext, final String notifyURL) {
         XGLog.i(LOG_TAG, "pay");
         UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
@@ -468,7 +469,7 @@ public class XGSDKUnity3DWrapper {
     public void onMissionBegin(String uid, String username, String roleId,
             String roleName, String gender, String level, String vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, Activity activity, String missionName,
+            String serverName,String missionName,
             String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -497,7 +498,7 @@ public class XGSDKUnity3DWrapper {
                 XGLog.e("customParams is invalid." + customParams, e);
             }
         }
-        mSdk.onMissionBegin(activity, userInfo, roleInfo, serverInfo,
+        mSdk.onMissionBegin(UnityPlayer.currentActivity, userInfo, roleInfo, serverInfo,
                 missionName, customMap);
 
     }
@@ -525,7 +526,7 @@ public class XGSDKUnity3DWrapper {
     public void onMissionSuccess(String uid, String username, String roleId,
             String roleName, String gender, String level, String vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, Activity activity, String missionName,
+            String serverName, String missionName,
             String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -554,7 +555,7 @@ public class XGSDKUnity3DWrapper {
                 XGLog.e("customParams is invalid." + customParams, e);
             }
         }
-        mSdk.onMissionSuccess(activity, userInfo, roleInfo, serverInfo,
+        mSdk.onMissionSuccess(UnityPlayer.currentActivity, userInfo, roleInfo, serverInfo,
                 missionName, customMap);
 
     }
@@ -582,7 +583,7 @@ public class XGSDKUnity3DWrapper {
     public void onMissionFail(String uid, String username, String roleId,
             String roleName, String gender, String level, String vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, Activity activity, String missionName,
+            String serverName, String missionName,
             String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -611,7 +612,7 @@ public class XGSDKUnity3DWrapper {
                 XGLog.e("customParams is invalid." + customParams, e);
             }
         }
-        mSdk.onMissionFail(activity, userInfo, roleInfo, serverInfo,
+        mSdk.onMissionFail(UnityPlayer.currentActivity, userInfo, roleInfo, serverInfo,
                 missionName, customMap);
 
     }

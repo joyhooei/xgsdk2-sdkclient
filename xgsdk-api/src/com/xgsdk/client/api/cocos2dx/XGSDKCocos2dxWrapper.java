@@ -1,7 +1,6 @@
 
 package com.xgsdk.client.api.cocos2dx;
 
-import com.unity3d.player.UnityPlayer;
 import com.xgsdk.client.api.XGSDK;
 import com.xgsdk.client.api.callback.ExitCallBack;
 import com.xgsdk.client.api.callback.PayCallBack;
@@ -158,7 +157,7 @@ public class XGSDKCocos2dxWrapper {
             final String productDesc, final String currencyName,
             final String serverId, final String serverName,
             final String zoneId, final String zoneName, final String roleId,
-            final String roleName, final String balance,
+            final String roleName,final String level,final String vipLevel, final String balance,
             final String gameOrderId, final String ext, final String notifyURL) {
         XGLog.i(LOG_TAG, "pay");
         Cocos2dxPluginWrapper.runOnMainThread(new Runnable() {
@@ -365,7 +364,7 @@ public class XGSDKCocos2dxWrapper {
         GameServerInfo gameInfo = new GameServerInfo();
         gameInfo.setServerId(serverId);
         gameInfo.setServerName(serverName);
-        mSdk.onRoleLevelup(UnityPlayer.currentActivity, userInfo, roleInfo,
+        mSdk.onRoleLevelup(mActivity, userInfo, roleInfo,
                 gameInfo);
     }
 
@@ -450,7 +449,7 @@ public class XGSDKCocos2dxWrapper {
                 XGLog.e("customParams is invalid." + customParams, e);
             }
         }
-        mSdk.onEvent(UnityPlayer.currentActivity, userInfo, roleInfo, gameInfo,
+        mSdk.onEvent(mActivity, userInfo, roleInfo, gameInfo,
                 eventId, eventDesc, eventVal, bodyMap, customMap);
 
     }
@@ -478,7 +477,7 @@ public class XGSDKCocos2dxWrapper {
     public void onMissionBegin(String uid, String username, String roleId,
             String roleName, String gender, String level, String vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, Activity activity, String missionName,
+            String serverName, String missionName,
             String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -507,7 +506,7 @@ public class XGSDKCocos2dxWrapper {
                 XGLog.e("customParams is invalid." + customParams, e);
             }
         }
-        mSdk.onMissionBegin(activity, userInfo, roleInfo, serverInfo,
+        mSdk.onMissionBegin(mActivity, userInfo, roleInfo, serverInfo,
                 missionName, customMap);
 
     }
@@ -535,7 +534,7 @@ public class XGSDKCocos2dxWrapper {
     public void onMissionSuccess(String uid, String username, String roleId,
             String roleName, String gender, String level, String vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, Activity activity, String missionName,
+            String serverName, String missionName,
             String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -564,7 +563,7 @@ public class XGSDKCocos2dxWrapper {
                 XGLog.e("customParams is invalid." + customParams, e);
             }
         }
-        mSdk.onMissionSuccess(activity, userInfo, roleInfo, serverInfo,
+        mSdk.onMissionSuccess(mActivity, userInfo, roleInfo, serverInfo,
                 missionName, customMap);
 
     }
@@ -592,7 +591,7 @@ public class XGSDKCocos2dxWrapper {
     public void onMissionFail(String uid, String username, String roleId,
             String roleName, String gender, String level, String vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, Activity activity, String missionName,
+            String serverName, String missionName,
             String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -621,7 +620,7 @@ public class XGSDKCocos2dxWrapper {
                 XGLog.e("customParams is invalid." + customParams, e);
             }
         }
-        mSdk.onMissionFail(activity, userInfo, roleInfo, serverInfo,
+        mSdk.onMissionFail(mActivity, userInfo, roleInfo, serverInfo,
                 missionName, customMap);
 
     }
