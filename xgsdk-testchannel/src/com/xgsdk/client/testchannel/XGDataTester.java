@@ -9,51 +9,61 @@ import com.xgsdk.client.core.data.XGDataMonitor;
 
 
 public class XGDataTester implements XGDataMonitor {
-
-    @Override
-    public void setActivity(Activity currentActivity) {
-        // TODO Auto-generated method stub
-
+    
+    public XGDataTester() {
+        // TODO Auto-generated constructor stub
     }
 
     @Override
-    public void onResume() {
+    public void setActivity(Activity currentActivity, Object ext) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
-    public void onPause() {
+    public void onResume(Object ext) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
-    public void onDeviceConnect(Object message) {
+    public void onPause(Object ext) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
-    public void onAccountLogin(Object message) {
+    public void onDeviceConnect(Object ext) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
-    public void onRoleLogin(Object message) {
+    public void onAccountLogin(String accountId, String accountName, Object ext) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
-    public void onRoleMission(Object message) {
+    public void onRoleLogin(String accountId, String accountName,
+            String roleId, String roleName, String server, String serverName,
+            int roleLevel, String loginFlag, Object ext) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
-    public void onRoleLevelUp(Object message) {
+    public void onRoleLevelUp(String server, String accountId,
+            String accountName, String roleId, String roleName, int roleLevel,
+            Object ext) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onRoleMission(String server, String accountId,
+            String accountName, String roleId, String roleName, int roleLevel,
+            String missionName, String missionFlag, Object ext) {
         // TODO Auto-generated method stub
         
     }
@@ -61,10 +71,9 @@ public class XGDataTester implements XGDataMonitor {
     @Override
     public void onEvent(String eventId, String eventDesc, int eventVal,
             String accountId, String accountName,
-            Map<String, Object> eventBody, Map<String, Object> ext) {
+            Map<String, Object> eventBody, Object ext) {
         // TODO Auto-generated method stub
         
     }
-
 
 }

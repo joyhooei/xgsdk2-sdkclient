@@ -54,6 +54,10 @@ public class Head {
 
     ///////////////////////////////////////////////
     
+    private String batchDataId;
+    
+    private String batchTimestamp;
+    
     private String datasource;    
     
     private String channel;
@@ -95,10 +99,6 @@ public class Head {
     private String mac;
     
     private String deviceScreen;
-    
-    private String isJailBroken;
-    
-    private String isPirated;
 
     /**
      * @return the datasource
@@ -437,31 +437,31 @@ public class Head {
     }
 
     /**
-     * @return the isJailBroken
+     * @return the batchDataId
      */
-    public String getIsJailBroken() {
-        return isJailBroken;
+    public String getBatchDataId() {
+        return batchDataId;
     }
 
     /**
-     * @param isJailBroken the isJailBroken to set
+     * @param batchDataId the batchDataId to set
      */
-    public void setIsJailBroken(String isJailBroken) {
-        this.isJailBroken = isJailBroken;
+    public void setBatchDataId(String batchDataId) {
+        this.batchDataId = batchDataId;
     }
 
     /**
-     * @return the isPirated
+     * @return the batchTimestamp
      */
-    public String getIsPirated() {
-        return isPirated;
+    public String getBatchTimestamp() {
+        return batchTimestamp;
     }
 
     /**
-     * @param isPirated the isPirated to set
+     * @param batchTimestamp the batchTimestamp to set
      */
-    public void setIsPirated(String isPirated) {
-        this.isPirated = isPirated;
+    public void setBatchTimestamp(String batchTimestamp) {
+        this.batchTimestamp = batchTimestamp;
     }
 
 }

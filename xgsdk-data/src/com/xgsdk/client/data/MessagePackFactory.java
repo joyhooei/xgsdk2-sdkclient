@@ -36,25 +36,38 @@ class MessagePackFactory {
     
     private Activity activity;
     
-    private ExecutorService executorServce;
+    private ExecutorService packerServce;
     
     private ExecutorService sendService;
     
     private Bucket bucket;
     
+    private volatile boolean hurryUp;
+    
     /**
-     * 本次seessionId
+     * 本次会话seessionId
      */
     private String sessionId;
     
     MessagePackFactory() {
-        executorServce = Executors.newFixedThreadPool(2);
+        packerServce = Executors.newFixedThreadPool(2);
         sendService = Executors.newFixedThreadPool(2);
+        hurryUp = false;
         reloadSession();
     }
     
     void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    void start() {
+        hurryUp = false;
+        reloadSession();
+    }
+    
+    void tryOver() {
+        // 所有工作请快点弄完
+        hurryUp = true;
     }
     
     void reloadSession() {
@@ -67,8 +80,8 @@ class MessagePackFactory {
     }
     
     void handleCandy(MessagePacker candy) {
-        candy.setMsgSn("");
-        executorServce.execute(candy);
+        candy.setMsgSn(sessionId);
+        packerServce.execute(candy);
     }
     
     void addBucket(JSONObject objs) {
@@ -78,7 +91,7 @@ class MessagePackFactory {
                 bucket = createBucket();
             }
             bucket.addMessage(objs);
-            if (bucket.isReadyToSend()) {
+            if (hurryUp || bucket.isReadyToSend()) {
                 sendService.execute(new MessageSender(bucket));
                 bucket = null;
             }
@@ -87,7 +100,7 @@ class MessagePackFactory {
 
     Bucket createBucket() {
         initHead();
-        return new MemBucket(head);
+        return new MemBucket(head, XGInfo.getXGAppKey(activity));
     }
     
     void initHead() {
@@ -97,12 +110,15 @@ class MessagePackFactory {
         head.setDeviceId(XGInfo.getXGDeviceId(activity));
         head.setOs(MessagePackFactory.MESSAGE_OS);
         head.setOsVersion(SystemInfo.getAndroidSdkVersion(activity));
+        
+        // TODO
         head.setTimezone(8);
+        head.setCountry("CN");
+        head.setLanguage("zh");
+        
         head.setAppVersionCode(SystemInfo.getAppVersionCode(activity));
         head.setAppVersion(SystemInfo.getAppVersionName(activity));
         head.setCarrier(SystemInfo.getOperators(activity));
-        head.setCountry("?");
-        head.setLanguage("?");
         head.setXgVersion(XGInfo.getXGVersion(activity));
         head.setAppId(XGInfo.getXGAppId(activity));
         head.setCpuFreq(SystemInfo.getCpu(activity));
@@ -112,7 +128,6 @@ class MessagePackFactory {
         head.setImei(SystemInfo.getIMEI(activity));
         head.setImsi(SystemInfo.getIMSI(activity));
         head.setMac(SystemInfo.getMacAddress(activity));
-        head.setDeviceScreen("?");
     }
     
 

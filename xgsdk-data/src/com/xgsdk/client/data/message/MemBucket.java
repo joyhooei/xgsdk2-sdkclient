@@ -1,7 +1,11 @@
 package com.xgsdk.client.data.message;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.xgsdk.client.core.utils.MD5Util;
 import com.xgsdk.client.data.Config;
+import com.xgsdk.client.data.DateUtil;
 
 
 
@@ -13,21 +17,36 @@ import com.xgsdk.client.data.Config;
  */
 public class MemBucket extends AbsBucket {
 
-    protected MessageEntity message;
+    protected Head head;
     
-    public MemBucket(Head head) {
+    protected JSONArray content;
+    
+    protected String appKey;
+    
+    public MemBucket(Head head, String appKey) {
         super();
-        message = new MessageEntity(head);
+        this.head = head;
+        this.content = new JSONArray();
     }
     
     @Override
     public void addMessage(Object msg) {
-        message.getContent().add(msg);
+        content.add(msg);
     }
 
     @Override
     public String getContent() {
-        return JSON.toJSONString(message);
+        // 加时间戳
+        head.setBatchTimestamp(DateUtil.nowDataTime());
+        // 加sign
+        String contentStr = JSON.toJSONString(content);
+        head.setSign(MD5Util.md5(contentStr + appKey));
+        
+        JSONObject ob = new JSONObject();
+        ob.put("head", head);
+        ob.put("content", contentStr);
+        
+        return JSON.toJSONString(ob);
     }
     
     @Override
@@ -35,7 +54,7 @@ public class MemBucket extends AbsBucket {
         if(super.isReadyToSend()) {
             return true;
         }
-        return message.getContent().size() > Config.maxMsgSize;
+        return content.size() > Config.maxMsgSize;
     }
 
     @Override
