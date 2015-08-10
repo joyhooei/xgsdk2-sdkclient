@@ -171,7 +171,7 @@ public class XGSDKUnity3DWrapper {
             final String productDesc, final String currencyName,
             final String serverId, final String serverName,
             final String zoneId, final String zoneName, final String roleId,
-            final String roleName, final String level, final int vipLevel,
+            final String roleName, final int level, final int vipLevel,
             final String balance, final String gameOrderId, final String ext,
             final String notifyURL) {
         XGLog.i(LOG_TAG, "pay");
@@ -197,6 +197,8 @@ public class XGSDKUnity3DWrapper {
                 payment.setBalance(balance);
                 payment.setGameOrderId(gameOrderId);
                 payment.setServerName(serverName);
+                payment.setVipLevel(vipLevel);
+                payment.setLevel(level);
                 payment.setNotifyURL(notifyURL);
                 mSdk.pay(UnityPlayer.currentActivity, payment,
                         new PayCallBack() {
