@@ -1,9 +1,5 @@
-package com.xgsdk.client.data;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+package com.xgsdk.client.data;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xgsdk.client.core.SystemInfo;
@@ -12,50 +8,48 @@ import com.xgsdk.client.core.utils.MD5Util;
 import com.xgsdk.client.data.message.Bucket;
 import com.xgsdk.client.data.message.Head;
 import com.xgsdk.client.data.message.MemBucket;
-import com.xgsdk.client.data.message.MessageEntity;
 
 import android.app.Activity;
 
-
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
- * 
- * 
- * 
  * @author yinlong
  */
 class MessagePackFactory {
-    
+
     private static final String MESSAGE_SOURCE = "client";
-    
+
     private static final String MESSAGE_OS = "android";
-    
+
     private static final Object LOCK = new Object();
-    
+
     private Head head;
-    
+
     private Activity activity;
-    
+
     private ExecutorService packerServce;
-    
+
     private ExecutorService sendService;
-    
+
     private Bucket bucket;
-    
+
     private volatile boolean hurryUp;
-    
+
     /**
      * 本次会话seessionId
      */
     private String sessionId;
-    
+
     MessagePackFactory() {
         packerServce = Executors.newFixedThreadPool(2);
         sendService = Executors.newFixedThreadPool(2);
         hurryUp = false;
         reloadSession();
     }
-    
+
     void setActivity(Activity activity) {
         this.activity = activity;
     }
@@ -64,26 +58,26 @@ class MessagePackFactory {
         hurryUp = false;
         reloadSession();
     }
-    
+
     void tryOver() {
         // 所有工作请快点弄完
         hurryUp = true;
     }
-    
+
     void reloadSession() {
         sessionId = "session" + MD5Util.md5(generatorUUID());
     }
-    
+
     String generatorUUID() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }
-    
+
     void handleCandy(MessagePacker candy) {
         candy.setMsgSn(sessionId);
         packerServce.execute(candy);
     }
-    
+
     void addBucket(JSONObject objs) {
         synchronized (LOCK) {
             if (null == bucket) {
@@ -102,7 +96,7 @@ class MessagePackFactory {
         initHead();
         return new MemBucket(head, XGInfo.getXGAppKey(activity));
     }
-    
+
     void initHead() {
         head = new Head();
         head.setDatasource(MessagePackFactory.MESSAGE_SOURCE);
@@ -110,12 +104,12 @@ class MessagePackFactory {
         head.setDeviceId(XGInfo.getXGDeviceId(activity));
         head.setOs(MessagePackFactory.MESSAGE_OS);
         head.setOsVersion(SystemInfo.getAndroidSdkVersion(activity));
-        
+
         // TODO
         head.setTimezone(8);
         head.setCountry("CN");
         head.setLanguage("zh");
-        
+
         head.setAppVersionCode(SystemInfo.getAppVersionCode(activity));
         head.setAppVersion(SystemInfo.getAppVersionName(activity));
         head.setCarrier(SystemInfo.getOperators(activity));
@@ -129,6 +123,5 @@ class MessagePackFactory {
         head.setImsi(SystemInfo.getIMSI(activity));
         head.setMac(SystemInfo.getMacAddress(activity));
     }
-    
 
 }

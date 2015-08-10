@@ -20,8 +20,8 @@ public class PayInfo {
     private String notifyURL;
     private String roleId;
     private String roleName;
-    private String level;
-    private String vipLevel;
+    private int level;
+    private int vipLevel;
     private String serverId;
     private String serverName;
     private String balance;
@@ -187,19 +187,19 @@ public class PayInfo {
         this.serverName = serverName;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
-    public String getVipLevel() {
+    public int getVipLevel() {
         return vipLevel;
     }
 
-    public void setVipLevel(String vipLevel) {
+    public void setVipLevel(int vipLevel) {
         this.vipLevel = vipLevel;
     }
 

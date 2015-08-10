@@ -1,3 +1,4 @@
+
 package com.xgsdk.client.data;
 
 import com.alibaba.fastjson.JSON;
@@ -6,33 +7,28 @@ import com.xgsdk.client.data.message.MessageType;
 
 import java.util.Map;
 
-
-
 /**
- * 
- * 
- * 
  * @author yinlong
  */
 public class MessagePacker implements Runnable {
 
     private Object sourceMessage;
-    
+
     private MessageType messageType;
-    
+
     private long ts;
-    
+
     /**
      * 本次消息包uuid
      */
     private String msgSn;
-    
+
     public MessagePacker(Object sourceMessage, MessageType messageType) {
         this.sourceMessage = sourceMessage;
         this.messageType = messageType;
         this.ts = DateUtil.nowTs();
     }
-    
+
     void setMsgSn(String msgSn) {
         this.msgSn = msgSn;
     }
@@ -41,7 +37,7 @@ public class MessagePacker implements Runnable {
     public void run() {
         packCandy();
     }
-    
+
     void packCandy() {
         JSONObject jsob = null;
         if (sourceMessage instanceof JSONObject) {
@@ -55,13 +51,13 @@ public class MessagePacker implements Runnable {
                 jsob = null;
             }
         }
-        
+
         if (null == jsob) {
             // 不知道发的什么过来
             return;
         }
     }
-    
+
     void packCandy0(JSONObject jsob) {
         jsob.put(Config.msgType, messageType.getType());
         jsob.put(Config.msgSn, msgSn);
@@ -69,7 +65,7 @@ public class MessagePacker implements Runnable {
     }
 
     void putBucket(JSONObject jsob) {
-        
+
     }
-    
+
 }

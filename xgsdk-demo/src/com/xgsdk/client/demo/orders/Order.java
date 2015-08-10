@@ -25,5 +25,4 @@ public class Order {
         this.status = status;
     }
 
-    
 }

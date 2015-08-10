@@ -4,8 +4,8 @@ package com.xgsdk.client.api.entity;
 public class RoleInfo {
 
     private String balance;
-    private String level;
-    private String vipLevel;
+    private int level;
+    private int vipLevel;
     private String roleId;
     private String roleName;
     private String partyName;
@@ -19,19 +19,19 @@ public class RoleInfo {
         this.balance = balance;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
-    public String getVipLevel() {
+    public int getVipLevel() {
         return vipLevel;
     }
 
-    public void setVipLevel(String vipLevel) {
+    public void setVipLevel(int vipLevel) {
         this.vipLevel = vipLevel;
     }
 

@@ -1,3 +1,4 @@
+
 package com.xgsdk.client.data;
 
 import com.xgsdk.client.core.http.HttpUtils;
@@ -6,15 +7,15 @@ import com.xgsdk.client.core.utils.XGLog;
 import com.xgsdk.client.data.message.Bucket;
 
 public class MessageSender implements Runnable, IHttpExecuteCallback {
-    
+
     private Bucket bucket;
-    
+
     private Boolean isSuc;
-    
+
     private long startTs;
-    
+
     private long overTs;
-    
+
     public MessageSender(Bucket bucket) {
         this.bucket = bucket;
     }
@@ -22,7 +23,7 @@ public class MessageSender implements Runnable, IHttpExecuteCallback {
     @Override
     public void run() {
         String content = bucket.getContent();
-        try {            
+        try {
             startTs = DateUtil.nowTs();
             HttpUtils.executeHttpPost(Config.dataHost, content, this);
         } catch (Throwable t) {

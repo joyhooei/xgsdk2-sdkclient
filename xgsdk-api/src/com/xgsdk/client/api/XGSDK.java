@@ -77,7 +77,6 @@ public class XGSDK {
     public void onDestory(Activity activity) {
         try {
             mXGChannel.onDestory(activity);
-            Statistics.onDestory(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onDestory " + " error ", e);
         }
@@ -104,7 +103,6 @@ public class XGSDK {
     public void onStart(Activity activity) {
         try {
             mXGChannel.onStart(activity);
-            Statistics.onStart(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onStart " + " error ", e);
         }
@@ -113,7 +111,6 @@ public class XGSDK {
     public void onRestart(Activity activity) {
         try {
             mXGChannel.onRestart(activity);
-            Statistics.onRestart(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onRestart " + " error ", e);
         }
@@ -122,7 +119,6 @@ public class XGSDK {
     public void onStop(Activity activity) {
         try {
             mXGChannel.onStop(activity);
-            Statistics.onStop(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onStop " + " error ", e);
         }
@@ -131,7 +127,6 @@ public class XGSDK {
     public void onNewIntent(Activity activity, Intent intent) {
         try {
             mXGChannel.onNewIntent(activity, intent);
-            Statistics.onNewIntent(activity, intent);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onNewIntent " + " error ", e);
         }
@@ -141,8 +136,6 @@ public class XGSDK {
             int resultCode, Intent data) {
         try {
             mXGChannel
-                    .onActivityResult(activity, requestCode, resultCode, data);
-            Statistics
                     .onActivityResult(activity, requestCode, resultCode, data);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onActivityResult " + " error ",
@@ -162,7 +155,6 @@ public class XGSDK {
     public void init(Activity activity) {
         try {
             mXGChannel.init(activity);
-            Statistics.init(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " init " + " error ", e);
         }
@@ -290,8 +282,7 @@ public class XGSDK {
 
     public void onEvent(Activity activity, XGUser user, RoleInfo roleInfo,
             GameServerInfo serverInfo, String eventId, String eventDesc,
-            int eventVal, Map<String, Object> eventBody,
-            Map<String, Object> customParams) {
+            int eventVal, Map<String, Object> eventBody, String customParams) {
         try {
             Statistics.onEvent(activity, user, roleInfo, serverInfo, eventId,
                     eventDesc, eventVal, eventBody, customParams);
@@ -302,7 +293,7 @@ public class XGSDK {
 
     public void onMissionBegin(Activity activity, XGUser user,
             RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
-            Map<String, Object> customParams) {
+            String customParams) {
         try {
             Statistics.onMissionBegin(activity, user, roleInfo, serverInfo,
                     missionName, customParams);
@@ -313,7 +304,7 @@ public class XGSDK {
 
     public void onMissionSuccess(Activity activity, XGUser user,
             RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
-            Map<String, Object> customParams) {
+            String customParams) {
         try {
             Statistics.onMissionSuccess(activity, user, roleInfo, serverInfo,
                     missionName, customParams);
@@ -324,7 +315,7 @@ public class XGSDK {
 
     public void onMissionFail(Activity activity, XGUser user,
             RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
-            Map<String, Object> customParams) {
+            String customParams) {
         try {
             Statistics.onMissionFail(activity, user, roleInfo, serverInfo,
                     missionName, customParams);

@@ -1,3 +1,4 @@
+
 package com.xgsdk.client.data.message;
 
 import com.alibaba.fastjson.JSON;
@@ -6,14 +7,14 @@ import com.alibaba.fastjson.JSONArray;
 public class MessageEntity {
 
     private Head head;
-    
+
     private JSONArray content;
-    
+
     public MessageEntity(Head head) {
         this.head = head;
         this.content = new JSONArray();
     }
-    
+
     public String getSendContent() {
         return JSON.toJSONString(this);
     }
@@ -45,5 +46,5 @@ public class MessageEntity {
     public void setContent(JSONArray content) {
         this.content = content;
     }
-    
+
 }

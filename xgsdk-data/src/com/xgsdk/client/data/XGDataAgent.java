@@ -42,7 +42,8 @@ public class XGDataAgent implements XGDataMonitor {
 
     @Override
     public void onDeviceConnect(Object ext) {
-        MessagePacker packer = new MessagePacker(ext, MessageType.DEVICE_CONNECT);
+        MessagePacker packer = new MessagePacker(ext,
+                MessageType.DEVICE_CONNECT);
         handleMessage(packer);
     }
 
@@ -51,7 +52,8 @@ public class XGDataAgent implements XGDataMonitor {
         JSONObject jsob = new JSONObject();
         jsob.put("accountId", accountId);
         jsob.put("accountName", accountName);
-        MessagePacker packer = new MessagePacker(jsob, MessageType.ACCOUNT_LOGIN);
+        MessagePacker packer = new MessagePacker(jsob,
+                MessageType.ACCOUNT_LOGIN);
         handleMessage(packer);
     }
 
@@ -83,7 +85,8 @@ public class XGDataAgent implements XGDataMonitor {
         jsob.put("roleId", roleId);
         jsob.put("roleName", roleName);
         jsob.put("roleLevel", roleLevel);
-        MessagePacker packer = new MessagePacker(jsob, MessageType.ROLE_LEVEL_CHANGE);
+        MessagePacker packer = new MessagePacker(jsob,
+                MessageType.ROLE_LEVEL_CHANGE);
         handleMessage(packer);
     }
 
@@ -122,7 +125,8 @@ public class XGDataAgent implements XGDataMonitor {
 
     @Override
     public void onResume(Object ext) {
-        factory.start();;
+        factory.start();
+        ;
     }
 
     @Override

@@ -157,8 +157,9 @@ public class XGSDKCocos2dxWrapper {
             final String productDesc, final String currencyName,
             final String serverId, final String serverName,
             final String zoneId, final String zoneName, final String roleId,
-            final String roleName,final String level,final String vipLevel, final String balance,
-            final String gameOrderId, final String ext, final String notifyURL) {
+            final String roleName, final int level, final int vipLevel,
+            final String balance, final String gameOrderId, final String ext,
+            final String notifyURL) {
         XGLog.i(LOG_TAG, "pay");
         Cocos2dxPluginWrapper.runOnMainThread(new Runnable() {
 
@@ -314,7 +315,7 @@ public class XGSDKCocos2dxWrapper {
      * 进入游戏后向渠道传递用户信息
      */
     public void onEnterGame(String uid, String username, String roleId,
-            String roleName, String gender, String level, String vipLevel,
+            String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId, String serverName) {
         XGLog.i(LOG_TAG, "login success,tell userinfo to sdk");
         XGUser userInfo = new XGUser();
@@ -335,7 +336,7 @@ public class XGSDKCocos2dxWrapper {
     }
 
     public void onCreateRole(String roleId, String roleName, String gender,
-            String level, String vipLevel, String balance, String partyName) {
+            int level, int vipLevel, String balance, String partyName) {
         XGLog.i(LOG_TAG, "onCreateRole");
         RoleInfo info = new RoleInfo();
         info.setBalance(balance);
@@ -349,7 +350,7 @@ public class XGSDKCocos2dxWrapper {
     }
 
     public void onRoleLevelup(String uid, String username, String roleId,
-            String roleName, String gender, String level, String vipLevel,
+            String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId, String serverName) {
         XGLog.i(LOG_TAG, "onRoleLevelup");
         XGUser userInfo = new XGUser();
@@ -366,20 +367,19 @@ public class XGSDKCocos2dxWrapper {
         GameServerInfo gameInfo = new GameServerInfo();
         gameInfo.setServerId(serverId);
         gameInfo.setServerName(serverName);
-        mSdk.onRoleLevelup(mActivity, userInfo, roleInfo,
-                gameInfo);
+        mSdk.onRoleLevelup(mActivity, userInfo, roleInfo, gameInfo);
     }
 
     /**
      * 访问用户中心
      */
-    public void openUserCenter() {
+    public void openUserCenter(final String customParams) {
         XGLog.i(LOG_TAG, "openUserCenter");
         Cocos2dxPluginWrapper.runOnMainThread(new Runnable() {
 
             @Override
             public void run() {
-                mSdk.openUserCenter(mActivity, "");
+                mSdk.openUserCenter(mActivity, customParams);
             }
         });
     }
@@ -407,7 +407,7 @@ public class XGSDKCocos2dxWrapper {
      * @throws
      */
     public void onEvent(String uid, String username, String roleId,
-            String roleName, String gender, String level, String vipLevel,
+            String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId,
             String serverName, String eventId, String eventDesc, int eventVal,
             String eventBody, String customParams) {
@@ -438,21 +438,8 @@ public class XGSDKCocos2dxWrapper {
                 XGLog.e("eventBody is invalid." + eventBody, e);
             }
         }
-        HashMap<String, Object> customMap = new HashMap<String, Object>();
-        if (!TextUtils.isEmpty(customParams)) {
-            try {
-                JSONObject custom = new JSONObject(customParams);
-                Iterator<String> keys = custom.keys();
-                while (keys.hasNext()) {
-                    String key = (String) keys.next();
-                    customMap.put(key, custom.opt(key));
-                }
-            } catch (JSONException e) {
-                XGLog.e("customParams is invalid." + customParams, e);
-            }
-        }
-        mSdk.onEvent(mActivity, userInfo, roleInfo, gameInfo,
-                eventId, eventDesc, eventVal, bodyMap, customMap);
+        mSdk.onEvent(mActivity, userInfo, roleInfo, gameInfo, eventId,
+                eventDesc, eventVal, bodyMap, customParams);
 
     }
 
@@ -477,10 +464,9 @@ public class XGSDKCocos2dxWrapper {
      * @throws
      */
     public void onMissionBegin(String uid, String username, String roleId,
-            String roleName, String gender, String level, String vipLevel,
+            String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, String missionName,
-            String customParams) {
+            String serverName, String missionName, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -495,21 +481,8 @@ public class XGSDKCocos2dxWrapper {
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
         serverInfo.setServerName(serverName);
-        HashMap<String, Object> customMap = new HashMap<String, Object>();
-        if (!TextUtils.isEmpty(customParams)) {
-            try {
-                JSONObject custom = new JSONObject(customParams);
-                Iterator<String> keys = custom.keys();
-                while (keys.hasNext()) {
-                    String key = (String) keys.next();
-                    customMap.put(key, custom.opt(key));
-                }
-            } catch (JSONException e) {
-                XGLog.e("customParams is invalid." + customParams, e);
-            }
-        }
         mSdk.onMissionBegin(mActivity, userInfo, roleInfo, serverInfo,
-                missionName, customMap);
+                missionName, customParams);
 
     }
 
@@ -534,10 +507,9 @@ public class XGSDKCocos2dxWrapper {
      * @throws
      */
     public void onMissionSuccess(String uid, String username, String roleId,
-            String roleName, String gender, String level, String vipLevel,
+            String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, String missionName,
-            String customParams) {
+            String serverName, String missionName, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -552,21 +524,8 @@ public class XGSDKCocos2dxWrapper {
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
         serverInfo.setServerName(serverName);
-        HashMap<String, Object> customMap = new HashMap<String, Object>();
-        if (!TextUtils.isEmpty(customParams)) {
-            try {
-                JSONObject custom = new JSONObject(customParams);
-                Iterator<String> keys = custom.keys();
-                while (keys.hasNext()) {
-                    String key = (String) keys.next();
-                    customMap.put(key, custom.opt(key));
-                }
-            } catch (JSONException e) {
-                XGLog.e("customParams is invalid." + customParams, e);
-            }
-        }
         mSdk.onMissionSuccess(mActivity, userInfo, roleInfo, serverInfo,
-                missionName, customMap);
+                missionName, customParams);
 
     }
 
@@ -591,10 +550,9 @@ public class XGSDKCocos2dxWrapper {
      * @throws
      */
     public void onMissionFail(String uid, String username, String roleId,
-            String roleName, String gender, String level, String vipLevel,
+            String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, String missionName,
-            String customParams) {
+            String serverName, String missionName, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -609,21 +567,8 @@ public class XGSDKCocos2dxWrapper {
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
         serverInfo.setServerName(serverName);
-        HashMap<String, Object> customMap = new HashMap<String, Object>();
-        if (!TextUtils.isEmpty(customParams)) {
-            try {
-                JSONObject custom = new JSONObject(customParams);
-                Iterator<String> keys = custom.keys();
-                while (keys.hasNext()) {
-                    String key = (String) keys.next();
-                    customMap.put(key, custom.opt(key));
-                }
-            } catch (JSONException e) {
-                XGLog.e("customParams is invalid." + customParams, e);
-            }
-        }
         mSdk.onMissionFail(mActivity, userInfo, roleInfo, serverInfo,
-                missionName, customMap);
+                missionName, customParams);
 
     }
 

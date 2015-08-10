@@ -1,6 +1,23 @@
 
 package com.xgsdk.client.demo;
 
+import com.xgsdk.client.api.XGSDK;
+import com.xgsdk.client.api.callback.ExitCallBack;
+import com.xgsdk.client.api.callback.PayCallBack;
+import com.xgsdk.client.api.callback.UserCallBack;
+import com.xgsdk.client.api.entity.GameServerInfo;
+import com.xgsdk.client.api.entity.PayInfo;
+import com.xgsdk.client.api.entity.RoleInfo;
+import com.xgsdk.client.api.entity.XGUser;
+import com.xgsdk.client.core.XGInfo;
+import com.xgsdk.client.core.service.ICallback;
+import com.xgsdk.client.core.service.Result;
+import com.xgsdk.client.demo.orders.OrderUtils;
+import com.xgsdk.client.demo.orders.OrdersActivity;
+import com.xgsdk.client.demo.utils.AuthUtil;
+import com.xgsdk.client.demo.utils.RUtil;
+import com.xgsdk.client.demo.utils.ToastUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,23 +37,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
-
-import com.xgsdk.client.api.XGSDK;
-import com.xgsdk.client.api.callback.ExitCallBack;
-import com.xgsdk.client.api.callback.PayCallBack;
-import com.xgsdk.client.api.callback.UserCallBack;
-import com.xgsdk.client.api.entity.GameServerInfo;
-import com.xgsdk.client.api.entity.PayInfo;
-import com.xgsdk.client.api.entity.RoleInfo;
-import com.xgsdk.client.api.entity.XGUser;
-import com.xgsdk.client.core.XGInfo;
-import com.xgsdk.client.core.service.ICallback;
-import com.xgsdk.client.core.service.Result;
-import com.xgsdk.client.demo.orders.OrderUtils;
-import com.xgsdk.client.demo.orders.OrdersActivity;
-import com.xgsdk.client.demo.utils.AuthUtil;
-import com.xgsdk.client.demo.utils.RUtil;
-import com.xgsdk.client.demo.utils.ToastUtil;
 
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
@@ -169,7 +169,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onClick(View v) {
-                        mRoleInfo.setLevel("2");
+                        mRoleInfo.setLevel(2);
                         XGSDK.getInstance().onRoleLevelup(MainActivity.this,
                                 mUser, mRoleInfo, mServerInfo);
                     }

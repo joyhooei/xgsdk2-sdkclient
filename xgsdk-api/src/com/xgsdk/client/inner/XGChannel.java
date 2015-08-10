@@ -1,12 +1,6 @@
 
 package com.xgsdk.client.inner;
 
-import java.util.HashMap;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-
 import com.xgsdk.client.api.callback.ExitCallBack;
 import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.callback.UserCallBack;
@@ -19,6 +13,12 @@ import com.xgsdk.client.core.service.PayService;
 import com.xgsdk.client.core.service.Result;
 import com.xgsdk.client.core.utils.CommonUtils;
 import com.xgsdk.client.core.utils.XGLog;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+
+import java.util.HashMap;
 
 public abstract class XGChannel {
 

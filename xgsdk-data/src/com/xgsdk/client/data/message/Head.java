@@ -1,103 +1,82 @@
+
 package com.xgsdk.client.data.message;
 
-
-
 /**
- * 
  * 消息头
  * 
  * @author yinlong
  */
 public class Head {
-    
+
     /*
-     *  "head": {
-        "batchTimestamp": "2014-12-07 19:17:29.001+08", 
-        "datasource": "client", 
-        "sign": "0ca175b9c0f726a831d895e269332461", 
-        "channel": "mi", 
-        "deviceId": "599a830eb0019b421ce35ec4a80e0e71", 
-        "os": "android", 
-        "network": "wifi", 
-        "osVersion": "3.4b5", 
-        "timezone": 8, 
-        "appVersionCode": 1, 
-        "appVersion": "1.0", 
-        "carrier": "中国移动", 
-        "country": "CN", 
-        "language": "zh", 
-        "xgVersion": "2.0", 
-        "appId": "1024", 
-        "cpuFreq": "MSM8974 2457600", 
-        "memTotal": "2931056", 
-        "deviceBrand": "Xiaomi", 
-        "deviceModel": "MI 4LTE", 
-        "cpu": "ARMv7 Processor rev 2 (v7l)", 
-        "imei": "869630010064289", 
-        "imsi": "460029015211772", 
-        "mac": "c4:6a:b7:a3:92:74", 
-        "deviceScreen": "720*1280", 
-        "isJailBroken": "F", 
-        "isPirated": "F"
-    }
+     * "head": { "batchTimestamp": "2014-12-07 19:17:29.001+08", "datasource":
+     * "client", "sign": "0ca175b9c0f726a831d895e269332461", "channel": "mi",
+     * "deviceId": "599a830eb0019b421ce35ec4a80e0e71", "os": "android",
+     * "network": "wifi", "osVersion": "3.4b5", "timezone": 8, "appVersionCode":
+     * 1, "appVersion": "1.0", "carrier": "中国移动", "country": "CN", "language":
+     * "zh", "xgVersion": "2.0", "appId": "1024", "cpuFreq": "MSM8974 2457600",
+     * "memTotal": "2931056", "deviceBrand": "Xiaomi", "deviceModel": "MI 4LTE",
+     * "cpu": "ARMv7 Processor rev 2 (v7l)", "imei": "869630010064289", "imsi":
+     * "460029015211772", "mac": "c4:6a:b7:a3:92:74", "deviceScreen":
+     * "720*1280", "isJailBroken": "F", "isPirated": "F" }
      */
-    
-    //////////////////////////////////////////////
-    
+
+    // ////////////////////////////////////////////
+
     // 需要及时更新的字段
-    
+
     private String sign;
-    
+
     private String network;
-    
+
     private String carrier;
 
-    ///////////////////////////////////////////////
-    
+    // /////////////////////////////////////////////
+
     private String batchDataId;
-    
+
     private String batchTimestamp;
-    
-    private String datasource;    
-    
+
+    private String datasource;
+
     private String channel;
-    
+
     private String deviceId;
-    
+
     private String os;
-    
+
     private String osVersion;
-    
+
     private int timezone;
-    
+
     private int appVersionCode;
-    
+
     private String appVersion;
-    
+
     private String country;
-    
+
     private String language;
-    
+
     private String xgVersion;
-    
+
     private String appId;
-    
+
     private String cpuFreq;
-    
+
     private String memTotal;
-    
+
     private String deviceBrand;
-    
+
     private String deviceModel;
-    
+
     private String cpu;
-    
+
     private String imei;
-    
+
     private String imsi;
-    
+
     private String mac;
-    
+
     private String deviceScreen;
 
     /**
