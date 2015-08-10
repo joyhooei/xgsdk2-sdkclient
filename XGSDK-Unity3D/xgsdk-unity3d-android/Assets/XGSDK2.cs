@@ -71,16 +71,16 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk pay...");
 			#if UNITY_ANDROID
-			Debug.Log("call xgsdk set messageObj..." + pay.UserID + pay.ProductTotalprice + pay.ProductCount + 
+			Debug.Log("call xgsdk set messageObj..." + pay.Uid + pay.ProductTotalPrice + pay.ProductCount + 
 			          pay.ProductUnitPrice + pay.ProductId + 
 			          pay.ProductName + pay.ProductDesc + 
 			          pay.CurrencyName + pay.ServerId + pay.ServerName + pay.ZoneId + pay.ZoneName +
-			          pay.RoleId + pay.RoleName + pay.Level + pay.VipLevel + pay.Balance + pay.GameOrderId + pay.Ext + pay.NotifyURL);
-			callSdkApi("pay",pay.UserID, pay.ProductTotalprice, pay.ProductCount, 
+			          pay.RoleId + pay.RoleName + pay.Level + pay.VipLevel + pay.GameTradeNo + pay.Ext + pay.GameCallBackURL);
+			callSdkApi("pay",pay.Uid, pay.ProductTotalPrice, pay.ProductCount, 
 			           pay.ProductUnitPrice, pay.ProductId, 
 			           pay.ProductName, pay.ProductDesc, 
 			           pay.CurrencyName, pay.ServerId, pay.ServerName,pay.ZoneId, pay.ZoneName,
-			           pay.RoleId, pay.RoleName, pay.Level, pay.VipLevel, pay.Balance, pay.GameOrderId, pay.Ext, pay.NotifyURL);
+			           pay.RoleId, pay.RoleName, pay.Level, pay.VipLevel, pay.GameTradeNo, pay.Ext, pay.GameCallBackURL);
 			#endif
 		}
 
@@ -108,7 +108,7 @@ namespace XGSDK2
 
 
 		//切换账号时调用
-		public static void switchAccount()
+		public static void switchAccount(string customParams)
 		{
 			Debug.Log("call xgsdk switchAccount...");    
 			#if UNITY_ANDROID               
@@ -118,15 +118,13 @@ namespace XGSDK2
 
 
 		//进入游戏后向渠道传递用户信息 必接接口
-		public static void onEnterGame(string userId, string username, string roleId,
-		                               string roleName, string gender, string level, string vipLevel,
-		                               string balance, string partyName, string serverId, string serverName)
+		public static void onEnterGame(UserInfo userInfo)
 		{   
 			Debug.Log("call xgsdk enterGame...");           
 			#if UNITY_ANDROID
-			callSdkApi("onEnterGame",userId, username, roleId,
-			           roleName, gender, level, vipLevel,
-			           balance, partyName, serverId, serverName);
+			callSdkApi("onEnterGame", userInfo.Uid, userInfo.UserName, userInfo.RoleId,
+			           userInfo.RoleName, userInfo.Gender, userInfo.Level, userInfo.VipLevel,
+			           userInfo.PartyName, userInfo.ServerId, userInfo.ServerName);
 			#endif
 		}
 
@@ -134,23 +132,23 @@ namespace XGSDK2
 
 		
 		//创建角色成功后向渠道传递角色信息
-		public static void onCreateRole(RoleInfo roleInfo)
+		public static void onCreateRole(UserInfo userInfo)
 		{
 			Debug.Log("call xgsdk createRole...");          
 			#if UNITY_ANDROID
-			callSdkApi("onCreateRole", roleInfo.RoleID, roleInfo.RoleName, roleInfo.Gender,
-			           roleInfo.Level, roleInfo.VipLevel, roleInfo.Balance, roleInfo.PartyName);
+			callSdkApi("onCreateRole", userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel, userInfo.PartyName);
 			#endif
 		}
 
 
 		//角色升级后向渠道传递升级信息
-		public static void onRoleLevelup(RoleInfo roleInfo)
+		public static void onRoleLevelup(UserInfo userInfo)
 		{
 			Debug.Log("call xgsdk onRoleLevelup");
 			#if UNITY_ANDROID
-			callSdkApi("onRoleLevelup", roleInfo .Uid, roleInfo.UserName,roleInfo.RoleID, roleInfo.RoleName, roleInfo.Gender,
-			           roleInfo.Level, roleInfo.VipLevel, roleInfo.Balance, roleInfo.PartyName, roleInfo.ServerId, roleInfo.ServerName);
+			callSdkApi("onRoleLevelup", userInfo .Uid, userInfo.UserName,userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName);
 			#endif
 		}
         
@@ -161,10 +159,10 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk onEvent...");
 			#if UNITY_ANDROID
-			callSdkApi("onEvent",eventInfo.EventRoleInfo.Uid, eventInfo.EventRoleInfo.UserName, eventInfo.EventRoleInfo.RoleID,
-			           eventInfo.EventRoleInfo.RoleName, eventInfo.EventRoleInfo.Gender, eventInfo.EventRoleInfo.Level,
-			           eventInfo.EventRoleInfo.VipLevel, eventInfo.EventRoleInfo.Balance, eventInfo.EventRoleInfo.PartyName,
-			           eventInfo.EventRoleInfo.ServerId, eventInfo.EventRoleInfo.ServerName, eventInfo.EventId,eventInfo.EventDesc,
+			callSdkApi("onEvent",eventInfo.EventUserInfo.Uid, eventInfo.EventUserInfo.UserName, eventInfo.EventUserInfo.RoleId,
+			           eventInfo.EventUserInfo.RoleName, eventInfo.EventUserInfo.Gender, eventInfo.EventUserInfo.Level,
+			           eventInfo.EventUserInfo.VipLevel, eventInfo.EventUserInfo.PartyName,
+			           eventInfo.EventUserInfo.ServerId, eventInfo.EventUserInfo.ServerName, eventInfo.EventId,eventInfo.EventDesc,
 			           eventInfo.EventVal, eventInfo.EventBody, eventInfo.CustomParams); 
 			#endif
 		}
@@ -174,10 +172,10 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk onMissionBegin...");
 			#if UNITY_ANDROID
-			callSdkApi("onMissionBegin", missionInfo.MissionRoleInfo.Uid, missionInfo.MissionRoleInfo.UserName,
-			           missionInfo.MissionRoleInfo.RoleID, missionInfo.MissionRoleInfo.RoleName,missionInfo.MissionRoleInfo.Gender,
-			           missionInfo.MissionRoleInfo.Level, missionInfo.MissionRoleInfo.VipLevel, missionInfo.MissionRoleInfo.Balance,
-			           missionInfo.MissionRoleInfo.PartyName, missionInfo.MissionRoleInfo.ServerId,missionInfo.MissionRoleInfo.ServerName,
+			callSdkApi("onMissionBegin", missionInfo.MissionUserInfo.Uid, missionInfo.MissionUserInfo.UserName,
+			           missionInfo.MissionUserInfo.RoleId, missionInfo.MissionUserInfo.RoleName,missionInfo.MissionUserInfo.Gender,
+			           missionInfo.MissionUserInfo.Level, missionInfo.MissionUserInfo.VipLevel,
+			           missionInfo.MissionUserInfo.PartyName, missionInfo.MissionUserInfo.ServerId,missionInfo.MissionUserInfo.ServerName,
 			           missionInfo.MissionName, missionInfo.CustomParams); 
 			#endif
 		}
@@ -187,10 +185,10 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk onMissionSuccess...");
 			#if UNITY_ANDROID
-			callSdkApi("onMissionBegin", missionInfo.MissionRoleInfo.Uid, missionInfo.MissionRoleInfo.UserName,
-			           missionInfo.MissionRoleInfo.RoleID, missionInfo.MissionRoleInfo.RoleName,missionInfo.MissionRoleInfo.Gender,
-			           missionInfo.MissionRoleInfo.Level, missionInfo.MissionRoleInfo.VipLevel, missionInfo.MissionRoleInfo.Balance,
-			           missionInfo.MissionRoleInfo.PartyName, missionInfo.MissionRoleInfo.ServerId,missionInfo.MissionRoleInfo.ServerName,
+			callSdkApi("onMissionBegin", missionInfo.MissionUserInfo.Uid, missionInfo.MissionUserInfo.UserName,
+			           missionInfo.MissionUserInfo.RoleId, missionInfo.MissionUserInfo.RoleName,missionInfo.MissionUserInfo.Gender,
+			           missionInfo.MissionUserInfo.Level, missionInfo.MissionUserInfo.VipLevel,
+			           missionInfo.MissionUserInfo.PartyName, missionInfo.MissionUserInfo.ServerId,missionInfo.MissionUserInfo.ServerName,
 			           missionInfo.MissionName, missionInfo.CustomParams); 
 			#endif
 		}
@@ -200,16 +198,16 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk onMissionFail...");
 			#if UNITY_ANDROID
-			callSdkApi("onMissionBegin", missionInfo.MissionRoleInfo.Uid, missionInfo.MissionRoleInfo.UserName,
-			           missionInfo.MissionRoleInfo.RoleID, missionInfo.MissionRoleInfo.RoleName,missionInfo.MissionRoleInfo.Gender,
-			           missionInfo.MissionRoleInfo.Level, missionInfo.MissionRoleInfo.VipLevel, missionInfo.MissionRoleInfo.Balance,
-			           missionInfo.MissionRoleInfo.PartyName, missionInfo.MissionRoleInfo.ServerId,missionInfo.MissionRoleInfo.ServerName,
+			callSdkApi("onMissionBegin", missionInfo.MissionUserInfo.Uid, missionInfo.MissionUserInfo.UserName,
+			           missionInfo.MissionUserInfo.RoleId, missionInfo.MissionUserInfo.RoleName,missionInfo.MissionUserInfo.Gender,
+			           missionInfo.MissionUserInfo.Level, missionInfo.MissionUserInfo.VipLevel,
+			           missionInfo.MissionUserInfo.PartyName, missionInfo.MissionUserInfo.ServerId,missionInfo.MissionUserInfo.ServerName,
 			           missionInfo.MissionName, missionInfo.CustomParams); 
 			#endif
 		}
 		
 		//访问用户中心
-		public static void openUserCenter()
+		public static void openUserCenter(string customParams)
 		{
 			Debug.Log("call xgsdk openUserCenter...");      
 			#if UNITY_ANDROID
@@ -231,30 +229,20 @@ namespace XGSDK2
 			#endif
 			return retMsg;
 		}
-
-
-		//功能接口 用于提示弹出toast
-		public static void showAndroidToast(string msg)
-		{
-			Debug.Log("call xgsdk showAndroidToast...");
-			#if UNITY_ANDROID 
-			callSdkApi("showAndroidToast", msg);
-			#endif
-		}
         
 
     }
 
-	public class RoleInfo
+
+	public class UserInfo
 	{
 		string uid;
 		string userName;
-		string roleID;
+		string roleId;
 		string roleName;
 		string gender;
-		string level;
-		string vipLevel;
-		string balance;
+		int level;
+		int vipLevel;
 		string partyName;
 		string serverId;
 		string serverName;
@@ -269,10 +257,10 @@ namespace XGSDK2
 			set{ userName = value;}
 			get{ return userName;}
 		}
-		public string RoleID 
+		public string RoleId 
 		{
-			set{ roleID = value;}
-			get{ return roleID;}
+			set{ roleId = value;}
+			get{ return roleId;}
 		}
 		public string RoleName 
 		{
@@ -284,20 +272,15 @@ namespace XGSDK2
 			set{ gender = value;}
 			get{ return gender;}
 		}
-		public string Level 
+		public int Level 
 		{
 			set{ level = value;}
 			get{ return level;}
 		}
-		public string VipLevel 
+		public int VipLevel 
 		{
 			set{ vipLevel = value;}
 			get{ return vipLevel;}
-		}
-		public string Balance 
-		{
-			set{ balance = value;}
-			get{ return balance;}
 		}
 		public string PartyName 
 		{
@@ -318,17 +301,17 @@ namespace XGSDK2
 
 	public class EventInfo
 	{
-		RoleInfo eventRoleInfo;
+		UserInfo eventUserInfo;
 		string eventId;
 		string eventDesc;
 		int eventVal;
 		string eventBody;
 		string customParams;
 
-		public RoleInfo EventRoleInfo
+		public UserInfo EventUserInfo
 		{
-			set{ eventRoleInfo = value;}
-			get{ return eventRoleInfo;}
+			set{ eventUserInfo = value;}
+			get{ return eventUserInfo;}
 		}
 		public string EventId
 		{
@@ -360,8 +343,8 @@ namespace XGSDK2
 
 	public class PayInfo
 	{
-		string userID;
-		int productTotalprice;
+		string uid;
+		int productTotalPirce;
 		int productCount;
 		int productUnitPrice;
 		string productId;
@@ -374,22 +357,22 @@ namespace XGSDK2
 		string zoneName;
 		string roleId;
 		string roleName;
-		string level;
-		string vipLevel;
-		string balance;
-		string gameOrderId;
+		int level;
+		int vipLevel;
+		string gameTradeNo;
 		string ext;
-		string notifyURL;
-		public string UserID 
+		string gameCallBackURL;
+
+		public string Uid 
 		{
-			set{ userID = value;}
-			get{ return userID;}
+			set{ uid = value;}
+			get{ return uid;}
 		}
 
-		public int ProductTotalprice 
+		public int ProductTotalPrice 
 		{
-			set{ productTotalprice = value;}
-			get{ return productTotalprice;}
+			set{ productTotalPirce = value;}
+			get{ return productTotalPirce;}
 		}
 
 		public int ProductCount 
@@ -464,28 +447,23 @@ namespace XGSDK2
 			get{ return roleName;}
 		}
 
-		public string Level
+		public int Level
 		{
 			set{ level = value;}
 			get{ return level;}
 		}
 
-		public string VipLevel
+		public int VipLevel
 		{
 			set{ vipLevel = value;}
 			get{ return vipLevel;}
 		}
 
-		public string Balance 
-		{
-			set{ balance = value;}
-			get{ return balance;}
-		}
 
-		public string GameOrderId 
+		public string GameTradeNo 
 		{
-			set{ gameOrderId = value;}
-			get{ return gameOrderId;}
+			set{ gameTradeNo = value;}
+			get{ return gameTradeNo;}
 		}
 
 		public string Ext 
@@ -494,23 +472,23 @@ namespace XGSDK2
 			get{ return ext;}
 		}
 
-		public string NotifyURL
+		public string GameCallBackURL
 		{
-			set{ notifyURL = value;}
-			get{ return notifyURL;}
+			set{ gameCallBackURL = value;}
+			get{ return gameCallBackURL;}
 		}
 	}
 
 	public class MissionInfo
 	{
-		RoleInfo missionRoleInfo;
+		UserInfo missionUserInfo;
 		string missionName;
 		string customParams;
 
-		public RoleInfo MissionRoleInfo
+		public UserInfo MissionUserInfo
 		{
-			set{ missionRoleInfo = value;}
-			get{ return missionRoleInfo;}
+			set{ missionUserInfo = value;}
+			get{ return missionUserInfo;}
 		}
 		public string MissionName
 		{
