@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -26,8 +26,8 @@ public class XgsdkDemo : MonoBehaviour
 	{           
 		XGSDK2.PayInfo payinfo = new XGSDK2.PayInfo ();
 		//初始化调用接口需要的参数
-		payinfo.UserID = "";
-		payinfo.ProductTotalprice = 10;
+		payinfo.Uid = "";
+		payinfo.ProductTotalPrice = 10;
 		payinfo.ProductCount = 2;
 		payinfo.ProductUnitPrice = 5;
 		payinfo.ProductId = "199";
@@ -40,12 +40,12 @@ public class XgsdkDemo : MonoBehaviour
 		payinfo.ZoneName = "ZoneName";
 		payinfo.RoleId = "12345";
 		payinfo.RoleName = "RoleName";
-		payinfo.Level = "2";
-		payinfo.VipLevel = "1";
+		payinfo.Level = 2;
+		payinfo.VipLevel = 1;
 		payinfo.Balance = "50";
 		payinfo.GameOrderId = "1001";
 		payinfo.Ext = "ext";
-		//payinfo.NotifyURL = "Xgsdk";
+		payinfo.NotifyURL = "http://console.xgsdk.com/sdkserver/receivePayResult";
 
 		
 		//设置GUI格式
@@ -89,7 +89,7 @@ public class XgsdkDemo : MonoBehaviour
 			}else
 			{
 				Debug.Log("please login first...");
-				XGSDK2.instance.showAndroidToast("请先登录");
+				showAndroidToast("请先登录");
 			}
 		}
 		GUILayout.EndHorizontal();
@@ -112,7 +112,7 @@ public class XgsdkDemo : MonoBehaviour
 		{
 			Debug.Log("call xgsdk OpenUserCenter");
 			
-			XGSDK2.instance.openUserCenter();
+			XGSDK2.instance.openUserCenter("");
 		}
 		GUILayout.EndHorizontal ();
 		
@@ -247,6 +247,18 @@ public class XgsdkDemo : MonoBehaviour
 			return 0;
 		}
 		
+	}
+
+	//用于提示弹出toast
+	public static void showAndroidToast(string msg)
+	{
+		Debug.Log("call xgsdk showAndroidToast...");
+		#if UNITY_ANDROID 
+		using (AndroidJavaClass cls = new AndroidJavaClass("com.xgsdk.client.api.unity3d.XGSDKUnity3DWrapper")) {           
+			AndroidJavaObject instance = cls.CallStatic<AndroidJavaObject> ("getInstance"); 
+			instance.Call("showAndroidToast",msg);   
+		}
+		#endif
 	}
 	
 	
