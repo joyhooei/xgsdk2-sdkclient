@@ -26,7 +26,7 @@ public class Statistics {
             sDataAgent.setActivity(activity, null);
             sDataAgent.onDeviceConnect(null);
         } catch (Exception e) {
-            XGLog.e("instance " + DATA_CLASS + " error.", e);
+            XGLog.e("instance " + DATA_CLASS + " error.");
         }
     }
 
