@@ -148,8 +148,7 @@ public class PayService extends BaseService {
                     // throw new RuntimeException("request:" + getUrl.toString()
                     // + ",result is null.");
                     callback.callback(Result.create(), data);
-                }
-                if (callback != null) {
+                } else if (callback != null) {
                     try {
                         JSONObject jsonObject = new JSONObject(result.getData());
                         String orderId = jsonObject.getString("orderId");
