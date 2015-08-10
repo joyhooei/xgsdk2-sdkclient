@@ -42,10 +42,9 @@ public class XgsdkDemo : MonoBehaviour
 		payinfo.RoleName = "RoleName";
 		payinfo.Level = 2;
 		payinfo.VipLevel = 1;
-		payinfo.Balance = "50";
-		payinfo.GameOrderId = "1001";
+		payinfo.GameTradeNo = "1001";
 		payinfo.Ext = "ext";
-		payinfo.NotifyURL = "http://console.xgsdk.com/sdkserver/receivePayResult";
+		payinfo.GameCallBackURL = "http://console.xgsdk.com/sdkserver/receivePayResult";
 
 		
 		//设置GUI格式
@@ -81,7 +80,7 @@ public class XgsdkDemo : MonoBehaviour
 				byte[] outputb = GetDecoded(XGSDKCallback.authinfo);
 				string info = Encoding.Default.GetString(outputb);
 				Dictionary<string, object> data = MiniJSON.Json.Deserialize(info) as Dictionary<string, object>;
-				payinfo.UserID = data ["uId"].ToString();
+				payinfo.Uid = data ["uId"].ToString();
 				Debug.Log("authinfo :" + XGSDKCallback.authinfo);
 				
 				

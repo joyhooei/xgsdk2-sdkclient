@@ -200,7 +200,7 @@ namespace XGSDK2
 			#if UNITY_ANDROID
 			callSdkApi("onMissionBegin", missionInfo.MissionUserInfo.Uid, missionInfo.MissionUserInfo.UserName,
 			           missionInfo.MissionUserInfo.RoleId, missionInfo.MissionUserInfo.RoleName,missionInfo.MissionUserInfo.Gender,
-			           missionInfo.MissionUserInfo.Level, missionInfo.MissionUserInfo.VipLevel, missionInfo.MissionUserInfo.Balance,
+			           missionInfo.MissionUserInfo.Level, missionInfo.MissionUserInfo.VipLevel,
 			           missionInfo.MissionUserInfo.PartyName, missionInfo.MissionUserInfo.ServerId,missionInfo.MissionUserInfo.ServerName,
 			           missionInfo.MissionName, missionInfo.CustomParams); 
 			#endif
