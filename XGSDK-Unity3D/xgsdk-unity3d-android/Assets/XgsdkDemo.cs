@@ -27,13 +27,18 @@ public class XgsdkDemo : MonoBehaviour
 		XGSDK2.PayInfo payinfo = new XGSDK2.PayInfo ();
 		//初始化调用接口需要的参数
 		payinfo.Uid = "";
-		payinfo.ProductTotalPrice = 10;
-		payinfo.ProductCount = 2;
-		payinfo.ProductUnitPrice = 5;
 		payinfo.ProductId = "199";
 		payinfo.ProductName = "gift";
 		payinfo.ProductDesc = "Description";
-		payinfo.CurrencyName = "RMB";
+		payinfo.ProductAmount = 2;
+		payinfo.ProductUnit = "元宝";
+		payinfo.ProductUnitPrice = 5;
+		payinfo.TotalPrice = 10;
+		payinfo.OriginalPrice = 20;
+		payinfo.CurrencyName = "CNY";
+		payinfo.Custom = "none";
+		payinfo.GameTradeNo = "1001";
+		payinfo.GameCallBackURL = "http://console.xgsdk.com/sdkserver/receivePayResult";
 		payinfo.ServerId = "001";
 		payinfo.ServerName = "GD1";
 		payinfo.ZoneId = "1025";
@@ -42,9 +47,7 @@ public class XgsdkDemo : MonoBehaviour
 		payinfo.RoleName = "RoleName";
 		payinfo.Level = 2;
 		payinfo.VipLevel = 1;
-		payinfo.GameTradeNo = "1001";
-		payinfo.Ext = "ext";
-		payinfo.GameCallBackURL = "http://console.xgsdk.com/sdkserver/receivePayResult";
+
 
 		
 		//设置GUI格式

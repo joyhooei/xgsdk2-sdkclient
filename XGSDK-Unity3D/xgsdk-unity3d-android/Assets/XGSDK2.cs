@@ -67,20 +67,19 @@ namespace XGSDK2
         
 
 		//支付时调用，使用封装类传输数据
-		public static void pay(PayInfo pay)
+		public static void pay(PayInfo payInfo)
 		{
 			Debug.Log("call xgsdk pay...");
 			#if UNITY_ANDROID
-			Debug.Log("call xgsdk set messageObj..." + pay.Uid + pay.ProductTotalPrice + pay.ProductCount + 
-			          pay.ProductUnitPrice + pay.ProductId + 
-			          pay.ProductName + pay.ProductDesc + 
-			          pay.CurrencyName + pay.ServerId + pay.ServerName + pay.ZoneId + pay.ZoneName +
-			          pay.RoleId + pay.RoleName + pay.Level + pay.VipLevel + pay.GameTradeNo + pay.Ext + pay.GameCallBackURL);
-			callSdkApi("pay",pay.Uid, pay.ProductTotalPrice, pay.ProductCount, 
-			           pay.ProductUnitPrice, pay.ProductId, 
-			           pay.ProductName, pay.ProductDesc, 
-			           pay.CurrencyName, pay.ServerId, pay.ServerName,pay.ZoneId, pay.ZoneName,
-			           pay.RoleId, pay.RoleName, pay.Level, pay.VipLevel, pay.GameTradeNo, pay.Ext, pay.GameCallBackURL);
+			Debug.Log("call xgsdk set messageObj..." + payInfo.Uid + payInfo.ProductId + payInfo.ProductName + payInfo.ProductDesc +
+			          payInfo.ProductAmount + payInfo.ProductUnit + payInfo.ProductUnitPrice + payInfo.TotalPrice + payInfo.OriginalPrice +
+			          payInfo.CurrencyName + payInfo.Custom + payInfo.GameTradeNo + payInfo.GameCallBackURL + payInfo.ServerId+
+			          payInfo.ServerName + payInfo.ZoneId + payInfo.ZoneName + payInfo.RoleId + payInfo.RoleName + payInfo.Level +payInfo.VipLevel);
+			callSdkApi("pay",payInfo.Uid, payInfo.ProductId, payInfo.ProductName, 
+			           payInfo.ProductDesc, payInfo.ProductAmount, payInfo.ProductUnit,
+			           payInfo.ProductUnitPrice, payInfo.TotalPrice, payInfo.OriginalPrice,
+			           payInfo.CurrencyName, payInfo.Custom, payInfo.GameTradeNo,payInfo.GameCallBackURL, payInfo.ServerId,
+			           payInfo.ServerName, payInfo.ZoneId, payInfo.ZoneName, payInfo.RoleId, payInfo.RoleName, payInfo.Level, payInfo.VipLevel);
 			#endif
 		}
 
@@ -344,13 +343,18 @@ namespace XGSDK2
 	public class PayInfo
 	{
 		string uid;
-		int productTotalPirce;
-		int productCount;
-		int productUnitPrice;
 		string productId;
 		string productName;
 		string productDesc;
+		int productAmount;
+		string productUnit;
+		int productUnitPrice;
+		int totalPirce;
+		int originalPrice;
 		string currencyName;
+		string custom;
+		string gameTradeNo;
+		string gameCallBackURL;
 		string serverId;
 		string serverName;
 		string zoneId;
@@ -359,64 +363,80 @@ namespace XGSDK2
 		string roleName;
 		int level;
 		int vipLevel;
-		string gameTradeNo;
-		string ext;
-		string gameCallBackURL;
 
 		public string Uid 
 		{
 			set{ uid = value;}
 			get{ return uid;}
 		}
-
-		public int ProductTotalPrice 
-		{
-			set{ productTotalPirce = value;}
-			get{ return productTotalPirce;}
-		}
-
-		public int ProductCount 
-		{
-			set{ productCount = value;}
-			get{ return productCount;}
-		}
-
-		public int ProductUnitPrice 
-		{
-			set{ productUnitPrice = value;}
-			get{ return productUnitPrice;}
-		}
-
 		public string ProductId 
 		{
 			set{ productId = value;}
 			get{ return productId;}
 		}
-
+		
 		public string ProductName 
 		{
 			set{ productName = value;}
 			get{ return productName;}
 		}
-
+		
 		public string ProductDesc 
 		{
 			set{ productDesc = value;}
 			get{ return productDesc;}
 		}
+		public int ProductAmount 
+		{
+			set{ productAmount = value;}
+			get{ return productAmount;}
+		}
+		public string ProductUnit
+		{
+			set{ productUnit = value;}
+			get{ return productUnit;}
+		}
+		public int ProductUnitPrice 
+		{
+			set{ productUnitPrice = value;}
+			get{ return productUnitPrice;}
+		}
+		public int TotalPrice 
+		{
+			set{ totalPirce = value;}
+			get{ return totalPirce;}
+		}
 
+		public int OriginalPrice 
+		{
+			set{ originalPrice = value;}
+			get{ return originalPrice;}
+		}
 		public string CurrencyName 
 		{
 			set{ currencyName = value;}
 			get{ return currencyName;}
 		}
-
+		public string Custom
+		{
+			set{ custom = value;}
+			get{ return custom;}
+		}
+		public string GameTradeNo 
+		{
+			set{ gameTradeNo = value;}
+			get{ return gameTradeNo;}
+		}
+		public string GameCallBackURL
+		{
+			set{ gameCallBackURL = value;}
+			get{ return gameCallBackURL;}
+		}
 		public string ServerId 
 		{
 			set{ serverId = value;}
 			get{ return serverId;}
 		}
-
 		public string ServerName 
 		{
 			set{ serverName = value;}
@@ -459,24 +479,6 @@ namespace XGSDK2
 			get{ return vipLevel;}
 		}
 
-
-		public string GameTradeNo 
-		{
-			set{ gameTradeNo = value;}
-			get{ return gameTradeNo;}
-		}
-
-		public string Ext 
-		{
-			set{ ext = value;}
-			get{ return ext;}
-		}
-
-		public string GameCallBackURL
-		{
-			set{ gameCallBackURL = value;}
-			get{ return gameCallBackURL;}
-		}
 	}
 
 	public class MissionInfo
