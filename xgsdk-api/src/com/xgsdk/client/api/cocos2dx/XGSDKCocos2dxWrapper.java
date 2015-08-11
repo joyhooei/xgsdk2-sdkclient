@@ -337,18 +337,25 @@ public class XGSDKCocos2dxWrapper {
         mSdk.onEnterGame(mActivity, userInfo, roleInfo, gameInfo);
     }
 
-    public void onCreateRole(String roleId, String roleName, String gender,
-            int level, int vipLevel, String balance, String partyName) {
+    public void onCreateRole(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId, String serverName) {
         XGLog.i(LOG_TAG, "onCreateRole");
-        RoleInfo info = new RoleInfo();
-        info.setBalance(balance);
-        info.setGender(gender);
-        info.setLevel(level);
-        info.setPartyName(partyName);
-        info.setRoleId(roleId);
-        info.setRoleName(roleName);
-        info.setVipLevel(vipLevel);
-        mSdk.onCreateRole(mActivity, info);
+        XGUser user = new XGUser();
+        user.setUserName(username);
+        user.setUid(uid);
+        RoleInfo role = new RoleInfo();
+        role.setRoleId(roleId);
+        role.setRoleName(roleName);
+        role.setGender(gender);
+        role.setLevel(level);
+        role.setVipLevel(vipLevel);
+        role.setBalance(balance);
+        role.setPartyName(partyName);
+        GameServerInfo server = new GameServerInfo();
+        server.setServerId(serverId);
+        server.setServerName(serverName);
+        mSdk.onCreateRole(mActivity, user, role, server);
     }
 
     public void onRoleLevelup(String uid, String username, String roleId,
@@ -372,6 +379,44 @@ public class XGSDKCocos2dxWrapper {
         mSdk.onRoleLevelup(mActivity, userInfo, roleInfo, gameInfo);
     }
 
+    public void onRoleLogout(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String customParams) {
+        XGLog.i(LOG_TAG, "onRoleLogout");
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo gameInfo = new GameServerInfo();
+        gameInfo.setServerId(serverId);
+        gameInfo.setServerName(serverName);
+        mSdk.onRoleLogout(mActivity, userInfo, roleInfo, gameInfo, customParams);
+    }
+
+    public void onAccountCreate(String uid, String username, String customParams) {
+        XGLog.i(LOG_TAG, "onAccountCreate");
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        mSdk.onAccountCreate(mActivity, userInfo, customParams);
+    }
+
+    public void onAccountLogout(String uid, String username, String customParams) {
+        XGLog.i(LOG_TAG, "onAccountLogout");
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        mSdk.onAccountLogout(mActivity, userInfo, customParams);
+    }
+
     /**
      * 访问用户中心
      */
@@ -386,28 +431,6 @@ public class XGSDKCocos2dxWrapper {
         });
     }
 
-    /**
-     * @Title: onEvent
-     * @Description: 自定义事件
-     * @param: @param uid
-     * @param: @param username
-     * @param: @param roleId
-     * @param: @param roleName
-     * @param: @param gender
-     * @param: @param level
-     * @param: @param vipLevel
-     * @param: @param balance
-     * @param: @param partyName
-     * @param: @param serverId
-     * @param: @param serverName
-     * @param: @param eventId 事件id
-     * @param: @param eventDesc 事件描述
-     * @param: @param eventVal 事件值
-     * @param: @param eventBody 事件内容 必须是json格式
-     * @param: @param customParams 扩展字段 必须是json格式
-     * @return: void
-     * @throws
-     */
     public void onEvent(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId,
@@ -445,30 +468,11 @@ public class XGSDKCocos2dxWrapper {
 
     }
 
-    /**
-     * @Title: onMissionBegin
-     * @Description: 任务开始
-     * @param: @param uid
-     * @param: @param username
-     * @param: @param roleId
-     * @param: @param roleName
-     * @param: @param gender
-     * @param: @param level
-     * @param: @param vipLevel
-     * @param: @param balance
-     * @param: @param partyName
-     * @param: @param serverId
-     * @param: @param serverName
-     * @param: @param activity
-     * @param: @param missionName 任务名称
-     * @param: @param customParams 扩展参数，必须是json
-     * @return: void
-     * @throws
-     */
     public void onMissionBegin(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, String missionName, String customParams) {
+            String serverName, String missionId, String missionName,
+            String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -484,34 +488,15 @@ public class XGSDKCocos2dxWrapper {
         serverInfo.setServerId(serverId);
         serverInfo.setServerName(serverName);
         mSdk.onMissionBegin(mActivity, userInfo, roleInfo, serverInfo,
-                missionName, customParams);
+                missionId, missionName, customParams);
 
     }
 
-    /**
-     * @Title: onMissionSuccess
-     * @Description: 任务成功
-     * @param: @param uid
-     * @param: @param username
-     * @param: @param roleId
-     * @param: @param roleName
-     * @param: @param gender
-     * @param: @param level
-     * @param: @param vipLevel
-     * @param: @param balance
-     * @param: @param partyName
-     * @param: @param serverId
-     * @param: @param serverName
-     * @param: @param activity
-     * @param: @param missionName 任务名称
-     * @param: @param customParams 扩展参数，必须是json
-     * @return: void
-     * @throws
-     */
     public void onMissionSuccess(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, String missionName, String customParams) {
+            String serverName, String missionId, String missionName,
+            String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -527,34 +512,15 @@ public class XGSDKCocos2dxWrapper {
         serverInfo.setServerId(serverId);
         serverInfo.setServerName(serverName);
         mSdk.onMissionSuccess(mActivity, userInfo, roleInfo, serverInfo,
-                missionName, customParams);
+                missionId, missionName, customParams);
 
     }
 
-    /**
-     * @Title: onMissionFail
-     * @Description: 任务失败
-     * @param: @param uid
-     * @param: @param username
-     * @param: @param roleId
-     * @param: @param roleName
-     * @param: @param gender
-     * @param: @param level
-     * @param: @param vipLevel
-     * @param: @param balance
-     * @param: @param partyName
-     * @param: @param serverId
-     * @param: @param serverName
-     * @param: @param activity
-     * @param: @param missionName 任务名称
-     * @param: @param customParams 扩展参数，必须是json
-     * @return: void
-     * @throws
-     */
     public void onMissionFail(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
             String balance, String partyName, String serverId,
-            String serverName, String missionName, String customParams) {
+            String serverName, String missionId, String missionName,
+            String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -570,8 +536,184 @@ public class XGSDKCocos2dxWrapper {
         serverInfo.setServerId(serverId);
         serverInfo.setServerName(serverName);
         mSdk.onMissionFail(mActivity, userInfo, roleInfo, serverInfo,
-                missionName, customParams);
+                missionId, missionName, customParams);
 
+    }
+
+    public void onLevelsBegin(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String levelsId, String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        mSdk.onLevelsBegin(mActivity, userInfo, roleInfo, serverInfo, levelsId,
+                customParams);
+
+    }
+
+    public void onLevelsSuccess(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String levelsId, String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        mSdk.onLevelsSuccess(mActivity, userInfo, roleInfo, serverInfo,
+                levelsId, customParams);
+
+    }
+
+    public void onLevelsFail(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String levelsId, String reason,
+            String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        mSdk.onLevelsFail(mActivity, userInfo, roleInfo, serverInfo, levelsId,
+                reason, customParams);
+
+    }
+
+    public void onItemBuy(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String itemId, String itemName, int itemCount,
+            int listPrice, int transPrice, int payGold, int payBindingGold,
+            int curGold, int curBindingGold, int totalGold,
+            int totalBindingGold, String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        mSdk.onItemBuy(mActivity, userInfo, roleInfo, serverInfo, itemId,
+                itemName, itemCount, listPrice, transPrice, payGold,
+                payBindingGold, curGold, curBindingGold, totalGold,
+                totalBindingGold, customParams);
+    }
+
+    public void onItemGet(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String itemId, String itemName, int itemCount,
+            int listPrice, int transPrice, int payGold, int payBindingGold,
+            int curGold, int curBindingGold, int totalGold,
+            int totalBindingGold, String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        mSdk.onItemGet(mActivity, userInfo, roleInfo, serverInfo, itemId,
+                itemName, itemCount, listPrice, transPrice, payGold,
+                payBindingGold, curGold, curBindingGold, totalGold,
+                totalBindingGold, customParams);
+    }
+
+    public void onItemConsume(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String itemId, String itemName, int itemCount,
+            int listPrice, int transPrice, int payGold, int payBindingGold,
+            int curGold, int curBindingGold, int totalGold,
+            int totalBindingGold, String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        mSdk.onItemConsume(mActivity, userInfo, roleInfo, serverInfo, itemId,
+                itemName, itemCount, listPrice, transPrice, payGold,
+                payBindingGold, curGold, curBindingGold, totalGold,
+                totalBindingGold, customParams);
+    }
+
+    public void onGoldGain(String uid, String username, String roleId,
+            String roleName, String gender, int level, int vipLevel,
+            String balance, String partyName, String serverId,
+            String serverName, String gainChannel, int gold, int bindingGold,
+            int curGold, int curBindingGold, int totalGold,
+            int totalBindingGold, String customParams) {
+        XGUser userInfo = new XGUser();
+        userInfo.setUserName(username);
+        userInfo.setUid(uid);
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(roleId);
+        roleInfo.setRoleName(roleName);
+        roleInfo.setGender(gender);
+        roleInfo.setLevel(level);
+        roleInfo.setVipLevel(vipLevel);
+        roleInfo.setBalance(balance);
+        roleInfo.setPartyName(partyName);
+        GameServerInfo serverInfo = new GameServerInfo();
+        serverInfo.setServerId(serverId);
+        serverInfo.setServerName(serverName);
+        mSdk.onGoldGain(mActivity, userInfo, roleInfo, serverInfo, gainChannel,
+                gold, bindingGold, curGold, curBindingGold, totalGold,
+                totalBindingGold, customParams);
     }
 
     /**

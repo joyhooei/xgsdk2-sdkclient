@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        
+
         super.onCreate(savedInstanceState);
         mRoleInfo = new RoleInfo();
         mServerInfo = new GameServerInfo();
@@ -165,7 +165,7 @@ public class MainActivity extends Activity {
                         mRoleInfo.setRoleId("1112");
                         mRoleInfo.setRoleName("cuizi");
                         XGSDK.getInstance().onCreateRole(MainActivity.this,
-                                mRoleInfo);
+                                mUser, mRoleInfo, mServerInfo);
                     }
                 });
         findViewById(RUtil.getId(getApplicationContext(), "xg_role_levelup"))
@@ -200,7 +200,7 @@ public class MainActivity extends Activity {
         });
 
         XGSDK.getInstance().onCreate(this);
-        
+
         XGSDK.getInstance().setUserCallBack(new UserCallBack() {
 
             @Override

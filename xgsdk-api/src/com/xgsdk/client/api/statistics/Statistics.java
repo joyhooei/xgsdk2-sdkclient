@@ -22,7 +22,7 @@ public class Statistics {
             sDataAgent.setActivity(activity, null);
             sDataAgent.onDeviceConnect(null);
         } catch (Exception e) {
-            XGLog.e("instance " + DATA_CLASS + " error.");
+            XGLog.e(DATA_CLASS + " class is empty.");
         }
     }
 
