@@ -151,41 +151,41 @@ public class XGSDKCocos2dxWrapper {
         });
     }
 
-    public void pay(final String uid, final int productTotalPirce,
-            final int productCount, final int productUnitPrice,
-            final String productId, final String productName,
-            final String productDesc, final String currencyName,
+    public void pay(final String sdkUid, final String appGoodsId,
+            final String appGoodsName, final String appGoodsDesc,
+            final int appGoodsAmount, final String appGoodsUnit,
+            final int totalPrice, final int originalPrice,
+            final String currencyName, final String custom,
+            final String gameTradeNo, final String gameCallbackUrl,
             final String serverId, final String serverName,
             final String zoneId, final String zoneName, final String roleId,
-            final String roleName, final int level, final int vipLevel,
-            final String balance, final String gameOrderId, final String ext,
-            final String notifyURL) {
+            final String roleName, final int level, final int vipLevel) {
         XGLog.i(LOG_TAG, "pay");
         Cocos2dxPluginWrapper.runOnMainThread(new Runnable() {
 
             @Override
             public void run() {
                 final PayInfo payment = new PayInfo();
-                payment.setUid(uid);
-                payment.setProductDesc(productDesc);
-                payment.setServerId(serverId);
-                payment.setProductId(productId);
-                payment.setProductName(productName);
-                payment.setExt(ext);
-                payment.setProductCount(productCount);
+                payment.setSdkUid(sdkUid);
+                payment.setAppGoodsId(appGoodsId);
+                payment.setAppGoodsName(appGoodsName);
+                payment.setAppGoodsDesc(appGoodsDesc);
+                payment.setAppGoodsAmount(appGoodsAmount);
+                payment.setAppGoodsUnit(appGoodsUnit);
+                payment.setTotalPrice(totalPrice);
+                payment.setOriginalPrice(originalPrice);
                 payment.setCurrencyName(currencyName);
-                payment.setProductTotalPrice(productTotalPirce);
-                payment.setProductUnitPrice(productUnitPrice);
+                payment.setCustom(custom);
+                payment.setGameTradeNo(gameTradeNo);
+                payment.setGameCallbackUrl(gameCallbackUrl);
+                payment.setServerId(serverId);
+                payment.setServerName(serverName);
                 payment.setZoneId(zoneId);
                 payment.setZoneName(zoneName);
                 payment.setRoleId(roleId);
                 payment.setRoleName(roleName);
                 payment.setLevel(level);
                 payment.setVipLevel(vipLevel);
-                payment.setBalance(balance);
-                payment.setGameOrderId(gameOrderId);
-                payment.setServerName(serverName);
-                payment.setNotifyURL(notifyURL);
                 mSdk.pay(mActivity, payment, new PayCallBack() {
 
                     @Override

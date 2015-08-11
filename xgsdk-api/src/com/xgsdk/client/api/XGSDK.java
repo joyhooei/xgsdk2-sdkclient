@@ -85,7 +85,6 @@ public class XGSDK {
     public void onResume(Activity activity) {
         try {
             mXGChannel.onResume(activity);
-            Statistics.onResume(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onResume " + " error ", e);
         }
@@ -94,7 +93,6 @@ public class XGSDK {
     public void onPause(Activity activity) {
         try {
             mXGChannel.onPause(activity);
-            Statistics.onPause(activity);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onPause " + " error ", e);
         }
@@ -163,7 +161,6 @@ public class XGSDK {
     public void login(Activity activity, String customParams) {
         try {
             mXGChannel.login(activity, customParams);
-            Statistics.login(activity, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " login " + " error ", e);
         }
@@ -172,7 +169,6 @@ public class XGSDK {
     public void logout(Activity activity, String customParams) {
         try {
             mXGChannel.logout(activity, customParams);
-            Statistics.logout(activity, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " logout " + " error ", e);
         }
@@ -190,15 +186,15 @@ public class XGSDK {
 
                         if (TextUtils.isEmpty(orderId)) {
                             XGLog.e("create order fail in xg service ,uid:"
-                                    + payInfo.getUid() + ",price:"
-                                    + payInfo.getProductTotalPrice() + ",ext:"
-                                    + payInfo.getExt());
+                                    + payInfo.getSdkUid() + ",price:"
+                                    + payInfo.getTotalPrice() + ",ext:"
+                                    + payInfo.getCustom());
                             payCallBack.onFail(
                                     XGErrorCode.PAY_FAILED_CREATE_ORDER_FAILED,
                                     "create order fail in xg service ,uid:"
-                                            + payInfo.getUid() + ",price:"
-                                            + payInfo.getProductTotalPrice()
-                                            + ",ext:" + payInfo.getExt());
+                                            + payInfo.getSdkUid() + ",price:"
+                                            + payInfo.getTotalPrice() + ",ext:"
+                                            + payInfo.getCustom());
                             return;
                         }
                         payInfo.setAdditionalParam(PayInfo.KEY_XG_ORDER_ID,
@@ -207,14 +203,12 @@ public class XGSDK {
                             @Override
                             public void run() {
                                 mXGChannel.pay(activity, payInfo, payCallBack);
-                                Statistics.pay(activity, payInfo, payCallBack);
                             }
                         });
                     }
                 });
             } else {
                 mXGChannel.pay(activity, payInfo, payCallBack);
-                Statistics.pay(activity, payInfo, payCallBack);
             }
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " pay " + " error ", e);
@@ -226,7 +220,6 @@ public class XGSDK {
             String customParams) {
         try {
             mXGChannel.exit(activity, exitCallBack, customParams);
-            Statistics.exit(activity, exitCallBack, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " exit " + " error ", e);
         }
@@ -243,7 +236,6 @@ public class XGSDK {
     public void switchAccount(Activity activity, String customParams) {
         try {
             mXGChannel.switchAccount(activity, customParams);
-            Statistics.switchAccount(activity, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " switchAccount " + " error ", e);
         }
@@ -252,7 +244,6 @@ public class XGSDK {
     public void onCreateRole(Activity activity, RoleInfo info) {
         try {
             mXGChannel.onCreateRole(activity, info);
-            Statistics.onCreateRole(activity, info);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onCreateRole " + info
                     + " error ", e);
@@ -263,7 +254,6 @@ public class XGSDK {
             GameServerInfo serverInfo) {
         try {
             mXGChannel.onEnterGame(activity, user, roleInfo, serverInfo);
-            Statistics.onEnterGame(activity, user, roleInfo, serverInfo);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onEnterGame error ", e);
         }
@@ -273,7 +263,6 @@ public class XGSDK {
             GameServerInfo server) {
         try {
             mXGChannel.onRoleLevelup(activity, role);
-            Statistics.onRoleLevelup(activity, user, role, server);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onRoleLevelup " + role
                     + " error ", e);
@@ -284,8 +273,6 @@ public class XGSDK {
             GameServerInfo serverInfo, String eventId, String eventDesc,
             int eventVal, Map<String, Object> eventBody, String customParams) {
         try {
-            Statistics.onEvent(activity, user, roleInfo, serverInfo, eventId,
-                    eventDesc, eventVal, eventBody, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onEvent error ", e);
         }
@@ -295,8 +282,6 @@ public class XGSDK {
             RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
             String customParams) {
         try {
-            Statistics.onMissionBegin(activity, user, roleInfo, serverInfo,
-                    missionName, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onMissionBegin error ", e);
         }
@@ -306,8 +291,6 @@ public class XGSDK {
             RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
             String customParams) {
         try {
-            Statistics.onMissionSuccess(activity, user, roleInfo, serverInfo,
-                    missionName, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onMissionSuccess error ", e);
         }
@@ -317,8 +300,6 @@ public class XGSDK {
             RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
             String customParams) {
         try {
-            Statistics.onMissionFail(activity, user, roleInfo, serverInfo,
-                    missionName, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onMissionFail error ", e);
         }

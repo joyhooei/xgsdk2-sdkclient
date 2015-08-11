@@ -17,108 +17,15 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.xgsdk.client.util.ProductConfig;
-
 public class PayService extends BaseService {
 
-    // 单独线程运行方式
-    // public static String createOrderInThread(final Activity activity,
-    // final String uId, final String productId, final String productName,
-    // final String productDesc, final String productCount,
-    // final String productTotalPrice, final String serverId,
-    // final String zoneId, final String roleId, final String roleName,
-    // final String currencyName, final String ext,
-    // final String gameOrderId, final String notifyUrl,
-    // final String channelAppId) throws Exception {
-    //
-    // Callable<String> callable = new Callable<String>() {
-    // public String call() throws Exception {
-    // return PayService
-    // .createOrder(activity, uId, productId, productName,
-    // productDesc, productCount, productTotalPrice,
-    // serverId, zoneId, roleId, roleName,
-    // currencyName, ext, gameOrderId, notifyUrl,
-    // channelAppId);
-    // }
-    // };
-    // FutureTask<String> future = new FutureTask<String>(callable);
-    // Thread thread = new Thread(future);
-    // thread.start();
-    // thread.join(THREAD_JOIN_TIME_OUT);
-    // return future.get();
-    // }
-
-    // // 单独线程运行方式
-    // public static String createOrderInThreadForOriginal(
-    // final Activity activity, final String uId, final String productId,
-    // final String productName, final String productDesc,
-    // final String productCount, final String productTotalPrice,
-    // final String serverId, final String zoneId, final String roleId,
-    // final String roleName, final String currencyName, final String ext,
-    // final String gameOrderId, final String notifyUrl,
-    // final String channelAppId) throws Exception {
-    // Callable<String> callable = new Callable<String>() {
-    // public String call() throws Exception {
-    // Result result = PayService
-    // .createOrderForOriginal(activity, uId, productId,
-    // productName, productDesc, productCount,
-    // productTotalPrice, serverId, zoneId, roleId,
-    // roleName, currencyName, ext, gameOrderId,
-    // notifyUrl, channelAppId);
-    // if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
-    // throw new Exception("response exception:" + result.getMsg());
-    // }
-    // if (null == result.getData()) {
-    // throw new Exception("response exception:" + result.getMsg());
-    // }
-    // JSONObject jsonData = new JSONObject(result.getData());
-    // PayService.orderId = jsonData.getString("orderId");
-    // return jsonData.getString("orderId");
-    //
-    // }
-    // };
-    // FutureTask<String> future = new FutureTask<String>(callable);
-    // Thread thread = new Thread(future);
-    // thread.start();
-    // thread.join(THREAD_JOIN_TIME_OUT);
-    // orderId = future.get();
-    // return orderId;
-    // }
-
     public static String orderId = "";
-
-    // 单独线程运行方式
-    // public static void updateOrderInThread(final Activity activity,
-    // final String orderId, final String uId, final String productId,
-    // final String productName, final String productDesc,
-    // final String productCount, final String productTotalPrice,
-    // final String serverId, final String zoneId, final String roleId,
-    // final String roleName, final String currencyName, final String ext,
-    // final String gameOrderId, final String notifyUrl) throws Exception {
-    // PayService.orderId = orderId;
-    // Thread thread = new Thread(new Runnable() {
-    // @Override
-    // public void run() {
-    // try {
-    // PayService
-    // .updateOrder(activity, orderId, uId, productId,
-    // productName, productDesc, productCount,
-    // productTotalPrice, serverId, zoneId,
-    // roleId, roleName, currencyName, ext,
-    // gameOrderId, notifyUrl);
-    // } catch (Exception ex) {
-    // XGLog.e(ex.getMessage(), ex);
-    // }
-    // }
-    // });
-    // thread.start();
-    // thread.join(THREAD_JOIN_TIME_OUT);
-    // }
 
     public static void createOrder(final Activity activity, final String uId,
             final String productId, final String productName,
             final String productDesc, final String productCount,
-            final String productTotalPrice, final String serverId,
+            final String appGoodsUnit, final String productTotalPrice,
+            final String originalPrice, final String serverId,
             final String zoneId, final String roleId, final String roleName,
             final String currencyName, final String ext,
             final String gameOrderId, final String notifyUrl,
@@ -128,8 +35,9 @@ public class PayService extends BaseService {
         final StringBuilder getUrl = generateRequestUrl(activity,
                 PAY_NEW_ORDER_URI, INTERFACE_TYPE_CREATE_ORDER, null, uId,
                 productId, productName, productDesc, productCount,
-                productTotalPrice, serverId, zoneId, roleId, roleName,
-                currencyName, ext, gameOrderId, notifyUrl, channelAppId);
+                appGoodsUnit, productTotalPrice, originalPrice, serverId,
+                zoneId, roleId, roleName, currencyName, ext, gameOrderId,
+                notifyUrl, channelAppId);
         HttpUtils.executeHttpGet(getUrl.toString(), new IHttpExecuteCallback() {
 
             @Override
@@ -167,7 +75,8 @@ public class PayService extends BaseService {
     public static void updateOrder(final Activity activity,
             final String orderId, final String uId, final String productId,
             final String productName, final String productDesc,
-            final String productCount, final String productTotalPrice,
+            final String productCount, final String appGoodsUnit,
+            final String productTotalPrice, final String originalPrice,
             final String serverId, final String zoneId, final String roleId,
             final String roleName, final String currencyName, final String ext,
             final String gameOrderId, final String notifyUrl,
@@ -176,8 +85,9 @@ public class PayService extends BaseService {
         final String getUrl = generateRequestUrl(activity,
                 PAY_UPDATE_ORDER_URI, INTERFACE_TYPE_UPDATE_ORDER, orderId,
                 uId, productId, productName, productDesc, productCount,
-                productTotalPrice, serverId, zoneId, roleId, roleName,
-                currencyName, ext, gameOrderId, notifyUrl, null).toString();
+                appGoodsUnit, productTotalPrice, originalPrice, serverId,
+                zoneId, roleId, roleName, currencyName, ext, gameOrderId,
+                notifyUrl, null).toString();
         // String resp = HttpUtils.executeHttpGet(getUrl.toString());
         HttpUtils.executeHttpGet(getUrl, new IHttpExecuteCallback() {
 
@@ -211,13 +121,15 @@ public class PayService extends BaseService {
 
     private static StringBuilder generateRequestUrl(final Activity activity,
             final String uri, final String interfacetype, final String orderId,
-            final String uId, final String productId, final String productName,
-            final String productDesc, final String productCount,
-            final String productTotalPrice, final String serverId,
-            final String zoneId, final String roleId, final String roleName,
-            final String currencyName, final String ext,
-            final String gameOrderId, final String notifyUrl,
-            final String channelAppId) throws Exception {
+            final String sdkUid, final String appGoodsId,
+            final String appGoodsName, final String appGoodsDesc,
+            final String appGoodsAmount, final String appGoodsUnit,
+            final String totalPrice, final String originalPrice,
+            final String serverId, final String zoneId, final String roleId,
+            final String roleName, final String currencyName,
+            final String custom, final String gameTradeNo,
+            final String gameCallbackUrl, final String channelAppId)
+            throws Exception {
         List<NameValuePair> requestParams = generateBasicRequestParams(
                 activity, interfacetype);
         if (!TextUtils.isEmpty(channelAppId)) {
@@ -228,29 +140,35 @@ public class PayService extends BaseService {
             requestParams.add(new BasicNameValuePair("orderId", orderId));
         }
         String xgAppId = XGInfo.getXGAppId(activity);
-        if (!TextUtils.isEmpty(uId)) {
-            requestParams.add(new BasicNameValuePair("sdkUid", uId));
+        if (!TextUtils.isEmpty(sdkUid)) {
+            requestParams.add(new BasicNameValuePair("sdkUid", sdkUid));
         }
-        if (!TextUtils.isEmpty(productTotalPrice)) {
-            requestParams.add(new BasicNameValuePair("totalPrice",
-                    productTotalPrice));
+        if (!TextUtils.isEmpty(totalPrice)) {
+            requestParams.add(new BasicNameValuePair("totalPrice", totalPrice));
+
+        }
+        if (!TextUtils.isEmpty(originalPrice)) {
             requestParams.add(new BasicNameValuePair("originalPrice",
-                    productTotalPrice));
+                    originalPrice));
         }
-        if (!TextUtils.isEmpty(productCount)) {
+        if (!TextUtils.isEmpty(appGoodsAmount)) {
             requestParams.add(new BasicNameValuePair("appGoodsAmount",
-                    productCount));
+                    appGoodsAmount));
         }
-        if (!TextUtils.isEmpty(productId)) {
-            requestParams.add(new BasicNameValuePair("appGoodsId", productId));
+        // if (!TextUtils.isEmpty(appGoodsUnit)) {
+        // requestParams.add(new BasicNameValuePair("appGoodsUnit",
+        // appGoodsUnit));
+        // }
+        if (!TextUtils.isEmpty(appGoodsId)) {
+            requestParams.add(new BasicNameValuePair("appGoodsId", appGoodsId));
         }
-        if (!TextUtils.isEmpty(productName)) {
+        if (!TextUtils.isEmpty(appGoodsName)) {
             requestParams.add(new BasicNameValuePair("appGoodsName",
-                    productName));
+                    appGoodsName));
         }
-        if (!TextUtils.isEmpty(productDesc)) {
+        if (!TextUtils.isEmpty(appGoodsDesc)) {
             requestParams.add(new BasicNameValuePair("appGoodsDesc",
-                    productDesc));
+                    appGoodsDesc));
         }
         if (!TextUtils.isEmpty(serverId)) {
             requestParams.add(new BasicNameValuePair("serverId", serverId));
@@ -269,16 +187,16 @@ public class PayService extends BaseService {
             requestParams.add(new BasicNameValuePair("currencyName",
                     currencyName));
         }
-        if (!TextUtils.isEmpty(ext)) {
-            requestParams.add(new BasicNameValuePair("custom", ext));
+        if (!TextUtils.isEmpty(custom)) {
+            requestParams.add(new BasicNameValuePair("custom", custom));
         }
-        if (!TextUtils.isEmpty(gameOrderId)) {
+        if (!TextUtils.isEmpty(gameTradeNo)) {
             requestParams
-                    .add(new BasicNameValuePair("gameTradeNo", gameOrderId));
+                    .add(new BasicNameValuePair("gameTradeNo", gameTradeNo));
         }
-        if (!TextUtils.isEmpty(notifyUrl)) {
+        if (!TextUtils.isEmpty(gameCallbackUrl)) {
             requestParams.add(new BasicNameValuePair("gameCallbackUrl",
-                    notifyUrl));
+                    gameCallbackUrl));
         }
         String requestContent = generateSignRequestContent(activity,
                 requestParams);
@@ -303,7 +221,7 @@ public class PayService extends BaseService {
         final StringBuilder getUrl = generateRequestUrl(activity,
                 PAY_CANCEL_ORDER_URI, INTERFACE_TYPE_CANCEL_ORDER, orderId,
                 null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, null, null);
         // 发送请求
         // String resp = HttpUtils.executeHttpGet(getUrl.toString());
         HttpUtils.executeHttpGet(getUrl.toString(), new IHttpExecuteCallback() {

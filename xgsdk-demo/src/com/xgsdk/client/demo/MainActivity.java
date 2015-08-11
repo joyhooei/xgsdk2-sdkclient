@@ -345,12 +345,12 @@ public class MainActivity extends Activity {
                         // "1234567890" + System.currentTimeMillis());
                         // xgsdk.pay(MainActivity1.this, payInfo);
                         PayInfo payment = new PayInfo();
-                        payment.setUid(GameInfo.getInstance().getUid());
-                        payment.setProductDesc("倚天不出谁与争锋");
+                        payment.setSdkUid(GameInfo.getInstance().getUid());
+                        payment.setAppGoodsDesc("倚天不出谁与争锋");
                         payment.setServerId("11");
-                        payment.setProductId("payment017");
+                        payment.setAppGoodsId("payment017");
                         // payment.setProductName("dabaojian");
-                        payment.setProductName("屠龙宝刀");
+                        payment.setAppGoodsName("屠龙宝刀");
                         JSONObject extJson = new JSONObject();
                         try {
                             extJson.put("planId",
@@ -360,18 +360,18 @@ public class MainActivity extends Activity {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        payment.setNotifyURL(XGInfo
+                        payment.setGameCallbackUrl(XGInfo
                                 .getXGPortalUrl(getApplicationContext())
                                 + "/sdkserver/receivePayResult");
-                        payment.setExt(extJson.toString());
+                        payment.setCustom(extJson.toString());
                         int totalPrice = TextUtils.isEmpty(etMoney.getText()) ? 0
                                 : Integer.valueOf(etMoney.getText().toString());
                         int count = TextUtils.isEmpty(etCount.getText()) ? 1
                                 : Integer.valueOf(etCount.getText().toString());
-                        payment.setProductCount(count);
+                        payment.setAppGoodsAmount(count);
                         // payment.setCurrencyName("yuanbao");
-                        payment.setCurrencyName("美元");
-                        payment.setProductTotalPrice(totalPrice);
+                        payment.setCurrencyName("CNY");
+                        payment.setTotalPrice(totalPrice);
                         payment.setProductUnitPrice(1);
                         XGSDK.getInstance().pay(MainActivity.this, payment,
                                 new PayCallBack() {

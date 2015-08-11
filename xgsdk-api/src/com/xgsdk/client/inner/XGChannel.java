@@ -114,14 +114,16 @@ public abstract class XGChannel {
     public final void updateOrder(Activity activity, PayInfo payInfo) {
         try {
             PayService.updateOrder(activity, payInfo.getXgOrderId(),
-                    payInfo.getUid(), payInfo.getProductId(),
-                    payInfo.getProductName(), payInfo.getProductDesc(),
-                    String.valueOf(payInfo.getProductCount()),
-                    String.valueOf(payInfo.getProductTotalPrice()),
+                    payInfo.getSdkUid(), payInfo.getAppGoodsId(),
+                    payInfo.getAppGoodsName(), payInfo.getAppGoodsDesc(),
+                    String.valueOf(payInfo.getAppGoodsAmount()),
+                    payInfo.getAppGoodsUnit(),
+                    String.valueOf(payInfo.getTotalPrice()),
+                    String.valueOf(payInfo.getOriginalPrice()),
                     payInfo.getServerId(), payInfo.getServerName(),
                     payInfo.getRoleId(), payInfo.getRoleName(),
-                    payInfo.getCurrencyName(), payInfo.getExt(),
-                    payInfo.getGameOrderId(), payInfo.getNotifyURL(),
+                    payInfo.getCurrencyName(), payInfo.getCustom(),
+                    payInfo.getGameTradeNo(), payInfo.getGameCallbackUrl(),
                     new ICallback() {
                         @Override
                         public void callback(Result result, String retStr) {
@@ -149,15 +151,17 @@ public abstract class XGChannel {
     public final void createOrder(Activity activity, PayInfo payInfo,
             ICallback callback) {
         try {
-            PayService.createOrder(activity, payInfo.getUid(),
-                    payInfo.getProductId(), payInfo.getProductName(),
-                    payInfo.getProductDesc(),
-                    String.valueOf(payInfo.getProductCount()),
-                    String.valueOf(payInfo.getProductTotalPrice()),
+            PayService.createOrder(activity, payInfo.getSdkUid(),
+                    payInfo.getAppGoodsId(), payInfo.getAppGoodsName(),
+                    payInfo.getAppGoodsDesc(),
+                    String.valueOf(payInfo.getAppGoodsAmount()),
+                    payInfo.getAppGoodsUnit(),
+                    String.valueOf(payInfo.getTotalPrice()),
+                    String.valueOf(payInfo.getOriginalPrice()),
                     payInfo.getServerId(), payInfo.getZoneId(),
                     payInfo.getRoleId(), payInfo.getRoleName(),
-                    payInfo.getCurrencyName(), payInfo.getExt(),
-                    payInfo.getGameOrderId(), payInfo.getNotifyURL(),
+                    payInfo.getCurrencyName(), payInfo.getCustom(),
+                    payInfo.getGameTradeNo(), payInfo.getGameCallbackUrl(),
                     getChannelAppId(activity), callback);
         } catch (Exception e) {
             XGLog.e("create order error", e);

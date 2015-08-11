@@ -1,15 +1,14 @@
+
 package com.xgsdk.client.testchannel;
 
+import com.xgsdk.client.core.data.XGDataMonitor;
 
 import android.app.Activity;
 
 import java.util.Map;
 
-import com.xgsdk.client.core.data.XGDataMonitor;
-
-
 public class XGDataTester implements XGDataMonitor {
-    
+
     public XGDataTester() {
         // TODO Auto-generated constructor stub
     }
@@ -17,31 +16,31 @@ public class XGDataTester implements XGDataMonitor {
     @Override
     public void setActivity(Activity currentActivity, Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void onResume(Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void onPause(Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void onDeviceConnect(Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void onAccountLogin(String accountId, String accountName, Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -49,7 +48,7 @@ public class XGDataTester implements XGDataMonitor {
             String roleId, String roleName, String server, String serverName,
             int roleLevel, String loginFlag, Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -57,7 +56,7 @@ public class XGDataTester implements XGDataMonitor {
             String accountName, String roleId, String roleName, int roleLevel,
             Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -65,7 +64,7 @@ public class XGDataTester implements XGDataMonitor {
             String accountName, String roleId, String roleName, int roleLevel,
             String missionName, String missionFlag, Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -73,7 +72,7 @@ public class XGDataTester implements XGDataMonitor {
             String accountId, String accountName,
             Map<String, Object> eventBody, Object ext) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }
