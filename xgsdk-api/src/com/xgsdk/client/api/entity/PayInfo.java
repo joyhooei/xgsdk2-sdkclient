@@ -8,15 +8,15 @@ import java.util.HashMap;
 public class PayInfo {
     public static final String KEY_XG_ORDER_ID = "XG_ORDER_ID";
 
-    private String sdkUid;
-    private String appGoodsId;
-    private String appGoodsName;
-    private String appGoodsDesc;
-    private String appGoodsUnit;
+    private String uid;
+    private String productId;
+    private String productName;
+    private String productDesc;
+    private String productUnit;
     private int totalPrice;
     private int originalPrice;
     private int productUnitPrice;
-    private int appGoodsAmount;
+    private int productAmount;
     private String gameTradeNo;
     private String currencyName;
     private String custom;
@@ -48,6 +48,78 @@ public class PayInfo {
         return additionalParams.get(KEY_XG_ORDER_ID);
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductDesc() {
+        return productDesc;
+    }
+
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc;
+    }
+
+    public String getProductUnit() {
+        return productUnit;
+    }
+
+    public void setProductUnit(String productUnit) {
+        this.productUnit = productUnit;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(int originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+    public int getProductUnitPrice() {
+        return productUnitPrice;
+    }
+
+    public void setProductUnitPrice(int productUnitPrice) {
+        this.productUnitPrice = productUnitPrice;
+    }
+
+    public int getProductAmount() {
+        return productAmount;
+    }
+
+    public void setProductAmount(int productAmount) {
+        this.productAmount = productAmount;
+    }
+
     public String getGameTradeNo() {
         return gameTradeNo;
     }
@@ -56,76 +128,36 @@ public class PayInfo {
         this.gameTradeNo = gameTradeNo;
     }
 
-    public String getGameCallbackUrl() {
-        return gameCallbackUrl;
-    }
-
-    public void setGameCallbackUrl(String gameCallbackUrl) {
-        this.gameCallbackUrl = gameCallbackUrl;
-    }
-
-    public String getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(String zoneId) {
-        this.zoneId = zoneId;
-    }
-
-    public String getZoneName() {
-        return zoneName;
-    }
-
-    public void setZoneName(String zoneName) {
-        this.zoneName = zoneName;
-    }
-
     public String getCurrencyName() {
         return currencyName;
-    }
-
-    public int getProductUnitPrice() {
-        return productUnitPrice;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public String getServerId() {
-        return serverId;
-    }
-
-    public String getServerName() {
-        return serverName;
     }
 
     public void setCurrencyName(String currencyName) {
         this.currencyName = currencyName;
     }
 
-    public void setProductUnitPrice(int productUnitPrice) {
-        this.productUnitPrice = productUnitPrice;
+    public String getCustom() {
+        return custom;
+    }
+
+    public void setCustom(String custom) {
+        this.custom = custom;
+    }
+
+    public String getRoleId() {
+        return roleId;
     }
 
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
+    public String getRoleName() {
+        return roleName;
+    }
+
     public void setRoleName(String roleName) {
         this.roleName = roleName;
-    }
-
-    public void setServerId(String serverId) {
-        this.serverId = serverId;
-    }
-
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
     }
 
     public int getLevel() {
@@ -144,86 +176,54 @@ public class PayInfo {
         this.vipLevel = vipLevel;
     }
 
-    public String getSdkUid() {
-        return sdkUid;
+    public String getServerId() {
+        return serverId;
     }
 
-    public void setSdkUid(String sdkUid) {
-        this.sdkUid = sdkUid;
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
-    public int getTotalPrice() {
-        return totalPrice;
+    public String getServerName() {
+        return serverName;
     }
 
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
     }
 
-    public int getAppGoodsAmount() {
-        return appGoodsAmount;
+    public String getZoneId() {
+        return zoneId;
     }
 
-    public void setAppGoodsAmount(int appGoodsAmount) {
-        this.appGoodsAmount = appGoodsAmount;
+    public void setZoneId(String zoneId) {
+        this.zoneId = zoneId;
     }
 
-    public String getAppGoodsId() {
-        return appGoodsId;
+    public String getZoneName() {
+        return zoneName;
     }
 
-    public void setAppGoodsId(String appGoodsId) {
-        this.appGoodsId = appGoodsId;
+    public void setZoneName(String zoneName) {
+        this.zoneName = zoneName;
     }
 
-    public String getAppGoodsName() {
-        return appGoodsName;
+    public String getGameCallbackUrl() {
+        return gameCallbackUrl;
     }
 
-    public void setAppGoodsName(String appGoodsName) {
-        this.appGoodsName = appGoodsName;
-    }
-
-    public String getAppGoodsDesc() {
-        return appGoodsDesc;
-    }
-
-    public void setAppGoodsDesc(String appGoodsDesc) {
-        this.appGoodsDesc = appGoodsDesc;
-    }
-
-    public int getOriginalPrice() {
-        return originalPrice;
-    }
-
-    public void setOriginalPrice(int originalPrice) {
-        this.originalPrice = originalPrice;
-    }
-
-    public String getAppGoodsUnit() {
-        return appGoodsUnit;
-    }
-
-    public void setAppGoodsUnit(String appGoodsUnit) {
-        this.appGoodsUnit = appGoodsUnit;
-    }
-
-    public String getCustom() {
-        return custom;
-    }
-
-    public void setCustom(String custom) {
-        this.custom = custom;
+    public void setGameCallbackUrl(String gameCallbackUrl) {
+        this.gameCallbackUrl = gameCallbackUrl;
     }
 
     @Override
     public String toString() {
-        return "PayInfo [sdkUid=" + sdkUid + ", appGoodsId=" + appGoodsId
-                + ", appGoodsName=" + appGoodsName + ", appGoodsDesc="
-                + appGoodsDesc + ", appGoodsUnit=" + appGoodsUnit
+        return "PayInfo [uid=" + uid + ", productId=" + productId
+                + ", productName=" + productName + ", productDesc="
+                + productDesc + ", productUnit=" + productUnit
                 + ", totalPrice=" + totalPrice + ", originalPrice="
                 + originalPrice + ", productUnitPrice=" + productUnitPrice
-                + ", appGoodsAmount=" + appGoodsAmount + ", gameTradeNo="
+                + ", productAmount=" + productAmount + ", gameTradeNo="
                 + gameTradeNo + ", currencyName=" + currencyName + ", custom="
                 + custom + ", roleId=" + roleId + ", roleName=" + roleName
                 + ", level=" + level + ", vipLevel=" + vipLevel + ", serverId="

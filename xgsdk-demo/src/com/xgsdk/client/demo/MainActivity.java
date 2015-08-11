@@ -345,12 +345,12 @@ public class MainActivity extends Activity {
                         // "1234567890" + System.currentTimeMillis());
                         // xgsdk.pay(MainActivity1.this, payInfo);
                         PayInfo payment = new PayInfo();
-                        payment.setSdkUid(GameInfo.getInstance().getUid());
-                        payment.setAppGoodsDesc("倚天不出谁与争锋");
+                        payment.setUid(GameInfo.getInstance().getUid());
+                        payment.setProductDesc("倚天不出谁与争锋");
                         payment.setServerId("11");
-                        payment.setAppGoodsId("payment017");
+                        payment.setProductId("payment017");
                         // payment.setProductName("dabaojian");
-                        payment.setAppGoodsName("屠龙宝刀");
+                        payment.setProductName("屠龙宝刀");
                         JSONObject extJson = new JSONObject();
                         try {
                             extJson.put("planId",
@@ -368,7 +368,7 @@ public class MainActivity extends Activity {
                                 : Integer.valueOf(etMoney.getText().toString());
                         int count = TextUtils.isEmpty(etCount.getText()) ? 1
                                 : Integer.valueOf(etCount.getText().toString());
-                        payment.setAppGoodsAmount(count);
+                        payment.setProductAmount(count);
                         // payment.setCurrencyName("yuanbao");
                         payment.setCurrencyName("CNY");
                         payment.setTotalPrice(totalPrice);

@@ -114,10 +114,10 @@ public abstract class XGChannel {
     public final void updateOrder(Activity activity, PayInfo payInfo) {
         try {
             PayService.updateOrder(activity, payInfo.getXgOrderId(),
-                    payInfo.getSdkUid(), payInfo.getAppGoodsId(),
-                    payInfo.getAppGoodsName(), payInfo.getAppGoodsDesc(),
-                    String.valueOf(payInfo.getAppGoodsAmount()),
-                    payInfo.getAppGoodsUnit(),
+                    payInfo.getUid(), payInfo.getProductId(),
+                    payInfo.getProductName(), payInfo.getProductDesc(),
+                    String.valueOf(payInfo.getProductAmount()),
+                    payInfo.getProductUnit(),
                     String.valueOf(payInfo.getTotalPrice()),
                     String.valueOf(payInfo.getOriginalPrice()),
                     payInfo.getServerId(), payInfo.getServerName(),
@@ -151,11 +151,11 @@ public abstract class XGChannel {
     public final void createOrder(Activity activity, PayInfo payInfo,
             ICallback callback) {
         try {
-            PayService.createOrder(activity, payInfo.getSdkUid(),
-                    payInfo.getAppGoodsId(), payInfo.getAppGoodsName(),
-                    payInfo.getAppGoodsDesc(),
-                    String.valueOf(payInfo.getAppGoodsAmount()),
-                    payInfo.getAppGoodsUnit(),
+            PayService.createOrder(activity, payInfo.getUid(),
+                    payInfo.getProductId(), payInfo.getProductName(),
+                    payInfo.getProductDesc(),
+                    String.valueOf(payInfo.getProductAmount()),
+                    payInfo.getProductUnit(),
                     String.valueOf(payInfo.getTotalPrice()),
                     String.valueOf(payInfo.getOriginalPrice()),
                     payInfo.getServerId(), payInfo.getZoneId(),

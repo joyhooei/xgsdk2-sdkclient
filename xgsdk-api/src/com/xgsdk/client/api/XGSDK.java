@@ -186,13 +186,13 @@ public class XGSDK {
 
                         if (TextUtils.isEmpty(orderId)) {
                             XGLog.e("create order fail in xg service ,uid:"
-                                    + payInfo.getSdkUid() + ",price:"
+                                    + payInfo.getUid() + ",price:"
                                     + payInfo.getTotalPrice() + ",ext:"
                                     + payInfo.getCustom());
                             payCallBack.onFail(
                                     XGErrorCode.PAY_FAILED_CREATE_ORDER_FAILED,
                                     "create order fail in xg service ,uid:"
-                                            + payInfo.getSdkUid() + ",price:"
+                                            + payInfo.getUid() + ",price:"
                                             + payInfo.getTotalPrice() + ",ext:"
                                             + payInfo.getCustom());
                             return;

@@ -151,27 +151,29 @@ public class XGSDKCocos2dxWrapper {
         });
     }
 
-    public void pay(final String sdkUid, final String appGoodsId,
-            final String appGoodsName, final String appGoodsDesc,
-            final int appGoodsAmount, final String appGoodsUnit,
-            final int totalPrice, final int originalPrice,
-            final String currencyName, final String custom,
-            final String gameTradeNo, final String gameCallbackUrl,
-            final String serverId, final String serverName,
-            final String zoneId, final String zoneName, final String roleId,
-            final String roleName, final int level, final int vipLevel) {
+    public void pay(final String uid, final String productId,
+            final String productName, final String productDesc,
+            final int productAmount, final String productUnit,
+            final int productUnitPrice, final int totalPrice,
+            final int originalPrice, final String currencyName,
+            final String custom, final String gameTradeNo,
+            final String gameCallbackUrl, final String serverId,
+            final String serverName, final String zoneId,
+            final String zoneName, final String roleId, final String roleName,
+            final int level, final int vipLevel) {
         XGLog.i(LOG_TAG, "pay");
         Cocos2dxPluginWrapper.runOnMainThread(new Runnable() {
 
             @Override
             public void run() {
                 final PayInfo payment = new PayInfo();
-                payment.setSdkUid(sdkUid);
-                payment.setAppGoodsId(appGoodsId);
-                payment.setAppGoodsName(appGoodsName);
-                payment.setAppGoodsDesc(appGoodsDesc);
-                payment.setAppGoodsAmount(appGoodsAmount);
-                payment.setAppGoodsUnit(appGoodsUnit);
+                payment.setUid(uid);
+                payment.setProductId(productId);
+                payment.setProductName(productName);
+                payment.setProductDesc(productDesc);
+                payment.setProductAmount(productAmount);
+                payment.setProductUnit(productUnit);
+                payment.setProductUnitPrice(productUnitPrice);
                 payment.setTotalPrice(totalPrice);
                 payment.setOriginalPrice(originalPrice);
                 payment.setCurrencyName(currencyName);
