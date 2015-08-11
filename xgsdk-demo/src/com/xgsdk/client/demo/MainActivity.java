@@ -41,14 +41,17 @@ import android.widget.ToggleButton;
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
 
-    private RoleInfo mRoleInfo = new RoleInfo();
-    private GameServerInfo mServerInfo = new GameServerInfo();
-    private XGUser mUser = new XGUser();
+    private RoleInfo mRoleInfo;
+    private GameServerInfo mServerInfo;
+    private XGUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        
         super.onCreate(savedInstanceState);
-
+        mRoleInfo = new RoleInfo();
+        mServerInfo = new GameServerInfo();
+        mUser = new XGUser();
         setContentView(RUtil.getLayout(getApplicationContext(),
                 "xg_demo_activity_main"));
 
@@ -157,9 +160,10 @@ public class MainActivity extends Activity {
                 });
         findViewById(RUtil.getId(getApplicationContext(), "xg_create_role"))
                 .setOnClickListener(new OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
+                        mRoleInfo.setRoleId("1112");
+                        mRoleInfo.setRoleName("cuizi");
                         XGSDK.getInstance().onCreateRole(MainActivity.this,
                                 mRoleInfo);
                     }
@@ -169,6 +173,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onClick(View v) {
+                        mRoleInfo.setRoleId("1112");
                         mRoleInfo.setLevel(2);
                         XGSDK.getInstance().onRoleLevelup(MainActivity.this,
                                 mUser, mRoleInfo, mServerInfo);
@@ -195,7 +200,7 @@ public class MainActivity extends Activity {
         });
 
         XGSDK.getInstance().onCreate(this);
-        XGSDK.getInstance().init(this);
+        
         XGSDK.getInstance().setUserCallBack(new UserCallBack() {
 
             @Override
@@ -265,6 +270,7 @@ public class MainActivity extends Activity {
 
             }
         });
+        XGSDK.getInstance().init(this);
 
     }
 

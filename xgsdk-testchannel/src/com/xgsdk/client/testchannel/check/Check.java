@@ -84,7 +84,7 @@ public class Check {
         XGLog.w(json.toString());
         try {
             HttpUtils.executeHttpPost(XGInfo.getXGPortalUrl(context)
-                    + "/package/interfaceTest", json.toString(),
+                    + "/package/interface-test", json.toString(),
                     new IHttpExecuteCallback() {
                         @Override
                         public void callback(int code, String data) {
@@ -300,5 +300,4 @@ public class Check {
         // roleName, roleType, roleLevel, activity, itemCatalog, itemId,
         // itemName, consumeGold, consumeBindingGold);
     }
-
 }
