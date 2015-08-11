@@ -63,7 +63,9 @@ public class OrderDetailLayout extends LinearLayout {
         }
         Object value = null;
         try {
-            value = m.invoke(model, new Object[] {});
+            if(m != null){
+                value = m.invoke(model, new Object[] {});
+            } 
         } catch (IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
