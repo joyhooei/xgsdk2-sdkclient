@@ -281,11 +281,11 @@ public class PayService extends BaseService {
                             "testChannelNotify order .parse response error:"
                                     + data);
                 }
-                if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
-
-                    throw new RuntimeException("testChannelNotify failed,resp:"
-                            + data);
-                }
+//                if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
+//                    if (callback != null) {
+//                        callback.callback(result, data);
+//                    }
+//                }
                 XGLog.d("testChannelNotify order ," + result);
                 if (callback != null) {
                     callback.callback(result, data);
