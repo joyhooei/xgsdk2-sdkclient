@@ -443,10 +443,11 @@ public class Statistics {
 
     // ********************* 自定义事件 ************************//
 
-    public static void onEvent(Activity activity, String eventId,
-            String eventDesc, String serverId, String serverName,
-            String accountId, String accountName, int eventVal,
-            Map<String, Object> eventBody, Object ext) {
+    public static void onEvent(Activity activity, String serverId,
+            String serverName, String accountId, String accountName,
+            String roleId, String roleName, int roleLevel, String eventId,
+            String eventDesc, int eventVal, Map<String, Object> eventBody,
+            Object ext) {
         if (sDataAgent == null) {
             return;
         }

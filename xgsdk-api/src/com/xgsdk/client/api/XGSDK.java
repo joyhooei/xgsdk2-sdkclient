@@ -85,6 +85,7 @@ public class XGSDK {
     public void onResume(Activity activity) {
         try {
             mXGChannel.onResume(activity);
+            Statistics.onResume(activity, null);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onResume " + " error ", e);
         }
@@ -93,6 +94,7 @@ public class XGSDK {
     public void onPause(Activity activity) {
         try {
             mXGChannel.onPause(activity);
+            Statistics.onPause(activity, null);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onPause " + " error ", e);
         }
@@ -241,19 +243,38 @@ public class XGSDK {
         }
     }
 
-    public void onCreateRole(Activity activity, RoleInfo info) {
+    public void onCreateRole(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server) {
         try {
-            mXGChannel.onCreateRole(activity, info);
+            mXGChannel.onCreateRole(activity, role);
+            Statistics
+                    .onRoleCreate(activity, server.getServerId(),
+                            server.getServerName(), user.getUid(),
+                            user.getUserName(), role.getRoleId(),
+                            role.getRoleName(), role.getLevel(), null);
         } catch (Exception e) {
-            XGLog.e(LOG_TAG, getChannelId() + " onCreateRole " + info
+            XGLog.e(LOG_TAG, getChannelId() + " onCreateRole " + role
                     + " error ", e);
         }
     }
 
-    public void onEnterGame(Activity activity, XGUser user, RoleInfo roleInfo,
-            GameServerInfo serverInfo) {
+    public void onEnterGame(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server) {
         try {
-            mXGChannel.onEnterGame(activity, user, roleInfo, serverInfo);
+            mXGChannel.onEnterGame(activity, user, role, server);
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onAccountLogin(activity, user.getUid(),
+                    user.getUserName(), null);
+            Statistics.onRoleLogin(activity, serverId, serverName, accountId,
+                    accountName, roleId, roleName, roleLevel, null);
+            Statistics.onRoleEnterGame(activity, serverId, serverName,
+                    accountId, accountName, roleId, roleName, roleLevel, null);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onEnterGame error ", e);
         }
@@ -263,55 +284,288 @@ public class XGSDK {
             GameServerInfo server) {
         try {
             mXGChannel.onRoleLevelup(activity, role);
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onRoleLevelUp(activity, serverId, serverName, accountId,
+                    accountName, roleId, roleName, roleLevel, null);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onRoleLevelup " + role
                     + " error ", e);
         }
     }
 
-    public void onEvent(Activity activity, XGUser user, RoleInfo roleInfo,
-            GameServerInfo serverInfo, String eventId, String eventDesc,
+    public void onRoleLogout(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String customParams) {
+        try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onRoleLogout(activity, serverId, serverName, accountId,
+                    accountName, roleId, roleName, roleLevel, customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onRoleLogout " + role
+                    + " error ", e);
+        }
+    }
+
+    public void onAccountCreate(Activity activity, XGUser user,
+            String customParams) {
+        try {
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            Statistics.onAccountCreate(activity, accountId, accountName,
+                    customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onAccountCreate " + user
+                    + " error ", e);
+        }
+    }
+
+    public void onAccountLogout(Activity activity, XGUser user,
+            String customParams) {
+        try {
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            Statistics.onAccountLogout(activity, accountId, accountName,
+                    customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onAccountLogout " + user
+                    + " error ", e);
+        }
+    }
+
+    public void onEvent(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String eventId, String eventDesc,
             int eventVal, Map<String, Object> eventBody, String customParams) {
         try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onEvent(activity, serverId, serverName, accountId,
+                    accountName, roleId, roleName, roleLevel, eventId,
+                    eventDesc, eventVal, eventBody, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onEvent error ", e);
         }
     }
 
-    public void onMissionBegin(Activity activity, XGUser user,
-            RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
+    public void onMissionBegin(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
             String customParams) {
         try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onMissionBegin(activity, missionId, missionName,
+                    serverId, serverName, accountId, accountName, roleId,
+                    roleName, roleLevel, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onMissionBegin error ", e);
         }
     }
 
-    public void onMissionSuccess(Activity activity, XGUser user,
-            RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
+    public void onMissionSuccess(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
             String customParams) {
         try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onMissionSuccess(activity, missionId, missionName,
+                    serverId, serverName, accountId, accountName, roleId,
+                    roleName, roleLevel, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onMissionSuccess error ", e);
         }
     }
 
-    public void onMissionFail(Activity activity, XGUser user,
-            RoleInfo roleInfo, GameServerInfo serverInfo, String missionName,
+    public void onMissionFail(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
             String customParams) {
         try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onMissionFail(activity, missionId, missionName,
+                    serverId, serverName, accountId, accountName, roleId,
+                    roleName, roleLevel, customParams);
         } catch (Exception e) {
             XGLog.e(LOG_TAG, getChannelId() + " onMissionFail error ", e);
         }
     }
 
-    void onApplicationCreate(final Context context) {
+    public void onLevelsBegin(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String levelsId, String customParams) {
         try {
-            mXGChannel.onApplicationCreate(context);
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onLevelsBegin(activity, levelsId, serverId, serverName,
+                    accountId, accountName, roleId, roleName, roleLevel,
+                    customParams);
         } catch (Exception e) {
-            XGLog.e(LOG_TAG, getChannelId() + " onApplicationCreate "
-                    + " error ", e);
+            XGLog.e(LOG_TAG, getChannelId() + " onLevelsBegin error ", e);
         }
+    }
+
+    public void onLevelsSuccess(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String levelsId, String customParams) {
+        try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onLevelsSuccess(activity, levelsId, serverId,
+                    serverName, accountId, accountName, roleId, roleName,
+                    roleLevel, customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onLevelsSuccess error ", e);
+        }
+    }
+
+    public void onLevelsFail(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String levelsId, String reason,
+            String customParams) {
+        try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onLevelsFail(activity, levelsId, reason, serverId,
+                    serverName, accountId, accountName, roleId, roleName,
+                    roleLevel, customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onLevelsFail error ", e);
+        }
+    }
+
+    public void onItemBuy(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String itemId, String itemName,
+            int itemCount, int listPrice, int transPrice, int payGold,
+            int payBindingGold, int curGold, int curBindingGold, int totalGold,
+            int totalBindingGold, String customParams) {
+        try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onItemBuy(activity, itemId, itemName, itemCount,
+                    listPrice, transPrice, payGold, payBindingGold, curGold,
+                    curBindingGold, totalGold, totalBindingGold, serverId,
+                    serverName, accountId, accountName, roleId, roleName,
+                    roleLevel, customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onItemBuy error ", e);
+        }
+
+    }
+
+    public void onItemGet(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String itemId, String itemName,
+            int itemCount, int listPrice, int transPrice, int payGold,
+            int payBindingGold, int curGold, int curBindingGold, int totalGold,
+            int totalBindingGold, String customParams) {
+        try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onItemGet(activity, itemId, itemName, itemCount,
+                    listPrice, transPrice, payGold, payBindingGold, curGold,
+                    curBindingGold, totalGold, totalBindingGold, serverId,
+                    serverName, accountId, accountName, roleId, roleName,
+                    roleLevel, customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onItemBuy error ", e);
+        }
+
+    }
+
+    public void onItemConsume(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String itemId, String itemName,
+            int itemCount, int listPrice, int transPrice, int payGold,
+            int payBindingGold, int curGold, int curBindingGold, int totalGold,
+            int totalBindingGold, String customParams) {
+        try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onItemConsume(activity, itemId, itemName, itemCount,
+                    listPrice, transPrice, payGold, payBindingGold, curGold,
+                    curBindingGold, totalGold, totalBindingGold, serverId,
+                    serverName, accountId, accountName, roleId, roleName,
+                    roleLevel, customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onItemConsume error ", e);
+        }
+
+    }
+
+    public void onGoldGain(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String gainChannel, int gold,
+            int bindingGold, int curGold, int curBindingGold, int totalGold,
+            int totalBindingGold, String customParams) {
+        try {
+            String serverId = server.getServerId();
+            String serverName = server.getServerName();
+            String accountId = user.getUid();
+            String accountName = user.getUserName();
+            String roleId = role.getRoleId();
+            String roleName = role.getRoleName();
+            int roleLevel = role.getLevel();
+            Statistics.onGoldGain(activity, gainChannel, gold, bindingGold,
+                    curGold, curBindingGold, totalGold, totalBindingGold,
+                    serverId, serverName, accountId, accountName, roleId,
+                    roleName, roleLevel, customParams);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onGoldGain error ", e);
+        }
+
     }
 
     void onApplicationAttachBaseContext(final Context context) {
