@@ -568,6 +568,15 @@ public class XGSDK {
 
     }
 
+    void onApplicationCreate(final Context context) {
+        try {
+            mXGChannel.onApplicationCreate(context);
+        } catch (Exception e) {
+            XGLog.e(LOG_TAG, getChannelId() + " onApplicationCreate "
+                    + " error ", e);
+        }
+    }
+
     void onApplicationAttachBaseContext(final Context context) {
         try {
             mXGChannel.onApplicationAttachBaseContext(context);
