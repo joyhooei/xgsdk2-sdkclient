@@ -43,7 +43,7 @@ namespace XGSDK2
 
 
 
-		//获取渠道tag时调用
+		//获取渠道ID时调用
 		public static string getChannelId()
 		{
 			Debug.Log ("call sgsdk getChannelId...");
@@ -66,7 +66,7 @@ namespace XGSDK2
         }       
         
 
-		//支付时调用，使用封装类传输数据
+		//支付时调用
 		public static void pay(PayInfo payInfo)
 		{
 			Debug.Log("call xgsdk pay...");
@@ -85,7 +85,7 @@ namespace XGSDK2
 
 
 		
-		//退出时调用 必接接口
+		//退出时调用
 		public static void exit(string customParams)
 		{
 			Debug.Log("call xgsdk exit...");
@@ -96,7 +96,7 @@ namespace XGSDK2
 		}
 		
 		
-		//登出时调用 必接接口
+		//登出时调用
         public static void logout(string customParams)
         {
             Debug.Log("call xgsdk logout..."); 
@@ -111,12 +111,12 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk switchAccount...");    
 			#if UNITY_ANDROID               
-			callSdkApi("switchAccount");
+			callSdkApi("switchAccount", customParams);
 			#endif
 		}
 
 
-		//进入游戏后向渠道传递用户信息 必接接口
+		//进入游戏后向渠道传递用户信息
 		public static void onEnterGame(UserInfo userInfo)
 		{   
 			Debug.Log("call xgsdk enterGame...");           
@@ -210,7 +210,7 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk openUserCenter...");      
 			#if UNITY_ANDROID
-			callSdkApi("openUserCenter");
+			callSdkApi("openUserCenter", customParams);
 			#endif
 		}
 
@@ -502,5 +502,15 @@ namespace XGSDK2
 			set{ customParams = value;}
 			get{ return customParams;}
 		}
+	}
+
+	public class LevelsInfo
+	{
+
+	}
+
+	public class ItemInfo
+	{
+
 	}
 }
