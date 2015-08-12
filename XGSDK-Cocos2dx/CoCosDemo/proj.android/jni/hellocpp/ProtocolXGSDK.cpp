@@ -89,13 +89,13 @@ char *ProtocolXGSDK::getChannelId() {
 	return channelId;
 }
 
-void ProtocolXGSDK::login(const char *msg) {
+void ProtocolXGSDK::login(const char *customParams) {
 	LOGI("LOGIN BEGIN");
 	JniMethodInfo t;
 
 	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "login", "(Ljava/lang/String;)V")) {
 		LOGI("LOGIN ENTER METHOD");
-		jstring jtmp = stoJstring(t.env,"");
+		jstring jtmp = stoJstring(t.env, customParams);
 		if(mXGEngine == NULL) {
 			LOGE("mXGEngine is NULL");
 		}
@@ -108,7 +108,7 @@ void ProtocolXGSDK::login(const char *msg) {
 void ProtocolXGSDK::pay(PayInfo &payInfo) {
 	LOGI("PAY BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "pay", "(Ljava/lang/String;IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")) {
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "pay", "(Ljava/lang/String;IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")) {
 		LOGI("ENTER PAY METHOD");
 		jstring juid = stoJstring(t.env, payInfo.uid);
 		jint jproductTotalPirce = payInfo.productTotalPirce;
@@ -124,8 +124,8 @@ void ProtocolXGSDK::pay(PayInfo &payInfo) {
 		jstring jzoneName = stoJstring(t.env, payInfo.zoneName);
 		jstring jroleId = stoJstring(t.env, payInfo.roleId);
 		jstring jroleName = stoJstring(t.env, payInfo.roleName);
-		jstring jlevel = stoJstring(t.env, payInfo.level);
-		jstring jvipLevel = stoJstring(t.env, payInfo.vipLevel);
+		jint jlevel = payInfo.level;
+		jint jvipLevel = payInfo.vipLevel;
 		jstring jbalance = stoJstring(t.env, payInfo.balance);
 		jstring jgameOrderId = stoJstring(t.env, payInfo.gameOrderId);
 		jstring jext = stoJstring(t.env, payInfo.ext);
@@ -151,8 +151,6 @@ void ProtocolXGSDK::pay(PayInfo &payInfo) {
 		t.env->DeleteLocalRef(jzoneName);
 		t.env->DeleteLocalRef(jroleId);
 		t.env->DeleteLocalRef(jroleName);
-		t.env->DeleteLocalRef(jlevel);
-		t.env->DeleteLocalRef(jvipLevel);
 		t.env->DeleteLocalRef(jbalance);
 		t.env->DeleteLocalRef(jgameOrderId);
 		t.env->DeleteLocalRef(jext);
@@ -162,45 +160,49 @@ void ProtocolXGSDK::pay(PayInfo &payInfo) {
 	LOGI("EXIT PAY");
 }
 
-void ProtocolXGSDK::exit(const char *msg) {
+void ProtocolXGSDK::exit(const char *customParams) {
 	LOGI("EXIT BEGIN");
 	JniMethodInfo t;
 	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "exit", "(Ljava/lang/String;)V")) {
 		LOGI("ENTER EXIT METHOD");
-
+		jstring jtmp = stoJstring(t.env, customParams);
 		if(mXGEngine == NULL) {
 			LOGE("mXGEngine is NULL");
 		}
 
-		t.env->CallVoidMethod(mXGEngine, t.methodID, stoJstring(t.env,""));
+		t.env->CallVoidMethod(mXGEngine, t.methodID, jtmp);
+		t.env->DeleteLocalRef(jtmp);
 	}
 	LOGI("EXIT EXIT");
 }
 
-void ProtocolXGSDK::logout(const char *msg) {
+void ProtocolXGSDK::logout(const char *customParams) {
 	LOGI("LOGOUT BEGIN");
 	JniMethodInfo t;
 	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "logout", "(Ljava/lang/String;)V")) {
 		LOGI("LOGOUT ENTER METHOD");
+		jstring jtmp = stoJstring(t.env, customParams);
 		if(mXGEngine == NULL) {
 			LOGE("mXGEngine is NULL");
 		}
-		t.env->CallVoidMethod(mXGEngine, t.methodID, stoJstring(t.env,""));
+		t.env->CallVoidMethod(mXGEngine, t.methodID, jtmp);
+		t.env->DeleteLocalRef(jtmp);
 	}
 	LOGI("EXIT LOGOUT");
 }
 
-void ProtocolXGSDK::switchAccount(const char *msg) {
+void ProtocolXGSDK::switchAccount(const char *customParams) {
 	LOGI("SWITCHACCOUNT BEGIN");
 	JniMethodInfo t;
 	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "switchAccount", "(Ljava/lang/String;)V")) {
 		LOGI("ENTER SWITCHACCOUNT METHOD");
-
+		jstring jtmp = stoJstring(t.env, customParams);
 		if(mXGEngine == NULL) {
 			LOGE("mXGEngine is NULL");
 		}
 
-		t.env->CallVoidMethod(mXGEngine, t.methodID, stoJstring(t.env,""));
+		t.env->CallVoidMethod(mXGEngine, t.methodID, jtmp);
+		t.env->DeleteLocalRef(jtmp);
 	}
 	LOGI("EXIT SWITCHACCOUNT");
 }
@@ -208,7 +210,7 @@ void ProtocolXGSDK::switchAccount(const char *msg) {
 void ProtocolXGSDK::onEnterGame(UserInfo &userInfo) {
 	LOGI("ONENTERGAME BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "onEnterGame", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")) {
+	if(JniHelper::getMethodInfo(t, "com/xgsdk/client/cocos2dx/XGSDKCocos2dxWrapper", "onEnterGame", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")) {
 		LOGI("ENTER ONENTERGAME METOHD");
 		if(mXGEngine == NULL) {
 			LOGE("mXGEngine is NULL");
@@ -219,8 +221,8 @@ void ProtocolXGSDK::onEnterGame(UserInfo &userInfo) {
 		jstring jroleId = stoJstring(t.env, userInfo.roleId);
 		jstring jroleName = stoJstring(t.env, userInfo.roleName);
 		jstring jgender = stoJstring(t.env, userInfo.gender);
-		jstring jlevel = stoJstring(t.env, userInfo.level);
-		jstring jvipLevel = stoJstring(t.env, userInfo.vipLevel);
+		jint jlevel = userInfo.level;
+		jint jvipLevel = userInfo.vipLevel;
 		jstring jbalance = stoJstring(t.env, userInfo.balance);
 		jstring jpartyName = stoJstring(t.env, userInfo.partyName);
 		jstring jserverId = stoJstring(t.env, userInfo.serverId);
@@ -233,8 +235,6 @@ void ProtocolXGSDK::onEnterGame(UserInfo &userInfo) {
 		t.env->DeleteLocalRef(jroleId);
 		t.env->DeleteLocalRef(jroleName);
 		t.env->DeleteLocalRef(jgender);
-		t.env->DeleteLocalRef(jlevel);
-		t.env->DeleteLocalRef(jvipLevel);
 		t.env->DeleteLocalRef(jbalance);
 		t.env->DeleteLocalRef(jpartyName);
 		t.env->DeleteLocalRef(jserverId);
@@ -246,13 +246,13 @@ void ProtocolXGSDK::onEnterGame(UserInfo &userInfo) {
 void ProtocolXGSDK::onCreateRole(UserInfo &userInfo) {
 	LOGI("ONCREATEROLE BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onCreateRole", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")) {
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onCreateRole", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;)V")) {
 		LOGI("ENTER ONCREATEROLE METHOD");
 		jstring jroleId = stoJstring(t.env, userInfo.roleId);
 		jstring jroleName = stoJstring(t.env, userInfo.roleName);
 		jstring jgender = stoJstring(t.env, userInfo.gender);
-		jstring jlevel = stoJstring(t.env, userInfo.level);
-		jstring jvipLevel = stoJstring(t.env, userInfo.vipLevel);
+		jint jlevel = userInfo.level;
+		jint jvipLevel = userInfo.vipLevel;
 		jstring jbalance = stoJstring(t.env, userInfo.balance);
 		jstring jpartyName = stoJstring(t.env, userInfo.partyName);
 
@@ -265,8 +265,6 @@ void ProtocolXGSDK::onCreateRole(UserInfo &userInfo) {
 		t.env->DeleteLocalRef(jroleId);
 		t.env->DeleteLocalRef(jroleName);
 		t.env->DeleteLocalRef(jgender);
-		t.env->DeleteLocalRef(jlevel);
-		t.env->DeleteLocalRef(jvipLevel);
 		t.env->DeleteLocalRef(jbalance);
 		t.env->DeleteLocalRef(jpartyName);
 	}
@@ -276,15 +274,15 @@ void ProtocolXGSDK::onCreateRole(UserInfo &userInfo) {
 void ProtocolXGSDK::onRoleLevelUp(UserInfo &userInfo) {
 	LOGI("ON ROLE LEVEL UP BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onRoleLevelup", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")) {
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onRoleLevelup", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")) {
 		LOGI("ON ROLE LEVEL UP ENTER METHOD");
 		jstring juid = stoJstring(t.env, userInfo.uid);
 		jstring juserName = stoJstring(t.env, userInfo.userName);
 		jstring jroleId = stoJstring(t.env, userInfo.roleId);
 		jstring jroleName = stoJstring(t.env, userInfo.roleName);
 		jstring jgender = stoJstring(t.env, userInfo.gender);
-		jstring jlevel = stoJstring(t.env, userInfo.level);
-		jstring jvipLevel = stoJstring(t.env, userInfo.vipLevel);
+		jint jlevel = userInfo.level;
+		jint jvipLevel = userInfo.vipLevel;
 		jstring jbalance = stoJstring(t.env, userInfo.balance);
 		jstring jpartyName = stoJstring(t.env, userInfo.partyName);
 		jstring jserverId = stoJstring(t.env, userInfo.serverId);
@@ -301,8 +299,6 @@ void ProtocolXGSDK::onRoleLevelUp(UserInfo &userInfo) {
 		t.env->DeleteLocalRef(jroleId);
 		t.env->DeleteLocalRef(jroleName);
 		t.env->DeleteLocalRef(jgender);
-		t.env->DeleteLocalRef(jlevel);
-		t.env->DeleteLocalRef(jvipLevel);
 		t.env->DeleteLocalRef(jbalance);
 		t.env->DeleteLocalRef(jpartyName);
 		t.env->DeleteLocalRef(jserverId);
@@ -315,7 +311,7 @@ void ProtocolXGSDK::onRoleLevelUp(UserInfo &userInfo) {
 void ProtocolXGSDK::onEvent(EventInfo &eventInfo) {
 	LOGI("ON EVENT BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onEvent", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V")) {
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onEvent", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V")) {
 		LOGI("ON EVENT ENTER METHOD");
 
 		jstring juid = stoJstring(t.env, eventInfo.uid);
@@ -323,8 +319,8 @@ void ProtocolXGSDK::onEvent(EventInfo &eventInfo) {
 		jstring jroleId = stoJstring(t.env, eventInfo.roleId);
 		jstring jroleName = stoJstring(t.env, eventInfo.roleName);
 		jstring jgender = stoJstring(t.env, eventInfo.gender);
-		jstring jlevel = stoJstring(t.env, eventInfo.level);
-		jstring jvipLevel = stoJstring(t.env, eventInfo.vipLevel);
+		jint jlevel = eventInfo.level;
+		jint jvipLevel = eventInfo.vipLevel;
 		jstring jbalance = stoJstring(t.env, eventInfo.balance);
 		jstring jpartyName = stoJstring(t.env, eventInfo.partyName);
 		jstring jserverId = stoJstring(t.env, eventInfo.serverId);
@@ -346,8 +342,6 @@ void ProtocolXGSDK::onEvent(EventInfo &eventInfo) {
 		t.env->DeleteLocalRef(jroleId);
 		t.env->DeleteLocalRef(jroleName);
 		t.env->DeleteLocalRef(jgender);
-		t.env->DeleteLocalRef(jlevel);
-		t.env->DeleteLocalRef(jvipLevel);
 		t.env->DeleteLocalRef(jbalance);
 		t.env->DeleteLocalRef(jpartyName);
 		t.env->DeleteLocalRef(jserverId);
@@ -362,14 +356,15 @@ void ProtocolXGSDK::onEvent(EventInfo &eventInfo) {
 
 void ProtocolXGSDK::onMissionBegin(MissionInfo &missionInfo){
 	LOGI("ON MISSIONBEGIN BEGIN");
-	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onMissionBegin", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
+	JniMethodInfo t;
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onMissionBegin", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
 		jstring juid = stoJstring(t.env, missionInfo.uid);
 		jstring jusername = stoJstring(t.env, missionInfo.username);
 		jstring jroleId = stoJstring(t.env, missionInfo.roleId);
 		jstring jroleName = stoJstring(t.env, missionInfo.roleName);
 		jstring jgender = stoJstring(t.env, missionInfo.gender);
-		jstring jlevel = stoJstring(t.env, missionInfo.level);
-		jstring jvipLevel = stoJstring(t.env, missionInfo.vipLevel);
+		jint jlevel = missionInfo.level;
+		jint jvipLevel = missionInfo.vipLevel;
 		jstring jbalance = stoJstring(t.env, missionInfo.balance);
 		jstring jpartyName = stoJstring(t.env, missionInfo.partyName);
 		jstring jserverId = stoJstring(t.env, missionInfo.serverId);
@@ -381,15 +376,13 @@ void ProtocolXGSDK::onMissionBegin(MissionInfo &missionInfo){
 			LOGE("mXGEngine is NULL");
 		}
 
-		t.env->CallVoidMethod(mXGEngine, juid, jusername, jroleId, jroleName, jgender, jlevel, jvipLevel, jbalance, jpartyName, jserverId, jserverName, jmissionName, jcustomParams);
+		t.env->CallVoidMethod(mXGEngine, t.methodID, juid, jusername, jroleId, jroleName, jgender, jlevel, jvipLevel, jbalance, jpartyName, jserverId, jserverName, jmissionName, jcustomParams);
 
 		t.env->DeleteLocalRef(juid);
 		t.env->DeleteLocalRef(jusername);
 		t.env->DeleteLocalRef(jroleId);
 		t.env->DeleteLocalRef(jroleName);
 		t.env->DeleteLocalRef(jgender);
-		t.env->DeleteLocalRef(jlevel);
-		t.env->DeleteLocalRef(jvipLevel);
 		t.env->DeleteLocalRef(jbalance);
 		t.env->DeleteLocalRef(jpartyName);
 		t.env->DeleteLocalRef(jserverId);
@@ -399,15 +392,16 @@ void ProtocolXGSDK::onMissionBegin(MissionInfo &missionInfo){
 	}
 }
 void ProtocolXGSDK::onMissionSuccess(MissionInfo &missionInfo){
+	JniMethodInfo t;
 	LOGI("ON MISSIONBEGIN BEGIN");
-		if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onMissionSuccess", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
+		if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onMissionSuccess", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
 			jstring juid = stoJstring(t.env, missionInfo.uid);
 			jstring jusername = stoJstring(t.env, missionInfo.username);
 			jstring jroleId = stoJstring(t.env, missionInfo.roleId);
 			jstring jroleName = stoJstring(t.env, missionInfo.roleName);
 			jstring jgender = stoJstring(t.env, missionInfo.gender);
-			jstring jlevel = stoJstring(t.env, missionInfo.level);
-			jstring jvipLevel = stoJstring(t.env, missionInfo.vipLevel);
+			jint jlevel = missionInfo.level;
+			jint jvipLevel = missionInfo.vipLevel;
 			jstring jbalance = stoJstring(t.env, missionInfo.balance);
 			jstring jpartyName = stoJstring(t.env, missionInfo.partyName);
 			jstring jserverId = stoJstring(t.env, missionInfo.serverId);
@@ -419,15 +413,13 @@ void ProtocolXGSDK::onMissionSuccess(MissionInfo &missionInfo){
 				LOGE("mXGEngine is NULL");
 			}
 
-			t.env->CallVoidMethod(mXGEngine, juid, jusername, jroleId, jroleName, jgender, jlevel, jvipLevel, jbalance, jpartyName, jserverId, jserverName, jmissionName, jcustomParams);
+			t.env->CallVoidMethod(mXGEngine, t.methodID, juid, jusername, jroleId, jroleName, jgender, jlevel, jvipLevel, jbalance, jpartyName, jserverId, jserverName, jmissionName, jcustomParams);
 
 			t.env->DeleteLocalRef(juid);
 			t.env->DeleteLocalRef(jusername);
 			t.env->DeleteLocalRef(jroleId);
 			t.env->DeleteLocalRef(jroleName);
 			t.env->DeleteLocalRef(jgender);
-			t.env->DeleteLocalRef(jlevel);
-			t.env->DeleteLocalRef(jvipLevel);
 			t.env->DeleteLocalRef(jbalance);
 			t.env->DeleteLocalRef(jpartyName);
 			t.env->DeleteLocalRef(jserverId);
@@ -438,15 +430,16 @@ void ProtocolXGSDK::onMissionSuccess(MissionInfo &missionInfo){
 }
 
 void ProtocolXGSDK::onMissionFail(MissionInfo &missionInfo){
+	JniMethodInfo t;
 	LOGI("ON MISSIONBEGIN BEGIN");
-		if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onMissionFail", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
+		if(JniHelper::getMethodInfo(t, XG_PACKAGE, "onMissionFail", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")){
 			jstring juid = stoJstring(t.env, missionInfo.uid);
 			jstring jusername = stoJstring(t.env, missionInfo.username);
 			jstring jroleId = stoJstring(t.env, missionInfo.roleId);
 			jstring jroleName = stoJstring(t.env, missionInfo.roleName);
 			jstring jgender = stoJstring(t.env, missionInfo.gender);
-			jstring jlevel = stoJstring(t.env, missionInfo.level);
-			jstring jvipLevel = stoJstring(t.env, missionInfo.vipLevel);
+			jint jlevel = missionInfo.level;
+			jint jvipLevel = missionInfo.vipLevel;
 			jstring jbalance = stoJstring(t.env, missionInfo.balance);
 			jstring jpartyName = stoJstring(t.env, missionInfo.partyName);
 			jstring jserverId = stoJstring(t.env, missionInfo.serverId);
@@ -458,15 +451,13 @@ void ProtocolXGSDK::onMissionFail(MissionInfo &missionInfo){
 				LOGE("mXGEngine is NULL");
 			}
 
-			t.env->CallVoidMethod(mXGEngine, juid, jusername, jroleId, jroleName, jgender, jlevel, jvipLevel, jbalance, jpartyName, jserverId, jserverName, jmissionName, jcustomParams);
+			t.env->CallVoidMethod(mXGEngine, t.methodID, juid, jusername, jroleId, jroleName, jgender, jlevel, jvipLevel, jbalance, jpartyName, jserverId, jserverName, jmissionName, jcustomParams);
 
 			t.env->DeleteLocalRef(juid);
 			t.env->DeleteLocalRef(jusername);
 			t.env->DeleteLocalRef(jroleId);
 			t.env->DeleteLocalRef(jroleName);
 			t.env->DeleteLocalRef(jgender);
-			t.env->DeleteLocalRef(jlevel);
-			t.env->DeleteLocalRef(jvipLevel);
 			t.env->DeleteLocalRef(jbalance);
 			t.env->DeleteLocalRef(jpartyName);
 			t.env->DeleteLocalRef(jserverId);
@@ -476,17 +467,18 @@ void ProtocolXGSDK::onMissionFail(MissionInfo &missionInfo){
 		}
 }
 
-void ProtocolXGSDK::openUserCenter(const char *msg) {
+void ProtocolXGSDK::openUserCenter(const char *customParams) {
 	LOGI("OPENUSERCENTER BEGIN");
 	JniMethodInfo t;
-	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "openUserCenter", "()V")) {
+	if(JniHelper::getMethodInfo(t, XG_PACKAGE, "openUserCenter", "(Ljava/lang/String;)V")) {
 		LOGI("ENTER OPENUSERCENTER METHOD");
-
+		jstring jtmp = stoJstring(t.env, customParams);
 		if(mXGEngine == NULL) {
 			LOGE("mXGEngine is NULL");
 		}
 
-		t.env->CallVoidMethod(mXGEngine, t.methodID);
+		t.env->CallVoidMethod(mXGEngine, t.methodID, jtmp);
+		t.env->DeleteLocalRef(jtmp);
 	}
 	LOGI("EXIT OPENCENTER");
 }

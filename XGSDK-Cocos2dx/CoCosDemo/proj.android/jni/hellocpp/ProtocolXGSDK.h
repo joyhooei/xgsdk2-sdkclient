@@ -14,8 +14,8 @@ struct UserInfo {
 	const char *roleId;
 	const char *roleName;
 	const char *gender;
-	const char *level;
-	const char *vipLevel;
+	int level;
+	int vipLevel;
 	const char *balance;
 	const char *partyName;
 	const char *serverId;
@@ -37,8 +37,8 @@ struct PayInfo {
 	const char *zoneName;
 	const char *roleId;
 	const char *roleName;
-	const char *level;
-	const char *vipLevel;
+	int level;
+	int vipLevel;
 	const char *balance;
 	const char *gameOrderId;
 	const char *ext;
@@ -51,8 +51,8 @@ struct EventInfo {
 	const char *roleId;
 	const char *roleName;
 	const char *gender;
-	const char *level;
-	const char *vipLevel;
+	int level;
+	int vipLevel;
 	const char *balance;
 	const char *partyName;
 	const char *serverId;
@@ -70,8 +70,8 @@ struct MissionInfo{
     const char *roleId;
     const char *roleName;
     const char *gender;
-    const char *level;
-    const char *vipLevel;
+    int level;
+    int vipLevel;
     const char *balance;
     const char *partyName;
     const char *serverId;
@@ -120,11 +120,11 @@ private:
 public:
 	void prepare();
 	void getChannelId_();
-	void login(const char *msg = 0);
+	void login(const char *customParams = "");
 	void pay(PayInfo &);
-	void exit(const char *msg = 0);
-	void logout(const char *msg = 0);
-	void switchAccount(const char *msg = 0);
+	void exit(const char *customParams = "");
+	void logout(const char *customParams = "");
+	void switchAccount(const char *customParams = "");
 	void onEnterGame(UserInfo &);
 	void onCreateRole(UserInfo &);
 	void onRoleLevelUp(UserInfo &);
@@ -132,7 +132,7 @@ public:
 	void onMissionBegin(MissionInfo &);
 	void onMissionSuccess(MissionInfo &);
 	void onMissionFail(MissionInfo &);
-	void openUserCenter(const char *msg = 0);
+	void openUserCenter(const char *customParams = "");
 	bool isMethodSupport(const char *);
 
 	char *getChannelId();

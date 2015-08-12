@@ -132,7 +132,8 @@ void HelloWorld::pay(CCObject* pSender)
     payInfo.balance = "1000";
     payInfo.gameOrderId = "12480";
     payInfo.ext = "";
-    payInfo.notifyURL = "www.sina.com";
+    payInfo.notifyURL = "http://console.xgsdk.com/sdkserver/receivePayResult";
+    //payInfo.notifyURL = "";
 	mXgSdk->pay(payInfo);
 }
 void HelloWorld::switchAccount(CCObject* pSender)
