@@ -350,7 +350,7 @@ public class MainActivity extends Activity {
                         // "1", "1", "元宝", "1", "桃园结义", "su27", "侧卫", "10",
                         // "1234567890" + System.currentTimeMillis());
                         // xgsdk.pay(MainActivity1.this, payInfo);
-                        PayInfo payment = new PayInfo();
+                        final PayInfo payment = new PayInfo();
                         payment.setUid(GameInfo.getInstance().getUid());
                         payment.setProductDesc("倚天不出谁与争锋");
                         payment.setServerId("11");
@@ -386,6 +386,13 @@ public class MainActivity extends Activity {
                                     public void onSuccess(String msg) {
                                         ToastUtil.showToast(MainActivity.this,
                                                 "pay success." + msg);
+                                        
+                                        ToastUtil.showToast(MainActivity.this,
+                                                payment.getXgOrderId());
+
+                                        OrderUtils.storeOrder(MainActivity.this, GameInfo
+                                                .getInstance().getUid(),
+                                                payment.getXgOrderId(), payment);
 
                                     }
 
@@ -402,12 +409,7 @@ public class MainActivity extends Activity {
 
                                     }
                                 });
-                        ToastUtil.showToast(MainActivity.this,
-                                payment.getXgOrderId());
-
-                        OrderUtils.storeOrder(MainActivity.this, GameInfo
-                                .getInstance().getUid(),
-                                payment.getXgOrderId(), payment);
+                        
 
                         payDialog.dismiss();
                     }
