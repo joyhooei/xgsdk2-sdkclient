@@ -41,13 +41,11 @@ public class TestChannel extends XGChannel {
 
         @Override
         public void onSwitchAccountClick(Activity activity) {
-            // TODO Auto-generated method stub
             new LoginDialog(activity, mUserCallBack).showLoginDialog();
         }
 
         @Override
         public void onOpenUserCenterClick() {
-            // TODO Auto-generated method stub
 
         }
     };
@@ -65,27 +63,23 @@ public class TestChannel extends XGChannel {
 
     @Override
     public void onCreate(Activity activity) {
-        // TODO Auto-generated method stub
         Check.onCreate(activity);
     }
 
     @Override
     public void onDestroy(Activity activity) {
-        // TODO Auto-generated method stub
         mFVInstance.destroyFloatView();
         Check.onDestroy(activity);
     }
 
     @Override
     public void onPause(Activity activity) {
-        // TODO Auto-generated method stub
         mFVInstance.pauseFloatView();
         Check.onPause(activity);
     }
 
     @Override
     public void onResume(Activity activity) {
-        // TODO Auto-generated method stub
         mFVInstance.resumeFloatView();
         Check.onResume(activity);
     }
@@ -107,20 +101,17 @@ public class TestChannel extends XGChannel {
 
     @Override
     public void logout(Activity activity, String customParams) {
-        // TODO Auto-generated method stub
         super.logout(activity, customParams);
         Check.logout(activity, customParams);
     }
 
     @Override
     public String getChannelId() {
-        // TODO Auto-generated method stub
         return CHANNEL_ID;
     }
 
     @Override
     public void openUserCenter(Activity activity, String customParams) {
-        // TODO Auto-generated method stub
         super.openUserCenter(activity, customParams);
         if (userCenter == null)
             userCenter = UserCenter.getInstance();
@@ -130,28 +121,24 @@ public class TestChannel extends XGChannel {
 
     @Override
     public void switchAccount(Activity activity, String customParams) {
-        // TODO Auto-generated method stub
         super.switchAccount(activity, customParams);
         Check.switchAccount(activity, customParams);
     }
 
     @Override
     public void onNewIntent(Activity activity, Intent intent) {
-        // TODO Auto-generated method stub
         super.onNewIntent(activity, intent);
         Check.onNewIntent(activity, intent);
     }
 
     @Override
     public void onRestart(Activity activity) {
-        // TODO Auto-generated method stub
         super.onRestart(activity);
         Check.onRestart(activity);
     }
 
     @Override
     public void onStart(Activity activity) {
-        // TODO Auto-generated method stub
         super.onStart(activity);
         Check.onStart(activity);
         ;
@@ -159,7 +146,6 @@ public class TestChannel extends XGChannel {
 
     @Override
     public void onStop(Activity activity) {
-        // TODO Auto-generated method stub
         super.onStop(activity);
         Check.onStop(activity);
     }
@@ -167,28 +153,24 @@ public class TestChannel extends XGChannel {
     @Override
     public void onActivityResult(Activity activity, int requestCode,
             int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(activity, requestCode, resultCode, data);
         Check.onActivityResult(activity, requestCode, resultCode, data);
     }
 
     @Override
     public void onApplicationAttachBaseContext(Context context) {
-        // TODO Auto-generated method stub
         super.onApplicationAttachBaseContext(context);
         Check.onApplicationAttachBaseContext(context);
     }
 
     @Override
     public void onApplicationCreate(Context context) {
-        // TODO Auto-generated method stub
         super.onApplicationCreate(context);
         Check.onApplicationCreate(context);
     }
 
     @Override
     public void onCreateRole(Activity activity, RoleInfo info) {
-        // TODO Auto-generated method stub
         super.onCreateRole(activity, info);
         Check.onCreateRole(activity, info);
     }
@@ -196,14 +178,12 @@ public class TestChannel extends XGChannel {
     @Override
     public void onEnterGame(Activity activity, XGUser user, RoleInfo roleInfo,
             GameServerInfo serverInfo) {
-        // TODO Auto-generated method stub
         super.onEnterGame(activity, user, roleInfo, serverInfo);
         Check.onEnterGame(activity, user, roleInfo, serverInfo);
     }
 
     @Override
     public void onRoleLevelup(Activity activity, RoleInfo roleInfo) {
-        // TODO Auto-generated method stub
         super.onRoleLevelup(activity, roleInfo);
         Check.onRoleLevelup(activity, roleInfo);
     }
