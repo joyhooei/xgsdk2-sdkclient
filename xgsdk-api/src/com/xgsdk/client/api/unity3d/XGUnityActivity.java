@@ -47,7 +47,7 @@ public class XGUnityActivity extends UnityPlayerActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        XGSDK.getInstance().onDestory(this);
+        XGSDK.getInstance().onDestroy(this);
     }
 
     @Override

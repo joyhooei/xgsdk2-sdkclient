@@ -48,7 +48,7 @@ public class XGCocos2dxActivity extends Cocos2dxActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        XGSDK.getInstance().onDestory(this);
+        XGSDK.getInstance().onDestroy(this);
     }
 
     @Override

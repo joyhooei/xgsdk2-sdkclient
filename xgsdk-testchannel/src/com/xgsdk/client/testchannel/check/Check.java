@@ -29,7 +29,7 @@ public class Check {
     private static final String METHOD_ON_RESTART = "onRestart";
     private static final String METHOD_ON_PAUSE = "onPause";
     private static final String METHOD_ON_STOP = "onStop";
-    private static final String METHOD_ON_DESTORY = "onDestory";
+    private static final String METHOD_ON_DESTROY = "onDestroy";
     private static final String METHOD_ON_ACTIVITY_RESULT = "onActivityResult";
     private static final String METHOD_ON_NEW_INTENT = "onNewIntent";
     private static final String METHOD_INIT = "init";
@@ -156,8 +156,8 @@ public class Check {
         lifecycle(METHOD_ON_STOP, activity);
     }
 
-    public static void onDestory(Activity activity) {
-        lifecycle(METHOD_ON_DESTORY, activity);
+    public static void onDestroy(Activity activity) {
+        lifecycle(METHOD_ON_DESTROY, activity);
     }
 
     public static void onActivityResult(Activity activity, int requestCode,

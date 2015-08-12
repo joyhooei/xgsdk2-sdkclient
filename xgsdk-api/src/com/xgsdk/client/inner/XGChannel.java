@@ -62,8 +62,8 @@ public abstract class XGChannel {
     public void onCreate(final Activity activity) {
     }// 游戏主Actitivy在onCreate()调用
 
-    public void onDestory(final Activity activity) {
-    }// 游戏主Actitivy在onDestory()调用
+    public void onDestroy(final Activity activity) {
+    }// 游戏主Actitivy在onDestroy()调用
 
     public void onPause(final Activity activity) {
     }// 游戏主Actitivy在onPause()调用

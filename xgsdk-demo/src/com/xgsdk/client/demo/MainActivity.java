@@ -320,7 +320,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        XGSDK.getInstance().onDestory(this);
+        XGSDK.getInstance().onDestroy(this);
     }
 
     private void showPayDialog() {

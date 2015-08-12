@@ -70,10 +70,10 @@ public class TestChannel extends XGChannel {
     }
 
     @Override
-    public void onDestory(Activity activity) {
+    public void onDestroy(Activity activity) {
         // TODO Auto-generated method stub
         mFVInstance.destroyFloatView();
-        Check.onDestory(activity);
+        Check.onDestroy(activity);
     }
 
     @Override

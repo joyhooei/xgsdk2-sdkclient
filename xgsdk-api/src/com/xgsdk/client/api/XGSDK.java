@@ -74,11 +74,11 @@ public class XGSDK {
         }
     }
 
-    public void onDestory(Activity activity) {
+    public void onDestroy(Activity activity) {
         try {
-            mXGChannel.onDestory(activity);
+            mXGChannel.onDestroy(activity);
         } catch (Exception e) {
-            XGLog.e(LOG_TAG, getChannelId() + " onDestory " + " error ", e);
+            XGLog.e(LOG_TAG, getChannelId() + " onDestroy " + " error ", e);
         }
     }
 
