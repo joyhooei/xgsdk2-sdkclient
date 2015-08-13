@@ -62,6 +62,10 @@ public class Result {
     }
 
     public void setOrderId(String orderId) {
+        if (TextUtils.isEmpty(orderId) || "null".equalsIgnoreCase(orderId)) {
+            this.orderId = "";
+            return;
+        }
         this.orderId = orderId;
     }
 

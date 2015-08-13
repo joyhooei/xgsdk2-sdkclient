@@ -51,11 +51,12 @@ public class PayService extends BaseService {
                 }
                 // 发送请求
                 Result result = Result.parse(data);
-                if (result == null) {
+                if (result == null || !"0".equals(result.getCode())) {
                     // 生成订单失败
                     // throw new RuntimeException("request:" + getUrl.toString()
                     // + ",result is null.");
-                    callback.callback(Result.create(), data);
+                    callback.callback(
+                            result == null ? Result.create() : result, data);
                 } else if (callback != null) {
                     try {
                         JSONObject jsonObject = new JSONObject(result.getData());
@@ -281,11 +282,12 @@ public class PayService extends BaseService {
                             "testChannelNotify order .parse response error:"
                                     + data);
                 }
-//                if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode())) {
-//                    if (callback != null) {
-//                        callback.callback(result, data);
-//                    }
-//                }
+                // if (!TextUtils.equals(Result.CODE_SUCCESS, result.getCode()))
+                // {
+                // if (callback != null) {
+                // callback.callback(result, data);
+                // }
+                // }
                 XGLog.d("testChannelNotify order ," + result);
                 if (callback != null) {
                     callback.callback(result, data);
