@@ -135,8 +135,8 @@ namespace XGSDK2
 		{
 			Debug.Log("call xgsdk createRole...");          
 			#if UNITY_ANDROID
-			callSdkApi("onCreateRole", userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
-			           userInfo.Level, userInfo.VipLevel, userInfo.PartyName);
+			callSdkApi("onCreateRole",userInfo.Uid, userInfo.UserName, userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel, userInfo.PartyName,userInfo.ServerId, userInfo.ServerName);
 			#endif
 		}
 
@@ -144,64 +144,168 @@ namespace XGSDK2
 		//角色升级后向渠道传递升级信息
 		public static void onRoleLevelup(UserInfo userInfo)
 		{
-			Debug.Log("call xgsdk onRoleLevelup");
+			Debug.Log("call xgsdk onRoleLevelup...");
 			#if UNITY_ANDROID
-			callSdkApi("onRoleLevelup", userInfo .Uid, userInfo.UserName,userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
+			callSdkApi("onRoleLevelup", userInfo.Uid, userInfo.UserName,userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
 			           userInfo.Level, userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName);
 			#endif
 		}
         
+		//角色登出的时候调用
+		public static void onRoleLogout(UserInfo userInfo, string customParams)
+		{
+			Debug.Log("call xgsdk onRoleLogout...");
+			#if UNITY_ANDROID
+			callSdkApi("onRoleLogout", userInfo.Uid, userInfo.UserName,userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
+				           userInfo.Level, userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName, customParams);
+			#endif
+		}
 
-		
+		//创建账号时调用
+		public static void onAccountCreate(string uid, string userName, string customParams)
+		{
+			Debug.Log("call xgsdk onAccountLogout...");
+			#if UNITY_ANDROID
+			callSdkApi("onAccountCreate", uid, userName, customParams);
+			#endif
+		}
+
+		//账号登出时调用
+		public static void onAccountLogout(string uid, string userName, string customParams)
+		{
+			Debug.Log("call xgsdk onAccountLogout...");
+			#if UNITY_ANDROID
+			callSdkApi("onAccountLogout", uid, userName, customParams);
+			#endif
+		}
+
+		//关卡开始
+		public static void onLevelsBegin(UserInfo userInfo, string levelsId, string customParams)
+		{
+			Debug.Log("call xgsdk onLevelsBegin...");
+			#if UNITY_ANDROID
+			callSdkApi("onLevelsBegin", userInfo.Uid, userInfo.UserName, userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName, levelsId,customParams);
+			#endif
+		}
+
+		//关卡完成
+		public static void onLevelsSuccess(UserInfo userInfo, string levelsId, string customParams)
+		{
+			Debug.Log("call xgsdk onLevelsSuccess...");
+			#if UNITY_ANDROID
+			callSdkApi("onLevelsSuccess", userInfo.Uid, userInfo.UserName, userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName, levelsId,customParams);
+			#endif
+		}
+
+		//关卡失败
+		public static void onLevelsFail(UserInfo userInfo, string levelsId, string reason, string customParams)
+		{
+			Debug.Log("call xgsdk onLevelsFail...");
+			#if UNITY_ANDROID
+			callSdkApi("onLevelsFail", userInfo.Uid, userInfo.UserName, userInfo.RoleId, userInfo.RoleName, userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName, levelsId, reason, customParams);
+			#endif
+		}
+
+		//购买道具
+		public static void onItemBuy(UserInfo userInfo, ItemInfo itemInfo, string customParams)
+		{
+			Debug.Log("call xgsdk onItemBuy...");
+			#if UNITY_ANDROID
+			callSdkApi("onItemBuy", userInfo.Uid, userInfo.UserName, userInfo.RoleId, userInfo.RoleName, userInfo.Gender, userInfo.Level,
+			           userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName, itemInfo.ItemId, itemInfo.ItemName,
+			           itemInfo.ItemCount, itemInfo.ListPrice, itemInfo.TransPrice, itemInfo.PayGold, itemInfo.PayBindingGold,
+			           itemInfo.CurGold, itemInfo.CurBindingGold, itemInfo.TotalGold, itemInfo.TotalBindingGold, customParams);
+			#endif
+		}
+
+		//获取道具
+		public static void onItemGet(UserInfo userInfo, ItemInfo itemInfo, string customParams)
+		{
+			Debug.Log("call xgsdk onItemGet...");
+			#if UNITY_ANDROID
+			callSdkApi("onItemGet", userInfo.Uid, userInfo.UserName, userInfo.RoleId, userInfo.RoleName, userInfo.Gender, userInfo.Level,
+			           userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName, itemInfo.ItemId, itemInfo.ItemName,
+			           itemInfo.ItemCount, itemInfo.ListPrice, itemInfo.TransPrice, itemInfo.PayGold, itemInfo.PayBindingGold,
+			           itemInfo.CurGold, itemInfo.CurBindingGold, itemInfo.TotalGold, itemInfo.TotalBindingGold, customParams);
+			#endif
+		}
+
+		//消耗道具
+		public static void onItemConsume(UserInfo userInfo, ItemInfo itemInfo, string customParams)
+		{
+			Debug.Log("call xgsdk onItemConsume...");
+			#if UNITY_ANDROID
+			callSdkApi("onItemConsume", userInfo.Uid, userInfo.UserName, userInfo.RoleId, userInfo.RoleName, userInfo.Gender, userInfo.Level,
+			           userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName, itemInfo.ItemId, itemInfo.ItemName,
+			           itemInfo.ItemCount, itemInfo.ListPrice, itemInfo.TransPrice, itemInfo.PayGold, itemInfo.PayBindingGold,
+			           itemInfo.CurGold, itemInfo.CurBindingGold, itemInfo.TotalGold, itemInfo.TotalBindingGold, customParams);
+			#endif
+		}
+
+		//获取金币
+		public static void onGoldGain(UserInfo userInfo, GoldGainInfo goldGainInfo, string customParams)
+		{
+			Debug.Log("call xgsdk onGoldGain...");
+			#if UNITY_ANDROID
+			callSdkApi("onGoldGain", userInfo.Uid, userInfo.UserName, userInfo.RoleId, userInfo.RoleName, userInfo.Gender, userInfo.Level,
+			           userInfo.VipLevel, userInfo.PartyName, userInfo.ServerId, userInfo.ServerName, goldGainInfo.GainChannel,
+			           goldGainInfo.Gold, goldGainInfo.BindingGold, goldGainInfo.CurGold, goldGainInfo.CurBindingGold,
+			           goldGainInfo.TotalGold, goldGainInfo.TotalBindingGold, customParams);
+			#endif
+		}
+
 		//传递事件
-		public static void onEvent(EventInfo eventInfo)
+		public static void onEvent(UserInfo userInfo, EventInfo eventInfo, string customParams)
 		{
 			Debug.Log("call xgsdk onEvent...");
 			#if UNITY_ANDROID
-			callSdkApi("onEvent",eventInfo.EventUserInfo.Uid, eventInfo.EventUserInfo.UserName, eventInfo.EventUserInfo.RoleId,
-			           eventInfo.EventUserInfo.RoleName, eventInfo.EventUserInfo.Gender, eventInfo.EventUserInfo.Level,
-			           eventInfo.EventUserInfo.VipLevel, eventInfo.EventUserInfo.PartyName,
-			           eventInfo.EventUserInfo.ServerId, eventInfo.EventUserInfo.ServerName, eventInfo.EventId,eventInfo.EventDesc,
-			           eventInfo.EventVal, eventInfo.EventBody, eventInfo.CustomParams); 
+			callSdkApi("onEvent",userInfo.Uid, userInfo.UserName, userInfo.RoleId,
+			           userInfo.RoleName, userInfo.Gender, userInfo.Level,
+			           userInfo.VipLevel, userInfo.PartyName,
+			           userInfo.ServerId, userInfo.ServerName, eventInfo.EventId,eventInfo.EventDesc,
+			           eventInfo.EventVal, eventInfo.EventBody, customParams); 
 			#endif
 		}
 
 		//任务开始时调用
-		public void onMissionBegin(MissionInfo missionInfo)
+		public void onMissionBegin(UserInfo userInfo, MissionInfo missionInfo, string customParams)
 		{
 			Debug.Log("call xgsdk onMissionBegin...");
 			#if UNITY_ANDROID
-			callSdkApi("onMissionBegin", missionInfo.MissionUserInfo.Uid, missionInfo.MissionUserInfo.UserName,
-			           missionInfo.MissionUserInfo.RoleId, missionInfo.MissionUserInfo.RoleName,missionInfo.MissionUserInfo.Gender,
-			           missionInfo.MissionUserInfo.Level, missionInfo.MissionUserInfo.VipLevel,
-			           missionInfo.MissionUserInfo.PartyName, missionInfo.MissionUserInfo.ServerId,missionInfo.MissionUserInfo.ServerName,
-			           missionInfo.MissionName, missionInfo.CustomParams); 
+			callSdkApi("onMissionBegin", userInfo.Uid, userInfo.UserName,
+			           userInfo.RoleId, userInfo.RoleName,userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel,
+			           userInfo.PartyName, userInfo.ServerId,userInfo.ServerName, missionInfo.MissionId,
+			           missionInfo.MissionName, customParams); 
 			#endif
 		}
 
 		//任务成功时调用
-		public void onMissionSuccess(MissionInfo missionInfo)
+		public void onMissionSuccess(UserInfo userInfo, MissionInfo missionInfo, string customParams)
 		{
 			Debug.Log("call xgsdk onMissionSuccess...");
 			#if UNITY_ANDROID
-			callSdkApi("onMissionBegin", missionInfo.MissionUserInfo.Uid, missionInfo.MissionUserInfo.UserName,
-			           missionInfo.MissionUserInfo.RoleId, missionInfo.MissionUserInfo.RoleName,missionInfo.MissionUserInfo.Gender,
-			           missionInfo.MissionUserInfo.Level, missionInfo.MissionUserInfo.VipLevel,
-			           missionInfo.MissionUserInfo.PartyName, missionInfo.MissionUserInfo.ServerId,missionInfo.MissionUserInfo.ServerName,
-			           missionInfo.MissionName, missionInfo.CustomParams); 
+			callSdkApi("onMissionBegin", userInfo.Uid, userInfo.UserName,
+			           userInfo.RoleId, userInfo.RoleName,userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel,
+			           userInfo.PartyName, userInfo.ServerId,userInfo.ServerName, missionInfo.MissionId,
+			           missionInfo.MissionName, customParams);
 			#endif
 		}
 
 		//任务失败时调用
-		public void onMissionFail(MissionInfo missionInfo)
+		public void onMissionFail(UserInfo userInfo, MissionInfo missionInfo, string customParams)
 		{
 			Debug.Log("call xgsdk onMissionFail...");
 			#if UNITY_ANDROID
-			callSdkApi("onMissionBegin", missionInfo.MissionUserInfo.Uid, missionInfo.MissionUserInfo.UserName,
-			           missionInfo.MissionUserInfo.RoleId, missionInfo.MissionUserInfo.RoleName,missionInfo.MissionUserInfo.Gender,
-			           missionInfo.MissionUserInfo.Level, missionInfo.MissionUserInfo.VipLevel,
-			           missionInfo.MissionUserInfo.PartyName, missionInfo.MissionUserInfo.ServerId,missionInfo.MissionUserInfo.ServerName,
-			           missionInfo.MissionName, missionInfo.CustomParams); 
+			callSdkApi("onMissionBegin", userInfo.Uid, userInfo.UserName,
+			           userInfo.RoleId, userInfo.RoleName,userInfo.Gender,
+			           userInfo.Level, userInfo.VipLevel,
+			           userInfo.PartyName, userInfo.ServerId,userInfo.ServerName, missionInfo.MissionId,
+			           missionInfo.MissionName, customParams);
 			#endif
 		}
 		
@@ -300,18 +404,11 @@ namespace XGSDK2
 
 	public class EventInfo
 	{
-		UserInfo eventUserInfo;
 		string eventId;
 		string eventDesc;
 		int eventVal;
 		string eventBody;
-		string customParams;
 
-		public UserInfo EventUserInfo
-		{
-			set{ eventUserInfo = value;}
-			get{ return eventUserInfo;}
-		}
 		public string EventId
 		{
 			set{ eventId = value;}
@@ -331,11 +428,6 @@ namespace XGSDK2
 		{
 			set{ eventBody = value;}
 			get{ return eventBody;}
-		}
-		public string CustomParams
-		{
-			set{ customParams = value;}
-			get{ return customParams;}
 		}
 	}
 
@@ -483,34 +575,138 @@ namespace XGSDK2
 
 	public class MissionInfo
 	{
-		UserInfo missionUserInfo;
+		string missionId;
 		string missionName;
-		string customParams;
 
-		public UserInfo MissionUserInfo
+		public string MissionId
 		{
-			set{ missionUserInfo = value;}
-			get{ return missionUserInfo;}
+			set{ missionId = value;}
+			get{ return missionId;}
 		}
 		public string MissionName
 		{
 			set{ missionName = value;}
 			get{ return missionName;}
 		}
-		public string CustomParams
-		{
-			set{ customParams = value;}
-			get{ return customParams;}
-		}
 	}
-
-	public class LevelsInfo
-	{
-
-	}
+	
 
 	public class ItemInfo
 	{
+		string itemId;
+		string itemName;
+		int itemCount;
+		int listPrice;
+		int transPrice;
+		int payGold;
+		int payBindingGold;
+		int curGold;
+		int curBindingGold;
+		int totalGold;
+		int totalBindingGold;
 
+		public string ItemId
+		{
+			set{ itemId = value;}
+			get{ return itemId;}
+		}
+		public string ItemName
+		{
+			set{ itemName = value;}
+			get{ return itemName;}
+		}
+		public int ItemCount
+		{
+			set{ itemCount = value;}
+			get{ return itemCount;}
+		}
+		public int ListPrice
+		{
+			set{ listPrice = value;}
+			get{ return listPrice;}
+		}
+		public int TransPrice
+		{
+			set{ transPrice = value;}
+			get{ return transPrice;}
+		}
+		public int PayGold
+		{
+			set{ payGold = value;}
+			get{ return payGold;}
+		}
+		public int PayBindingGold
+		{
+			set{ payBindingGold = value;}
+			get{ return payBindingGold;}
+		}
+		public int CurGold
+		{
+			set{ curGold = value;}
+			get{ return curGold;}
+		}
+		public int CurBindingGold
+		{
+			set{ curBindingGold = value;}
+			get{ return curBindingGold;}
+		}
+		public int TotalGold
+		{
+			set{ totalGold = value;}
+			get{ return totalGold;}
+		}
+		public int TotalBindingGold
+		{
+			set{ totalBindingGold = value;}
+			get{ return totalBindingGold;}
+		}
+
+	}
+
+	public class GoldGainInfo
+	{
+		string gainChannel;
+		int gold;
+		int bindingGold;
+		int curGold;
+		int curBindingGold;
+		int totalGold;
+		int totalBindingGold;
+
+		public string GainChannel
+		{
+			set{ gainChannel = value;}
+			get{ return gainChannel;}
+		}
+		public int Gold
+		{
+			set{ gold = value;}
+			get{ return gold;}
+		}
+		public int BindingGold
+		{
+			set{ bindingGold = value;}
+			get{ return bindingGold;}
+		}
+		public int CurGold
+		{
+			set{ curGold = value;}
+			get{ return curGold;}
+		}
+		public int CurBindingGold
+		{
+			set{ curBindingGold = value;}
+			get{ return curBindingGold;}
+		}
+		public int TotalGold
+		{
+			set{ totalGold = value;}
+			get{ return totalGold;}
+		}
+		public int TotalBindingGold
+		{
+			set{ totalBindingGold = value;}
+			get{ return totalBindingGold;}
+		}
 	}
 }

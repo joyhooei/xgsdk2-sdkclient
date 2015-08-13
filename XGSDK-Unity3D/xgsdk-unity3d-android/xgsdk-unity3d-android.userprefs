@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\XgsdkDemo.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\XGSDK2.cs">
     <Files>
-      <File FileName="Assets\XGSDK2.cs" Line="312" Column="32" />
-      <File FileName="Assets\XgsdkDemo.cs" Line="27" Column="42" />
+      <File FileName="Assets\XGSDK2.cs" Line="552" Column="28" />
+      <File FileName="Assets\XgsdkDemo.cs" Line="117" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
