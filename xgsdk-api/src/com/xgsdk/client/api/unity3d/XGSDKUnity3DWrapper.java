@@ -285,7 +285,7 @@ public class XGSDKUnity3DWrapper {
      */
     public void onEnterGame(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId, String serverName) {
+            String partyName, String serverId, String serverName) {
         XGLog.i(LOG_TAG, "login success,tell userinfo to sdk");
         XGUser user = new XGUser();
         user.setUserName(username);
@@ -296,7 +296,6 @@ public class XGSDKUnity3DWrapper {
         role.setGender(gender);
         role.setLevel(level);
         role.setVipLevel(vipLevel);
-        role.setBalance(balance);
         role.setPartyName(partyName);
         GameServerInfo server = new GameServerInfo();
         server.setServerId(serverId);
@@ -306,7 +305,7 @@ public class XGSDKUnity3DWrapper {
 
     public void onCreateRole(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId, String serverName) {
+            String partyName, String serverId, String serverName) {
         XGLog.i(LOG_TAG, "onCreateRole");
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -317,7 +316,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo gameInfo = new GameServerInfo();
         gameInfo.setServerId(serverId);
@@ -328,7 +326,7 @@ public class XGSDKUnity3DWrapper {
 
     public void onRoleLevelup(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId, String serverName) {
+            String partyName, String serverId, String serverName) {
         XGLog.i(LOG_TAG, "onRoleLevelup");
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -339,7 +337,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo gameInfo = new GameServerInfo();
         gameInfo.setServerId(serverId);
@@ -350,8 +347,8 @@ public class XGSDKUnity3DWrapper {
 
     public void onRoleLogout(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String customParams) {
+            String partyName, String serverId, String serverName,
+            String customParams) {
         XGLog.i(LOG_TAG, "onRoleLogout");
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
@@ -362,7 +359,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo gameInfo = new GameServerInfo();
         gameInfo.setServerId(serverId);
@@ -427,9 +423,9 @@ public class XGSDKUnity3DWrapper {
      */
     public void onEvent(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String eventId, String eventDesc, int eventVal,
-            String eventBody, String customParams) {
+            String partyName, String serverId, String serverName,
+            String eventId, String eventDesc, int eventVal, String eventBody,
+            String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -439,7 +435,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo gameInfo = new GameServerInfo();
         gameInfo.setServerId(serverId);
@@ -464,9 +459,8 @@ public class XGSDKUnity3DWrapper {
 
     public void onMissionBegin(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String missionId, String missionName,
-            String customParams) {
+            String partyName, String serverId, String serverName,
+            String missionId, String missionName, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -476,7 +470,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -488,9 +481,8 @@ public class XGSDKUnity3DWrapper {
 
     public void onMissionSuccess(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String missionId, String missionName,
-            String customParams) {
+            String partyName, String serverId, String serverName,
+            String missionId, String missionName, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -500,7 +492,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -512,9 +503,8 @@ public class XGSDKUnity3DWrapper {
 
     public void onMissionFail(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String missionId, String missionName,
-            String customParams) {
+            String partyName, String serverId, String serverName,
+            String missionId, String missionName, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -524,7 +514,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -536,8 +525,8 @@ public class XGSDKUnity3DWrapper {
 
     public void onLevelsBegin(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String levelsId, String customParams) {
+            String partyName, String serverId, String serverName,
+            String levelsId, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -547,7 +536,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -559,8 +547,8 @@ public class XGSDKUnity3DWrapper {
 
     public void onLevelsSuccess(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String levelsId, String customParams) {
+            String partyName, String serverId, String serverName,
+            String levelsId, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -570,7 +558,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -582,9 +569,8 @@ public class XGSDKUnity3DWrapper {
 
     public void onLevelsFail(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String levelsId, String reason,
-            String customParams) {
+            String partyName, String serverId, String serverName,
+            String levelsId, String reason, String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -594,7 +580,7 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
+
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -606,11 +592,11 @@ public class XGSDKUnity3DWrapper {
 
     public void onItemBuy(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String itemId, String itemName, int itemCount,
-            int listPrice, int transPrice, int payGold, int payBindingGold,
-            int curGold, int curBindingGold, int totalGold,
-            int totalBindingGold, String customParams) {
+            String partyName, String serverId, String serverName,
+            String itemId, String itemName, int itemCount, int listPrice,
+            int transPrice, int payGold, int payBindingGold, int curGold,
+            int curBindingGold, int totalGold, int totalBindingGold,
+            String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -620,7 +606,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -633,11 +618,11 @@ public class XGSDKUnity3DWrapper {
 
     public void onItemGet(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String itemId, String itemName, int itemCount,
-            int listPrice, int transPrice, int payGold, int payBindingGold,
-            int curGold, int curBindingGold, int totalGold,
-            int totalBindingGold, String customParams) {
+            String partyName, String serverId, String serverName,
+            String itemId, String itemName, int itemCount, int listPrice,
+            int transPrice, int payGold, int payBindingGold, int curGold,
+            int curBindingGold, int totalGold, int totalBindingGold,
+            String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -647,7 +632,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -660,11 +644,11 @@ public class XGSDKUnity3DWrapper {
 
     public void onItemConsume(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String itemId, String itemName, int itemCount,
-            int listPrice, int transPrice, int payGold, int payBindingGold,
-            int curGold, int curBindingGold, int totalGold,
-            int totalBindingGold, String customParams) {
+            String partyName, String serverId, String serverName,
+            String itemId, String itemName, int itemCount, int listPrice,
+            int transPrice, int payGold, int payBindingGold, int curGold,
+            int curBindingGold, int totalGold, int totalBindingGold,
+            String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -674,7 +658,7 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
+
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
@@ -687,10 +671,10 @@ public class XGSDKUnity3DWrapper {
 
     public void onGoldGain(String uid, String username, String roleId,
             String roleName, String gender, int level, int vipLevel,
-            String balance, String partyName, String serverId,
-            String serverName, String gainChannel, int gold, int bindingGold,
-            int curGold, int curBindingGold, int totalGold,
-            int totalBindingGold, String customParams) {
+            String partyName, String serverId, String serverName,
+            String gainChannel, int gold, int bindingGold, int curGold,
+            int curBindingGold, int totalGold, int totalBindingGold,
+            String customParams) {
         XGUser userInfo = new XGUser();
         userInfo.setUserName(username);
         userInfo.setUid(uid);
@@ -700,7 +684,6 @@ public class XGSDKUnity3DWrapper {
         roleInfo.setGender(gender);
         roleInfo.setLevel(level);
         roleInfo.setVipLevel(vipLevel);
-        roleInfo.setBalance(balance);
         roleInfo.setPartyName(partyName);
         GameServerInfo serverInfo = new GameServerInfo();
         serverInfo.setServerId(serverId);
