@@ -1,0 +1,78 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/xg_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/xg_login" />
+
+        <Button
+            android:id="@+id/xg_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/xg_pay" />
+
+        <Button
+            android:id="@+id/xg_show_orders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/xg_show_orders" />
+
+        <ToggleButton
+            android:id="@+id/xg_tb_switch_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:checked="false"
+            android:text="@string/xg_more_functions"
+            android:textOff="@string/xg_show_more"
+            android:textOn="@string/xg_hide_more" />
+
+        <LinearLayout
+            android:id="@+id/xg_layout_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <Button
+                android:id="@+id/xg_switch_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_switch_account" />
+
+            <Button
+                android:id="@+id/xg_create_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_create_role" />
+
+            <Button
+                android:id="@+id/xg_role_levelup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_role_levelup" />
+
+            <Button
+                android:id="@+id/xg_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_logout" />
+
+            <Button
+                android:id="@+id/xg_exit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_exit" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
