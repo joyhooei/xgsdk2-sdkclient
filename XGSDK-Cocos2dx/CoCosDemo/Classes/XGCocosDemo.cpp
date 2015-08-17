@@ -116,24 +116,27 @@ void HelloWorld::pay(CCObject* pSender)
     CCLOG("xgsdk call pay...");
     PayInfo payInfo;
     payInfo.uid = "4fd0144f02840ae77b6f42346c90d8bd";
-    payInfo.productTotalPirce = 1;
-    payInfo.productCount = 1;
-    payInfo.productUnitPrice = 1;
     payInfo.productId = "payment017";
     payInfo.productName = "大宝剑";
     payInfo.productDesc = "倚天不出谁与争锋";
-    payInfo.currencyName = "元宝";
+    payInfo.productAmount = 1;
+    payInfo.productUnit = "个";
+    payInfo.productUnitPrice = 1;
+    payInfo.totalPrice = 1;
+    payInfo.originalPrice = 1;
+    payInfo.currencyName = "CNY";
+    payInfo.custom = "ext";
+    payInfo.gameTradeNo = "12480";
+    payInfo.gameCallbackUrl = "http://console.xgsdk.com/sdkserver/receivePayResult";
     payInfo.serverId = "11";
     payInfo.serverName = "zhengfuzhihai";
     payInfo.zoneId = "zoneId";
     payInfo.zoneName = "zoneName";
     payInfo.roleId = "1234";
     payInfo.roleName = "yeye";
-    payInfo.balance = "1000";
-    payInfo.gameOrderId = "12480";
-    payInfo.ext = "";
-    payInfo.notifyURL = "http://console.xgsdk.com/sdkserver/receivePayResult";
-    //payInfo.notifyURL = "";
+    payInfo.level = 10;
+    payInfo.vipLevel = 7;
+    
 	mXgSdk->pay(payInfo);
 }
 void HelloWorld::switchAccount(CCObject* pSender)
@@ -166,7 +169,8 @@ void HelloWorld::createMenu(char const* name, int x, int y, SEL_MenuHandler hand
 }
 
 void HelloWorld::cleanup(){
-    mXgSdk->releaseResource();
+    delete mXgSdk;
+    delete mTestListener;
     CCLayer::cleanup();
 }
 

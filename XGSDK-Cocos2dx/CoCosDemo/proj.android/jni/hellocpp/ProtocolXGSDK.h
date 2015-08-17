@@ -16,7 +16,6 @@ struct UserInfo {
 	const char *gender;
 	int level;
 	int vipLevel;
-	const char *balance;
 	const char *partyName;
 	const char *serverId;
 	const char *serverName;
@@ -24,13 +23,18 @@ struct UserInfo {
 
 struct PayInfo {
 	const char *uid;
-	int productTotalPirce;
-	int productCount;
-	int productUnitPrice;
 	const char *productId;
 	const char *productName;
 	const char *productDesc;
+	int productAmount;
+	const char *productUnit;
+	int productUnitPrice;
+	int totalPrice;
+	int originalPrice;
 	const char *currencyName;
+	const char *custom;
+	const char *gameTradeNo;
+	const char *gameCallbackUrl;
 	const char *serverId;
 	const char *serverName;
 	const char *zoneId;
@@ -39,46 +43,44 @@ struct PayInfo {
 	const char *roleName;
 	int level;
 	int vipLevel;
-	const char *balance;
-	const char *gameOrderId;
-	const char *ext;
-	const char *notifyURL;
 };
 
-struct EventInfo {
-	const char *uid;
-	const char *userName;
-	const char *roleId;
-	const char *roleName;
-	const char *gender;
-	int level;
-	int vipLevel;
-	const char *balance;
-	const char *partyName;
-	const char *serverId;
-	const char *serverName;
+struct EventInfo{
 	const char *eventId; //事件id
 	const char *eventDesc; //事件描述
 	int eventVal; //事件值
 	const char *eventBody; //事件内容 必须是json格式
-	const char *customParams; //扩展字段 必须是json格式
 };
 
 struct MissionInfo{
-    const char *uid;
-    const char *username;
-    const char *roleId;
-    const char *roleName;
-    const char *gender;
-    int level;
-    int vipLevel;
-    const char *balance;
-    const char *partyName;
-    const char *serverId;
-    const char *serverName;
+    const char *missionId;
     const char *missionName; //任务名称
-    const char *customParams; //扩展参数，必须是json
 };
+
+struct ItemInfo{
+	const char *itemId;
+	const char *itemName;
+	const char *itemCount;
+	int listPrice;
+	int transPrice;
+	int payGold;
+	int payBindingGold;
+	int curGold;
+	int curBindingGold;
+	int totalGold;
+	int totalBindingGold;
+};
+
+struct GoldGainInfo{
+	const char *gainChannel;
+	int gold;
+	int bindingGold;
+	int curGold;
+	int curBindingGold;
+	int totalGold;
+	int totalBindingGold;
+};
+
 
 class XGSDKCallback {
 public:
@@ -113,7 +115,6 @@ public:
 	ProtocolXGSDK() {
 
 	}
-private:
 	~ProtocolXGSDK() {
 
 	}
@@ -125,13 +126,25 @@ public:
 	void exit(const char *customParams = "");
 	void logout(const char *customParams = "");
 	void switchAccount(const char *customParams = "");
+
 	void onEnterGame(UserInfo &);
 	void onCreateRole(UserInfo &);
 	void onRoleLevelUp(UserInfo &);
-	void onEvent(EventInfo &);
-	void onMissionBegin(MissionInfo &);
-	void onMissionSuccess(MissionInfo &);
-	void onMissionFail(MissionInfo &);
+	void onRoleLogout(UserInfo &, const char *customParams);
+	void onAccountCreate(const char *uid, const char *userName, const char *customParams);
+	void onAccountLogout(const char *uid, const char *userName, const char *customParams);
+	void onEvent(UserInfo &, EventInfo &, const char *customParams);
+	void onMissionBegin(UserInfo &, MissionInfo &, const char *customParams);
+	void onMissionSuccess(UserInfo &, MissionInfo &, const char *customParams);
+	void onMissionFail(UserInfo &, MissionInfo &, const char *customParams);
+	void onLevelsBegin(UserInfo &, const char *levelsId, const char *customParams);
+	void onLevelsSuccess(UserInfo &, const char *levelsId, const char *customParams);
+	void onLevelsFail(UserInfo &, const char *levelsId, const char *reason, const char *customParams);
+	void onItemBuy(UserInfo &, ItemInfo &, const char *customParams);
+	void onItemGet(UserInfo &, ItemInfo &, const char *customParams);
+	void onItemConsume(UserInfo &, ItemInfo &, const char *customParams);
+	void onGoldGain(UserInfo &, GoldGainInfo &, const char *customParams);
+
 	void openUserCenter(const char *customParams = "");
 	bool isMethodSupport(const char *);
 
@@ -170,8 +183,8 @@ JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_on
 JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxPayCallBack_onCancel(
 		JNIEnv *, jclass, jstring);
 
-JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxExitCallBack_onExit(
-		JNIEnv *, jclass);
+JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxExitCallBack_onExit
+  (JNIEnv *, jclass);
 
 JNIEXPORT void JNICALL Java_com_xgsdk_client_api_cocos2dx_Cocos2dxExitCallBack_onNoChannelExiter(
 		JNIEnv *, jclass);
