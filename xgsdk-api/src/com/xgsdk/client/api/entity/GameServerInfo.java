@@ -8,6 +8,16 @@ public class GameServerInfo {
     private String zoneId;
     private String zoneName;
 
+    public GameServerInfo(){
+        
+    }
+    public GameServerInfo(String serverId,String serverName,String zoneId,String zoneName){
+        this.serverId = serverId;
+        this.serverName = serverName;
+        this.zoneId = zoneId;
+        this.zoneName = zoneName;
+    }
+    
     public String getZoneId() {
         return zoneId;
     }

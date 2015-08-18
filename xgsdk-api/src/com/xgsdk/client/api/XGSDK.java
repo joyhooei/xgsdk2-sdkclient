@@ -246,7 +246,7 @@ public class XGSDK {
     public void onCreateRole(Activity activity, XGUser user, RoleInfo role,
             GameServerInfo server) {
         try {
-            mXGChannel.onCreateRole(activity, role);
+            mXGChannel.onCreateRole(activity, user,role,server);
             Statistics
                     .onRoleCreate(activity, server.getServerId(),
                             server.getServerName(), user.getUid(),
@@ -283,7 +283,7 @@ public class XGSDK {
     public void onRoleLevelup(Activity activity, XGUser user, RoleInfo role,
             GameServerInfo server) {
         try {
-            mXGChannel.onRoleLevelup(activity, role);
+            mXGChannel.onRoleLevelup(activity, user,role,server);
             String serverId = server.getServerId();
             String serverName = server.getServerName();
             String accountId = user.getUid();
@@ -347,6 +347,8 @@ public class XGSDK {
             GameServerInfo server, String eventId, String eventDesc,
             int eventVal, Map<String, Object> eventBody, String customParams) {
         try {
+            mXGChannel.onEvent(activity, user, role, 
+                    server, eventId, eventDesc, eventVal, eventBody, customParams);
             String serverId = server.getServerId();
             String serverName = server.getServerName();
             String accountId = user.getUid();
@@ -366,6 +368,7 @@ public class XGSDK {
             GameServerInfo server, String missionId, String missionName,
             String customParams) {
         try {
+            mXGChannel.onMissionBegin(activity, user, role, server, missionId, missionName, customParams);
             String serverId = server.getServerId();
             String serverName = server.getServerName();
             String accountId = user.getUid();
@@ -385,6 +388,7 @@ public class XGSDK {
             GameServerInfo server, String missionId, String missionName,
             String customParams) {
         try {
+            mXGChannel.onMissionSuccess(activity, user, role, server, missionId, missionName, customParams);
             String serverId = server.getServerId();
             String serverName = server.getServerName();
             String accountId = user.getUid();
@@ -404,6 +408,7 @@ public class XGSDK {
             GameServerInfo server, String missionId, String missionName,
             String customParams) {
         try {
+            mXGChannel.onMissionFail(activity, user, role, server, missionId, missionName, customParams);
             String serverId = server.getServerId();
             String serverName = server.getServerName();
             String accountId = user.getUid();

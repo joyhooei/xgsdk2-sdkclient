@@ -7,6 +7,12 @@ public class XGUser {
     private String userName;
     private String authInfo;
 
+    public XGUser(){}
+    public XGUser(String uid,String userName,String authInfo){
+        this.uid = uid;
+        this.userName = userName;
+        this.authInfo = authInfo;
+    }
     public String getUid() {
         return uid;
     }

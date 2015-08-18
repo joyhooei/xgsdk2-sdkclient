@@ -16,6 +16,11 @@
     <string name="xg_cancel">取消</string>
     <string name="xg_create_role">创建角色</string>
     <string name="xg_role_levelup">角色升级</string>
+    <string name="xg_event">自定义事件</string>
+    <string name="xg_mission_begin">任务开始</string>
+    <string name="xg_mission_success">任务执行成功</string>
+    <string name="xg_mission_fail">任务失败</string>
+    
     <string name="xg_order_id">订单号</string>
     <string name="xg_order_time">下单时间</string>
     <string name="xg_order_details">详情</string>

@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class XGChannel {
 
@@ -93,16 +94,42 @@ public abstract class XGChannel {
             final String customParams) {
     }
 
-    public void onCreateRole(final Activity activity, final RoleInfo info) {
+    public void onCreateRole(final Activity activity, final XGUser user,
+            final RoleInfo info,final GameServerInfo server) {
     }
 
-    public void onRoleLevelup(final Activity activity, final RoleInfo roleInfo) {
+    public void onRoleLevelup(final Activity activity, final XGUser user,
+            final RoleInfo roleInfo,final GameServerInfo server) {
     }
 
     public void onEnterGame(final Activity activity, XGUser user,
             RoleInfo roleInfo, GameServerInfo serverInfo) {
     }
+    
+    public void onEvent(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String eventId, String eventDesc,
+            int eventVal, Map<String, Object> eventBody, String customParams) {
+        
+    }
+    public void onMissionBegin(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        
+    }
+    public void onMissionSuccess(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        
+    }
+    
+    public void onMissionFail(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        
+    }
+    
 
+    //public void onEvent(final Activity activity)
     public void onActivityResult(Activity activity, int requestCode,
             int resultCode, Intent data) {
     }

@@ -10,6 +10,20 @@ public class RoleInfo {
     private String partyName;
     private String gender;
 
+    public RoleInfo(){
+        
+    }
+    
+    public RoleInfo(int level,int vipLevel,String roleId,
+            String roleName,String partyName,String gender){
+        this.level = level;
+        this.vipLevel = vipLevel;
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.partyName = partyName;
+        this.gender = gender;
+    }
+    
     public int getLevel() {
         return level;
     }

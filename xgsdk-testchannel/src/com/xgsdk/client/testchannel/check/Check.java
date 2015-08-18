@@ -1,6 +1,7 @@
 
 package com.xgsdk.client.testchannel.check;
 
+import com.alibaba.fastjson.JSON;
 import com.xgsdk.client.api.callback.ExitCallBack;
 import com.xgsdk.client.api.callback.PayCallBack;
 import com.xgsdk.client.api.entity.GameServerInfo;
@@ -20,6 +21,7 @@ import android.content.Intent;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Check {
 
@@ -46,6 +48,9 @@ public class Check {
     private static final String METHOD_ON_APPLICATION_CREATE = "onApplicationCreate";
     private static final String METHOD_ON_APPLICATION_ATTACHBASECONTEXT = "onApplicationAttachBaseContext";
     private static final String METHOD_ON_EVENT = "onEvent";
+    private static final String METHOD_ON_MISSION_BEGIN = "onMissionBegin";
+    private static final String METHOD_ON_MISSION_SUCCESS= "onMissionSuccess";
+    private static final String METHOD_ON_MISSION_FAIL = "onMissionFail";
     private static final String METHOD_ON_ROLE_CONSUME = "onRoleConsume";
 
     private static final String PARAM_NAME_ACTIVITY = "Activity";
@@ -64,6 +69,12 @@ public class Check {
     private static final String PARAM_NAME_VIPLEVEL = "VipLevel";
     private static final String PARAM_NAME_CUSTOM_PARAMS = "CustomParams";
     private static final String PARAM_NAME_EVENT_ID = "EventId";
+    private static final String PARAM_NAME_EVENT_DESC = "EventDesc";
+    private static final String PARAM_NAME_EVENT_VAL = "EventVal";
+    private static final String PARAM_NAME_EVENT_BODY = "EventBody";
+    private static final String PARAM_NAME_MISSION_ID = "MissionId";
+    private static final String PARAM_NAME_MISSION_NAME = "MissionName";
+    
     private static final String PARAM_NAME_CONTENT = "Content";
     private static final String PARAM_NAME_ACCOUNT_ID = "AccountId";
     private static final String PARAM_NAME_ACCOUNT_NAME = "AccountName";
@@ -229,25 +240,32 @@ public class Check {
         check(activity, METHOD_OPEN_USERCENTER, paramsMap);
     }
 
-    public static void onCreateRole(Activity activity, RoleInfo role) {
+    public static void onCreateRole(Activity activity, XGUser user,
+            RoleInfo roleInfo, GameServerInfo server) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
-        paramsMap.put(PARAM_NAME_ROLEINFO, getVariablesFromObj(role));
+        paramsMap.put(PARAM_NAME_XGUSER, getVariablesFromObj(user));
+        paramsMap.put(PARAM_NAME_ROLEINFO, getVariablesFromObj(roleInfo));
+        paramsMap.put(PARAM_NAME_GAMESERVERINFO, getVariablesFromObj(server));
         check(activity, METHOD_ON_CREATE_ROLE, paramsMap);
     }
 
     public static void onEnterGame(Activity activity, XGUser user,
-            RoleInfo role, GameServerInfo server) {
+            RoleInfo roleInfo, GameServerInfo server) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put(PARAM_NAME_ACTIVITY, activity);
         paramsMap.put(PARAM_NAME_XGUSER, getVariablesFromObj(user));
-        paramsMap.put(PARAM_NAME_ROLEINFO, getVariablesFromObj(role));
+        paramsMap.put(PARAM_NAME_ROLEINFO, getVariablesFromObj(roleInfo));
         paramsMap.put(PARAM_NAME_GAMESERVERINFO, getVariablesFromObj(server));
         check(activity, METHOD_ON_ENTER_GAME, paramsMap);
     }
 
-    public static void onRoleLevelup(Activity activity, RoleInfo roleInfo) {
+    public static void onRoleLevelup(Activity activity, XGUser user,
+            RoleInfo roleInfo, GameServerInfo server) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put(PARAM_NAME_ACTIVITY, activity);
+        paramsMap.put(PARAM_NAME_XGUSER, getVariablesFromObj(user));
         paramsMap.put(PARAM_NAME_ROLEINFO, getVariablesFromObj(roleInfo));
+        paramsMap.put(PARAM_NAME_GAMESERVERINFO, getVariablesFromObj(server));
         check(activity, METHOD_ON_ROLE_LEVELUP, paramsMap);
     }
 
@@ -269,12 +287,49 @@ public class Check {
         check(context, METHOD_ON_APPLICATION_ATTACHBASECONTEXT, paramsMap);
     }
 
-    public static void onEvent(Activity activity, String eventId, String content) {
+    /*public static void onEvent(Activity activity, String eventId, String content) {
         HashMap<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put(PARAM_NAME_EVENT_ID, eventId);
         paramsMap.put(PARAM_NAME_CONTENT, content);
         check(activity, METHOD_ON_EVENT, paramsMap);
         // XGSDKDataAgentUtils.customEvent(eventId, content);
+    }*/
+    
+    public static void onEvent(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String eventId, String eventDesc,
+            int eventVal, Map<String, Object> eventBody, String customParams) {
+        HashMap<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put(PARAM_NAME_ACTIVITY, activity);
+        paramsMap.put(PARAM_NAME_XGUSER, getVariablesFromObj(user));
+        paramsMap.put(PARAM_NAME_ROLEINFO, getVariablesFromObj(role));
+        paramsMap.put(PARAM_NAME_GAMESERVERINFO, getVariablesFromObj(server));
+        paramsMap.put(PARAM_NAME_EVENT_ID, eventId);
+        paramsMap.put(PARAM_NAME_EVENT_DESC,eventDesc);
+        paramsMap.put(PARAM_NAME_EVENT_VAL, eventVal);
+        paramsMap.put(PARAM_NAME_EVENT_BODY, JSON.toJSONString(eventBody));
+        paramsMap.put(PARAM_NAME_CUSTOM_PARAMS, customParams);
+        check(activity, METHOD_ON_EVENT, paramsMap);
+    }
+    
+    public static void onMissionBegin(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        HashMap<String,Object> paramsMap = fillParamsMap(activity, user, role, server, missionId, missionName, customParams);
+        check(activity, METHOD_ON_MISSION_BEGIN, paramsMap);
+    }
+    
+    public static void onMissionSuccess(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        HashMap<String,Object> paramsMap = fillParamsMap(activity, user, role, server, missionId, missionName, customParams);
+        check(activity, METHOD_ON_MISSION_SUCCESS, paramsMap);
+    }
+    
+    public static void onMissionFail(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        HashMap<String,Object> paramsMap = fillParamsMap(activity, user, role, server, missionId, missionName, customParams);
+        check(activity, METHOD_ON_MISSION_FAIL, paramsMap);
     }
 
     public static void onRoleConsume(Activity acti, String accountId,
@@ -299,5 +354,19 @@ public class Check {
         // XGSDKDataAgentUtils.roleConsume(accountId, accountName, roleId,
         // roleName, roleType, roleLevel, activity, itemCatalog, itemId,
         // itemName, consumeGold, consumeBindingGold);
+    }
+    
+    public static HashMap<String,Object> fillParamsMap(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams){
+        HashMap<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put(PARAM_NAME_ACTIVITY, activity);
+        paramsMap.put(PARAM_NAME_XGUSER, getVariablesFromObj(user));
+        paramsMap.put(PARAM_NAME_ROLEINFO, getVariablesFromObj(role));
+        paramsMap.put(PARAM_NAME_GAMESERVERINFO, getVariablesFromObj(server));
+        paramsMap.put(PARAM_NAME_MISSION_ID, missionId);
+        paramsMap.put(PARAM_NAME_MISSION_NAME, missionName);
+        paramsMap.put(PARAM_NAME_CUSTOM_PARAMS, customParams);
+        return paramsMap;
     }
 }

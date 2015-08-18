@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.Map;
+
 public class TestChannel extends XGChannel {
 
     private static final String CHANNEL_ID = "xgtest";
@@ -170,9 +172,9 @@ public class TestChannel extends XGChannel {
     }
 
     @Override
-    public void onCreateRole(Activity activity, RoleInfo info) {
-        super.onCreateRole(activity, info);
-        Check.onCreateRole(activity, info);
+    public void onCreateRole(Activity activity, XGUser user,RoleInfo roleInfo,GameServerInfo server) {
+        super.onCreateRole(activity, user,roleInfo,server);
+        Check.onCreateRole(activity, user,roleInfo,server);
     }
 
     @Override
@@ -183,9 +185,43 @@ public class TestChannel extends XGChannel {
     }
 
     @Override
-    public void onRoleLevelup(Activity activity, RoleInfo roleInfo) {
-        super.onRoleLevelup(activity, roleInfo);
-        Check.onRoleLevelup(activity, roleInfo);
+    public void onRoleLevelup(Activity activity,XGUser user, RoleInfo roleInfo,GameServerInfo server) {
+        super.onRoleLevelup(activity, user,roleInfo,server);
+        Check.onRoleLevelup(activity, user,roleInfo,server);
+    }
+    
+    @Override
+    public void onEvent(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String eventId, String eventDesc,
+            int eventVal, Map<String, Object> eventBody, String customParams) {
+        super.onEvent(activity, user, role, server, eventId, eventDesc, 
+                eventVal, eventBody, customParams);
+        Check.onEvent(activity, user, role, server, eventId, eventDesc, 
+                eventVal, eventBody, customParams);
+    }
+    
+    @Override
+    public void onMissionBegin(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        super.onMissionBegin(activity, user, role, server, missionId, missionName, customParams);
+        Check.onMissionBegin(activity, user, role, server, missionId, missionName, customParams);
+    }
+    
+    @Override
+    public void onMissionSuccess(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        super.onMissionSuccess(activity, user, role, server, missionId, missionName, customParams);
+        Check.onMissionSuccess(activity, user, role, server, missionId, missionName, customParams);
+    }
+    
+    @Override
+    public void onMissionFail(Activity activity, XGUser user, RoleInfo role,
+            GameServerInfo server, String missionId, String missionName,
+            String customParams) {
+        super.onMissionFail(activity, user, role, server, missionId, missionName, customParams);
+        Check.onMissionFail(activity, user, role, server, missionId, missionName, customParams);
     }
 
 }

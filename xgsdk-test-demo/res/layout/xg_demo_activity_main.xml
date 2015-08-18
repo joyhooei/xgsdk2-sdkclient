@@ -62,6 +62,30 @@
                 android:text="@string/xg_role_levelup" />
 
             <Button
+                android:id="@+id/xg_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_event" />
+
+            <Button
+                android:id="@+id/xg_mission_begin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_mission_begin" />
+            <Button
+                android:id="@+id/xg_mission_success"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_mission_success" />
+
+            <Button
+                android:id="@+id/xg_mission_fail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xg_mission_fail" />
+            
+            
+            <Button
                 android:id="@+id/xg_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

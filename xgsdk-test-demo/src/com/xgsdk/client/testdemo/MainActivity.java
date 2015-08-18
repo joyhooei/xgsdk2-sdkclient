@@ -38,6 +38,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
 
@@ -180,6 +183,7 @@ public class MainActivity extends Activity {
                     }
                 });
 
+        eventAndMissionInterface();
         ToggleButton tbSwitchMore = (ToggleButton) findViewById(RUtil.getId(
                 getApplicationContext(), "xg_tb_switch_more"));
 
@@ -427,6 +431,54 @@ public class MainActivity extends Activity {
 
         builder.show();
 
+    }
+    
+    public void eventAndMissionInterface(){
+        mRoleInfo = new RoleInfo(3, 4, "123", "草上飞", "taiwan", "man");
+        mServerInfo = new GameServerInfo("234", "beijing", "2222", "huabei");
+        mUser = new XGUser("user123","user123","isPassed");
+        final String missionId = "11122";
+        final String missionName = "loginCancel";
+        final String customParams = "customP";
+        
+        final Map<String,Object> eventBody = new HashMap<String,Object>();
+        eventBody.put("type", "custom");
+        eventBody.put("category", "userAndRole");
+        
+        findViewById(RUtil.getId(getApplicationContext(), "xg_event")).setOnClickListener(
+                new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {                       
+                       XGSDK.getInstance().onEvent(MainActivity.this, mUser, mRoleInfo, mServerInfo, "event1", "login", 3, eventBody, customParams);
+                    }
+                });
+        
+        findViewById(RUtil.getId(getApplicationContext(), "xg_mission_begin")).setOnClickListener(
+                new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {                     
+                       XGSDK.getInstance().onMissionBegin(MainActivity.this, mUser, mRoleInfo, mServerInfo, missionId, missionName, customParams);
+                    }
+                });
+        
+        findViewById(RUtil.getId(getApplicationContext(), "xg_mission_success")).setOnClickListener(
+                new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {                     
+                       XGSDK.getInstance().onMissionSuccess(MainActivity.this, mUser, mRoleInfo, mServerInfo, missionId, missionName, customParams);
+                    }
+                });
+        findViewById(RUtil.getId(getApplicationContext(), "xg_mission_fail")).setOnClickListener(
+                new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {                     
+                       XGSDK.getInstance().onMissionFail(MainActivity.this, mUser, mRoleInfo, mServerInfo, missionId, missionName, customParams);
+                    }
+                });
     }
 
 }
