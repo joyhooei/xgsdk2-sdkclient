@@ -47,14 +47,21 @@ public class MainActivity extends Activity {
     private RoleInfo mRoleInfo;
     private GameServerInfo mServerInfo;
     private XGUser mUser;
-
+    String missionId;
+    String missionName;
+    String customParams;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mRoleInfo = new RoleInfo();
-        mServerInfo = new GameServerInfo();
-        mUser = new XGUser();
+        mRoleInfo = new RoleInfo(3, 4, "123", "草上飞", "taiwan", "man");
+        mServerInfo = new GameServerInfo("234", "beijing", "2222", "huabei");
+        mUser = new XGUser("user123","user123","isPassed");
+        missionId = "11122";
+        missionName = "loginCancel";
+        customParams = "customP";
+        
         setContentView(RUtil.getLayout(getApplicationContext(),
                 "xg_demo_activity_main"));
 
@@ -434,13 +441,7 @@ public class MainActivity extends Activity {
     }
     
     public void eventAndMissionInterface(){
-        mRoleInfo = new RoleInfo(3, 4, "123", "草上飞", "taiwan", "man");
-        mServerInfo = new GameServerInfo("234", "beijing", "2222", "huabei");
-        mUser = new XGUser("user123","user123","isPassed");
-        final String missionId = "11122";
-        final String missionName = "loginCancel";
-        final String customParams = "customP";
-        
+  
         final Map<String,Object> eventBody = new HashMap<String,Object>();
         eventBody.put("type", "custom");
         eventBody.put("category", "userAndRole");
